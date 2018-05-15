@@ -122,7 +122,7 @@ public class FileDetailDAO {
 				   Session session = sessionFactory.getCurrentSession();
 				   Criteria criteria = session.createCriteria(File.class);
 				                     criteria.add(Restrictions.eq("users",instance.getUsers()));
-				                     criteria.addOrder(Order.asc("upload_time"));
+				                     criteria.addOrder(Order.asc("uploadTime"));
 				                     
 			   List<File> result = criteria.list();
 			      

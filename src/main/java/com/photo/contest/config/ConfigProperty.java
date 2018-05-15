@@ -9,38 +9,71 @@ import org.springframework.context.annotation.PropertySource;
 public class ConfigProperty {
 	@Value("${base.path}")
 	private String basePath;
+	@Value("${file.maxsize}")
 	private Long maxSize;
+	@Value("${chargeing.type.category_wise.netive}")
 	private String chargeingTypeCategoryWiseNetive;
+	@Value("${chargeing.type.category_wise.foreign}")
 	private String chargeingTypeCategoryWiseForeign;
+	@Value("${chargeing.type.indivisual_photo_wise.netive}")
 	private String chargeingTypeIndivisualPhotoWiseNetive;
+	@Value("${chargeing.type.indivisual_photo_wise.foreign}")
 	private String chargeingTypeIndivisualPhotoWiseForeign;
+	@Value("${chargeing.type.overall.netive}")
 	private String chargeingTypeOverallNetive;
+	@Value("${chargeing.type.overall.foreign}")
 	private String chargeingTypeOverallForeign;
+	@Value("${category.one}")
 	private String categoryOne;
+	@Value("${category.two}")
 	private String categoryTwo;
+	@Value("${category.three}")
 	private String categoryThree;
+	@Value("${category.four}")
 	private String categoryFour;
+	@Value("${category.five}")
 	private String categoryFive;
+	@Value("${category.six}")
 	private String categorySix;
+	@Value("${category.saven}")
 	private String categorySeven;
+	@Value("${category.eight}")
 	private String categoryEight;
+	@Value("${category.nine}")
 	private String categoryNine;
+	@Value("${category.ten}")
 	private String categoryTen;
+	@Value("${category.one.netive}")
 	private String categoryOneNetive;
+	@Value("${category.two.netive}")
 	private String categoryTwoNetive;
+	@Value("${category.three.netive}")
 	private String categoryThreeNetive;
+	@Value("${category.four.netive}")
 	private String categoryFourNetive;
+	@Value("${category.five.netive}")
 	private String categoryFiveNetive;
+	@Value("${category.six.netive}")
 	private String categorySixNetive;
+	@Value("${category.saven.netive}")
 	private String categorySevenNetive;
+	@Value("${category.eight.netive}")
 	private String categoryEightNetive;
+	@Value("${category.nine.netive}")
 	private String categoryNineNetive;
+	@Value("${category.ten.netive}")
 	private String categoryTenNetive;
+	@Value("${overall}")
 	private String overall;
+	@Value("${overall.netive}")
 	private String overallNetive;
+	@Value("${netive.country}")
 	private String netiveCountry;
+	@Value("${netive.currency.name}")
 	private String netiveCurrencyName;
+	@Value("${foreign.currency.name}")
 	private String foreignCurrencyName;
+	@Value("${close.date}")
 	private String closeDate;
 	
 	

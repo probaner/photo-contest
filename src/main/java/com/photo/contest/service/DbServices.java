@@ -282,7 +282,7 @@ public class DbServices {
 
 	}
 
-	@Transactional
+	//@Transactional
 	public void savePayStatusforZeroEntry(Users user) {
 
 		PayStatus payStatus = new PayStatus();
@@ -309,7 +309,7 @@ public class DbServices {
 
 	}
 
-	@Transactional
+	//@Transactional
 	public void updatePayStatusforNonZeroEntry(PayStatus payStatus, List<CategoryCountMap> fileDetailList) {
 		System.out.println("I am in a writre palce");
 		int totalNimberofEntry = 0;
