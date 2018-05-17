@@ -707,7 +707,7 @@ $(document).ready(function()
 	
 	 $("#delete_image_color2").click(function(){
 	        $.ajax({url: "json/deleteimage", 
-	        	data: {"catagoryName":"color","positionName":"color2","action":"delete"},
+	        	data: {"catagoryName":"color","positionName":"color2","action":"delete","fileId":$('#idcolour2').val()},
 	        	  beforeSend: function(request) {
 	        	    request.setRequestHeader("Content-Type", "application/json");
 	        	    request.setRequestHeader("Accept", "application/json");
@@ -747,7 +747,7 @@ $(document).ready(function()
 	
 	 $("#delete_image_color3").click(function(){
 	        $.ajax({url: "json/deleteimage", 
-	        	data: {"catagoryName":"color","positionName":"color3","action":"delete"},
+	        	data: {"catagoryName":"color","positionName":"color3","action":"delete","fileId":$('#idcolour3').val()},
 	        	  beforeSend: function(request) {
 	        	    request.setRequestHeader("Content-Type", "application/json");
 	        	    request.setRequestHeader("Accept", "application/json");
@@ -787,7 +787,7 @@ $(document).ready(function()
 	 
 	 $("#delete_image_color4").click(function(){
 	        $.ajax({url: "json/deleteimage", 
-	        	data: {"catagoryName":"color","positionName":"color4","action":"delete"},
+	        	data: {"catagoryName":"color","positionName":"color4","action":"delete","fileId":$('#idcolour4').val()},
 	        	  beforeSend: function(request) {
 	        	    request.setRequestHeader("Content-Type", "application/json");
 	        	    request.setRequestHeader("Accept", "application/json");

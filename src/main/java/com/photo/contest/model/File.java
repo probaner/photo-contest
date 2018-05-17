@@ -1,5 +1,7 @@
 package com.photo.contest.model;
 
+import java.util.Arrays;
+
 // default package
 // Generated May 11, 2018 12:05:26 PM by Hibernate Tools 3.2.2.GA
 
@@ -124,6 +126,13 @@ public class File  implements java.io.Serializable {
     public void setCategoryIndex(String categoryIndex) {
         this.categoryIndex = categoryIndex;
     }
+
+	@Override
+	public String toString() {
+		return "File [fileId=" + fileId + ", category=" + category + ", users=" + users + ", file="
+				+ Arrays.toString(file) + ", originalFileName=" + originalFileName + ", titel=" + titel
+				+ ", uploadTime=" + uploadTime + ", categoryIndex=" + categoryIndex + "]";
+	}
 
 
 

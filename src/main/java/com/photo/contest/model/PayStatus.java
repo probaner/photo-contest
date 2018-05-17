@@ -201,6 +201,17 @@ public class PayStatus  implements java.io.Serializable {
     }
 
 
+	@Override
+	public String toString() {
+		return "PayStatus [payId=" + payId + ", users=" + users + ", attemptSection=" + attemptSection + ", totalEntry="
+				+ totalEntry + ", couponCodeNumber=" + couponCodeNumber + ", totalAmount=" + totalAmount
+				+ ", discountAmount=" + discountAmount + ", courencyType=" + courencyType + ", recivedAmont="
+				+ recivedAmont + ", entryCreatedTime=" + entryCreatedTime + ", payingStatus=" + payingStatus
+				+ ", payTime=" + payTime + ", lastUpdateTime=" + lastUpdateTime + ", recivedCourencyType="
+				+ recivedCourencyType + "]";
+	}
+
+
 
 
 }

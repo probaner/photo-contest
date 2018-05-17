@@ -163,10 +163,38 @@ public String getMethodOutPut(String methodName) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	return str1;
+	return str1;	
+}
+
+
+public int getNumbrtofSection(int number) {
 	
+	int section = 0;
 	
+	 if(number<=4)
+ 	    section =1;
+	 else if(number >=5 && number<=8)
+ 	    section =2;
+	 else if(number >=9 && number<=12)
+	 	    section =3;
+	 else if(number >=13 && number<=16)
+	 	    section =4;
+	 else if(number >=17 && number<=20)
+	 	    section =5;
+	 else if(number >=21 && number<=24)
+	 	    section =6;
+	 else if(number >=25 && number<=28)
+	 	    section =7;
+	 else if(number >=29 && number<=32)
+	 	    section =8;
+	 else if(number >=33 && number<=36)
+	 	    section =9;
+	 else if(number >=37 && number<=40)
+	 	    section =10;
+    
+    return section;
 	
 }
+
 	
   }

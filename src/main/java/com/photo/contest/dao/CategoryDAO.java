@@ -1,8 +1,13 @@
 package com.photo.contest.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Property;
@@ -43,5 +48,26 @@ public class CategoryDAO {
           }
 		 
 	 }
+	 
+	 
+	 public Map<String, Integer> getCategoryMap(){ 
+		 Map<String, Integer> results = new HashMap<String, Integer>();
+		 log.debug("categoryName instance");
+		  try {	
+			   Session session = sessionFactory.getCurrentSession();			     
+			   Query<Category> query = session.createQuery("from " + Category.class.getName());
+			   List<Category> objects = query.list(); 
+			   
+			   for(Category c : objects)
+				   results.put(c.getCategoryName(), c.getCategoryId());
+			   
+			  return results;
+		  } catch (RuntimeException re) {
+		         log.error("categoryName failed", re);
+		         throw re;
+	          }
+		  }
+		 
+	 
 
 }

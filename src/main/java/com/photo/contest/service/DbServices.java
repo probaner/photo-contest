@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ import com.photo.contest.utility.CommonUtil;
 
 @Service
 public class DbServices {
+	
+	static Map<String, Integer> results = new HashMap<String, Integer>();
 
 	@Autowired
 	private CommonUtil commonUtil;
@@ -156,14 +160,14 @@ public class DbServices {
 	@Transactional
 	public Integer saveFileData(FileDTO fileDTO, UserDTO userDTO) throws IOException {
 
-		File fileDetail = new File();
-
-		Users user = new Users();
-		user.setUserId(userDTO.getUserid());
+		File fileDetail = new File();	
+		String[] arry = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
+		int totalNimberofEntry = 0;
+		Users user = usersDAO.findById(userDTO.getUserid());
 
 		Category catagory = new Category();
-		catagory.setCategoryId(getCategoryIDfromCategoryName(fileDTO));
-
+		catagory.setCategoryId(results.get(fileDTO.getCatagoryName()));
+		
 		fileDetail.setUsers(user);
 		fileDetail.setTitel(fileDTO.getTitel());
 		fileDetail.setFile(fileDTO.getImages().getBytes());
@@ -174,25 +178,130 @@ public class DbServices {
 		fileDetail.setCategory(catagory);
 		// save file
 		List<String> listOfTitel = fileDetailDAO.findTitelListOfaCatagory(fileDetail);
-		if (listOfTitel.size() == 0) {
+		
+		
+		if(listOfTitel.size() == 0 || !listOfTitel.contains(fileDetail.getTitel())){
 			Integer fileid = fileDetailDAO.persist(fileDetail);
-			return fileid;
-		} else if (listOfTitel.contains(fileDetail.getTitel())) {
-			return 0;
-		} else {
-			Integer fileid = fileDetailDAO.persist(fileDetail);
-			return fileid;
+			
+			if(fileid>0) {
+				           
+				           PayStatus  payStatus = user.getPayStatus();
+				          
+				          // payStatus.setUsers(user);
+				           List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCount(fileDetail);
+				           if (fileDetailList.size() > 0) {
+								for (CategoryCountMap c : fileDetailList) {
+									totalNimberofEntry = totalNimberofEntry + c.getFile_id();
+								    }
+								 payStatus.setAttemptSection(fileDetailList.size());
+						         payStatus.setTotalEntry(totalNimberofEntry);
+						         
+						         if (payStatus.getCourencyType().equals(configProperty.getNetiveCurrencyName()))
+						        	 payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()] + "Netive")));
+									else
+										payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()])));
+						                payStatus.setDiscountAmount(payStatus.getTotalAmount());
+						                payStatus.setLastUpdateTime(commonUtil.sqlDateTime());
+						                //System.out.println("payStatus="+payStatus.toString()); 
+						                payStatusDAO.attachDirty(payStatus);
+						                return fileid;
+								}
+			             }
+			
 		}
+			  
+		
+		return 0;
+		
 
 	}
+	
+	
+	
+	//@Transactional
+		public void updatePayStatusforNonZeroEntry(PayStatus payStatus, List<CategoryCountMap> fileDetailList) {
+			System.out.println("I am in a writre palce");
+			int totalNimberofEntry = 0;
+			String[] arry = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
+			PayStatus updatedpayStatus = new PayStatus();
+			updatedpayStatus.setPayId(payStatus.getPayId());
+
+			if (fileDetailList.size() > 0) {
+				for (CategoryCountMap c : fileDetailList) {
+					totalNimberofEntry = totalNimberofEntry + c.getFile_id();
+				}
+				updatedpayStatus.setAttemptSection(fileDetailList.size());
+				updatedpayStatus.setTotalEntry(totalNimberofEntry);
+				if (payStatus.getCourencyType().equals(configProperty.getNetiveCurrencyName()))
+					updatedpayStatus.setTotalAmount(Integer
+							.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()] + "Netive")));
+				else
+					updatedpayStatus.setTotalAmount(
+							Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()])));
+
+				updatedpayStatus.setDiscountAmount(updatedpayStatus.getTotalAmount());
+
+			} else {
+				updatedpayStatus.setAttemptSection(0);
+				updatedpayStatus.setTotalEntry(0);
+				updatedpayStatus.setTotalAmount(0);
+				updatedpayStatus.setDiscountAmount(0);
+			}
+			updatedpayStatus.setCourencyType(payStatus.getCourencyType());
+			updatedpayStatus.setCouponCodeNumber("");
+			updatedpayStatus.setEntryCreatedTime(payStatus.getEntryCreatedTime());
+			updatedpayStatus.setLastUpdateTime(commonUtil.sqlDateTime());
+			updatedpayStatus.setUsers(payStatus.getUsers());
+			updatedpayStatus.setPayingStatus("Being Check");
+			updatedpayStatus.setRecivedAmont(0);
+			updatedpayStatus.setRecivedCourencyType(null);
+			System.out.println("updatedpayStatus=" + updatedpayStatus.toString());
+			payStatusDAO.attachDirty(updatedpayStatus);
+		}
+	
+	
 
 	@Transactional
-	public String deleteFileData(FileDTO fileDTO) {
+	public String deleteFileData(FileDTO fileDTO,  UserDTO userDTO) {
 
-		File fileDetail = new File();
-		if (fileDTO.getFileId() != null) {
-			// fileDetail.setFileId(fileDTO.getFileId());
+		//File fileDetail = new File();
+		
+		String[] arry = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
+		
+		if (fileDTO.getFileId() != null) {	
 			fileDetailDAO.deletebyID(fileDTO.getFileId());
+			Users user = usersDAO.findById(userDTO.getUserid());			
+		     Set<File> fileset = user.getFiles();
+		     PayStatus payStatus = new PayStatus();
+		     payStatus = user.getPayStatus();
+		     if(fileset.size()>0) {
+		    	                    
+		    	      
+		    	         int section = commonUtil.getNumbrtofSection(fileset.size());
+						 payStatus.setAttemptSection(section);
+				         payStatus.setTotalEntry(fileset.size());
+				         
+				         if (payStatus.getCourencyType().equals(configProperty.getNetiveCurrencyName()))
+				        	 payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[section] + "Netive")));
+							else
+								payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[section])));
+				                payStatus.setDiscountAmount(payStatus.getTotalAmount());
+				                payStatus.setLastUpdateTime(commonUtil.sqlDateTime());
+				                //System.out.println("payStatus="+payStatus.toString()); 
+				                payStatusDAO.attachDirty(payStatus);
+				              
+						
+		    	 
+		    	 
+		    	 
+		       }else {
+		    	       payStatus.setAttemptSection(0);
+		    	       payStatus.setLastUpdateTime(commonUtil.sqlDateTime());
+		    	       payStatus.setTotalAmount(0);
+		    	       payStatus.setTotalEntry(0);
+		    	       payStatus.setDiscountAmount(0);
+		    	       
+		             }			
 			return "Success";
 		} else {
 			return "Unable to delete.";
@@ -200,6 +309,15 @@ public class DbServices {
 
 	}
 
+   
+	@Transactional
+	public void getCategoryMap() {
+		
+		results = categoryDAO.getCategoryMap();
+		
+		//System.out.println(results);
+	}
+	
 	public Integer getCategoryIDfromCategoryName(FileDTO fileDTO) {
 
 		return categoryDAO.getCategoryID(fileDTO.getCatagoryName());
@@ -309,46 +427,7 @@ public class DbServices {
 
 	}
 
-	//@Transactional
-	public void updatePayStatusforNonZeroEntry(PayStatus payStatus, List<CategoryCountMap> fileDetailList) {
-		System.out.println("I am in a writre palce");
-		int totalNimberofEntry = 0;
-		String[] arry = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
-		PayStatus updatedpayStatus = new PayStatus();
-		updatedpayStatus.setPayId(payStatus.getPayId());
-
-		if (fileDetailList.size() > 0) {
-			for (CategoryCountMap c : fileDetailList) {
-				totalNimberofEntry = totalNimberofEntry + c.getFile_id();
-			}
-			updatedpayStatus.setAttemptSection(fileDetailList.size());
-			updatedpayStatus.setTotalEntry(totalNimberofEntry);
-			if (payStatus.getCourencyType().equals(configProperty.getNetiveCurrencyName()))
-				updatedpayStatus.setTotalAmount(Integer
-						.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()] + "Netive")));
-			else
-				updatedpayStatus.setTotalAmount(
-						Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()])));
-
-			updatedpayStatus.setDiscountAmount(updatedpayStatus.getTotalAmount());
-
-		} else {
-			updatedpayStatus.setAttemptSection(0);
-			updatedpayStatus.setTotalEntry(0);
-			updatedpayStatus.setTotalAmount(0);
-			updatedpayStatus.setDiscountAmount(0);
-		}
-		updatedpayStatus.setCourencyType(payStatus.getCourencyType());
-		updatedpayStatus.setCouponCodeNumber("");
-		updatedpayStatus.setEntryCreatedTime(payStatus.getEntryCreatedTime());
-		updatedpayStatus.setLastUpdateTime(commonUtil.sqlDateTime());
-		updatedpayStatus.setUsers(payStatus.getUsers());
-		updatedpayStatus.setPayingStatus("Being Check");
-		updatedpayStatus.setRecivedAmont(0);
-		updatedpayStatus.setRecivedCourencyType(null);
-		System.out.println("updatedpayStatus=" + updatedpayStatus.toString());
-		payStatusDAO.attachDirty(updatedpayStatus);
-	}
+	
 
 	@Transactional
 	public List<UserStatusDisplayDTO> getUserDateForStatusTable() {

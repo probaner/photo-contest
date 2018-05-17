@@ -28,11 +28,7 @@ public class FileUploadController {
 
 	@Autowired
 	DbServices dbServices;
-	@Autowired
-	private CommonServices commonServices;
-
-	
-	
+		
 	@PostMapping(value = "/json/saveimage")
 	public @ResponseBody ResponseDTO uploadResourcesJson(@ModelAttribute FileDTO fileDTO,
 			@ModelAttribute("userForm") UserDTO userDTO) throws IOException {
@@ -42,29 +38,27 @@ public class FileUploadController {
 			CommonsMultipartFile imagecm = fileDTO.getImages();
 			if (fileDTO.getTitel().trim().length() > 1 && fileDTO.getTitel().trim().length() < 70) {
 				Integer fileid = dbServices.saveFileData(fileDTO, userDTO);
-				System.out.println("fileid=" + fileid);
+								
 				if (fileid != 0) {
-					dbServices.updatePayStatusOfAUser(userDTO);
+					
 					responseDTO.setSuccess(true);
 					responseDTO.setMessage("file upload is successful");
 					fileDTO.setFileId(fileid);
+					fileDTO.setImages(null);
 					responseDTO.setData(fileDTO);
-
-					// commonServices.saveFile(userDTO.getUserid() + File.separator +
-					// fileDTO.getCatagoryName(), imagecm);
+					
 				} else {
 					responseDTO.setSuccess(false);
 					responseDTO.setMessage("title should not be same on same catagory");
-					// return "title should not be same on same catagory";
+				
 				}
-				// return "file upload is successful";
+				
 
 			} else if (fileDTO.getTitel() == null) {
 				responseDTO.setSuccess(false);
 				responseDTO.setMessage("Kindly enter a valid title");
-				// return "Kindly enter a valid title";
-			} else if (fileDTO.getTitel().trim().length() > 70) {
-				// return "enter title within 50 chareactere";
+				
+			} else if (fileDTO.getTitel().trim().length() > 70) {				
 				responseDTO.setSuccess(false);
 				responseDTO.setMessage("enter title within 50 chareactere");
 			}
@@ -82,8 +76,8 @@ public class FileUploadController {
 
 		if (action.equals("delete")) {
 
-			String totalFileData = dbServices.deleteFileData(fileDTO);// delete file
-			dbServices.updatePayStatusOfAUser(userDTO);
+			String totalFileData = dbServices.deleteFileData(fileDTO, userDTO);// delete file
+			//dbServices.updatePayStatusOfAUser(userDTO);
 			responseDTO.setSuccess(true);
 			responseDTO.setMessage(totalFileData);
 
