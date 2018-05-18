@@ -25,6 +25,7 @@ import com.photo.contest.dto.DisplayFileDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.Login;
+import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.model.Category;
@@ -103,12 +104,34 @@ public class DbServices {
 		users.setCreatedOn(commonUtil.sqlDateTime());
 		users.setLastLoggin(commonUtil.sqlDateTime());
 		users.setRole("participate");
+		
+		PayStatus payStatus = new PayStatus();
+		payStatus.setAttemptSection(0);
+		payStatus.setCouponCodeNumber("");
+		List<String> netiveCountryList = Arrays.asList(configProperty.getNetiveCountry().split(","));
+		if (netiveCountryList.contains(userDTO.getCountry().toUpperCase()))
+			payStatus.setCourencyType(configProperty.getNetiveCurrencyName());
+		else
+			payStatus.setCourencyType(configProperty.getForeignCurrencyName());
+		payStatus.setDiscountAmount(0);
+		payStatus.setEntryCreatedTime(commonUtil.sqlDateTime());
+		payStatus.setLastUpdateTime(commonUtil.sqlDateTime());
+		// payStatus.setPayTime(commonUtil.sqlDateTime());
+		payStatus.setPayingStatus(null);
+		payStatus.setRecivedAmont(0);
+		payStatus.setRecivedCourencyType(null);
+		payStatus.setTotalAmount(0);
+		payStatus.setTotalEntry(0);
+		payStatus.setPayingStatus("Being Check");
+		payStatus.setUsers(users);
+		users.setPayStatus(payStatus);
+		
 		usersDAO.persist(users);
 		// commonService.sendRegistrationConfirmMail(users);
 		System.out.println(users.toString());
 	}
 
-	@Transactional
+/*	@Transactional
 	public List<Users> getUserData(Login login) throws IOException {
 		Users users = new Users();
 		users.setEmail(login.getUsername());
@@ -117,8 +140,120 @@ public class DbServices {
 		List<Users> userData = usersDAO.findByExample(users);
 		return userData;
 
-	}
+	}*/
 
+	
+	@Transactional
+	public LogingResponseDTO getUserData1(Login login) throws IOException {
+		
+		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
+		Users users = new Users();
+		users.setEmail(login.getUsername());
+		users.setPassword(login.getPassword());
+		@SuppressWarnings("unchecked")
+		List<Users> userData = usersDAO.findByExample(users);
+		
+		if(userData.size()==1) {
+			logingResponseDTO.setUser(userData.get(0));
+			
+			HashMap<String, LinkedList<DisplayFileDTO>> hm = new HashMap<String, LinkedList<DisplayFileDTO>>();
+			Users currentUser = userData.get(0);
+			Set<File> fileSet = currentUser.getFiles();
+			
+			System.out.println("File Set Size"+fileSet.size() + "          " +currentUser.getRole());
+			
+			
+			
+			if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
+				
+				for(File f : fileSet) {
+					
+					if (hm.containsKey(f.getCategory().getCategoryName())) {
+						DisplayFileDTO displayFileDTO = new DisplayFileDTO();
+						displayFileDTO.setItemImage(f.getFile());
+						displayFileDTO.setTime(f.getUploadTime().toString());
+						displayFileDTO.setTitel(f.getTitel());
+						displayFileDTO.setFileId(f.getFileId());
+						displayFileDTO.setPosition(f.getCategoryIndex());
+						LinkedList<DisplayFileDTO> ll = hm.get(f.getCategory().getCategoryName());
+						ll.add(displayFileDTO);
+						hm.put(f.getCategory().getCategoryName(), ll);
+					} else {
+						DisplayFileDTO displayFileDTO = new DisplayFileDTO();
+						LinkedList<DisplayFileDTO> ll = new LinkedList<DisplayFileDTO>();
+						displayFileDTO.setItemImage(f.getFile());
+						displayFileDTO.setTime(f.getUploadTime().toString());
+						displayFileDTO.setTitel(f.getTitel());
+						displayFileDTO.setFileId(f.getFileId());
+						displayFileDTO.setPosition(f.getCategoryIndex());
+						ll.add(displayFileDTO);
+						hm.put(f.getCategory().getCategoryName(), ll);
+					}
+					
+				   }				
+			   }
+			
+			logingResponseDTO.setHm(hm);
+			
+			currentUser.setLastLoggin(commonUtil.sqlDateTime());
+			usersDAO.attachDirty(currentUser);
+					   
+		}else {
+			    
+			    logingResponseDTO.setUser(null);
+			    logingResponseDTO.setHm(null);
+		      }
+		
+			return logingResponseDTO;
+
+	}
+	
+	
+	
+	@Transactional
+	public HashMap<String, LinkedList<DisplayFileDTO>> getDisplayFileData(UserDTO userDTO) {
+		
+		Users user = new Users();
+		
+		
+		List<File> fileDetailList = getUpLoadedFileDetailOfAUser(userDTO);
+		HashMap<String, LinkedList<DisplayFileDTO>> hm = new HashMap<String, LinkedList<DisplayFileDTO>>();
+
+		if (fileDetailList.size() > 0) {
+			for (File f : fileDetailList) {
+				if (hm.containsKey(f.getCategory().getCategoryName())) {
+					DisplayFileDTO displayFileDTO = new DisplayFileDTO();
+					displayFileDTO.setItemImage(f.getFile());
+					displayFileDTO.setTime(f.getUploadTime().toString());
+					displayFileDTO.setTitel(f.getTitel());
+					displayFileDTO.setFileId(f.getFileId());
+					displayFileDTO.setPosition(f.getCategoryIndex());
+					LinkedList<DisplayFileDTO> l = hm.get(f.getCategory().getCategoryName());
+					l.add(displayFileDTO);
+					hm.put(f.getCategory().getCategoryName(), l);
+				} else {
+					DisplayFileDTO displayFileDTO = new DisplayFileDTO();
+					LinkedList<DisplayFileDTO> l = new LinkedList<DisplayFileDTO>();
+					displayFileDTO.setItemImage(f.getFile());
+					displayFileDTO.setTime(f.getUploadTime().toString());
+					displayFileDTO.setTitel(f.getTitel());
+					displayFileDTO.setFileId(f.getFileId());
+					displayFileDTO.setPosition(f.getCategoryIndex());
+					l.add(displayFileDTO);
+					hm.put(f.getCategory().getCategoryName(), l);
+				}
+			}
+
+		}
+		// System.out.println(hm);
+		return hm;
+	}
+	
+	
+	
+	
+	
+	
 	@Transactional
 	public List<String> getListOfAColumn(String columnName) throws IOException {
 		List<Users> usersList = usersDAO.findAColumn(columnName);
@@ -136,23 +271,23 @@ public class DbServices {
 	}
 
 	@Transactional
-	public void updateCurrentTimeStamp(List<Users> user) {
+	public void updateCurrentTimeStamp(Users user) {
 		Users users = new Users();
-		users.setUserId(user.get(0).getUserId());
-		users.setFirstName(user.get(0).getFirstName());
-		users.setLastName(user.get(0).getLastName());
-		users.setGender(user.get(0).getGender());
-		users.setAddress(user.get(0).getAddress());
-		users.setCity(user.get(0).getCity());
-		users.setState(user.get(0).getState());
-		users.setCountry(user.get(0).getCountry());
-		users.setClub(user.get(0).getClub());
-		users.setHoner(user.get(0).getHoner());
-		users.setEmail(user.get(0).getEmail());
-		users.setPassword(user.get(0).getPassword());
-		users.setCreatedOn(user.get(0).getCreatedOn());
+		users.setUserId(user.getUserId());
+		users.setFirstName(user.getFirstName());
+		users.setLastName(user.getLastName());
+		users.setGender(user.getGender());
+		users.setAddress(user.getAddress());
+		users.setCity(user.getCity());
+		users.setState(user.getState());
+		users.setCountry(user.getCountry());
+		users.setClub(user.getClub());
+		users.setHoner(user.getHoner());
+		users.setEmail(user.getEmail());
+		users.setPassword(user.getPassword());
+		users.setCreatedOn(user.getCreatedOn());
 		users.setLastLoggin(commonUtil.sqlDateTime());
-		users.setRole(user.get(0).getRole());
+		users.setRole(user.getRole());
 		usersDAO.attachDirty(users);
 
 	}
@@ -219,7 +354,7 @@ public class DbServices {
 	
 	
 	//@Transactional
-		public void updatePayStatusforNonZeroEntry(PayStatus payStatus, List<CategoryCountMap> fileDetailList) {
+		/*public void updatePayStatusforNonZeroEntry(PayStatus payStatus, List<CategoryCountMap> fileDetailList) {
 			System.out.println("I am in a writre palce");
 			int totalNimberofEntry = 0;
 			String[] arry = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
@@ -258,7 +393,7 @@ public class DbServices {
 			System.out.println("updatedpayStatus=" + updatedpayStatus.toString());
 			payStatusDAO.attachDirty(updatedpayStatus);
 		}
-	
+	*/
 	
 
 	@Transactional
@@ -318,50 +453,12 @@ public class DbServices {
 		//System.out.println(results);
 	}
 	
-	public Integer getCategoryIDfromCategoryName(FileDTO fileDTO) {
+	/*public Integer getCategoryIDfromCategoryName(FileDTO fileDTO) {
 
 		return categoryDAO.getCategoryID(fileDTO.getCatagoryName());
 	}
-
-	@Transactional
-	public HashMap<String, LinkedList<DisplayFileDTO>> getDisplayFileData(UserDTO userDTO) {
-		// List<DisplayFileDTO> listOfDisplayFileDTO = new ArrayList<DisplayFileDTO>();
-		List<File> fileDetailList = getUpLoadedFileDetailOfAUser(userDTO);
-		HashMap<String, LinkedList<DisplayFileDTO>> hm = new HashMap<String, LinkedList<DisplayFileDTO>>();
-
-		if (fileDetailList.size() > 0) {
-			for (File f : fileDetailList) {
-				if (hm.containsKey(f.getCategory().getCategoryName())) {
-					DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-					displayFileDTO.setItemImage(f.getFile());
-					displayFileDTO.setTime(f.getUploadTime().toString());
-					displayFileDTO.setTitel(f.getTitel());
-					displayFileDTO.setFileId(f.getFileId());
-					// displayFileDTO.setPosition(f.getOriginalFileName().substring(0,
-					// f.getOriginalFileName().indexOf("_")));
-					displayFileDTO.setPosition(f.getCategoryIndex());
-					LinkedList<DisplayFileDTO> l = hm.get(f.getCategory().getCategoryName());
-					l.add(displayFileDTO);
-					hm.put(f.getCategory().getCategoryName(), l);
-				} else {
-					DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-					LinkedList<DisplayFileDTO> l = new LinkedList<DisplayFileDTO>();
-					displayFileDTO.setItemImage(f.getFile());
-					displayFileDTO.setTime(f.getUploadTime().toString());
-					displayFileDTO.setTitel(f.getTitel());
-					displayFileDTO.setFileId(f.getFileId());
-					// displayFileDTO.setPosition(f.getOriginalFileName().substring(0,
-					// f.getOriginalFileName().indexOf("_")));
-					displayFileDTO.setPosition(f.getCategoryIndex());
-					l.add(displayFileDTO);
-					hm.put(f.getCategory().getCategoryName(), l);
-				}
-			}
-
-		}
-		// System.out.println(hm);
-		return hm;
-	}
+*/
+	
 
 	@Transactional
 	public List<File> getUpLoadedFileDetailOfAUser(UserDTO userDTO) {
@@ -374,7 +471,7 @@ public class DbServices {
 		return fileDetailList;
 	}
 
-	@Transactional
+	/*@Transactional
 	public void updatePayStatusOfAUser(UserDTO userDTO) {
 
 		Users user = new Users();
@@ -398,10 +495,10 @@ public class DbServices {
 
 		}
 
-	}
+	}*/
 
 	//@Transactional
-	public void savePayStatusforZeroEntry(Users user) {
+	/*public void savePayStatusforZeroEntry(Users user) {
 
 		PayStatus payStatus = new PayStatus();
 		payStatus.setAttemptSection(0);
@@ -425,7 +522,7 @@ public class DbServices {
 		System.out.println("payStatus=" + payStatus.toString());
 		payStatusDAO.persist(payStatus);
 
-	}
+	}*/
 
 	
 

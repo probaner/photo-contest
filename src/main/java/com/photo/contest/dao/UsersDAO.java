@@ -26,10 +26,11 @@ import com.photo.contest.model.Users;
 public class UsersDAO {
 	
 	 private static final Log log = LogFactory.getLog(UsersDAO.class);
-
+      
+	 @Autowired
 	 private SessionFactory sessionFactory;
 	 
-	 @Autowired
+	 
 	 public void setSessionFactory(SessionFactory sessionFactory) {
 	        this.sessionFactory = sessionFactory;
 	       }
@@ -49,8 +50,8 @@ public class UsersDAO {
 	 public void attachDirty(Users instance) {
 			log.debug("attaching dirty User instance");
 			try {				 
-				 Session session = sessionFactory.getCurrentSession();
-				 session.saveOrUpdate(instance);
+				 //Session session = sessionFactory.getCurrentSession();
+				 sessionFactory.getCurrentSession().saveOrUpdate(instance);
 				 log.debug("attach successful");
 			} catch (RuntimeException re) {
 				log.error("attach failed", re);
@@ -63,8 +64,8 @@ public class UsersDAO {
 		log.debug("getting User instance with id: " + id);
 		Users instance = new Users();
 		try{
-			Session session = sessionFactory.getCurrentSession();
-			 instance = (Users) session.get("com.photo.contest.model.Users", id);
+			//Session session = sessionFactory.getCurrentSession();
+			 instance = (Users) sessionFactory.getCurrentSession().get("com.photo.contest.model.Users", id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
@@ -81,8 +82,8 @@ public class UsersDAO {
 	
 	public List<Users> findAColumn(String nameOfColumn){
 		try{
-			 Session session = sessionFactory.getCurrentSession();
-			Criteria cr =session.createCriteria(Users.class)
+			 //Session session = sessionFactory.getCurrentSession();
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(Users.class)
 		    .setProjection(Projections.projectionList()		      
 		    .add(Projections.property(nameOfColumn), nameOfColumn))
 		    .setResultTransformer(Transformers.aliasToBean(Users.class));
@@ -100,8 +101,8 @@ public class UsersDAO {
 	public String findPassword(String email){
 		String password =null;
 		try{
-			 Session session = sessionFactory.getCurrentSession();
-			Criteria cr =session.createCriteria(Users.class);
+			 //Session session = sessionFactory.getCurrentSession();
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(Users.class);
 					     cr.add(Restrictions.eq("email", email));
 			             cr.setProjection(Property.forName("password")).uniqueResult();
 			             password = (String) cr.list().get(0);		             			            
@@ -116,8 +117,8 @@ public class UsersDAO {
 	public Users findByUserId(Integer usersId) {
 		log.debug("getting User instance with id: " + usersId);
 		try{
-			 Session session = sessionFactory.getCurrentSession();
-			Criteria cr =session.createCriteria(Users.class)
+			 //Session session = sessionFactory.getCurrentSession();
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(Users.class)
 					     .add(Restrictions.eq("user_id", usersId));
 			Users Users = (Users) cr.uniqueResult();
 						
@@ -132,8 +133,8 @@ public class UsersDAO {
 	public List findByExample(Users instance) {
 		log.debug("finding User instance by example");
 		try {
-			 Session session = sessionFactory.getCurrentSession();
-			 List results = session.createCriteria("com.photo.contest.model.Users").add(Example.create(instance)).list();
+			 //Session session = sessionFactory.getCurrentSession();
+			 List results = sessionFactory.getCurrentSession().createCriteria("com.photo.contest.model.Users").add(Example.create(instance)).list();
 			 log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {
@@ -144,16 +145,16 @@ public class UsersDAO {
 
 	public List<ClubDTO> fetchSql(String sql) {
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			//Session session = sessionFactory.getCurrentSession();
 			
 			@SuppressWarnings("unchecked")
-			List<ClubDTO> results = session.createSQLQuery(sql)
+			List<ClubDTO> results = sessionFactory.getCurrentSession().createSQLQuery(sql)
 					                         .addScalar("members_count", StandardBasicTypes.INTEGER)
 					                         .addScalar("club", StandardBasicTypes.STRING)
 					                         .setResultTransformer( Transformers.aliasToBean(ClubDTO.class))
 											 .list();
 			 
-			 System.out.println("results.size="+results.size());
+			 //System.out.println("results.size="+results.size());
 			if(results.size()>0)
 			   return results;
 			else

@@ -29,8 +29,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @ComponentScans(value = { @ComponentScan("com.photo.contest.model")})
 public class HibernateConfig {
 
-	@Autowired
-	private ApplicationContext context;
+	/*@Autowired
+	private ApplicationContext context;*/
 
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() {

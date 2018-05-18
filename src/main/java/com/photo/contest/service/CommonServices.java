@@ -75,6 +75,7 @@ public class CommonServices {
 		// userDTO.setLastname(user.getLastName());
 		userDTO.setCountry(user.getCountry());
 		userDTO.setEmail(user.getEmail());
+		userDTO.setRole(user.getRole());
 		return userDTO;
 	}
 

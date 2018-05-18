@@ -65,7 +65,7 @@ public class WelcomeController {
 		  List<String> usersEmailList=dbServices.getListOfAColumn("email");
 		  if(!usersEmailList.contains(userDTO.getEmail())){
 		  dbServices.saveUserData(userDTO);
-		  dbServices.updatePayStatusOfAUser(userDTO);
+		  //dbServices.updatePayStatusOfAUser(userDTO);
 		  model.addAttribute("sucessMagssage", "welcome "+userDTO.getLastname()+" " + userDTO.getFirstname());
 		  model.addAttribute("product", new FileDTO());
 		  model.addAttribute("paymentDetail", new PaymentDTO());

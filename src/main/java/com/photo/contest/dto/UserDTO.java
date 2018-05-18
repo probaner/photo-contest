@@ -18,6 +18,7 @@ public class UserDTO {
     private String honer;
     private String email;
     private String password;
+    private String role;
     
     
     
@@ -29,8 +30,10 @@ public class UserDTO {
 	
 	
 
+	
+
 	public UserDTO(Integer userid, String firstname, String lastname, String gender, String address, String pin,
-			String country, String city, String club, String honer, String email, String password) {
+			String country, String city, String club, String honer, String email, String password, String role) {
 		super();
 		this.userid = userid;
 		this.firstname = firstname;
@@ -44,6 +47,20 @@ public class UserDTO {
 		this.honer = honer;
 		this.email = email;
 		this.password = password;
+		this.role = role;
+	}
+
+
+
+
+
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Integer getUserid() {

@@ -151,7 +151,7 @@ public class FileDetailDAO {
 					                         .setResultTransformer( Transformers.aliasToBean(CategoryCountMap.class))
 											 .list();
 			 
-			 System.out.println(results.size());
+			 //System.out.println(results.size());
 			if(results.size()>0)
 			   return results;
 			else
