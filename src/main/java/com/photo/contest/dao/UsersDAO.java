@@ -35,12 +35,13 @@ public class UsersDAO {
 	        this.sessionFactory = sessionFactory;
 	       }
 		
-	 public void persist(Users transientInstance) {
+	 public Integer persist(Users transientInstance) {
 		log.debug("persisting Domain instance");
 		try {			
 			 //Session session = sessionFactory.getCurrentSession();
 			 sessionFactory.getCurrentSession().save(transientInstance);
 			 log.debug("persist successful");
+			 return transientInstance.getUserId();
 		    } catch (RuntimeException re) {
 			         log.error("persist failed", re);
 			         throw re;

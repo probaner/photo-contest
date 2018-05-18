@@ -18,6 +18,8 @@ import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.PaymentDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
+import com.photo.contest.model.Users;
+import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
 import com.photo.contest.utility.SelectData;
 
@@ -30,6 +32,10 @@ public class WelcomeController {
 	private DbServices dbServices;
 	@Autowired
 	SelectData selectData;
+	@Autowired
+	CommonServices 	commonServices;
+	
+	
 	
 	@GetMapping("/")
 	 public ModelAndView getWelcomePage() throws IOException {	    		    		        	    	
@@ -64,12 +70,15 @@ public class WelcomeController {
 	 public String processRegistration(@ModelAttribute("userForm") UserDTO userDTO,  Model model) throws IOException{
 		  List<String> usersEmailList=dbServices.getListOfAColumn("email");
 		  if(!usersEmailList.contains(userDTO.getEmail())){
-		  dbServices.saveUserData(userDTO);
-		  //dbServices.updatePayStatusOfAUser(userDTO);
+		  Users users =dbServices.saveUserData(userDTO);
+		  
+		  UserDTO userDTOn = commonServices.createCurrentUserDTO( users , new UserDTO());
+			model.addAttribute("userForm", userDTOn);
+		
 		  model.addAttribute("sucessMagssage", "welcome "+userDTO.getLastname()+" " + userDTO.getFirstname());
 		  model.addAttribute("product", new FileDTO());
 		  model.addAttribute("paymentDetail", new PaymentDTO());
-		  model.addAttribute("userForm", userDTO);
+		
 	      return "registrationsuccess";
 		  }
 		  else{
