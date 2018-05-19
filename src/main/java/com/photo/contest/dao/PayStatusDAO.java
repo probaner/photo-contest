@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
@@ -33,8 +32,8 @@ public class PayStatusDAO {
 	 public void persist(PayStatus transientInstance){
 		 log.debug("persisting Domain instance");
 		 try {			
-			  Session session = sessionFactory.getCurrentSession();
-			  session.save(transientInstance);
+			  //Session session = sessionFactory.getCurrentSession();
+			 sessionFactory.getCurrentSession().save(transientInstance);
 			 log.debug("persist successful");
 		    } catch (RuntimeException re) {
 			         log.error("persist failed", re);
@@ -46,8 +45,8 @@ public class PayStatusDAO {
 	 public void attachDirty(PayStatus instance) {
 			log.debug("attaching dirty User instance");
 			try {				 
-				  Session session = sessionFactory.getCurrentSession();
-				  session.saveOrUpdate(instance);
+				  //Session session = sessionFactory.getCurrentSession();
+				sessionFactory.getCurrentSession().saveOrUpdate(instance);
 				 log.debug("attach successful");
 			} catch (RuntimeException re) {
 				log.error("attach failed", re);
@@ -59,8 +58,8 @@ public class PayStatusDAO {
 	 public List findByExample(PayStatus instance) {
 			log.debug("finding PayStatus instance by example");
 			try {
-				  Session session = sessionFactory.getCurrentSession();
-				 List results = session.createCriteria("com.photo.contest.model.PayStatus").add(Example.create(instance)).list();
+				  //Session session = sessionFactory.getCurrentSession();
+				 List results = sessionFactory.getCurrentSession().createCriteria("com.photo.contest.model.PayStatus").add(Example.create(instance)).list();
 				 log.debug("find by example successful, result size: " + results.size());
 				return results;
 			} catch (RuntimeException re) {
@@ -74,8 +73,8 @@ public class PayStatusDAO {
 	public void delete(PayStatus persistentInstance) {
 		log.debug("deleting Domain instance");
 		try {			
-			  Session session = sessionFactory.getCurrentSession();
-			  session.delete(persistentInstance);
+			  //Session session = sessionFactory.getCurrentSession();
+			sessionFactory.getCurrentSession().delete(persistentInstance);
 			 log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -87,9 +86,9 @@ public class PayStatusDAO {
 	public List<UserStatusDisplayDTO> fetchSql(String sql){
 		log.debug("PayStatus instance : " + sql);
 		try {
-			Session session = sessionFactory.getCurrentSession();
+			 //Session session = sessionFactory.getCurrentSession();
 			 @SuppressWarnings("unchecked")
-			 List<UserStatusDisplayDTO> results = session.createSQLQuery(sql)
+			 List<UserStatusDisplayDTO> results = sessionFactory.getCurrentSession().createSQLQuery(sql)
 							  .addScalar("user_id", StandardBasicTypes.INTEGER)
 							  .addScalar("first_name", StandardBasicTypes.STRING)
 							  .addScalar("last_name", StandardBasicTypes.STRING)
@@ -115,8 +114,8 @@ public class PayStatusDAO {
 	public PayStatus findByUserId(Users id) {
 		log.debug("getting User instance with id: " + id);
 		try{
-			 Session session = sessionFactory.getCurrentSession();
-			 Criteria cr =session.createCriteria(PayStatus.class)
+			 //Session session = sessionFactory.getCurrentSession();
+			 Criteria cr =sessionFactory.getCurrentSession().createCriteria(PayStatus.class)
 					     .add(Restrictions.eq("users", id));
 			PayStatus payStatus = (PayStatus) cr.uniqueResult();
 						

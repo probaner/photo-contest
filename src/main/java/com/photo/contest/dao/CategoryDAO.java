@@ -33,8 +33,8 @@ public class CategoryDAO {
 	 public Integer getCategoryID(String categoryName){
 	 log.debug("categoryName instance");
 	  try {	 
-		    Session session = sessionFactory.getCurrentSession();
-		   Criteria criteria = session.createCriteria(Category.class);
+		    //Session session = sessionFactory.getCurrentSession();
+		   Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Category.class);
 		                     criteria.add(Restrictions.eq("categoryName", categoryName));
 		                     criteria.setProjection(Property.forName("categoryId")).uniqueResult();
 		                     
@@ -54,8 +54,8 @@ public class CategoryDAO {
 		 Map<String, Integer> results = new HashMap<String, Integer>();
 		 log.debug("categoryName instance");
 		  try {	
-			   Session session = sessionFactory.getCurrentSession();			     
-			   Query<Category> query = session.createQuery("from " + Category.class.getName());
+			   //Session session = sessionFactory.getCurrentSession();			     
+			   Query<Category> query = sessionFactory.getCurrentSession().createQuery("from " + Category.class.getName());
 			   List<Category> objects = query.list(); 
 			   
 			   for(Category c : objects)

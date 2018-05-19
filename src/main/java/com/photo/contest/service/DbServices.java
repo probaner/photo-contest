@@ -87,7 +87,7 @@ public class DbServices {
 	}
 
 	@Transactional
-	public void saveUserData(UserDTO userDTO) throws IOException {
+	public Users saveUserData(UserDTO userDTO) throws IOException {
 		Users users = new Users();
 		users.setUserId(commonUtil.getUserId());
 		users.setFirstName(userDTO.getFirstname());
@@ -126,9 +126,14 @@ public class DbServices {
 		payStatus.setUsers(users);
 		users.setPayStatus(payStatus);
 		
-		usersDAO.persist(users);
+		Integer id =usersDAO.persist(users);
+		
+		users.setUserId(id);
+		
+		return users;
+		
 		// commonService.sendRegistrationConfirmMail(users);
-		System.out.println(users.toString());
+		//System.out.println(users.toString());
 	}
 
 /*	@Transactional
@@ -311,6 +316,7 @@ public class DbServices {
 		fileDetail.setOriginalFileName(fileDTO.getImages().getOriginalFilename());
 		fileDetail.setUploadTime(commonUtil.sqlDateTime());
 		fileDetail.setCategory(catagory);
+		
 		// save file
 		List<String> listOfTitel = fileDetailDAO.findTitelListOfaCatagory(fileDetail);
 		
@@ -324,6 +330,8 @@ public class DbServices {
 				          
 				          // payStatus.setUsers(user);
 				           List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCount(fileDetail);
+				           
+				           
 				           if (fileDetailList.size() > 0) {
 								for (CategoryCountMap c : fileDetailList) {
 									totalNimberofEntry = totalNimberofEntry + c.getFile_id();

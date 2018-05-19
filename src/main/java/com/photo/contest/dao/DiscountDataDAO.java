@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Projections;
@@ -31,8 +30,8 @@ public class DiscountDataDAO {
 	 public void persist(DiscountData transientInstance) {
 			log.debug("persisting Domain instance");
 			try {			
-				  Session session = sessionFactory.getCurrentSession();
-				 session.save(transientInstance);
+				  //Session session = sessionFactory.getCurrentSession();
+				sessionFactory.getCurrentSession().save(transientInstance);
 				 log.debug("persist successful");
 			    } catch (RuntimeException re) {
 				         log.error("persist failed", re);
@@ -44,8 +43,8 @@ public class DiscountDataDAO {
 	 public List findByExample(DiscountData instance) {
 			log.debug("finding User instance by example");
 			try {				
-				  Session session = sessionFactory.getCurrentSession();
-				 List results = session.createCriteria("com.photo.contest.model.DiscountData").add(Example.create(instance)).list();
+				  //Session session = sessionFactory.getCurrentSession();
+				 List results = sessionFactory.getCurrentSession().createCriteria("com.photo.contest.model.DiscountData").add(Example.create(instance)).list();
 				 log.debug("find by example successful, result size: " + results.size());
 				return results;
 			} catch (RuntimeException re) {
@@ -58,8 +57,8 @@ public class DiscountDataDAO {
 	 
 	 public List<DiscountData> findAColumn(String nameOfColumn){
 			try{
-				 Session session = sessionFactory.getCurrentSession();
-				 Criteria cr =session.createCriteria(DiscountData.class)
+				 //Session session = sessionFactory.getCurrentSession();
+				 Criteria cr =sessionFactory.getCurrentSession().createCriteria(DiscountData.class)
 			    .setProjection(Projections.projectionList()		      
 			    .add(Projections.property(nameOfColumn), nameOfColumn))
 			    .setResultTransformer(Transformers.aliasToBean(DiscountData.class));

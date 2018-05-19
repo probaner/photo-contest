@@ -33,8 +33,8 @@ public class FileDetailDAO {
 	 public Integer persist(File transientInstance){
 		 log.debug("persisting Domain instance");
 		 try {			
-			 Session session = sessionFactory.getCurrentSession();
-			 session.save(transientInstance);
+			 //Session session = sessionFactory.getCurrentSession();
+			 sessionFactory.getCurrentSession().save(transientInstance);
 			 log.debug("persist successful");			
 			 return transientInstance.getFileId();
 		    } catch (RuntimeException re) {
