@@ -485,18 +485,18 @@ public class DbServices {
 		Users user = new Users();
 		user.setEmail(userDTO.getEmail());
 		List<Users> usersList = usersDAO.findByExample(user);
-		System.out.println(usersList.get(0).toString());
+		System.out.println(user.toString());
 		if (usersList.size() > 0) {
 			File fileDetail = new File();
-			fileDetail.setUsers(usersList.get(0));
+			fileDetail.setUsers(user);
 			List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCount(fileDetail);
 
-			PayStatus currentUserPayStatus = payStatusDAO.findByUserId(usersList.get(0));
+			PayStatus currentUserPayStatus = payStatusDAO.findByUserId(user);
 
 			if (currentUserPayStatus == null && fileDetailList.size() == 0) { // if entry not found and number of entry
 																				// zero, 1st login
 				System.out.println("I am on my way ");
-				savePayStatusforZeroEntry(usersList.get(0));
+				savePayStatusforZeroEntry(user);
 			} else if (currentUserPayStatus != null) {
 				updatePayStatusforNonZeroEntry(currentUserPayStatus, fileDetailList);
 			}
@@ -570,42 +570,87 @@ public class DbServices {
 
 	@Transactional
 	public String createSingleCouponeCode(String userId, String persent, Integer createorUserId, String adminEmail) {
-
-		Users user = new Users();
-		user.setUserId(Integer.parseInt(userId));
-		List<Users> usersList = usersDAO.findByExample(user);
-		if (usersList.size() > 0) {
-			List<String> getUserIdofCreatedCouponCode = getUserIdofCreatedCouponCode("usrID");
-			if (getUserIdofCreatedCouponCode.size() > 0 && getUserIdofCreatedCouponCode.contains(userId)) {
+	   Users user = usersDAO.findById(Integer.parseInt(userId));	
+		if (user!=null) {		
+			DiscountData discountData = user.getDiscountData();					
+			if (discountData != null) {
 				return "CouponCode for the user already exist for userId: " + userId;
-			} else {
-				System.out.println("I am in else");
-				String couponcode = commonService.createCouponCode(usersList.get(0).getUserId(),
-						usersList.get(0).getFirstName(), usersList.get(0).getLastName());
-				DiscountData discountData = new DiscountData();
-				discountData.setCouponCode(couponcode);
-				discountData.setUsers(usersList.get(0));
-				discountData.setDiscountPersent(Integer.parseInt(persent));
-				discountData.setCreatedBy(createorUserId);
-				discountDataDAO.persist(discountData);
-				// commonService.sendCreateCouponCodeMailforaUser(usersList.get(0),couponcode,adminEmail);
+			   } else{			
+				String couponcode = commonService.createCouponCode(user.getUserId(),user.getFirstName(), user.getLastName());
+				DiscountData ndiscountData = new DiscountData();
+				ndiscountData.setCouponCode(couponcode);
+				ndiscountData.setUsers(user);
+				ndiscountData.setDiscountPersent(Integer.parseInt(persent));
+				ndiscountData.setCreatedBy(createorUserId);
+				discountDataDAO.persist(ndiscountData);
+				// commonService.sendCreateCouponCodeMailforaUser(user,couponcode,adminEmail);
 				return "CouponCode Created for userID: " + userId;
-
 			}
 		} else {
 			return "UserId Not Found";
 		}
-		// return null;
-
+	
 	}
+	
+	
+	/*@Transactional
+	public List<String> getUserIdofCreatedCouponCode(String columnName) {
+
+		List<DiscountData> discountDataList = discountDataDAO.findAColumn(columnName);
+		List<String> existingCouponCodeList = new ArrayList();
+		if (discountDataList.size() > 0) {
+			for (DiscountData dd : discountDataList) {
+				existingCouponCodeList.add(dd.getUsers().toString());
+			}
+		}
+		System.out.println("existingCouponCodeList=" + existingCouponCodeList);
+		return existingCouponCodeList;
+
+	}*/
+	
 
 	@Transactional
 	public void createClubCouponeCode(String clubName, String persent, Integer createorUserId, String adminEmail) {
 		Users user = new Users();
 		user.setClub(clubName);
 		List<Users> usersList = usersDAO.findByExample(user);
-		List<String> getUserIdofCreatedCouponCode = getUserIdofCreatedCouponCode("usrID");
+					
 		for (Users u : usersList) {
+			 
+			DiscountData discountData = u.getDiscountData();
+			
+			if(discountData==null) {
+				 
+				System.out.println("IN if");
+				
+				String couponcode = commonService.createCouponCode(u.getUserId(),u.getFirstName(), u.getLastName());
+				DiscountData ndiscountData = new DiscountData();
+				ndiscountData.setCouponCode(couponcode);
+				ndiscountData.setUsers(u);
+				ndiscountData.setDiscountPersent(Integer.parseInt(persent));
+				ndiscountData.setCreatedBy(createorUserId);
+				discountDataDAO.persist(ndiscountData);
+				//commonService.sendCreateCouponCodeMailforaUser(u,couponcode,adminEmail);
+			  }else {
+				      //System.out.println("IN else");				      
+				      //DiscountData ndiscountData = new DiscountData(); 
+				      //ndiscountData.setDiscountId(discountData.getDiscountId());
+				      //ndiscountData.setCouponCode(discountData.getCouponCode());
+					  //ndiscountData.setUsers(u);
+					  discountData.setDiscountPersent(Integer.parseInt(persent));
+					  //ndiscountData.setCreatedBy(createorUserId);					  
+					  discountDataDAO.attachDirty(discountData);
+					  //commonService.sendCreateCouponCodeMailforaUser(u,discountData.getCouponCode(),adminEmail);
+				      
+			        }
+			
+		    }
+		
+		
+		
+		
+		//List<String> getUserIdofCreatedCouponCode = getUserIdofCreatedCouponCode("usrID");
+	/*	for (Users u : usersList) {
 			DiscountData discountData = new DiscountData();
 			String couponcode = commonService.createCouponCode(u.getUserId(), u.getFirstName(), u.getLastName());
 			discountData.setCouponCode(couponcode);
@@ -622,34 +667,21 @@ public class DbServices {
 				discountDataDAO.attachDirty(discountData);
 				// commonService.sendCreateCouponCodeMailforaUser(u,couponcode,adminEmail);
 			} else {
-				System.out.println("in if ");
-				discountDataDAO.persist(discountData);
+				    System.out.println("in if ");
+				    discountDataDAO.persist(discountData);
 				// commonService.sendCreateCouponCodeMailforaUser(u,couponcode,adminEmail);
 			}
 
-		}
+		}*/
 
 	}
 
-	@Transactional
-	public List<String> getUserIdofCreatedCouponCode(String columnName) {
 
-		List<DiscountData> discountDataList = discountDataDAO.findAColumn(columnName);
-		List<String> existingCouponCodeList = new ArrayList();
-		if (discountDataList.size() > 0) {
-			for (DiscountData dd : discountDataList) {
-				existingCouponCodeList.add(dd.getUsers().toString());
-			}
-		}
-		System.out.println("existingCouponCodeList=" + existingCouponCodeList);
-		return existingCouponCodeList;
-
-	}
 
 	@Transactional
 	public List<ClubDTO> getClubData() {
 
-		String sql = "SELECT club, count(user_id) members_count FROM salontest.users where role!='admin' group by club";
+		String sql = "SELECT club, count(user_id) members_count FROM salontest.users where role!='admin' and club != '' group by club";
 		List<ClubDTO> clubList = usersDAO.fetchSql(sql);
 		return clubList;
 	}

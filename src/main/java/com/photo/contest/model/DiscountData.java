@@ -89,6 +89,12 @@ public class DiscountData  implements java.io.Serializable {
         this.discountPersent = discountPersent;
     }
 
+	@Override
+	public String toString() {
+		return "DiscountData [discountId=" + discountId + ", users=" + users + ", couponCode=" + couponCode
+				+ ", createdBy=" + createdBy + ", discountPersent=" + discountPersent + "]";
+	}
+
 
 
 

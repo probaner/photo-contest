@@ -76,8 +76,18 @@ public class DiscountDataDAO {
 
 
 
-	public void attachDirty(DiscountData discountData) {
+	public void attachDirty(DiscountData instance) {
 		// TODO Auto-generated method stub
+		
+		log.debug("attaching dirty DiscountData instance");
+		try {				 
+			 //Session session = sessionFactory.getCurrentSession();
+			 sessionFactory.getCurrentSession().saveOrUpdate(instance);
+			 log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
 		
 	}
 	 
