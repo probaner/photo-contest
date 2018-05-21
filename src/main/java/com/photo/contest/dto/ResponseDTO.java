@@ -2,7 +2,7 @@ package com.photo.contest.dto;
 
 public class ResponseDTO {
 	
-  private Boolean success;
+  private Boolean success =false;
   private Object data;
   private Error error;
   private String message;

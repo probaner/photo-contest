@@ -107,7 +107,7 @@ div.ex5 {
 		 </div>
 
 		 <div class="col-sm-2" id="preview_color1">
-              <img alt=" " id="col1img" style="float: left; width: 100px; height: 100px;" src="data:image/jpg;base64,<c:out value='${image_color1}'/>" />
+              <%-- <img alt=" " id="col1img" style="float: left; width: 100px; height: 100px;" src="data:image/jpg;base64,<c:out value='${image_color1}'/>" /> --%>
 	     </div>
 
 
@@ -561,10 +561,28 @@ $(document).ready(function()
 	onSuccess:function(files,data,xhr,pd)
 	{
 
-		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
 		console.log('onSuccess ' +JSON.stringify(data));
 		
-	}
+	},
+	onLoad:function(obj)
+	   {
+	   	$.ajax({
+		    	cache: false,
+			    url: "json/loadimage",
+		    	dataType: "json",
+		    	data: {"catagoryName":"color","positionName":"color1","action":"load"},
+			    success: function(data) 
+			    {
+			    	console.log(data);
+			    	var imag = "<img style='float: left; width: 100px; height: 100px;'"
+	                     + "src='" + "data:image/jpg;base64,"
+	                     + data.data + "'/>";
+	 
+	              $("#preview_color1").html(imag);
+		        }
+			});
+	  }
 	});
 	
 	$("#upload_image_color2").uploadFile({
@@ -594,7 +612,7 @@ $(document).ready(function()
 		onSuccess:function(files,data,xhr,pd)
 		{
 
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
 			console.log('onSuccess ' +JSON.stringify(data));
 			
 		}

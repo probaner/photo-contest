@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.DisplayFileDTO;
-import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.Login;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.PaymentDTO;
@@ -34,7 +33,7 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller 
-@SessionAttributes({"userForm","clubDataList"})
+@SessionAttributes({"userForm","clubDataList","logingResponseDTO"})
 public class UserLoginController {
 	
 	@Autowired
@@ -70,7 +69,7 @@ public class UserLoginController {
 				
 				UserDTO userDTO = commonServices.createCurrentUserDTO( user , new UserDTO());
 				model.addAttribute("userForm", userDTO);
-				
+				model.addAttribute("logingResponseDTO", logingResponseDTO);
 				if(userDTO.getRole().equals("participate")  && commonServices.getExpairStatus()) {
 					
 					

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,14 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.photo.contest.dto.DisplayFileDTO;
 import com.photo.contest.dto.FileDTO;
+import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
-import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
 
 @Controller
-@SessionAttributes("userForm")
+@SessionAttributes({"userForm","logingResponseDTO"})
 public class FileUploadController {
 
 	@Autowired
@@ -81,6 +83,29 @@ public class FileUploadController {
 			responseDTO.setSuccess(true);
 			responseDTO.setMessage(totalFileData);
 
+		}
+
+		return responseDTO;
+	}
+
+	@RequestMapping(value = "/json/loadimage", headers = {
+			"Accept=text/xml, application/json" }, produces = "application/json")
+	public @ResponseBody ResponseDTO loadResourcesJson(@RequestParam String action, HttpServletRequest servletRequest,
+			HttpServletResponse response, @ModelAttribute("product") FileDTO fileDTO, Model model,
+			@ModelAttribute("userForm") UserDTO userDTO,@ModelAttribute("logingResponseDTO") LogingResponseDTO logingResponseDTO) throws IOException {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+
+		if (action.equals("load")) {
+			for(DisplayFileDTO displayFileDTO:logingResponseDTO.getHm().get(fileDTO.getCatagoryName())) {
+				if(displayFileDTO.getPosition().equals(fileDTO.getPositionName())) {
+                	 String encodedString = new String(Base64.encodeBase64( displayFileDTO.getItemImage()));
+					responseDTO.setData(encodedString);
+					responseDTO.setSuccess(true);
+					return responseDTO;
+				}
+			}
+			
 		}
 
 		return responseDTO;
