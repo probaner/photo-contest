@@ -1,6 +1,7 @@
 package com.photo.contest.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.photo.contest.dto.DisplayFileDTO;
+import com.photo.contest.dto.DisplayFileDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.ResponseDTO;
@@ -25,7 +27,7 @@ import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.DbServices;
 
 @Controller
-@SessionAttributes({"userForm","logingResponseDTO"})
+@SessionAttributes({"userForm","displayFileDTOMap"})
 public class FileUploadController {
 
 	@Autowired
@@ -92,21 +94,20 @@ public class FileUploadController {
 			"Accept=text/xml, application/json" }, produces = "application/json")
 	public @ResponseBody ResponseDTO loadResourcesJson(@RequestParam String action, HttpServletRequest servletRequest,
 			HttpServletResponse response, @ModelAttribute("product") FileDTO fileDTO, Model model,
-			@ModelAttribute("userForm") UserDTO userDTO,@ModelAttribute("logingResponseDTO") LogingResponseDTO logingResponseDTO) throws IOException {
+			@ModelAttribute("userForm") UserDTO userDTO,@ModelAttribute("displayFileDTOMap") HashMap<String,DisplayFileDTO> displayFileDTOMap) throws IOException {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 
 		if (action.equals("load")) {
-			for(DisplayFileDTO displayFileDTO:logingResponseDTO.getHm().get(fileDTO.getCatagoryName())) {
-				if(displayFileDTO.getPosition().equals(fileDTO.getPositionName())) {
-                	 String encodedString = new String(Base64.encodeBase64( displayFileDTO.getItemImage()));
-					responseDTO.setData(encodedString);
-					responseDTO.setSuccess(true);
-					return responseDTO;
-				}
-			}
 			
+			DisplayFileDTO d =displayFileDTOMap.get(fileDTO.getCatagoryName()+fileDTO.getPositionName());
+			responseDTO.setData(d);
+			responseDTO.setSuccess(true);
+			//return responseDTO;
 		}
+			
+			
+		
 
 		return responseDTO;
 	}

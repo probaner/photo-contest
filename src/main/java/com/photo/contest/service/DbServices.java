@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -149,9 +149,10 @@ public class DbServices {
 
 	
 	@Transactional
-	public LogingResponseDTO getUserData1(Login login) throws IOException {
+	public LogingResponseDTO getUserData(Login login) throws IOException {
 		
 		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
+		
 		Users users = new Users();
 		users.setEmail(login.getUsername());
 		users.setPassword(login.getPassword());
@@ -159,46 +160,27 @@ public class DbServices {
 		List<Users> userData = usersDAO.findByExample(users);
 		
 		if(userData.size()==1) {
-			logingResponseDTO.setUser(userData.get(0));
-			
-			HashMap<String, LinkedList<DisplayFileDTO>> hm = new HashMap<String, LinkedList<DisplayFileDTO>>();
+			logingResponseDTO.setUser(userData.get(0));						
 			Users currentUser = userData.get(0);
 			Set<File> fileSet = currentUser.getFiles();
-			
-			System.out.println("File Set Size"+fileSet.size() + "          " +currentUser.getRole());
-			
-			
-			
-			if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
-				
-				for(File f : fileSet) {
 					
-					if (hm.containsKey(f.getCategory().getCategoryName())) {
-						DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-						displayFileDTO.setItemImage(f.getFile());
-						displayFileDTO.setTime(f.getUploadTime().toString());
-						displayFileDTO.setTitel(f.getTitel());
-						displayFileDTO.setFileId(f.getFileId());
-						displayFileDTO.setPosition(f.getCategoryIndex());
-						LinkedList<DisplayFileDTO> ll = hm.get(f.getCategory().getCategoryName());
-						ll.add(displayFileDTO);
-						hm.put(f.getCategory().getCategoryName(), ll);
-					} else {
-						DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-						LinkedList<DisplayFileDTO> ll = new LinkedList<DisplayFileDTO>();
-						displayFileDTO.setItemImage(f.getFile());
-						displayFileDTO.setTime(f.getUploadTime().toString());
-						displayFileDTO.setTitel(f.getTitel());
-						displayFileDTO.setFileId(f.getFileId());
-						displayFileDTO.setPosition(f.getCategoryIndex());
-						ll.add(displayFileDTO);
-						hm.put(f.getCategory().getCategoryName(), ll);
-					}
-					
-				   }				
-			   }
+		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
+			 HashMap<String,DisplayFileDTO> hm = new HashMap<String, DisplayFileDTO>();
+			 for(File file : fileSet) {
+				 DisplayFileDTO displayFileDTO = new DisplayFileDTO();
+				 displayFileDTO.setCategoryname(file.getCategory().getCategoryName());
+				 displayFileDTO.setFileId(file.getFileId());
+				 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
+				 displayFileDTO.setPosition(file.getCategoryIndex());
+				 displayFileDTO.setTitel(file.getTitel());
+				 
+				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 
+			    }
+			 logingResponseDTO.setHm(hm);					
 			
-			logingResponseDTO.setHm(hm);
+		   }else {
+			       logingResponseDTO.setHm(new HashMap<String, DisplayFileDTO>() );
+		         }
 			
 			currentUser.setLastLoggin(commonUtil.sqlDateTime());
 			usersDAO.attachDirty(currentUser);
@@ -212,52 +194,7 @@ public class DbServices {
 			return logingResponseDTO;
 
 	}
-	
-	
-	
-	@Transactional
-	public HashMap<String, LinkedList<DisplayFileDTO>> getDisplayFileData(UserDTO userDTO) {
 		
-		Users user = new Users();
-		
-		
-		List<File> fileDetailList = getUpLoadedFileDetailOfAUser(userDTO);
-		HashMap<String, LinkedList<DisplayFileDTO>> hm = new HashMap<String, LinkedList<DisplayFileDTO>>();
-
-		if (fileDetailList.size() > 0) {
-			for (File f : fileDetailList) {
-				if (hm.containsKey(f.getCategory().getCategoryName())) {
-					DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-					displayFileDTO.setItemImage(f.getFile());
-					displayFileDTO.setTime(f.getUploadTime().toString());
-					displayFileDTO.setTitel(f.getTitel());
-					displayFileDTO.setFileId(f.getFileId());
-					displayFileDTO.setPosition(f.getCategoryIndex());
-					LinkedList<DisplayFileDTO> l = hm.get(f.getCategory().getCategoryName());
-					l.add(displayFileDTO);
-					hm.put(f.getCategory().getCategoryName(), l);
-				} else {
-					DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-					LinkedList<DisplayFileDTO> l = new LinkedList<DisplayFileDTO>();
-					displayFileDTO.setItemImage(f.getFile());
-					displayFileDTO.setTime(f.getUploadTime().toString());
-					displayFileDTO.setTitel(f.getTitel());
-					displayFileDTO.setFileId(f.getFileId());
-					displayFileDTO.setPosition(f.getCategoryIndex());
-					l.add(displayFileDTO);
-					hm.put(f.getCategory().getCategoryName(), l);
-				}
-			}
-
-		}
-		// System.out.println(hm);
-		return hm;
-	}
-	
-	
-	
-	
-	
 	
 	@Transactional
 	public List<String> getListOfAColumn(String columnName) throws IOException {

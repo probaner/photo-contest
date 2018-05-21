@@ -577,7 +577,7 @@ $(document).ready(function()
 			    	console.log(data);
 			    	var imag = "<img style='float: left; width: 100px; height: 100px;'"
 	                     + "src='" + "data:image/jpg;base64,"
-	                     + data.data + "'/>";
+	                     + data.data.encodedString + "'/>";
 	 
 	              $("#preview_color1").html(imag);
 		        }
