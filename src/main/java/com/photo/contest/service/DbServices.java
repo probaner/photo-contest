@@ -168,10 +168,10 @@ public class DbServices {
 			 HashMap<String,DisplayFileDTO> hm = new HashMap<String, DisplayFileDTO>();
 			 for(File file : fileSet) {
 				 DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-				 displayFileDTO.setCategoryname(file.getCategory().getCategoryName());
+				 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
 				 displayFileDTO.setFileId(file.getFileId());
 				 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
-				 displayFileDTO.setPosition(file.getCategoryIndex());
+				 displayFileDTO.setPositionName(file.getCategoryIndex());
 				 displayFileDTO.setTitel(file.getTitel());
 				 
 				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 

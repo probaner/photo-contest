@@ -78,7 +78,8 @@ public class FileDTO {
 	@Override
 	public String toString() {
 		return "FileDTO [fileId=" + fileId + ", titel=" + titel + ", catagoryName=" + catagoryName + ", positionName="
-				+ positionName + ", images=" + images + "]";
+				+ positionName + ", images=" + images + ", action=" + action + "]";
 	}
+
 
 }

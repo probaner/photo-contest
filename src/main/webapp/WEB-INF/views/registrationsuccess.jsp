@@ -86,122 +86,62 @@ div.ex5 {
 	
 	<div class="row">
 
-	    <div class="col-sm-4">
+	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<b>Title :</b><input id="titelcolour1" class="form-control" placeholder="Enter Title" value="${titel_color1}" 
-						<c:if test="${not empty titel_color1 }">disabled="disabled"</c:if> />	  
-						<input type="hidden" id="idcolour1"  value="${id_color1}">
+						<input id="titelcolour1" class="form-control" placeholder="Enter Title" value=""/>	  
 				   </div>
 			  </div>
-			   <div class="ex3" id="upload_div_color1">
-			   <c:choose>
-					<c:when test="${empty titel_color1}">
-				    <div id="upload_image_color1"></div>
-				    </c:when>
-					<c:otherwise>
-				        <button type="button" id="delete_image_color1" class="btn btn-danger">Delete</button>
-				    </c:otherwise>
-				</c:choose>
+			   <div class="ex3">
+			   <div  id="upload_image_color1"></div>
 			   </div>
 		 </div>
 
-		 <div class="col-sm-2" id="preview_color1">
-              <%-- <img alt=" " id="col1img" style="float: left; width: 100px; height: 100px;" src="data:image/jpg;base64,<c:out value='${image_color1}'/>" /> --%>
-	     </div>
 
-
-		<div class="col-sm-4">
+		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <b>Title :</b><input id="titelcolour2" class="form-control" placeholder="Enter Title" value="${titel_color2}"
-					   <c:if test="${not empty titel_color2 }">disabled="disabled"</c:if> />
-					   <input type="hidden" id="idcolour2"  value="${id_color2}">
+					   <input id="titelcolour2" class="form-control" placeholder="Enter Title" value=""/>
 				  </div>
 			 </div> 
 				
-			 <div class="ex3" id="upload_div_color2">
-			  <c:choose>
-					<c:when test="${empty titel_color2}">
-				     <div id="upload_image_color2"></div>
-				    </c:when>
-					<c:otherwise>
-				        <button type="button" id="delete_image_color2" class="btn btn-danger">Delete</button>
-				    </c:otherwise>
-				</c:choose>
+			 <div class="ex3" >
+			 <div  id="upload_image_color2"></div>
 			 </div>
-		</div>
-		                               
-		<div class="col-sm-2" id="preview_color2">
-			 <img alt=" " id="col2img" style="float: left; width: 100px; height: 100px;" src="data:image/jpg;base64,<c:out value='${image_color2}'/>" />
 		</div>
 	</div>	
 				
 	<!-- End of row one of colour -->
 	
-	<!-- Start of row tow of colour -->
-
-	<div class="ex2">
-		 <div class="page-header">
-			  <h4></h4>
-		 </div>
-	</div>
+	<!-- Start of row two of colour -->
 
 	<div class="row">
 
-	    <div class="col-sm-4">
+	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<b>Title :</b><input id="titelcolour3" class="form-control" placeholder="Enter Title" value="${titel_color3}" 
-						<c:if test="${not empty titel_color3 }">disabled="disabled"</c:if>/>
-						<input type="hidden" id="idcolour3"  value="${id_color3}">	  
+						<input id="titelcolour3" class="form-control" placeholder="Enter Title" value=""/>
 				   </div>
 			  </div>
-			   <div class="ex3" id="upload_div_color3">
-			   <c:choose>
-					<c:when test="${empty titel_color3}">
-				    <div id="upload_image_color3"></div>
-				    </c:when>
-					<c:otherwise>
-				        <button type="button" id="delete_image_color3" class="btn btn-danger">Delete</button>
-				    </c:otherwise>
-				</c:choose>
+			  <div class="ex3">
+			   <div  id="upload_image_color3"></div>
 			   </div>
 		 </div>
 
-		 <div class="col-sm-2" id="preview_color3">
-              <img alt=" " id="col3img" style="float: left; width: 100px; height: 100px;" src="data:image/jpg;base64,<c:out value='${image_color3}'/>" />
-	     </div>
-
-
-		<div class="col-sm-4">
+		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <b>Title :</b><input id="titelcolour4" class="form-control" placeholder="Enter Title" value="${titel_color4}" 
-					   <c:if test="${not empty titel_color4 }">disabled="disabled"</c:if>/>
-					   <input type="hidden" id="idcolour4"  value="${id_color4}">
+					   <input id="titelcolour4" class="form-control" placeholder="Enter Title" value=""/>
 				  </div>
 			 </div> 
-				
-			 <div class="ex3" id="upload_div_color4">
-				<c:choose>
-					<c:when test="${empty titel_color4}">
-				      <div id="upload_image_color4"></div>
-				    </c:when>
-					<c:otherwise>
-				        <button type="button" id="delete_image_color4" class="btn btn-danger">Delete</button>
-				    </c:otherwise>
-				</c:choose>
+			<div class="ex3">	
+			 <div  id="upload_image_color4"></div>
 			 </div>
-		</div>
-		                               
-		<div class="col-sm-2" id="preview_color4">
-			 <img alt=" " id="col4img" style="float: left; width: 100px; height: 100px;" src="data:image/jpg;base64,<c:out value='${image_color4}'/>" />
 		</div>
 	</div>		
 	
-	<!-- End of row tow -->
-	<!-- End of row colour -->
+	<!-- End of row two -->
+	<!-- End of row color -->
 
 
 	<!-- Start of row moncrome -->
@@ -221,83 +161,63 @@ div.ex5 {
 	</div>
 
 	<div class="row">
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-	</div>
-	<!-- End of row one -->
 
-	<div class="ex2">
-		<div class="page-header">
-			<h4></h4>
+	    <div class="col-sm-6">
+			  <div class="ex2">
+				   <div class="col-sm-12">
+						<input id="titelmonochrome1" class="form-control" placeholder="Enter Title" value=""/>	  
+				   </div>
+			  </div>
+			  <div class="ex3">
+			  <div  id="upload_image_monochrome1"></div>
+			  </div>
+		 </div>
+
+
+		<div class="col-sm-6">
+		     <div class="ex2">
+				  <div class="col-sm-12">
+					   <input id="titelmonochrome2" class="form-control" placeholder="Enter Title" value=""/>
+				  </div>
+			 </div> 
+			 <div class="ex3">	
+			 <div  id="upload_image_monochrome2"></div>
+			 </div>
 		</div>
-	</div>
+	</div>	
+				
+	<!-- End of row one of monochrome -->
+	
+	<!-- Start of row two of monochrome -->
+
 
 	<div class="row">
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
+
+	    <div class="col-sm-6">
+			  <div class="ex2">
+				   <div class="col-sm-12">
+						<input id="titelmonochrome3" class="form-control" placeholder="Enter Title" value=""/>
+				   </div>
+			  </div>
+			  <div class="ex3">
+			   <div  id="upload_image_monochrome3"></div>
+			   </div>
+		 </div>
+
+		<div class="col-sm-6">
+		     <div class="ex2">
+				  <div class="col-sm-12">
+					   <input id="titelmonochrome4" class="form-control" placeholder="Enter Title" value=""/>
+				  </div>
+			 </div> 
+			 <div class="ex3">	
+			 <div  id="upload_image_monochrome4"></div>
+			 </div>
 		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-	</div>
-	<!-- End of row tow -->
-	<!-- End of row moncrome -->
+	</div>		
+	
+	<!-- End of row two -->
+	<!-- End of row monochrome -->
 
 
 	<!-- Start of row Nature -->
@@ -313,178 +233,65 @@ div.ex5 {
 	</div>
 
 	<div class="row">
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-	</div>
-	<!-- End of row one -->
 
-	<div class="ex2">
-		<div class="page-header">
-			<h4></h4>
+	    <div class="col-sm-6">
+			  <div class="ex2">
+				   <div class="col-sm-12">
+						<input id="titelnature1" class="form-control" placeholder="Enter Title" value=""/>	  
+				   </div>
+			  </div>
+			  <div class="ex3">
+			   <div  id="upload_image_nature1"></div>
+			   </div>
+		 </div>
+
+
+		<div class="col-sm-6">
+		     <div class="ex2">
+				  <div class="col-sm-12">
+					   <input id="titelnature2" class="form-control" placeholder="Enter Title" value=""/>
+				  </div>
+			 </div> 
+			 <div class="ex3">	
+			 <div  id="upload_image_nature2"></div>
+			 </div>
 		</div>
-	</div>
+	</div>	
+				
+	<!-- End of row one of nature -->
+	
+	<!-- Start of row two of nature -->
+
 
 	<div class="row">
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
+
+	    <div class="col-sm-6">
+			  <div class="ex2">
+				   <div class="col-sm-12">
+						<input id="titelnature3" class="form-control" placeholder="Enter Title" value=""/>
+				   </div>
+			  </div>
+			  <div class="ex3">
+			   <div  id="upload_image_nature3"></div>
+			   </div>
+		 </div>
+
+		<div class="col-sm-6">
+		     <div class="ex2">
+				  <div class="col-sm-12">
+					   <input id="titelnature4" class="form-control" placeholder="Enter Title" value=""/>
+				  </div>
+			 </div> 
+			 <div class="ex3">	
+			 <div  id="upload_image_nature4"></div>
+			 </div>
 		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-	</div>
-	<!-- End of row tow -->
-	<!-- End of row Nature -->
+	</div>		
+	
+	<!-- End of row two -->
+	<!-- End of row nature -->
 
 
-
-	<!-- Start of row Travel -->
-	<div class="ex2">
-		<div class="page-header">
-			<h4></h4>
-		</div>
-	</div>
-	<div class="ex2">
-		<div class="page-header">
-			<h4>Travel</h4>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-	</div>
-	<!-- End of row one -->
-
-	<div class="ex2">
-		<div class="page-header">
-			<h4></h4>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-		<div class="col-sm-4">
-			<div class="ex2">
-				<div class="col-sm-12">
-					<input type="monoTitel1" class="form-control" id="monoTitel1"
-						name="monoTitel1" placeholder="Enter Titel" required autofocus>
-				</div>
-			</div>
-			<div class="ex3">
-				<button type="button" class="btn">Select</button>
-				<button type="button" class="btn btn-success">Upload</button>
-				<button type="button" class="btn btn-danger">Delete</button>
-			</div>
-		</div>
-		<div class="col-sm-2">
-			<!-- space for pto -->
-		</div>
-	</div>
-	<!-- End of row tow -->
-	<!-- End of row Travel -->
-
-	<!--<div class="ex2"><div class="page-header"><h4></h4> </div></div> -->
 
 	<script type="text/javascript">
 		var isDisabledPayment = "${size}";
@@ -535,18 +342,42 @@ div.ex5 {
 <script>
 $(document).ready(function()
 {
+	var fileUploadConfigs = [
+		{"catagoryName":"color","positionName":"color1"}, 
+		{"catagoryName":"color","positionName":"color2"},
+		{"catagoryName":"color","positionName":"color3"},
+		{"catagoryName":"color","positionName":"color4"},
+		
+		{"catagoryName":"monochrome","positionName":"monochrome1"}, 
+		{"catagoryName":"monochrome","positionName":"monochrome2"},
+		{"catagoryName":"monochrome","positionName":"monochrome3"},
+		{"catagoryName":"monochrome","positionName":"monochrome4"},
+		
+		{"catagoryName":"nature","positionName":"nature1"}, 
+		{"catagoryName":"nature","positionName":"nature2"},
+		{"catagoryName":"nature","positionName":"nature3"},
+		{"catagoryName":"nature","positionName":"nature4"}] 
+	
+	
+	
 	$("#upload_image_color1").uploadFile({
 	url:"json/saveimage",
+	dragDrop: true,
 	multiple:false,
 	maxFileCount:1,
 	fileName:"images",
 	acceptFiles:"image/*",
 	showPreview:true,
+	showDelete: true,
 	previewHeight: "100px",
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
-	formData: {"catagoryName":"color","positionName":"color1","action":"save"},
+	formData: (function() { 
+		fileUploadConfigs[0]['action'] = "save";
+		console.log("Form Data Upload",fileUploadConfigs[0]);
+		return $.extend({}, fileUploadConfigs[0]);
+	})(),
 	dynamicFormData: function()
 	{
 		var title = $('#titelcolour1').val();
@@ -555,7 +386,302 @@ $(document).ready(function()
 	onSubmit:function(files)
 	{
 		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-		//return false;
+		console.log('onSubmit');
+	},
+	onSuccess:function(files,data,xhr,pd)
+	{
+		$("#upload_image_color1").hide();
+		$('#titelcolour1').prop('disabled', true);
+		fileUploadConfigs[0]['fileId'] = data.data.fileId;
+		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+		console.log('onSuccess ' +JSON.stringify(data));
+		
+	},
+	onLoad:function(obj)
+	   {
+	   	$.ajax({
+		    	cache: false,
+			    url: "json/loadimage",
+		    	dataType: "json",
+		    	data: (function() { 
+		    		fileUploadConfigs[0]['action'] = "load";
+		    		//console.log("Data onLoad",fileUploadConfigs[0]);
+		    		return fileUploadConfigs[0];
+		    	})(), 
+			    success: function(data) 
+			    {
+			    	console.log("PB onLoad 1",data);
+			    	if(data){ //File is available
+			    		fileUploadConfigs[0]['fileId'] = data.data.fileId;
+				    	$("#titelcolour1").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	$("#upload_image_color1").hide();
+						$('#titelcolour1').prop('disabled', true);
+			    	}else{
+			    		
+			    	}
+			    	
+		        }
+			});
+	  },
+	  deleteCallback: function (data, pd) {
+		   $.ajax({
+			    url: "json/deleteimage",
+			    dataType: "json",
+	        	data:  (function() { 
+		    		fileUploadConfigs[0]['action'] = "delete";
+		    		return fileUploadConfigs[0];
+		    	})(),
+	        	success: function(result){
+		        		$("#upload_image_color1").show();
+		        		$('#titelcolour1').prop('disabled', false); 
+		        		$("#titelcolour1").val('');
+	                   pd.statusbar.hide(); //You choice. */
+	        }});
+
+		}
+	});
+	
+	$("#upload_image_color2").uploadFile({
+		url:"json/saveimage",
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		formData: (function() { 
+			fileUploadConfigs[1]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[1]);
+			return $.extend({}, fileUploadConfigs[1]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelcolour2').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+			console.log('onSubmit');
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+			console.log('onSuccess ' +JSON.stringify(data));
+			
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[1]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[1]);
+			    		return fileUploadConfigs[1];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	console.log("PB onLoad 2",data);
+				    	if(data){ //File is available
+					    	fileUploadConfigs[1]['fileId'] = data.data.fileId;
+					    	$("#titelcolour2").val(data.data.titel);
+					    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	$("#upload_image_color2").hide();
+							$('#titelcolour2').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[1]['action'] = "delete";
+			    		return fileUploadConfigs[1];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	$("#upload_image_color3").uploadFile({
+		url:"json/saveimage",
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		formData: (function() { 
+			fileUploadConfigs[2]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[2]);
+			return $.extend({}, fileUploadConfigs[2]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelcolour3').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+			console.log('onSubmit');
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+			console.log('onSuccess ' +JSON.stringify(data));
+			
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[2]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[2]);
+			    		return fileUploadConfigs[2];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[2]['fileId'] = data.data.fileId;
+				    	$("#titelcolour3").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[2]['action'] = "delete";
+			    		return fileUploadConfigs[2];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	$("#upload_image_color4").uploadFile({
+		url:"json/saveimage",
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		formData: (function() { 
+			fileUploadConfigs[3]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[3]);
+			return $.extend({}, fileUploadConfigs[3]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelcolour4').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+			console.log('onSubmit');
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+			console.log('onSuccess ' +JSON.stringify(data));
+			
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[3]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[3]);
+			    		return fileUploadConfigs[3];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[3]['fileId'] = data.data.fileId;
+				    	$("#titelcolour4").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[3]['action'] = "delete";
+			    		return fileUploadConfigs[3];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	
+	////////////////////////////monochrome starts////////////////////////////
+	
+	
+$("#upload_image_monochrome1").uploadFile({
+	url:"json/saveimage",
+	multiple:false,
+	maxFileCount:1,
+	fileName:"images",
+	acceptFiles:"image/*",
+	showPreview:true,
+	showDelete: true,
+	previewHeight: "100px",
+	previewWidth: "100px",
+	allowedTypes:"jpg,jpeg",
+	maxFileSize:20848820,
+	formData: (function() { 
+		fileUploadConfigs[0]['action'] = "save";
+		console.log("Form Data Upload",fileUploadConfigs[4]);
+		return $.extend({}, fileUploadConfigs[4]);
+	})(),
+	dynamicFormData: function()
+	{
+		var title = $('#titelmonochrome1').val();
+		return {"titel":title};
+	},
+	onSubmit:function(files)
+	{
+		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
 		console.log('onSubmit');
 	},
 	onSuccess:function(files,data,xhr,pd)
@@ -571,42 +697,59 @@ $(document).ready(function()
 		    	cache: false,
 			    url: "json/loadimage",
 		    	dataType: "json",
-		    	data: {"catagoryName":"color","positionName":"color1","action":"load"},
+		    	data: (function() { 
+		    		fileUploadConfigs[4]['action'] = "load";
+		    		console.log("Data onLoad",fileUploadConfigs[4]);
+		    		return fileUploadConfigs[4];
+		    	})(), 
 			    success: function(data) 
 			    {
-			    	console.log(data);
-			    	var imag = "<img style='float: left; width: 100px; height: 100px;'"
-	                     + "src='" + "data:image/jpg;base64,"
-	                     + data.data.encodedString + "'/>";
-	 
-	              $("#preview_color1").html(imag);
+			    	fileUploadConfigs[4]['fileId'] = data.data.fileId;
+			    	$("#titelmonochrome1").val(data.data.titel);
+			    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
 		        }
 			});
-	  }
+	  },
+	  deleteCallback: function (data, pd) {
+		   $.ajax({
+			    url: "json/deleteimage",
+			    dataType: "json",
+	        	data:  (function() { 
+		    		fileUploadConfigs[4]['action'] = "delete";
+		    		return fileUploadConfigs[4];
+		    	})(),
+	        	success: function(result){
+	                   pd.statusbar.hide(); //You choice. */
+	        }});
+
+		}
 	});
 	
-	$("#upload_image_color2").uploadFile({
+	$("#upload_image_monochrome2").uploadFile({
 		url:"json/saveimage",
-		method:"post",
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
 		acceptFiles:"image/*",
 		showPreview:true,
+		showDelete: true,
 		previewHeight: "100px",
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
-		formData: {"catagoryName":"color","positionName":"color2","action":"save"},
+		formData: (function() { 
+			fileUploadConfigs[1]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[5]);
+			return $.extend({}, fileUploadConfigs[5]);
+		})(),
 		dynamicFormData: function()
 		{
-			var title = $('#titelcolour2').val();
+			var title = $('#titelmonochrome2').val();
 			return {"titel":title};
 		},
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//return false;
 			console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
@@ -615,233 +758,456 @@ $(document).ready(function()
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
 			console.log('onSuccess ' +JSON.stringify(data));
 			
-		}
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[5]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[5]);
+			    		return fileUploadConfigs[5];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[5]['fileId'] = data.data.fileId;
+				    	$("#titelmonochrome2").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[5]['action'] = "delete";
+			    		return fileUploadConfigs[5];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
 		});
 	
-	$("#upload_image_color3").uploadFile({
+	$("#upload_image_monochrome3").uploadFile({
 		url:"json/saveimage",
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
 		acceptFiles:"image/*",
 		showPreview:true,
+		showDelete: true,
 		previewHeight: "100px",
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
-		formData: {"catagoryName":"color","positionName":"color3","action":"save"},
+		formData: (function() { 
+			fileUploadConfigs[6]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[6]);
+			return $.extend({}, fileUploadConfigs[6]);
+		})(),
 		dynamicFormData: function()
 		{
-			var title = $('#titelcolour3').val();
+			var title = $('#titelmonochrome3').val();
 			return {"titel":title};
 		},
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//return false;
 			console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
 			console.log('onSuccess ' +JSON.stringify(data));
 			
-		}
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[6]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[6]);
+			    		return fileUploadConfigs[6];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[6]['fileId'] = data.data.fileId;
+				    	$("#titelmonochrome3").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[6]['action'] = "delete";
+			    		return fileUploadConfigs[6];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
 		});
 	
-	$("#upload_image_color4").uploadFile({
+	$("#upload_image_monochrome4").uploadFile({
 		url:"json/saveimage",
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
 		acceptFiles:"image/*",
 		showPreview:true,
+		showDelete: true,
 		previewHeight: "100px",
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
-		formData: {"catagoryName":"color","positionName":"color4","action":"save"},
+		formData: (function() { 
+			fileUploadConfigs[7]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[7]);
+			return $.extend({}, fileUploadConfigs[7]);
+		})(),
 		dynamicFormData: function()
 		{
-			var title = $('#titelcolour4').val();
+			var title = $('#titelmonochrome4').val();
 			return {"titel":title};
 		},
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//return false;
 			console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+JSON.stringify(data));
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
 			console.log('onSuccess ' +JSON.stringify(data));
 			
-		}
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[7]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[7]);
+			    		return fileUploadConfigs[7];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[7]['fileId'] = data.data.fileId;
+				    	$("#titelmonochrome4").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[7]['action'] = "delete";
+			    		return fileUploadConfigs[7];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
 		});
 	
-	//delete button ajax call
-	 $("#delete_image_color1").click(function(){
-	        $.ajax({url: "json/deleteimage", 
-	        	data: {"catagoryName":"color","positionName":"color1","action":"delete","fileId":$('#idcolour1').val()},
-	        	  beforeSend: function(request) {
-	        	    request.setRequestHeader("Content-Type", "application/json");
-	        	    request.setRequestHeader("Accept", "application/json");
-	        	  },
-	        	success: function(result){
-	           // $("#div1").html(result);
-	           console.log( $(this).parent().parent() );
-	           $("#upload_div_color1").empty().append('<div id="upload_image_color1"></div>');
-	           $("#upload_image_color1").uploadFile({
-	        		url:"json/saveimage",
-	        		multiple:false,
-	        		maxFileCount:1,
-	        		fileName:"images",
-	        		acceptFiles:"image/*",
-	        		showPreview:true,
-	        		previewHeight: "100px",
-	        		previewWidth: "100px",
-	        		allowedTypes:"jpg,jpeg",
-	        		maxFileSize:20848820,
-	        		formData: {"catagoryName":"color","positionName":"color1","action":"save"},
-	        		dynamicFormData: function()
-	        		{
-	        			var title = $('#titelcolour1').val();
-	        			return {"titel":title};
-	        		},
-	        		onSubmit:function(files)
-	        		{
-	        			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-	        			//return false;
-	        		}
-	        		});
-	           $("#preview_color1").empty();
-	           $("#titelcolour1").prop('disabled', false);
-	           console.log(result);
-	        }});
-	    });
+	///////////////////////////monochrome ends//////////////////////////////
 	
-	 $("#delete_image_color2").click(function(){
-	        $.ajax({url: "json/deleteimage", 
-	        	data: {"catagoryName":"color","positionName":"color2","action":"delete","fileId":$('#idcolour2').val()},
-	        	  beforeSend: function(request) {
-	        	    request.setRequestHeader("Content-Type", "application/json");
-	        	    request.setRequestHeader("Accept", "application/json");
-	        	  },
-	        	success: function(result){
-	           // $("#div1").html(result);
-	           console.log( $(this).parent().parent() );
-	           $("#upload_div_color2").empty().append('<div id="upload_image_color2"></div>');
-	           $("#upload_image_color2").uploadFile({
-	        		url:"json/saveimage",
-	        		multiple:false,
-	        		maxFileCount:1,
-	        		fileName:"images",
-	        		acceptFiles:"image/*",
-	        		showPreview:true,
-	        		previewHeight: "100px",
-	        		previewWidth: "100px",
-	        		allowedTypes:"jpg,jpeg",
-	        		maxFileSize:20848820,
-	        		formData: {"catagoryName":"color","positionName":"color2","action":"save"},
-	        		dynamicFormData: function()
-	        		{
-	        			var title = $('#titelcolour2').val();
-	        			return {"titel":title};
-	        		},
-	        		onSubmit:function(files)
-	        		{
-	        			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-	        			//return false;
-	        		}
-	        		});
-	           $("#preview_color2").empty();
-	           $("#titelcolour2").prop('disabled', false);
-	           console.log(result);
-	        }});
-	    });
 	
-	 $("#delete_image_color3").click(function(){
-	        $.ajax({url: "json/deleteimage", 
-	        	data: {"catagoryName":"color","positionName":"color3","action":"delete","fileId":$('#idcolour3').val()},
-	        	  beforeSend: function(request) {
-	        	    request.setRequestHeader("Content-Type", "application/json");
-	        	    request.setRequestHeader("Accept", "application/json");
-	        	  },
+	
+	//////////////////////////////nature starts////////////////////////////
+	
+	$("#upload_image_nature1").uploadFile({
+	url:"json/saveimage",
+	multiple:false,
+	maxFileCount:1,
+	fileName:"images",
+	acceptFiles:"image/*",
+	showPreview:true,
+	showDelete: true,
+	previewHeight: "100px",
+	previewWidth: "100px",
+	allowedTypes:"jpg,jpeg",
+	maxFileSize:20848820,
+	formData: (function() { 
+		fileUploadConfigs[0]['action'] = "save";
+		console.log("Form Data Upload",fileUploadConfigs[8]);
+		return $.extend({}, fileUploadConfigs[8]);
+	})(),
+	dynamicFormData: function()
+	{
+		var title = $('#titelnature1').val();
+		return {"titel":title};
+	},
+	onSubmit:function(files)
+	{
+		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+		console.log('onSubmit');
+	},
+	onSuccess:function(files,data,xhr,pd)
+	{
+
+		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+		console.log('onSuccess ' +JSON.stringify(data));
+		
+	},
+	onLoad:function(obj)
+	   {
+	   	$.ajax({
+		    	cache: false,
+			    url: "json/loadimage",
+		    	dataType: "json",
+		    	data: (function() { 
+		    		fileUploadConfigs[8]['action'] = "load";
+		    		console.log("Data onLoad",fileUploadConfigs[8]);
+		    		return fileUploadConfigs[8];
+		    	})(), 
+			    success: function(data) 
+			    {
+			    	fileUploadConfigs[8]['fileId'] = data.data.fileId;
+			    	$("#titelnature1").val(data.data.titel);
+			    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+		        }
+			});
+	  },
+	  deleteCallback: function (data, pd) {
+		   $.ajax({
+			    url: "json/deleteimage",
+			    dataType: "json",
+	        	data:  (function() { 
+		    		fileUploadConfigs[8]['action'] = "delete";
+		    		return fileUploadConfigs[8];
+		    	})(),
 	        	success: function(result){
-	           // $("#div1").html(result);
-	           console.log( $(this).parent().parent() );
-	           $("#upload_div_color3").empty().append('<div id="upload_image_color3"></div>');
-	           $("#upload_image_color3").uploadFile({
-	        		url:"json/saveimage",
-	        		multiple:false,
-	        		maxFileCount:1,
-	        		fileName:"images",
-	        		acceptFiles:"image/*",
-	        		showPreview:true,
-	        		previewHeight: "100px",
-	        		previewWidth: "100px",
-	        		allowedTypes:"jpg,jpeg",
-	        		maxFileSize:20848820,
-	        		formData: {"catagoryName":"color","positionName":"color3","action":"save"},
-	        		dynamicFormData: function()
-	        		{
-	        			var title = $('#titelcolour3').val();
-	        			return {"titel":title};
-	        		},
-	        		onSubmit:function(files)
-	        		{
-	        			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-	        			//return false;
-	        		}
-	        		});
-	           $("#preview_color3").empty();
-	           $("#titelcolour3").prop('disabled', false);
-	           console.log(result);
+	                   pd.statusbar.hide(); //You choice. */
 	        }});
-	    });
-	 
-	 $("#delete_image_color4").click(function(){
-	        $.ajax({url: "json/deleteimage", 
-	        	data: {"catagoryName":"color","positionName":"color4","action":"delete","fileId":$('#idcolour4').val()},
-	        	  beforeSend: function(request) {
-	        	    request.setRequestHeader("Content-Type", "application/json");
-	        	    request.setRequestHeader("Accept", "application/json");
-	        	  },
-	        	success: function(result){
-	           // $("#div1").html(result);
-	           console.log( $(this).parent().parent() );
-	           $("#upload_div_color4").empty().append('<div id="upload_image_color4"></div>');
-	           $("#upload_image_color4").uploadFile({
-	        		url:"json/saveimage",
-	        		multiple:false,
-	        		maxFileCount:1,
-	        		fileName:"images",
-	        		acceptFiles:"image/*",
-	        		showPreview:true,
-	        		previewHeight: "100px",
-	        		previewWidth: "100px",
-	        		allowedTypes:"jpg,jpeg",
-	        		maxFileSize:20848820,
-	        		formData: {"catagoryName":"color","positionName":"color4","action":"save"},
-	        		dynamicFormData: function()
-	        		{
-	        			var title = $('#titelcolour4').val();
-	        			return {"titel":title};
-	        		},
-	        		onSubmit:function(files)
-	        		{
-	        			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-	        			//return false;
-	        		}
-	        		});
-	           $("#preview_color4").empty();
-	           $("#titelcolour4").prop('disabled', false);
-	           console.log(result);
-	        }});
-	    });
+
+		}
+	});
+	
+	$("#upload_image_nature2").uploadFile({
+		url:"json/saveimage",
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		formData: (function() { 
+			fileUploadConfigs[1]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[9]);
+			return $.extend({}, fileUploadConfigs[9]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelnature2').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+			console.log('onSubmit');
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+			console.log('onSuccess ' +JSON.stringify(data));
+			
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[9]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[9]);
+			    		return fileUploadConfigs[9];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[9]['fileId'] = data.data.fileId;
+				    	$("#titelnature2").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[9]['action'] = "delete";
+			    		return fileUploadConfigs[9];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	$("#upload_image_nature3").uploadFile({
+		url:"json/saveimage",
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		formData: (function() { 
+			fileUploadConfigs[10]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[10]);
+			return $.extend({}, fileUploadConfigs[10]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelnature3').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+			console.log('onSubmit');
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+			console.log('onSuccess ' +JSON.stringify(data));
+			
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[10]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[10]);
+			    		return fileUploadConfigs[10];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[10]['fileId'] = data.data.fileId;
+				    	$("#titelnature3").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[10]['action'] = "delete";
+			    		return fileUploadConfigs[10];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	$("#upload_image_nature4").uploadFile({
+		url:"json/saveimage",
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		formData: (function() { 
+			fileUploadConfigs[11]['action'] = "save";
+			console.log("Form Data Upload",fileUploadConfigs[11]);
+			return $.extend({}, fileUploadConfigs[11]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelnature4').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
+			console.log('onSubmit');
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+
+			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+			console.log('onSuccess ' +JSON.stringify(data));
+			
+		},
+		onLoad:function(obj)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[11]['action'] = "load";
+			    		console.log("Data onLoad",fileUploadConfigs[11]);
+			    		return fileUploadConfigs[11];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	fileUploadConfigs[11]['fileId'] = data.data.fileId;
+				    	$("#titelnature4").val(data.data.titel);
+				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[11]['action'] = "delete";
+			    		return fileUploadConfigs[11];
+			    	})(),
+		        	success: function(result){
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	//////////////////////////////nature ends//////////////////////////////
+
 });
 </script>
 </html>
