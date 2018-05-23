@@ -89,7 +89,7 @@ div.ex5 {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelcolour1" class="form-control" placeholder="Enter Title" value=""/>	  
+						<input id="titelcolour1" class="form-control" placeholder="Enter Title" value="" required/>	  
 				   </div>
 			  </div>
 			   <div class="ex3">
@@ -101,7 +101,7 @@ div.ex5 {
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelcolour2" class="form-control" placeholder="Enter Title" value=""/>
+					   <input id="titelcolour2" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 				
@@ -120,7 +120,7 @@ div.ex5 {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelcolour3" class="form-control" placeholder="Enter Title" value=""/>
+						<input id="titelcolour3" class="form-control" placeholder="Enter Title" value="" required/>
 				   </div>
 			  </div>
 			  <div class="ex3">
@@ -131,7 +131,7 @@ div.ex5 {
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelcolour4" class="form-control" placeholder="Enter Title" value=""/>
+					   <input id="titelcolour4" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 			<div class="ex3">	
@@ -165,7 +165,7 @@ div.ex5 {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelmonochrome1" class="form-control" placeholder="Enter Title" value=""/>	  
+						<input id="titelmonochrome1" class="form-control" placeholder="Enter Title" value="" required/>	  
 				   </div>
 			  </div>
 			  <div class="ex3">
@@ -177,7 +177,7 @@ div.ex5 {
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelmonochrome2" class="form-control" placeholder="Enter Title" value=""/>
+					   <input id="titelmonochrome2" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 			 <div class="ex3">	
@@ -196,7 +196,7 @@ div.ex5 {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelmonochrome3" class="form-control" placeholder="Enter Title" value=""/>
+						<input id="titelmonochrome3" class="form-control" placeholder="Enter Title" value="" required/>
 				   </div>
 			  </div>
 			  <div class="ex3">
@@ -207,7 +207,7 @@ div.ex5 {
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelmonochrome4" class="form-control" placeholder="Enter Title" value=""/>
+					   <input id="titelmonochrome4" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 			 <div class="ex3">	
@@ -237,7 +237,7 @@ div.ex5 {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelnature1" class="form-control" placeholder="Enter Title" value=""/>	  
+						<input id="titelnature1" class="form-control" placeholder="Enter Title" value="" required/>	  
 				   </div>
 			  </div>
 			  <div class="ex3">
@@ -249,7 +249,7 @@ div.ex5 {
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelnature2" class="form-control" placeholder="Enter Title" value=""/>
+					   <input id="titelnature2" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 			 <div class="ex3">	
@@ -268,7 +268,7 @@ div.ex5 {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelnature3" class="form-control" placeholder="Enter Title" value=""/>
+						<input id="titelnature3" class="form-control" placeholder="Enter Title" value="" required/>
 				   </div>
 			  </div>
 			  <div class="ex3">
@@ -279,7 +279,7 @@ div.ex5 {
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelnature4" class="form-control" placeholder="Enter Title" value=""/>
+					   <input id="titelnature4" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 			 <div class="ex3">	
@@ -373,9 +373,10 @@ $(document).ready(function()
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	uploadErrorStr: "Upload is not allowed.Enter Title",
 	formData: (function() { 
 		fileUploadConfigs[0]['action'] = "save";
-		console.log("Form Data Upload",fileUploadConfigs[0]);
+		//console.log("Form Data Upload",fileUploadConfigs[0]);
 		return $.extend({}, fileUploadConfigs[0]);
 	})(),
 	dynamicFormData: function()
@@ -385,19 +386,30 @@ $(document).ready(function()
 	},
 	onSubmit:function(files)
 	{
+		var title = $('#titelcolour1').val();
+		if(title.length==0){
+			//$("#titelcolour1").after('<div ">Title cannot be empty</div>');
+			return false;
+		}
+		
 		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-		console.log('onSubmit');
+		//console.log('onSubmit');
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
+		console.log(pd);
 		$("#upload_image_color1").hide();
 		$('#titelcolour1').prop('disabled', true);
 		fileUploadConfigs[0]['fileId'] = data.data.fileId;
 		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-		console.log('onSuccess ' +JSON.stringify(data));
+		//console.log('onSuccess ' +JSON.stringify(data));
 		
 	},
-	onLoad:function(obj)
+    onError: function (files, status, message, pd) 
+    {
+    	console.log("onError");
+    },
+	onLoad:function(obj,pd)
 	   {
 	   	$.ajax({
 		    	cache: false,
@@ -410,11 +422,13 @@ $(document).ready(function()
 		    	})(), 
 			    success: function(data) 
 			    {
-			    	console.log("PB onLoad 1",data);
+			    	//console.log("hellopb",obj,pd)
+			    	//console.log("PB onLoad 1",data);
 			    	if(data){ //File is available
 			    		fileUploadConfigs[0]['fileId'] = data.data.fileId;
 				    	$("#titelcolour1").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	pd.filename.html("");
 				    	$("#upload_image_color1").hide();
 						$('#titelcolour1').prop('disabled', true);
 			    	}else{
@@ -456,7 +470,7 @@ $(document).ready(function()
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[1]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[1]);
+			//console.log("Form Data Upload",fileUploadConfigs[1]);
 			return $.extend({}, fileUploadConfigs[1]);
 		})(),
 		dynamicFormData: function()
@@ -467,13 +481,14 @@ $(document).ready(function()
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
+			$("#divid").$(".ajax-file-upload-filename").html("This is response message")
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -484,12 +499,12 @@ $(document).ready(function()
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[1]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[1]);
+			    		//console.log("Data onLoad",fileUploadConfigs[1]);
 			    		return fileUploadConfigs[1];
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	console.log("PB onLoad 2",data);
+				    	//console.log("PB onLoad 2",data);
 				    	if(data){ //File is available
 					    	fileUploadConfigs[1]['fileId'] = data.data.fileId;
 					    	$("#titelcolour2").val(data.data.titel);
@@ -531,7 +546,7 @@ $(document).ready(function()
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[2]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[2]);
+			//console.log("Form Data Upload",fileUploadConfigs[2]);
 			return $.extend({}, fileUploadConfigs[2]);
 		})(),
 		dynamicFormData: function()
@@ -542,13 +557,13 @@ $(document).ready(function()
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -559,7 +574,7 @@ $(document).ready(function()
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[2]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[2]);
+			    		//console.log("Data onLoad",fileUploadConfigs[2]);
 			    		return fileUploadConfigs[2];
 			    	})(), 
 				    success: function(data) 
@@ -599,7 +614,7 @@ $(document).ready(function()
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[3]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[3]);
+			//console.log("Form Data Upload",fileUploadConfigs[3]);
 			return $.extend({}, fileUploadConfigs[3]);
 		})(),
 		dynamicFormData: function()
@@ -610,13 +625,13 @@ $(document).ready(function()
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -627,7 +642,7 @@ $(document).ready(function()
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[3]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[3]);
+			    		//console.log("Data onLoad",fileUploadConfigs[3]);
 			    		return fileUploadConfigs[3];
 			    	})(), 
 				    success: function(data) 
@@ -671,7 +686,7 @@ $("#upload_image_monochrome1").uploadFile({
 	maxFileSize:20848820,
 	formData: (function() { 
 		fileUploadConfigs[0]['action'] = "save";
-		console.log("Form Data Upload",fileUploadConfigs[4]);
+		//console.log("Form Data Upload",fileUploadConfigs[4]);
 		return $.extend({}, fileUploadConfigs[4]);
 	})(),
 	dynamicFormData: function()
@@ -682,13 +697,13 @@ $("#upload_image_monochrome1").uploadFile({
 	onSubmit:function(files)
 	{
 		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-		console.log('onSubmit');
+		//console.log('onSubmit');
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
 
 		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-		console.log('onSuccess ' +JSON.stringify(data));
+		//console.log('onSuccess ' +JSON.stringify(data));
 		
 	},
 	onLoad:function(obj)
@@ -699,7 +714,7 @@ $("#upload_image_monochrome1").uploadFile({
 		    	dataType: "json",
 		    	data: (function() { 
 		    		fileUploadConfigs[4]['action'] = "load";
-		    		console.log("Data onLoad",fileUploadConfigs[4]);
+		    		//console.log("Data onLoad",fileUploadConfigs[4]);
 		    		return fileUploadConfigs[4];
 		    	})(), 
 			    success: function(data) 
@@ -739,7 +754,7 @@ $("#upload_image_monochrome1").uploadFile({
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[1]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[5]);
+			//console.log("Form Data Upload",fileUploadConfigs[5]);
 			return $.extend({}, fileUploadConfigs[5]);
 		})(),
 		dynamicFormData: function()
@@ -750,13 +765,13 @@ $("#upload_image_monochrome1").uploadFile({
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -767,7 +782,7 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[5]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[5]);
+			    		//console.log("Data onLoad",fileUploadConfigs[5]);
 			    		return fileUploadConfigs[5];
 			    	})(), 
 				    success: function(data) 
@@ -807,7 +822,7 @@ $("#upload_image_monochrome1").uploadFile({
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[6]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[6]);
+			//console.log("Form Data Upload",fileUploadConfigs[6]);
 			return $.extend({}, fileUploadConfigs[6]);
 		})(),
 		dynamicFormData: function()
@@ -818,13 +833,13 @@ $("#upload_image_monochrome1").uploadFile({
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -835,7 +850,7 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[6]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[6]);
+			    		//console.log("Data onLoad",fileUploadConfigs[6]);
 			    		return fileUploadConfigs[6];
 			    	})(), 
 				    success: function(data) 
@@ -875,7 +890,7 @@ $("#upload_image_monochrome1").uploadFile({
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[7]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[7]);
+			//console.log("Form Data Upload",fileUploadConfigs[7]);
 			return $.extend({}, fileUploadConfigs[7]);
 		})(),
 		dynamicFormData: function()
@@ -886,13 +901,13 @@ $("#upload_image_monochrome1").uploadFile({
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -903,7 +918,7 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[7]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[7]);
+			    		//console.log("Data onLoad",fileUploadConfigs[7]);
 			    		return fileUploadConfigs[7];
 			    	})(), 
 				    success: function(data) 
@@ -949,7 +964,7 @@ $("#upload_image_monochrome1").uploadFile({
 	maxFileSize:20848820,
 	formData: (function() { 
 		fileUploadConfigs[0]['action'] = "save";
-		console.log("Form Data Upload",fileUploadConfigs[8]);
+		//console.log("Form Data Upload",fileUploadConfigs[8]);
 		return $.extend({}, fileUploadConfigs[8]);
 	})(),
 	dynamicFormData: function()
@@ -960,13 +975,13 @@ $("#upload_image_monochrome1").uploadFile({
 	onSubmit:function(files)
 	{
 		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-		console.log('onSubmit');
+		//console.log('onSubmit');
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
 
 		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-		console.log('onSuccess ' +JSON.stringify(data));
+		//console.log('onSuccess ' +JSON.stringify(data));
 		
 	},
 	onLoad:function(obj)
@@ -977,7 +992,7 @@ $("#upload_image_monochrome1").uploadFile({
 		    	dataType: "json",
 		    	data: (function() { 
 		    		fileUploadConfigs[8]['action'] = "load";
-		    		console.log("Data onLoad",fileUploadConfigs[8]);
+		    		//console.log("Data onLoad",fileUploadConfigs[8]);
 		    		return fileUploadConfigs[8];
 		    	})(), 
 			    success: function(data) 
@@ -1017,7 +1032,7 @@ $("#upload_image_monochrome1").uploadFile({
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[1]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[9]);
+			//console.log("Form Data Upload",fileUploadConfigs[9]);
 			return $.extend({}, fileUploadConfigs[9]);
 		})(),
 		dynamicFormData: function()
@@ -1028,13 +1043,13 @@ $("#upload_image_monochrome1").uploadFile({
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -1045,7 +1060,7 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[9]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[9]);
+			    		//console.log("Data onLoad",fileUploadConfigs[9]);
 			    		return fileUploadConfigs[9];
 			    	})(), 
 				    success: function(data) 
@@ -1085,7 +1100,7 @@ $("#upload_image_monochrome1").uploadFile({
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[10]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[10]);
+			//console.log("Form Data Upload",fileUploadConfigs[10]);
 			return $.extend({}, fileUploadConfigs[10]);
 		})(),
 		dynamicFormData: function()
@@ -1096,13 +1111,13 @@ $("#upload_image_monochrome1").uploadFile({
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -1113,7 +1128,7 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[10]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[10]);
+			    		//console.log("Data onLoad",fileUploadConfigs[10]);
 			    		return fileUploadConfigs[10];
 			    	})(), 
 				    success: function(data) 
@@ -1153,7 +1168,7 @@ $("#upload_image_monochrome1").uploadFile({
 		maxFileSize:20848820,
 		formData: (function() { 
 			fileUploadConfigs[11]['action'] = "save";
-			console.log("Form Data Upload",fileUploadConfigs[11]);
+			//console.log("Form Data Upload",fileUploadConfigs[11]);
 			return $.extend({}, fileUploadConfigs[11]);
 		})(),
 		dynamicFormData: function()
@@ -1164,13 +1179,13 @@ $("#upload_image_monochrome1").uploadFile({
 		onSubmit:function(files)
 		{
 			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			console.log('onSubmit');
+			//console.log('onSubmit');
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
 
 			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			console.log('onSuccess ' +JSON.stringify(data));
+			//console.log('onSuccess ' +JSON.stringify(data));
 			
 		},
 		onLoad:function(obj)
@@ -1181,7 +1196,7 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[11]['action'] = "load";
-			    		console.log("Data onLoad",fileUploadConfigs[11]);
+			    		//console.log("Data onLoad",fileUploadConfigs[11]);
 			    		return fileUploadConfigs[11];
 			    	})(), 
 				    success: function(data) 
