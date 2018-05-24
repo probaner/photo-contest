@@ -22,12 +22,15 @@ import com.photo.contest.dao.UsersDAO;
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.DisplayFileDTO;
+import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.Login;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
+import com.photo.contest.exception.BusinessException;
+import com.photo.contest.exception.ErrorCode;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.DiscountData;
 import com.photo.contest.model.File;
@@ -614,7 +617,42 @@ public class DbServices {
 	}
 
 
-
+	
+	@Transactional
+	public void updateUserDataByEditTable(EditTableDataDTO editTableDataDTO) {
+		
+		
+		if(editTableDataDTO!= null) {
+			
+		Users user = usersDAO.findById(editTableDataDTO.getUserId());
+		
+		if(user!=null) {
+		
+		user.setAddress(editTableDataDTO.getAddress());
+		user.setCity(editTableDataDTO.getCity());
+		user.setState(editTableDataDTO.getState());
+		user.setClub(editTableDataDTO.getClub());
+		user.setFirstName(editTableDataDTO.getFirstName());
+		user.setLastName(editTableDataDTO.getLastName());
+		if(user.getPayStatus()!=null) {
+		PayStatus payStatus = user.getPayStatus(); 
+		payStatus.setPayingStatus(editTableDataDTO.getPayingStatus());
+		user.setPayStatus(payStatus);
+		usersDAO.attachDirty(user);
+		}else {
+			ErrorCode errorCode = new ErrorCode("Please contact System Admin.","Paystatus record is not found for this user while updating User.",500);
+			throw new BusinessException(errorCode);
+		}
+		}else {
+			ErrorCode errorCode = new ErrorCode("Please contact System Admin.","User record is not found for this user while updating User.",500);
+			throw new BusinessException(errorCode);
+		}
+		}
+	}
+	
+	
+	
+	
 	@Transactional
 	public List<ClubDTO> getClubData() {
 
@@ -632,5 +670,38 @@ public class DbServices {
 		return fileDetailList.get(0);
 
 	}
+	
+	@Transactional
+	public List<EditTableDataDTO> getEditTableData() {
+		List<Users> userList = usersDAO.getAllUsersList("Users");
+		
+		//System.out.println("userList.size="+userList.size());
+		List<EditTableDataDTO> editTableDataDTOList = new ArrayList();
+		if(userList.size() > 0) {
+		  for(Users users : userList) {
+			  if(users.getRole().equals("participate")) {
+			  EditTableDataDTO editTableDataDTO = new EditTableDataDTO(); 
+			  
+			  editTableDataDTO.setUserId(users.getUserId());
+			  editTableDataDTO.setFirstName(users.getFirstName());
+			  editTableDataDTO.setLastName(users.getLastName());
+			  editTableDataDTO.setAddress(users.getAddress());
+			  editTableDataDTO.setCity(users.getCity());
+			  editTableDataDTO.setCountry(users.getCountry());
+			  editTableDataDTO.setClub(users.getClub());
+			  if(users.getPayStatus()!=null)
+			  editTableDataDTO.setPayingStatus(users.getPayStatus().getPayingStatus());
+			  
+			  editTableDataDTOList.add(editTableDataDTO);
+			  }
+		  }
+		}
+		return editTableDataDTOList;
+		
+	}
+
 
 }
+
+
+

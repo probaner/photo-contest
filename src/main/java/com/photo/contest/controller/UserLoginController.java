@@ -82,10 +82,9 @@ public class UserLoginController {
 					                                         CouponCode couponCode =new CouponCode();
 					                                         model.addAttribute("couponCode", couponCode);
 				                                             model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "+ userDTO.getFirstname().toUpperCase());
-				       
 				                                             List<ClubDTO> clubDTOData =dbServices.getClubData();
-				        
 				                                             List<String> clubDataList = selectData.clubData(clubDTOData);
+				                                             
 				                                             model.addAttribute("clubDataList", clubDataList);					     
 				        	    
 				                                             return "admin";

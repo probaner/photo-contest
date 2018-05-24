@@ -10,7 +10,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />   
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+ 
  
  <style>
 
@@ -56,23 +61,7 @@ div.ex6 {
   <p></p>      
 </div>
 
-<div class="container">
-  <h4></h4>
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#">Home</a></li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu 1 <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><a href="#">Submenu 1-1</a></li>
-        <li><a href="#">Submenu 1-2</a></li>                       
-      </ul>
-    </li>
-	<li><a href="#">User Data </a></li>
-	<li><a href="#">Entry Status</a></li>
-	<li><a href="#">Download</a></li>   
-    <li><a href="#">Contuct Us</a></li>
-  </ul>
-</div>
+
 
 <div class="ex1">
 		<div class="well">
@@ -143,6 +132,119 @@ div.ex6 {
 </div>
 
 
+
+<div class="container">  
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse2">User Data Table</a>
+        </h4>
+        <div id="collapse2" class="panel-collapse collapse">
+       <div class="row">
+
+		<div id="jsGrid"></div>
+       
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+
+ <script type="text/javascript">
+$(document).ready(function($)
+{
+     
+    var countries = [];
+    var pay = [
+        { Name: "Being Check", Id: 1 },
+        { Name: "Paid", Id: 2 },      
+    ];
+    
+    $.ajax({
+    	  url: "json/getcountrylist",
+    	  type: "GET",
+    	  dataType: "json",
+    	  success: function(countrylist) 
+    				    {
+    				     countrylist.forEach(function(item,index){
+    				    	 countries.push({ Name: item, Id: index});
+    				     })
+    				     //console.log(countries);
+    				      $("#jsGrid").jsGrid({
+    				         width: "100%",
+    				         height: "400px",
+    				         autoload: true,
+    				         paging: true,
+    				         pageLoading: true,
+    				         pageSize: 15,
+    				         pageIndex: 2,
+    				         heading: true,
+    				         filtering: false,
+    				         inserting: false,
+    				         editing: true,
+    				         sorting: true,
+    				         fields: [
+    				        	 { name: "userId", type: "text", width: 50, validate: "required", editing: false },
+    				             { name: "firstName", type: "text", width: 50, validate: "required"},
+    				             { name: "lastName", type: "text", width: 50, validate: "required" },
+    				             { name: "address", type: "text", width: 100 },
+    				             { name: "city", type: "text", width: 50 },
+    				             { name: "state", type: "text", width: 50 },
+    				             /* { name: "country", type: "select", items: countries, valueField: "Name", textField: "Name" }, */
+    				             { name: "payingStatus", type: "select", items: pay, valueField: "Name", textField: "Name" },
+    				             { type: "control" , deleteButton: false }
+    				         ],
+    				         controller: {
+    				             loadData: function(filter) {
+    				                var d = $.Deferred();
+    				                 $.ajax({
+    				                 	type: "GET",
+    				                     url: "json/getedittabledata",
+    				                     dataType: "json",
+    				                     data: filter
+    				                 }).done(function(response) {
+    				                 	//console.log("KI BOLCHO"+response);
+    				                     d.resolve(response);
+    				                     return;
+    				                 });
+    				                 return d.promise(); 
+    				               /*   return $.ajax({
+    				                     type: "GET",
+    				                     url: "json/getedittabledata",
+    				                     data: filter,
+    				                     dataType: "JSON"
+    				                 }) */
+    				             },
+    				             updateItem: function(data) { 
+    				             	//console.log("updateItem",data);
+    				             	var myData = {};
+    				             	myData['editTableDataDTO'] = data;
+    				             	$.ajax({
+    				             		type: "POST",
+    								    url: "json/updateedittable",
+    								    contentType: 'application/json',
+    							    	data: JSON.stringify(data), 
+    								    success: function(data) 
+    								    {
+    								    	//console.log("success",data);
+    								    	 alert("successfully edited");
+    							        },
+    							        error: function(jqXHR, textStatus,errorThrown){
+    							            //console.debug(jqXHR.status,jqXHR.responseJSON); 
+    							        	 alert(jqXHR.status+jqXHR.responseJSON.message+jqXHR.responseJSON.reason);
+    							     }
+    								});
+    				             }
+    				         }
+    				     });
+    			        }
+    	});
+
+});
+</script>
+       
 
 </body>
 </html>

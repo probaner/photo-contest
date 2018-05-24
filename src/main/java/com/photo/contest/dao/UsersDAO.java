@@ -3,10 +3,11 @@ package com.photo.contest.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Projections;
@@ -165,5 +166,15 @@ public class UsersDAO {
 			throw re;
 		}
 	}
+	
+	
+	public List<Users> getAllUsersList(String tableName){
+	    String jpql = "SELECT t FROM " + tableName+ " t";
+	    Query query = sessionFactory.getCurrentSession().createQuery(jpql);
+	    List<Users> list = query.getResultList();
+	    //rest of the code    
+		return list;
+	}
+	
 
 }
