@@ -373,10 +373,9 @@ $(document).ready(function()
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
-	uploadErrorStr: "Upload is not allowed.Enter Title",
+	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	formData: (function() { 
 		fileUploadConfigs[0]['action'] = "save";
-		//console.log("Form Data Upload",fileUploadConfigs[0]);
 		return $.extend({}, fileUploadConfigs[0]);
 	})(),
 	dynamicFormData: function()
@@ -388,26 +387,21 @@ $(document).ready(function()
 	{
 		var title = $('#titelcolour1').val();
 		if(title.length==0){
-			//$("#titelcolour1").after('<div ">Title cannot be empty</div>');
 			return false;
 		}
 		
-		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-		//console.log('onSubmit');
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
-		console.log(pd);
+		//console.log(data);
 		$("#upload_image_color1").hide();
 		$('#titelcolour1').prop('disabled', true);
 		fileUploadConfigs[0]['fileId'] = data.data.fileId;
-		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-		//console.log('onSuccess ' +JSON.stringify(data));
 		
 	},
     onError: function (files, status, message, pd) 
     {
-    	console.log("onError");
+    	console.log("onError",files, status, message, pd);
     },
 	onLoad:function(obj,pd)
 	   {
@@ -417,13 +411,10 @@ $(document).ready(function()
 		    	dataType: "json",
 		    	data: (function() { 
 		    		fileUploadConfigs[0]['action'] = "load";
-		    		//console.log("Data onLoad",fileUploadConfigs[0]);
 		    		return fileUploadConfigs[0];
 		    	})(), 
 			    success: function(data) 
 			    {
-			    	//console.log("hellopb",obj,pd)
-			    	//console.log("PB onLoad 1",data);
 			    	if(data){ //File is available
 			    		fileUploadConfigs[0]['fileId'] = data.data.fileId;
 				    	$("#titelcolour1").val(data.data.titel);
@@ -486,11 +477,17 @@ $(document).ready(function()
 		onSuccess:function(files,data,xhr,pd)
 		{
 
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			$("#divid").$(".ajax-file-upload-filename").html("This is response message")
-			//console.log('onSuccess ' +JSON.stringify(data));
+			console.log(data);
+			//console.log(pd);
+			$("#upload_image_color2").hide();
+			$('#titelcolour2').prop('disabled', true);
+			fileUploadConfigs[1]['fileId'] = data.data.fileId;
 			
 		},
+		 onError: function (files, status, message, pd) 
+		    {
+		    	console.log("onError",files, status, message, pd);
+		    },
 		onLoad:function(obj)
 		   {
 		   	$.ajax({
@@ -684,8 +681,9 @@ $("#upload_image_monochrome1").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	formData: (function() { 
-		fileUploadConfigs[0]['action'] = "save";
+		fileUploadConfigs[4]['action'] = "save";
 		//console.log("Form Data Upload",fileUploadConfigs[4]);
 		return $.extend({}, fileUploadConfigs[4]);
 	})(),
@@ -696,16 +694,24 @@ $("#upload_image_monochrome1").uploadFile({
 	},
 	onSubmit:function(files)
 	{
-		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-		//console.log('onSubmit');
+		var title = $('#titelmonochrome1').val();
+		if(title.length==0){
+			return false;
+		}
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
 
-		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-		//console.log('onSuccess ' +JSON.stringify(data));
+		//console.log(data);
+		$("#upload_image_monochrome1").hide();
+		$('#titelmonochrome1').prop('disabled', true);
+		fileUploadConfigs[0]['fileId'] = data.data.fileId;
 		
 	},
+	onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
 	onLoad:function(obj)
 	   {
 	   	$.ajax({
@@ -719,9 +725,18 @@ $("#upload_image_monochrome1").uploadFile({
 		    	})(), 
 			    success: function(data) 
 			    {
-			    	fileUploadConfigs[4]['fileId'] = data.data.fileId;
-			    	$("#titelmonochrome1").val(data.data.titel);
-			    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					if(data){ //File is available
+			    		fileUploadConfigs[4]['fileId'] = data.data.fileId;
+			    	    $("#titelmonochrome1").val(data.data.titel);
+				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	pd.filename.html("");
+				    	$("#upload_image_monochrome1").hide();
+						$('#titelmonochrome1').prop('disabled', true);
+			    	}else{
+			    		
+			    	}
+			    	
+			    	
 		        }
 			});
 	  },
@@ -734,6 +749,9 @@ $("#upload_image_monochrome1").uploadFile({
 		    		return fileUploadConfigs[4];
 		    	})(),
 	        	success: function(result){
+					    $("#upload_image_monochrome1").show();
+		        		$('#titelmonochrome1').prop('disabled', false); 
+		        		$("#titelmonochrome1").val('');
 	                   pd.statusbar.hide(); //You choice. */
 	        }});
 
@@ -963,7 +981,7 @@ $("#upload_image_monochrome1").uploadFile({
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
 	formData: (function() { 
-		fileUploadConfigs[0]['action'] = "save";
+		fileUploadConfigs[8]['action'] = "save";
 		//console.log("Form Data Upload",fileUploadConfigs[8]);
 		return $.extend({}, fileUploadConfigs[8]);
 	})(),

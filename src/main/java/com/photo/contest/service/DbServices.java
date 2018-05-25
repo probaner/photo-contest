@@ -31,6 +31,8 @@ import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.exception.ErrorCode;
+import com.photo.contest.exception.PayStatusNotFoundException;
+import com.photo.contest.exception.UserNotFoundException;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.DiscountData;
 import com.photo.contest.model.File;
@@ -619,7 +621,7 @@ public class DbServices {
 
 	
 	@Transactional
-	public void updateUserDataByEditTable(EditTableDataDTO editTableDataDTO) {
+	public void updateUserDataByEditTable(EditTableDataDTO editTableDataDTO) throws BusinessException {
 		
 		
 		if(editTableDataDTO!= null) {
@@ -641,11 +643,11 @@ public class DbServices {
 		usersDAO.attachDirty(user);
 		}else {
 			ErrorCode errorCode = new ErrorCode("Please contact System Admin.","Paystatus record is not found for this user while updating User.",500);
-			throw new BusinessException(errorCode);
+			throw new UserNotFoundException(errorCode);
 		}
 		}else {
 			ErrorCode errorCode = new ErrorCode("Please contact System Admin.","User record is not found for this user while updating User.",500);
-			throw new BusinessException(errorCode);
+			throw new PayStatusNotFoundException(errorCode);
 		}
 		}
 	}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.ResponseDTO;
+import com.photo.contest.exception.BusinessException;
 import com.photo.contest.service.DbServices;
 
 @Controller
@@ -39,7 +40,7 @@ public class EditTableController {
 	
 	
 	@PostMapping(value = "/json/updateedittable")
-	public @ResponseBody ResponseDTO updateedittableJson(@RequestBody EditTableDataDTO editTableDataDTO) throws IOException {
+	public @ResponseBody ResponseDTO updateedittableJson(@RequestBody EditTableDataDTO editTableDataDTO) throws  BusinessException {
 		
 		ResponseDTO responseDTO = new ResponseDTO();
 		

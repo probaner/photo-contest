@@ -1,6 +1,6 @@
 package com.photo.contest.exception;
 
-public class BusinessException extends RuntimeException {
+public class BusinessException extends Exception {
 
     /**
 	 * 
