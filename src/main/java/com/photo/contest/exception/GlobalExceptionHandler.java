@@ -40,12 +40,12 @@ public class GlobalExceptionHandler {
 	    return e.getCode();
 	}
 	
-	@ResponseBody
+	/*@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(Exception.class)
 	public ErrorCode handleAllotherException(Exception e) {
 	    // Optionally do additional things with the exception, for example map
 	    // individual field errors (from e.getBindingResult()) to the Error object
 	    return new ErrorCode("All other exception"," All other exception",500);
-	}
+	}*/
 }

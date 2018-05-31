@@ -132,6 +132,22 @@ public class UsersDAO {
 			
 	}
 	
+	public Users findByEmail(String email) {
+		log.debug("getting User instance with email: " + email);
+		try{
+			 //Session session = sessionFactory.getCurrentSession();
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(Users.class)
+					     .add(Restrictions.eq("email", email));
+			Users Users = (Users) cr.uniqueResult();
+						
+			return Users;      		
+		   } catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		   }
+			
+	}
+	
 	public List findByExample(Users instance) {
 		log.debug("finding User instance by example");
 		try {

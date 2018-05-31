@@ -10,6 +10,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -35,6 +36,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
       resolver.setSuffix(".jsp");
       return resolver;
    }
+   
+   /**
+    * Configure ResourceHandlers to serve static resources like CSS/ Javascript etc...
+    */
+   @Override
+   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+           registry.addResourceHandler("/resources/**")
+                   .addResourceLocations("/static/")
+                   .setCachePeriod(31556926);
+   }
+
 
    @Bean
    public MessageSource messageSource() {
@@ -46,8 +58,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
    @Override
    public void addViewControllers(ViewControllerRegistry registry) {
        //this will map uri to jsp view directly without a controller
-       registry.addViewController("/hi")
-               .setViewName("login");
+      /* registry.addViewController("/login").setViewName("login");*/
+       registry.addViewController("/accessDenied").setViewName("accessDenied");
    }
    @Override
    public Validator getValidator() {

@@ -8,11 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.photo.contest.dto.ClubDTO;
@@ -39,6 +44,9 @@ public class UserLoginController {
 	@Autowired
 	SelectData selectData;
 	
+	 @Autowired
+	 AuthenticationTrustResolver authenticationTrustResolver;
+	
 	
 	
 	@GetMapping("/getloginForm")
@@ -47,6 +55,61 @@ public class UserLoginController {
 			model.put("loginForm", loginForm);	
 			return "login";		
 		  }
+	
+	/**
+     * This method handles login GET requests.
+     * If users is already logged-in and tries to goto login page again, will be redirected to list page.
+     */
+    @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+    public String loginPage(Model model) throws IOException{
+        if (isCurrentAuthenticationAnonymous()) {
+            return "login";
+		} else {
+
+			String email = getCurrentUser();
+			if (email != null) {
+				LogingResponseDTO logingResponseDTO = dbServices.getUserData(email);
+				Users user = logingResponseDTO.getUser();
+				if (user != null) {
+
+					UserDTO userDTO = commonServices.createCurrentUserDTO(user, new UserDTO());
+					model.addAttribute("userForm", userDTO);
+
+					if (userDTO.getRole().equals("participate") && commonServices.getExpairStatus()) {
+
+						model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
+								+ userDTO.getFirstname().toUpperCase());
+						model.addAttribute("paymentDetail", new PaymentDTO());
+						model.addAttribute("displayFileDTOMap", logingResponseDTO.getHm());
+
+						return "registrationsuccess";
+					} else if (userDTO.getRole().equals("admin")) {
+						CouponCode couponCode = new CouponCode();
+						model.addAttribute("couponCode", couponCode);
+						model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
+								+ userDTO.getFirstname().toUpperCase());
+						List<ClubDTO> clubDTOData = dbServices.getClubData();
+						List<String> clubDataList = selectData.clubData(clubDTOData);
+
+						model.addAttribute("clubDataList", clubDataList);
+
+						return "admin";
+
+					} else {
+						model.addAttribute("error", "Last Login Date is Over");
+					}
+
+				} else {
+					model.addAttribute("error", "Invalid Details");
+				}
+
+			} else {
+				model.addAttribute("error", "Please enter Details");
+			}
+
+			return "login";
+		}
+        }
 	
 	
 	@PostMapping(value = "/loginSucess")
@@ -199,6 +262,20 @@ public class UserLoginController {
 		}
 	}
 */
+	
+	
+	 /**
+     * This method returns true if users is already authenticated [logged-in], else false.
+     */
+    private boolean isCurrentAuthenticationAnonymous() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authenticationTrustResolver.isAnonymous(authentication);
+    }
+    
+    private String getCurrentUser() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 	
 }
 		

@@ -2,11 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<sec:csrfMetaTags/>
 <title>Bootstrap Example</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,6 +70,7 @@ div.ex5 {
 		<div class="well">
 			<h4>
 				<c:out value="${sucessMagssage}" />
+				<c:out value="${_csrf.parameterName}" /> <c:out value="${_csrf.token}" />
 			</h4>
 			<div
 				style="float: right; font-size: 120%; position: relative; top: -10px">
@@ -358,6 +361,8 @@ $(document).ready(function()
 		{"catagoryName":"nature","positionName":"nature3"},
 		{"catagoryName":"nature","positionName":"nature4"}] 
 	
+	var csrfParam   = $("meta[name='_csrf_parameter']").attr("content");
+	var csrfToken  = $("meta[name='_csrf']").attr("content");
 	
 	
 	$("#upload_image_color1").uploadFile({
@@ -374,9 +379,10 @@ $(document).ready(function()
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
+	//headers: {"X-CSRF-Token" : $('meta[name="csrf-token"]').attr('content')},
 	formData: (function() { 
 		fileUploadConfigs[0]['action'] = "save";
-		return $.extend({}, fileUploadConfigs[0]);
+		return $.extend({ _csrf :csrfToken}, fileUploadConfigs[0]);
 	})(),
 	dynamicFormData: function()
 	{

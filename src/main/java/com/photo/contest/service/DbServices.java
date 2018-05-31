@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +46,8 @@ import com.photo.contest.utility.CommonUtil;
 public class DbServices {
 	
 	static Map<String, Integer> results = new HashMap<String, Integer>();
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private CommonUtil commonUtil;
 	@Autowired
@@ -105,7 +107,7 @@ public class DbServices {
 		users.setClub(userDTO.getClub());
 		users.setHoner(userDTO.getHoner());
 		users.setEmail(userDTO.getEmail());
-		users.setPassword(userDTO.getPassword());
+		users.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		users.setCreatedOn(commonUtil.sqlDateTime());
 		users.setLastLoggin(commonUtil.sqlDateTime());
 		users.setRole("participate");
@@ -161,6 +163,55 @@ public class DbServices {
 		Users users = new Users();
 		users.setEmail(login.getUsername());
 		users.setPassword(login.getPassword());
+		@SuppressWarnings("unchecked")
+		List<Users> userData = usersDAO.findByExample(users);
+		
+		if(userData.size()==1) {
+			logingResponseDTO.setUser(userData.get(0));						
+			Users currentUser = userData.get(0);
+			Set<File> fileSet = currentUser.getFiles();
+					
+		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
+			 HashMap<String,DisplayFileDTO> hm = new HashMap<String, DisplayFileDTO>();
+			 for(File file : fileSet) {
+				 DisplayFileDTO displayFileDTO = new DisplayFileDTO();
+				 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
+				 displayFileDTO.setFileId(file.getFileId());
+				 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
+				 displayFileDTO.setPositionName(file.getCategoryIndex());
+				 displayFileDTO.setTitel(file.getTitel());
+				 
+				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 
+			    }
+			 logingResponseDTO.setHm(hm);					
+			
+		   }else {
+			       logingResponseDTO.setHm(new HashMap<String, DisplayFileDTO>() );
+		         }
+			
+			currentUser.setLastLoggin(commonUtil.sqlDateTime());
+			usersDAO.attachDirty(currentUser);
+					   
+		}else {
+			    
+			    logingResponseDTO.setUser(null);
+			    logingResponseDTO.setHm(null);
+		      }
+		
+			return logingResponseDTO;
+
+	}
+	
+	
+	
+	@Transactional
+	public LogingResponseDTO getUserData(String email) throws IOException {
+		
+		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
+		
+		Users users = new Users();
+		users.setEmail(email);
+		/*users.setPassword(login.getPassword());*/
 		@SuppressWarnings("unchecked")
 		List<Users> userData = usersDAO.findByExample(users);
 		
