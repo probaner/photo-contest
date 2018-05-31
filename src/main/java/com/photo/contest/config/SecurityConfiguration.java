@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.debug(true);
+        web.ignoring().antMatchers("/resources/**");
     }
  
     @Override
@@ -42,13 +43,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
         .authorizeRequests()
                 .antMatchers("/", "/getRegistrationForm", "/getloginForm").permitAll()    
-                .antMatchers("/getUserTable").access("hasRole('admin')")
-                .antMatchers("/json/saveimage").access("hasRole('perticipate')")
+                .antMatchers("/getUserTable").hasAuthority("participate")
+                .antMatchers("/json/**").hasAuthority("participate")
               /*.antMatchers("/").access("hasRole('perticipate') or hasRole('admin') or hasRole('judge')")
                 .antMatchers("/newuser/**", "/delete-user-*").access("hasRole('ADMIN')")
                 .antMatchers("/edit-user-*").access("hasRole('ADMIN') or hasRole('DBA')")*/
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login")/*.successHandler(new RefererRedirectionAuthenticationSuccessHandler())*/
+                .and().formLogin().loginPage("/getloginForm")/*.successHandler(new RefererRedirectionAuthenticationSuccessHandler())*/
                 .loginProcessingUrl("/login").usernameParameter("username").passwordParameter("password")
                 .defaultSuccessUrl("/login")
                 .and().anonymous()

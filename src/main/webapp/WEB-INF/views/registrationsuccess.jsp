@@ -361,9 +361,14 @@ $(document).ready(function()
 		{"catagoryName":"nature","positionName":"nature3"},
 		{"catagoryName":"nature","positionName":"nature4"}] 
 	
-	var csrfParam   = $("meta[name='_csrf_parameter']").attr("content");
-	var csrfToken  = $("meta[name='_csrf']").attr("content");
+	/* var csrfParam   = $("meta[name='_csrf_parameter']").attr("content");
+	var csrfToken  = $("meta[name='_csrf']").attr("content"); */
 	
+	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+	var csrfToken = $("meta[name='_csrf']").attr("content"); 
+	var csrfHeader = $("meta[name='_csrf_header']").attr("content");  // THIS WAS ADDED
+	var headers = {};
+	headers[csrfHeader] = csrfToken; 
 	
 	$("#upload_image_color1").uploadFile({
 	url:"json/saveimage",
@@ -379,10 +384,11 @@ $(document).ready(function()
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
-	//headers: {"X-CSRF-Token" : $('meta[name="csrf-token"]').attr('content')},
+	headers: headers,
 	formData: (function() { 
 		fileUploadConfigs[0]['action'] = "save";
-		return $.extend({ _csrf :csrfToken}, fileUploadConfigs[0]);
+		fileUploadConfigs[0][csrfParameter] = csrfToken;
+		return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[0]);
 	})(),
 	dynamicFormData: function()
 	{

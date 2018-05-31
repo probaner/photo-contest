@@ -5,8 +5,6 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -24,7 +22,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScans(value = { @ComponentScan("com.photo.contest.model")})
+/*@ComponentScans(value = { @ComponentScan("com.photo.contest.model")})*/
 public class HibernateConfig {
 
 	/*@Autowired
