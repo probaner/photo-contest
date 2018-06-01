@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  
 @Configuration
 @EnableWebSecurity
-/*@ComponentScan(basePackages = { "com.photo.contest"})*/
+
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
  
     @Autowired
@@ -42,9 +42,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
         .authorizeRequests()
-                .antMatchers("/", "/getRegistrationForm", "/getloginForm").permitAll()    
-                .antMatchers("/getUserTable").hasAuthority("participate")
-                .antMatchers("/json/**").hasAuthority("participate")
+                .antMatchers("/", "/home","/getRegistrationForm", "/getloginForm","/getUserTable","/getDownload","/getContuctUs","/getForgetPasswordForm","/processRegistration").permitAll()    
+                /*.antMatchers("/getUserTable").hasAuthority("participate")*/
+                .antMatchers("/json/**").hasAuthority("participate") 
+                .antMatchers("/admin/json/**").hasAuthority("admin")
               /*.antMatchers("/").access("hasRole('perticipate') or hasRole('admin') or hasRole('judge')")
                 .antMatchers("/newuser/**", "/delete-user-*").access("hasRole('ADMIN')")
                 .antMatchers("/edit-user-*").access("hasRole('ADMIN') or hasRole('DBA')")*/

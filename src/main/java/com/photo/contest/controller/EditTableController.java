@@ -22,7 +22,7 @@ public class EditTableController {
 	DbServices dbServices;
 	
 	
-	@RequestMapping(value = "/json/getedittabledata")
+	@RequestMapping(value = "/admin/json/getedittabledata")
 	public @ResponseBody LoadDataWrapper editTableResourcesJson() throws IOException {
 		
 		LoadDataWrapper wrapper = new LoadDataWrapper();
@@ -39,7 +39,7 @@ public class EditTableController {
 	
 	
 	
-	@PostMapping(value = "/json/updateedittable")
+	@RequestMapping(value = "/admin/json/updateedittable")
 	public @ResponseBody ResponseDTO updateedittableJson(@RequestBody EditTableDataDTO editTableDataDTO) throws  BusinessException {
 		
 		ResponseDTO responseDTO = new ResponseDTO();

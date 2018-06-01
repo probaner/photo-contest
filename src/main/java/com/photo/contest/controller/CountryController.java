@@ -16,7 +16,7 @@ public class CountryController {
 	@Autowired
 	SelectData selectData;
 	
-	@RequestMapping(value = "/json/getcountrylist")
+	@RequestMapping(value = "/admin/json/getcountrylist")
 	public @ResponseBody List<String> getCountryResourcesJson() throws IOException {
 		
 		List<String> countryList = selectData.countryData();		

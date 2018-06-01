@@ -1,10 +1,11 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>  
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<sec:csrfMetaTags/>
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -156,6 +157,12 @@ div.ex6 {
 $(document).ready(function($)
 {
      
+	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+	var csrfToken = $("meta[name='_csrf']").attr("content"); 
+	var csrfHeader = $("meta[name='_csrf_header']").attr("content");  // THIS WAS ADDED
+	var headers = {};
+	headers[csrfHeader] = csrfToken; 
+	
     var countries = [];
     var pay = [
         { Name: "Being Check", Id: 1 },
@@ -163,7 +170,7 @@ $(document).ready(function($)
     ];
     
     $.ajax({
-    	  url: "json/getcountrylist",
+    	  url: "admin/json/getcountrylist",
     	  type: "GET",
     	  dataType: "json",
     	  success: function(countrylist) 
@@ -201,7 +208,7 @@ $(document).ready(function($)
     				                var d = $.Deferred();
     				                 $.ajax({
     				                 	type: "GET",
-    				                     url: "json/getedittabledata",
+    				                     url: "admin/json/getedittabledata",
     				                     dataType: "json",
     				                     data: filter
     				                 }).done(function(response) {
@@ -223,7 +230,8 @@ $(document).ready(function($)
     				             	myData['editTableDataDTO'] = data;
     				             	$.ajax({
     				             		type: "POST",
-    								    url: "json/updateedittable",
+    				             		 headers:headers,
+    								    url: "admin/json/updateedittable",
     								    contentType: 'application/json',
     							    	data: JSON.stringify(data), 
     								    success: function(data) 

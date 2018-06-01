@@ -64,7 +64,7 @@ div.redplaceholder :-ms-input-placeholder {
 					<li><a href="#"> RULES & REGULATIONS 2017 </a></li>
 					<li><a href="#"> FIAP DEFINITIONS OF DIVISIONS </a></li>
 				</ul></li>
-			<li><a href="/login">Perticipate/Login</a></li>
+			<li><a href="getloginForm">Perticipate/Login</a></li>
 			<li><a href="getUserTable">Entry Status</a></li>
 			<li><a href="getDownload">Download</a></li>
 			<li><a href="getContuctUs">Contuct Us</a></li>

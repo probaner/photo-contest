@@ -70,16 +70,26 @@ public class WelcomeController {
 	 public String processRegistration(@ModelAttribute("userForm") UserDTO userDTO,  Model model) throws IOException{
 		  List<String> usersEmailList=dbServices.getListOfAColumn("email");
 		  if(!usersEmailList.contains(userDTO.getEmail())){
-		  Users users =dbServices.saveUserData(userDTO);
-		  
-		  UserDTO userDTOn = commonServices.createCurrentUserDTO( users , new UserDTO());
-			model.addAttribute("userForm", userDTOn);
-		
-		  model.addAttribute("sucessMagssage", "welcome "+userDTO.getLastname()+" " + userDTO.getFirstname());
-		  model.addAttribute("product", new FileDTO());
-		  model.addAttribute("paymentDetail", new PaymentDTO());
-		
-	      return "registrationsuccess";
+			  
+		   if(commonServices.getExpairStatus())	{  
+			   Users users =dbServices.saveUserData(userDTO);
+	  
+			   UserDTO userDTOn = commonServices.createCurrentUserDTO( users , new UserDTO());
+			   model.addAttribute("userForm", userDTOn);	
+			   model.addAttribute("sucessMagssage", "welcome "+userDTO.getLastname()+" " + userDTO.getFirstname());
+			   model.addAttribute("product", new FileDTO());
+			   model.addAttribute("paymentDetail", new PaymentDTO());
+               return "registrationsuccess";
+		   }else {
+			       model.addAttribute("userForm", userDTO);
+			       model.addAttribute("error", "Last Login Date is Over !   ");
+			       List<String> genderList = selectData.genderData();
+			       List<String> countryList = selectData.countryData();
+		           model.addAttribute("genderList", genderList);
+		           model.addAttribute("countryList", countryList);   
+			       return "UserRegistration";
+		         }
+	      
 		  }
 		  else{
 			    model.addAttribute("userForm", userDTO);
