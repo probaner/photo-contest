@@ -18,50 +18,118 @@
 </head>
 <body>
 	<!-- a block container is required -->
+<!-- 
+https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-dynamically-using-jquery
+ -->	<div class="container">
 
-	<div class="container">
-		<div class="row">
-			<div id="myCarousel" class="carousel slide" data-ride="carousel">
-				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-				</ol>
+		<ul class="nav nav-tabs" id="tab-container">
+			<li class="active"><a href="#1" data-toggle="tab">Colour</a></li>
+			<li>               <a href="#2" data-toggle="tab">Monochrome</a></li>
+			<li>			   <a href="#3" data-toggle="tab">Nature</a></li>
+		</ul>
 
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner">
-					<div class="item active">
-						<img src="<c:url value="/resources/image/tulips.jpeg" />"
-							alt="Los Angeles" class="center">
-							<input id="titelcolour1" class="form-control" placeholder="Enter Title" value="" required/>
-					</div>
+		<div class="tab-content ">
+			<div class="tab-pane active" id="1">
+				<div class="row">
+					<div id="myCarousel1" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							<li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
+							<li data-target="#myCarousel1" data-slide-to="1"></li>
+							<li data-target="#myCarousel1" data-slide-to="2"></li>
+						</ol>
 
-					<div class="item">
-						<img src="<c:url value="/resources/image/garden-rose-red.jpeg" />"
-							alt="Chicago" class="center">
-							<input id="titelcolour2" class="form-control" placeholder="Enter Title" value="" required/>
-					</div>
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							<div class="item active">
+								<img src="<c:url value="/resources/image/tulips.jpeg" />"
+									alt="Los Angeles" class="center"> <input
+									id="titelcolour1" class="form-control"
+									placeholder="Enter Title" value="" required />
+							</div>
 
-					<div class="item">
-						<img src="<c:url value="/resources/image/rose-flower.jpeg" />"
-							alt="New York" class="center">
-							<input id="titelcolour3" class="form-control" placeholder="Enter Title" value="" required/>
+							<div class="item">
+								<img
+									src="<c:url value="/resources/image/garden-rose-red.jpeg" />"
+									alt="Chicago" class="center"> <input id="titelcolour2"
+									class="form-control" placeholder="Enter Title" value=""
+									required />
+							</div>
+
+							<div class="item">
+								<img src="<c:url value="/resources/image/rose-flower.jpeg" />"
+									alt="New York" class="center"> <input id="titelcolour3"
+									class="form-control" placeholder="Enter Title" value=""
+									required />
+							</div>
+						</div>
+
+						<!-- Left and right controls -->
+						<a class="left carousel-control" href="#myCarousel1"
+							data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="right carousel-control" href="#myCarousel1"
+							data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span> <span
+							class="sr-only">Next</span>
+						</a>
 					</div>
 				</div>
+			</div>
+			<div class="tab-pane" id="2">
+				<div class="row">
+					<div id="myCarousel2" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							<li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+							<li data-target="#myCarousel2" data-slide-to="1"></li>
+							<li data-target="#myCarousel2" data-slide-to="2"></li>
+						</ol>
 
-				<!-- Left and right controls -->
-				<a class="left carousel-control" href="#myCarousel"
-					data-slide="prev"> <span
-					class="glyphicon glyphicon-chevron-left"></span> <span
-					class="sr-only">Previous</span>
-				</a> <a class="right carousel-control" href="#myCarousel"
-					data-slide="next"> <span
-					class="glyphicon glyphicon-chevron-right"></span> <span
-					class="sr-only">Next</span>
-				</a>
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							<div class="item active">
+								<img src="<c:url value="/resources/image/tulips.jpeg" />"
+									alt="Los Angeles" class="center"> <input
+									id="titelcolour1" class="form-control"
+									placeholder="Enter Title" value="" required />
+							</div>
+
+							<div class="item">
+								<img
+									src="<c:url value="/resources/image/garden-rose-red.jpeg" />"
+									alt="Chicago" class="center"> <input id="titelcolour2"
+									class="form-control" placeholder="Enter Title" value=""
+									required />
+							</div>
+
+							<div class="item">
+								<img src="<c:url value="/resources/image/rose-flower.jpeg" />"
+									alt="New York" class="center"> <input id="titelcolour3"
+									class="form-control" placeholder="Enter Title" value=""
+									required />
+							</div>
+						</div>
+
+						<!-- Left and right controls -->
+						<a class="left carousel-control" href="#myCarousel2"
+							data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="right carousel-control" href="#myCarousel2"
+							data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span> <span
+							class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="3">
+				<h3>add clearfix to tab-content (see the css)</h3>
 			</div>
 		</div>
+
 
 	</div>
 </body>
