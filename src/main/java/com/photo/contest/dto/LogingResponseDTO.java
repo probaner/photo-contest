@@ -7,14 +7,14 @@ import com.photo.contest.model.Users;
 public class LogingResponseDTO {
 	
 	private Users user;
-	private HashMap<String, DisplayFileDTO> hm;
+	private HashMap<String, FileDTO> hm;
 	
 	public LogingResponseDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public LogingResponseDTO(Users user, HashMap<String, DisplayFileDTO> hm) {
+	public LogingResponseDTO(Users user, HashMap<String, FileDTO> hm) {
 		super();
 		this.user = user;
 		this.hm = hm;
@@ -28,13 +28,15 @@ public class LogingResponseDTO {
 		this.user = user;
 	}
 
-	public HashMap<String, DisplayFileDTO> getHm() {
+	public HashMap<String, FileDTO> getHm() {
 		return hm;
 	}
 
-	public void setHm(HashMap<String, DisplayFileDTO> hm) {
+	public void setHm(HashMap<String, FileDTO> hm) {
 		this.hm = hm;
 	}
+
+	
 		
 
 }

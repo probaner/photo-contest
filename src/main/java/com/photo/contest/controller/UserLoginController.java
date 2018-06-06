@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
@@ -14,8 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -69,21 +64,24 @@ public class UserLoginController {
 			String email = getCurrentUser();
 			if (email != null) {
 				LogingResponseDTO logingResponseDTO = dbServices.getUserData(email);
+				System.out.println("PROSENJIT");
+				System.out.println(logingResponseDTO.getHm());
 				Users user = logingResponseDTO.getUser();
 				if (user != null) {
 
 					UserDTO userDTO = commonServices.createCurrentUserDTO(user, new UserDTO());
 					model.addAttribute("userForm", userDTO);
 
-					if (userDTO.getRole().equals("participate") && commonServices.getExpairStatus()) {
-
+					if (userDTO.getRole().equals("participate") /*&& commonServices.getExpairStatus()*/) {
+                        
 						model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 								+ userDTO.getFirstname().toUpperCase());
 						model.addAttribute("paymentDetail", new PaymentDTO());
 						model.addAttribute("displayFileDTOMap", logingResponseDTO.getHm());
 
 						return "registrationsuccess";
-					} else if (userDTO.getRole().equals("admin")) {
+					} 
+					else if (userDTO.getRole().equals("admin")) {
 						CouponCode couponCode = new CouponCode();
 						model.addAttribute("couponCode", couponCode);
 						model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
@@ -92,27 +90,26 @@ public class UserLoginController {
 						List<String> clubDataList = selectData.clubData(clubDTOData);
 
 						model.addAttribute("clubDataList", clubDataList);
-
 						return "admin";
 
-					} else {
+					} /*else {
 						model.addAttribute("error", "Last Login Date is Over");
-					}
+					}*/
 
 				} else {
-					model.addAttribute("error", "Invalid Details");
-				}
+					     model.addAttribute("error", "Invalid Details");
+				       }
 
 			} else {
-				model.addAttribute("error", "Please enter Details");
-			}
+				     model.addAttribute("error", "Please enter Details");
+			       }
 
 			return "login";
 		}
         }
 	
 	
-	@PostMapping(value = "/loginSucess")
+	/*@PostMapping(value = "/loginSucess")
 	public String executeLogin( Model model, @ModelAttribute("loginForm") Login loginBean, HttpServletResponse response,
 			HttpServletRequest request) throws IOException {
 		
@@ -136,9 +133,7 @@ public class UserLoginController {
 					model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "+ userDTO.getFirstname().toUpperCase());
 					model.addAttribute("paymentDetail", new PaymentDTO());
 					model.addAttribute("displayFileDTOMap", logingResponseDTO.getHm());
-					
-				
-					
+										
 					return "registrationsuccess";
 				  }
 				else if (userDTO.getRole().equals("admin")){
@@ -173,7 +168,7 @@ public class UserLoginController {
 		
 		
 		
-	}
+	}*/
 	
 	
 	

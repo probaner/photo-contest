@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.photo.contest.dto.DisplayFileDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
@@ -91,21 +90,18 @@ public class FileUploadController {
 			"Accept=text/xml, application/json" }, produces = "application/json")
 	public @ResponseBody ResponseDTO loadResourcesJson(@RequestParam String action, HttpServletRequest servletRequest,
 			HttpServletResponse response, @ModelAttribute("product") FileDTO fileDTO, Model model,
-			@ModelAttribute("userForm") UserDTO userDTO,@ModelAttribute("displayFileDTOMap") HashMap<String,DisplayFileDTO> displayFileDTOMap) throws IOException {
+			@ModelAttribute("userForm") UserDTO userDTO,@ModelAttribute("displayFileDTOMap") HashMap<String,FileDTO> displayFileDTOMap) throws IOException {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 
 		if (action.equals("load")) {
 			
-			DisplayFileDTO d =displayFileDTOMap.get(fileDTO.getCatagoryName()+fileDTO.getPositionName());
+			FileDTO d =displayFileDTOMap.get(fileDTO.getCatagoryName()+fileDTO.getPositionName());
 			responseDTO.setData(d);
 			responseDTO.setSuccess(true);
 			//return responseDTO;
 		}
 			
-			
-		
-
 		return responseDTO;
 	}
 

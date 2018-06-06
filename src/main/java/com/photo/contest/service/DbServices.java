@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
@@ -22,11 +23,9 @@ import com.photo.contest.dao.PayStatusDAO;
 import com.photo.contest.dao.UsersDAO;
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.dto.ClubDTO;
-import com.photo.contest.dto.DisplayFileDTO;
 import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
-import com.photo.contest.dto.Login;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
@@ -156,62 +155,15 @@ public class DbServices {
 
 	
 	@Transactional
-	public LogingResponseDTO getUserData(Login login) throws IOException {
-		
-		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
-		
-		Users users = new Users();
-		users.setEmail(login.getUsername());
-		users.setPassword(login.getPassword());
-		@SuppressWarnings("unchecked")
-		List<Users> userData = usersDAO.findByExample(users);
-		
-		if(userData.size()==1) {
-			logingResponseDTO.setUser(userData.get(0));						
-			Users currentUser = userData.get(0);
-			Set<File> fileSet = currentUser.getFiles();
-					
-		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
-			 HashMap<String,DisplayFileDTO> hm = new HashMap<String, DisplayFileDTO>();
-			 for(File file : fileSet) {
-				 DisplayFileDTO displayFileDTO = new DisplayFileDTO();
-				 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
-				 displayFileDTO.setFileId(file.getFileId());
-				 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
-				 displayFileDTO.setPositionName(file.getCategoryIndex());
-				 displayFileDTO.setTitel(file.getTitel());
-				 
-				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 
-			    }
-			 logingResponseDTO.setHm(hm);					
-			
-		   }else {
-			       logingResponseDTO.setHm(new HashMap<String, DisplayFileDTO>() );
-		         }
-			
-			currentUser.setLastLoggin(commonUtil.sqlDateTime());
-			usersDAO.attachDirty(currentUser);
-					   
-		}else {
-			    
-			    logingResponseDTO.setUser(null);
-			    logingResponseDTO.setHm(null);
-		      }
-		
-			return logingResponseDTO;
-
-	}
-	
-	
-	
-	@Transactional
+	//public LogingResponseDTO getUserData(Login login) throws IOException {
 	public LogingResponseDTO getUserData(String email) throws IOException {
 		
 		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
 		
 		Users users = new Users();
 		users.setEmail(email);
-		/*users.setPassword(login.getPassword());*/
+		//users.setEmail(login.getUsername());
+		//users.setPassword(login.getPassword());
 		@SuppressWarnings("unchecked")
 		List<Users> userData = usersDAO.findByExample(users);
 		
@@ -221,9 +173,120 @@ public class DbServices {
 			Set<File> fileSet = currentUser.getFiles();
 					
 		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
-			 HashMap<String,DisplayFileDTO> hm = new HashMap<String, DisplayFileDTO>();
+			 
+			 HashMap<String,FileDTO> hm = new HashMap<String, FileDTO>();
+			 
+			 if(commonService.getExpairStatus()) { // before expair date if 
 			 for(File file : fileSet) {
-				 DisplayFileDTO displayFileDTO = new DisplayFileDTO();
+				 FileDTO displayFileDTO = new FileDTO();
+				 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
+				 displayFileDTO.setFileId(file.getFileId());
+				 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
+				 displayFileDTO.setPositionName(file.getCategoryIndex());
+				 displayFileDTO.setTitel(file.getTitel());
+				 displayFileDTO.setEditable(true);
+				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 
+			    }
+			
+			 
+			 for (Entry<String, Integer> pair : results.entrySet()) {
+				   //System.out.println(pair.getKey());
+				   
+				   for(int i =1; i<=4 ; i++) {
+					   if(!hm.containsKey(pair.getKey()+pair.getKey()+i) && currentUser.getPayStatus().getPayingStatus().equals("Paid")) {					   
+						   hm.put(pair.getKey()+pair.getKey()+i, new FileDTO());
+					      }
+					   else if(!hm.containsKey(pair.getKey()+pair.getKey()+i) && currentUser.getPayStatus().getPayingStatus().equals("Being Check")){
+						       FileDTO fd =new FileDTO();
+						       fd.setEditable(true);
+						       hm.put(pair.getKey()+pair.getKey()+i, fd);
+					          }
+					   
+				       }
+				}
+			 }else { // after expair date all display status is false.				
+					 for(File file : fileSet) {
+						 FileDTO displayFileDTO = new FileDTO();
+						 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
+						 displayFileDTO.setFileId(file.getFileId());
+						 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
+						 displayFileDTO.setPositionName(file.getCategoryIndex());
+						 displayFileDTO.setTitel(file.getTitel());
+						 displayFileDTO.setEditable(false);
+						 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 
+					    }
+					 for (Entry<String, Integer> pair : results.entrySet()) {
+						   //System.out.println(pair.getKey());
+						   for(int i =1; i<=4 ; i++) {
+							   if(!hm.containsKey(pair.getKey()+pair.getKey()+i) ) {					   
+								   hm.put(pair.getKey()+pair.getKey()+i, new FileDTO());
+							      }
+						   }}
+			 }
+			 
+			 logingResponseDTO.setHm(hm);					
+			
+		   }else if(fileSet.size()==0 && currentUser.getRole().equals("participate")) {
+			   if(commonService.getExpairStatus()) {
+				   logingResponseDTO.setHm(new HashMap<String, FileDTO>() );
+			      }
+			   else {
+				     HashMap<String,FileDTO> hm = new HashMap<String, FileDTO>();
+				      for (Entry<String, Integer> pair : results.entrySet()) {
+					   //System.out.println(pair.getKey());
+					   for(int i =1; i<=4 ; i++) {
+						   if(!hm.containsKey(pair.getKey()+pair.getKey()+i) ) {					   
+							   hm.put(pair.getKey()+pair.getKey()+i, new FileDTO());
+						      }
+					   }}
+				      
+				      logingResponseDTO.setHm(hm);
+			        }
+			   
+		   }
+		 
+		    else {
+			       logingResponseDTO.setHm(new HashMap<String, FileDTO>() );
+		         }
+			
+			currentUser.setLastLoggin(commonUtil.sqlDateTime());
+			usersDAO.attachDirty(currentUser);
+					   
+		}else {
+			    
+			    logingResponseDTO.setUser(null);
+			    logingResponseDTO.setHm(null);
+		      }
+		
+		
+		
+		
+			return logingResponseDTO;
+
+	}
+	
+	
+	
+	/*@Transactional
+	public LogingResponseDTO getUserData(String email) throws IOException {
+		
+		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
+		
+		Users users = new Users();
+		users.setEmail(email);
+		//users.setPassword(login.getPassword());
+		@SuppressWarnings("unchecked")
+		List<Users> userData = usersDAO.findByExample(users);
+		
+		if(userData.size()==1) {
+			logingResponseDTO.setUser(userData.get(0));						
+			Users currentUser = userData.get(0);
+			Set<File> fileSet = currentUser.getFiles();
+					
+		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
+			 HashMap<String,FileDTO> hm = new HashMap<String, FileDTO>();
+			 for(File file : fileSet) {
+				 FileDTO displayFileDTO = new FileDTO();
 				 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
 				 displayFileDTO.setFileId(file.getFileId());
 				 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
@@ -235,7 +298,7 @@ public class DbServices {
 			 logingResponseDTO.setHm(hm);					
 			
 		   }else {
-			       logingResponseDTO.setHm(new HashMap<String, DisplayFileDTO>() );
+			       logingResponseDTO.setHm(new HashMap<String, FileDTO>() );
 		         }
 			
 			currentUser.setLastLoggin(commonUtil.sqlDateTime());
@@ -249,7 +312,7 @@ public class DbServices {
 		
 			return logingResponseDTO;
 
-	}
+	}*/
 		
 	
 	@Transactional
@@ -345,10 +408,8 @@ public class DbServices {
 			             }
 			
 		}
-			  
-		
-		return 0;
-		
+			  		
+		return 0;	
 
 	}
 	
@@ -586,20 +647,54 @@ public class DbServices {
 	}
 	
 	
-	/*@Transactional
-	public List<String> getUserIdofCreatedCouponCode(String columnName) {
+	@Transactional
+	public HashMap<String,List<FileDTO>> getAllImagesOfaUser(String userId) {
+		
+		HashMap<String,List<FileDTO>> map = new HashMap<String, List<FileDTO>>();
+		
+		Users user =usersDAO.findById(Integer.parseInt(userId));
+		
+		Set<File> files = user.getFiles();
+		
+		if(files.size()>0) {
+		    	
+			for(File file : files) {
+				
+				if(map.containsKey(file.getCategory().getCategoryName())) {
+					List<FileDTO>  l = map.get(file.getCategory().getCategoryName());
+					 FileDTO displayFileDTO = new FileDTO();
+					 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
+					 displayFileDTO.setFileId(file.getFileId());
+					 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
+					 displayFileDTO.setPositionName(file.getCategoryIndex());
+					 displayFileDTO.setTitel(file.getTitel());
+					 displayFileDTO.setEditable(true);
+					 l.add(displayFileDTO);
+					map.put(file.getCategory().getCategoryName(), l);
+				  }
+				else {
+					   List<FileDTO>  l  = new ArrayList<FileDTO>();
+					   FileDTO displayFileDTO = new FileDTO();
+						 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
+						 displayFileDTO.setFileId(file.getFileId());
+						 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
+						 displayFileDTO.setPositionName(file.getCategoryIndex());
+						 displayFileDTO.setTitel(file.getTitel());
+						 displayFileDTO.setEditable(true);
+					     l.add(displayFileDTO);
+					   map.put(file.getCategory().getCategoryName(), l);
+				     }
+				
+			    }
+			
+		  }
+		
+		
+		return map;
 
-		List<DiscountData> discountDataList = discountDataDAO.findAColumn(columnName);
-		List<String> existingCouponCodeList = new ArrayList();
-		if (discountDataList.size() > 0) {
-			for (DiscountData dd : discountDataList) {
-				existingCouponCodeList.add(dd.getUsers().toString());
-			}
-		}
-		System.out.println("existingCouponCodeList=" + existingCouponCodeList);
-		return existingCouponCodeList;
+		
 
-	}*/
+	}
 	
 
 	@Transactional

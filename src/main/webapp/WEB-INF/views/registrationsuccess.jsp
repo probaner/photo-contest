@@ -12,6 +12,7 @@
 <title>Bootstrap Example</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<%-- <link href="<c:url value="/resources/css/style.css" /> rel="stylesheet"> --%>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
@@ -296,6 +297,80 @@ div.ex5 {
 
 
 
+<!-- Start of row Photojournalism -->
+	<div class="ex2">
+		<div class="page-header">
+			<h4></h4>
+		</div>
+	</div>
+	<div class="ex2">
+		<div class="page-header">
+			<h4>Photojournalism</h4>
+		</div>
+	</div>
+
+	<div class="row">
+
+	    <div class="col-sm-6">
+			  <div class="ex2">
+				   <div class="col-sm-12">
+						<input id="titelphotojournalism1" class="form-control" placeholder="Enter Title" value="" required/>	  
+				   </div>
+			  </div>
+			  <div class="ex3">
+			   <div  id="upload_image_photojournalism1"></div>
+			   </div>
+		 </div>
+
+
+		<div class="col-sm-6">
+		     <div class="ex2">
+				  <div class="col-sm-12">
+					   <input id="titelphotojournalism2" class="form-control" placeholder="Enter Title" value="" required/>
+				  </div>
+			 </div> 
+			 <div class="ex3">	
+			 <div  id="upload_image_photojournalism2"></div>
+			 </div>
+		</div>
+	</div>	
+				
+	<!-- End of row one of nature -->
+	
+	<!-- Start of row two of nature -->
+
+
+	<div class="row">
+
+	    <div class="col-sm-6">
+			  <div class="ex2">
+				   <div class="col-sm-12">
+						<input id="titelphotojournalism3" class="form-control" placeholder="Enter Title" value="" required/>
+				   </div>
+			  </div>
+			  <div class="ex3">
+			   <div  id="upload_image_photojournalism3"></div>
+			   </div>
+		 </div>
+
+		<div class="col-sm-6">
+		     <div class="ex2">
+				  <div class="col-sm-12">
+					   <input id="titelphotojournalism4" class="form-control" placeholder="Enter Title" value="" required/>
+				  </div>
+			 </div> 
+			 <div class="ex3">	
+			 <div  id="upload_image_photojournalism4"></div>
+			 </div>
+		</div>
+	</div>		
+	
+	<!-- End of row two -->
+	<!-- End of row nature -->
+
+
+
+
 	<script type="text/javascript">
 		var isDisabledPayment = "${size}";
 	</script>
@@ -359,7 +434,12 @@ $(document).ready(function()
 		{"catagoryName":"nature","positionName":"nature1"}, 
 		{"catagoryName":"nature","positionName":"nature2"},
 		{"catagoryName":"nature","positionName":"nature3"},
-		{"catagoryName":"nature","positionName":"nature4"}] 
+		{"catagoryName":"nature","positionName":"nature4"},
+		
+		{"catagoryName":"photojournalism","positionName":"photojournalism1"}, 
+		{"catagoryName":"photojournalism","positionName":"photojournalism2"},
+		{"catagoryName":"photojournalism","positionName":"photojournalism3"},
+		{"catagoryName":"photojournalism","positionName":"photojournalism"}] 
 	
 	/* var csrfParam   = $("meta[name='_csrf_parameter']").attr("content");
 	var csrfToken  = $("meta[name='_csrf']").attr("content"); */
@@ -427,16 +507,27 @@ $(document).ready(function()
 		    	})(), 
 			    success: function(data) 
 			    {
-			    	if(data){ //File is available
+			    	console.log(data);
+			    	if(data.data.fileId){ //File is available
 			    		fileUploadConfigs[0]['fileId'] = data.data.fileId;
 				    	$("#titelcolour1").val(data.data.titel);
 				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
 				    	pd.filename.html("");
 				    	$("#upload_image_color1").hide();
 						$('#titelcolour1').prop('disabled', true);
+						if(!data.data.editable){
+							pd.del.hide();						
+						   }
+						else{
+							  pd.del.show();
+						    }
 			    	}else{
-			    		
-			    	}
+			    		if(!data.data.editable){
+			    		   $('#titelcolour1').prop('disabled', true);	
+			    		   //$('#upload_image_color1').addClass("disabledbutton");
+			    		   $('#upload_image_color1 *').prop('disabled',true);
+			    		  }
+			    	    }
 			    	
 		        }
 			});
@@ -461,6 +552,7 @@ $(document).ready(function()
 	
 	$("#upload_image_color2").uploadFile({
 		url:"json/saveimage",
+		dragDrop: true,
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
@@ -471,10 +563,12 @@ $(document).ready(function()
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
 		formData: (function() { 
 			fileUploadConfigs[1]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[1]);
-			return $.extend({}, fileUploadConfigs[1]);
+			fileUploadConfigs[1][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[1]);
 		})(),
 		dynamicFormData: function()
 		{
@@ -483,24 +577,25 @@ $(document).ready(function()
 		},
 		onSubmit:function(files)
 		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
+			var title = $('#titelcolour2').val();
+			if(title.length==0){
+				return false;
+			}
+			
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
-
-			console.log(data);
-			//console.log(pd);
+			//console.log(data);
 			$("#upload_image_color2").hide();
 			$('#titelcolour2').prop('disabled', true);
 			fileUploadConfigs[1]['fileId'] = data.data.fileId;
 			
 		},
-		 onError: function (files, status, message, pd) 
-		    {
-		    	console.log("onError",files, status, message, pd);
-		    },
-		onLoad:function(obj)
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
 		   {
 		   	$.ajax({
 			    	cache: false,
@@ -508,21 +603,21 @@ $(document).ready(function()
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[1]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[1]);
 			    		return fileUploadConfigs[1];
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	//console.log("PB onLoad 2",data);
-				    	if(data){ //File is available
-					    	fileUploadConfigs[1]['fileId'] = data.data.fileId;
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[1]['fileId'] = data.data.fileId;
 					    	$("#titelcolour2").val(data.data.titel);
-					    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
 					    	$("#upload_image_color2").hide();
 							$('#titelcolour2').prop('disabled', true);
 				    	}else{
 				    		
 				    	}
+				    	
 			        }
 				});
 		  },
@@ -535,14 +630,21 @@ $(document).ready(function()
 			    		return fileUploadConfigs[1];
 			    	})(),
 		        	success: function(result){
+			        		$("#upload_image_color2").show();
+			        		$('#titelcolour2').prop('disabled', false); 
+			        		$("#titelcolour2").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
 			}
 		});
 	
+	
+	
+	
 	$("#upload_image_color3").uploadFile({
 		url:"json/saveimage",
+		dragDrop: true,
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
@@ -553,10 +655,12 @@ $(document).ready(function()
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
 		formData: (function() { 
 			fileUploadConfigs[2]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[2]);
-			return $.extend({}, fileUploadConfigs[2]);
+			fileUploadConfigs[2][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[2]);
 		})(),
 		dynamicFormData: function()
 		{
@@ -565,17 +669,25 @@ $(document).ready(function()
 		},
 		onSubmit:function(files)
 		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
+			var title = $('#titelcolour3').val();
+			if(title.length==0){
+				return false;
+			}
+			
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
+			//console.log(data);
+			$("#upload_image_color3").hide();
+			$('#titelcolour3').prop('disabled', true);
+			fileUploadConfigs[2]['fileId'] = data.data.fileId;
 			
 		},
-		onLoad:function(obj)
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
 		   {
 		   	$.ajax({
 			    	cache: false,
@@ -583,14 +695,21 @@ $(document).ready(function()
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[2]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[2]);
 			    		return fileUploadConfigs[2];
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	fileUploadConfigs[2]['fileId'] = data.data.fileId;
-				    	$("#titelcolour3").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[2]['fileId'] = data.data.fileId;
+					    	$("#titelcolour3").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_color3").hide();
+							$('#titelcolour3').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
 			        }
 				});
 		  },
@@ -603,14 +722,20 @@ $(document).ready(function()
 			    		return fileUploadConfigs[2];
 			    	})(),
 		        	success: function(result){
+			        		$("#upload_image_color3").show();
+			        		$('#titelcolour3').prop('disabled', false); 
+			        		$("#titelcolour3").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
 			}
 		});
 	
+	
+	
 	$("#upload_image_color4").uploadFile({
 		url:"json/saveimage",
+		dragDrop: true,
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
@@ -621,10 +746,12 @@ $(document).ready(function()
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
 		formData: (function() { 
 			fileUploadConfigs[3]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[3]);
-			return $.extend({}, fileUploadConfigs[3]);
+			fileUploadConfigs[3][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[3]);
 		})(),
 		dynamicFormData: function()
 		{
@@ -633,17 +760,25 @@ $(document).ready(function()
 		},
 		onSubmit:function(files)
 		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
+			var title = $('#titelcolour4').val();
+			if(title.length==0){
+				return false;
+			}
+			
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
+			//console.log(data);
+			$("#upload_image_color4").hide();
+			$('#titelcolour4').prop('disabled', true);
+			fileUploadConfigs[3]['fileId'] = data.data.fileId;
 			
 		},
-		onLoad:function(obj)
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
 		   {
 		   	$.ajax({
 			    	cache: false,
@@ -651,14 +786,21 @@ $(document).ready(function()
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[3]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[3]);
 			    		return fileUploadConfigs[3];
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	fileUploadConfigs[3]['fileId'] = data.data.fileId;
-				    	$("#titelcolour4").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[3]['fileId'] = data.data.fileId;
+					    	$("#titelcolour4").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_color4").hide();
+							$('#titelcolour4').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
 			        }
 				});
 		  },
@@ -671,6 +813,9 @@ $(document).ready(function()
 			    		return fileUploadConfigs[3];
 			    	})(),
 		        	success: function(result){
+			        		$("#upload_image_color4").show();
+			        		$('#titelcolour4').prop('disabled', false); 
+			        		$("#titelcolour4").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
@@ -683,6 +828,7 @@ $(document).ready(function()
 	
 $("#upload_image_monochrome1").uploadFile({
 	url:"json/saveimage",
+	dragDrop: true,
 	multiple:false,
 	maxFileCount:1,
 	fileName:"images",
@@ -694,10 +840,11 @@ $("#upload_image_monochrome1").uploadFile({
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
+	headers: headers,
 	formData: (function() { 
 		fileUploadConfigs[4]['action'] = "save";
-		//console.log("Form Data Upload",fileUploadConfigs[4]);
-		return $.extend({}, fileUploadConfigs[4]);
+		fileUploadConfigs[4][csrfParameter] = csrfToken;
+		return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[4]);
 	})(),
 	dynamicFormData: function()
 	{
@@ -710,21 +857,21 @@ $("#upload_image_monochrome1").uploadFile({
 		if(title.length==0){
 			return false;
 		}
+		
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
-
 		//console.log(data);
 		$("#upload_image_monochrome1").hide();
 		$('#titelmonochrome1').prop('disabled', true);
-		fileUploadConfigs[0]['fileId'] = data.data.fileId;
+		fileUploadConfigs[4]['fileId'] = data.data.fileId;
 		
 	},
-	onError: function (files, status, message, pd) 
-	    {
-	    	console.log("onError",files, status, message, pd);
-	    },
-	onLoad:function(obj)
+    onError: function (files, status, message, pd) 
+    {
+    	console.log("onError",files, status, message, pd);
+    },
+	onLoad:function(obj,pd)
 	   {
 	   	$.ajax({
 		    	cache: false,
@@ -732,14 +879,13 @@ $("#upload_image_monochrome1").uploadFile({
 		    	dataType: "json",
 		    	data: (function() { 
 		    		fileUploadConfigs[4]['action'] = "load";
-		    		//console.log("Data onLoad",fileUploadConfigs[4]);
 		    		return fileUploadConfigs[4];
 		    	})(), 
 			    success: function(data) 
 			    {
-					if(data){ //File is available
+			    	if(data.data.fileId){ //File is available
 			    		fileUploadConfigs[4]['fileId'] = data.data.fileId;
-			    	    $("#titelmonochrome1").val(data.data.titel);
+				    	$("#titelmonochrome1").val(data.data.titel);
 				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
 				    	pd.filename.html("");
 				    	$("#upload_image_monochrome1").hide();
@@ -747,7 +893,6 @@ $("#upload_image_monochrome1").uploadFile({
 			    	}else{
 			    		
 			    	}
-			    	
 			    	
 		        }
 			});
@@ -761,7 +906,7 @@ $("#upload_image_monochrome1").uploadFile({
 		    		return fileUploadConfigs[4];
 		    	})(),
 	        	success: function(result){
-					    $("#upload_image_monochrome1").show();
+		        		$("#upload_image_monochrome1").show();
 		        		$('#titelmonochrome1').prop('disabled', false); 
 		        		$("#titelmonochrome1").val('');
 	                   pd.statusbar.hide(); //You choice. */
@@ -770,218 +915,9 @@ $("#upload_image_monochrome1").uploadFile({
 		}
 	});
 	
-	$("#upload_image_monochrome2").uploadFile({
-		url:"json/saveimage",
-		multiple:false,
-		maxFileCount:1,
-		fileName:"images",
-		acceptFiles:"image/*",
-		showPreview:true,
-		showDelete: true,
-		previewHeight: "100px",
-		previewWidth: "100px",
-		allowedTypes:"jpg,jpeg",
-		maxFileSize:20848820,
-		formData: (function() { 
-			fileUploadConfigs[1]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[5]);
-			return $.extend({}, fileUploadConfigs[5]);
-		})(),
-		dynamicFormData: function()
-		{
-			var title = $('#titelmonochrome2').val();
-			return {"titel":title};
-		},
-		onSubmit:function(files)
-		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
-		},
-		onSuccess:function(files,data,xhr,pd)
-		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
-			
-		},
-		onLoad:function(obj)
-		   {
-		   	$.ajax({
-			    	cache: false,
-				    url: "json/loadimage",
-			    	dataType: "json",
-			    	data: (function() { 
-			    		fileUploadConfigs[5]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[5]);
-			    		return fileUploadConfigs[5];
-			    	})(), 
-				    success: function(data) 
-				    {
-				    	fileUploadConfigs[5]['fileId'] = data.data.fileId;
-				    	$("#titelmonochrome2").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
-			        }
-				});
-		  },
-		  deleteCallback: function (data, pd) {
-			   $.ajax({
-				    url: "json/deleteimage",
-				    dataType: "json",
-		        	data:  (function() { 
-			    		fileUploadConfigs[5]['action'] = "delete";
-			    		return fileUploadConfigs[5];
-			    	})(),
-		        	success: function(result){
-		                   pd.statusbar.hide(); //You choice. */
-		        }});
-
-			}
-		});
-	
-	$("#upload_image_monochrome3").uploadFile({
-		url:"json/saveimage",
-		multiple:false,
-		maxFileCount:1,
-		fileName:"images",
-		acceptFiles:"image/*",
-		showPreview:true,
-		showDelete: true,
-		previewHeight: "100px",
-		previewWidth: "100px",
-		allowedTypes:"jpg,jpeg",
-		maxFileSize:20848820,
-		formData: (function() { 
-			fileUploadConfigs[6]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[6]);
-			return $.extend({}, fileUploadConfigs[6]);
-		})(),
-		dynamicFormData: function()
-		{
-			var title = $('#titelmonochrome3').val();
-			return {"titel":title};
-		},
-		onSubmit:function(files)
-		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
-		},
-		onSuccess:function(files,data,xhr,pd)
-		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
-			
-		},
-		onLoad:function(obj)
-		   {
-		   	$.ajax({
-			    	cache: false,
-				    url: "json/loadimage",
-			    	dataType: "json",
-			    	data: (function() { 
-			    		fileUploadConfigs[6]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[6]);
-			    		return fileUploadConfigs[6];
-			    	})(), 
-				    success: function(data) 
-				    {
-				    	fileUploadConfigs[6]['fileId'] = data.data.fileId;
-				    	$("#titelmonochrome3").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
-			        }
-				});
-		  },
-		  deleteCallback: function (data, pd) {
-			   $.ajax({
-				    url: "json/deleteimage",
-				    dataType: "json",
-		        	data:  (function() { 
-			    		fileUploadConfigs[6]['action'] = "delete";
-			    		return fileUploadConfigs[6];
-			    	})(),
-		        	success: function(result){
-		                   pd.statusbar.hide(); //You choice. */
-		        }});
-
-			}
-		});
-	
-	$("#upload_image_monochrome4").uploadFile({
-		url:"json/saveimage",
-		multiple:false,
-		maxFileCount:1,
-		fileName:"images",
-		acceptFiles:"image/*",
-		showPreview:true,
-		showDelete: true,
-		previewHeight: "100px",
-		previewWidth: "100px",
-		allowedTypes:"jpg,jpeg",
-		maxFileSize:20848820,
-		formData: (function() { 
-			fileUploadConfigs[7]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[7]);
-			return $.extend({}, fileUploadConfigs[7]);
-		})(),
-		dynamicFormData: function()
-		{
-			var title = $('#titelmonochrome4').val();
-			return {"titel":title};
-		},
-		onSubmit:function(files)
-		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
-		},
-		onSuccess:function(files,data,xhr,pd)
-		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
-			
-		},
-		onLoad:function(obj)
-		   {
-		   	$.ajax({
-			    	cache: false,
-				    url: "json/loadimage",
-			    	dataType: "json",
-			    	data: (function() { 
-			    		fileUploadConfigs[7]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[7]);
-			    		return fileUploadConfigs[7];
-			    	})(), 
-				    success: function(data) 
-				    {
-				    	fileUploadConfigs[7]['fileId'] = data.data.fileId;
-				    	$("#titelmonochrome4").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
-			        }
-				});
-		  },
-		  deleteCallback: function (data, pd) {
-			   $.ajax({
-				    url: "json/deleteimage",
-				    dataType: "json",
-		        	data:  (function() { 
-			    		fileUploadConfigs[7]['action'] = "delete";
-			    		return fileUploadConfigs[7];
-			    	})(),
-		        	success: function(result){
-		                   pd.statusbar.hide(); //You choice. */
-		        }});
-
-			}
-		});
-	
-	///////////////////////////monochrome ends//////////////////////////////
-	
-	
-	
-	//////////////////////////////nature starts////////////////////////////
-	
-	$("#upload_image_nature1").uploadFile({
+$("#upload_image_monochrome2").uploadFile({
 	url:"json/saveimage",
+	dragDrop: true,
 	multiple:false,
 	maxFileCount:1,
 	fileName:"images",
@@ -992,10 +928,285 @@ $("#upload_image_monochrome1").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	uploadErrorStr: "Upload is not allowed.Enter Title.",
+	headers: headers,
+	formData: (function() { 
+		fileUploadConfigs[5]['action'] = "save";
+		fileUploadConfigs[5][csrfParameter] = csrfToken;
+		return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[5]);
+	})(),
+	dynamicFormData: function()
+	{
+		var title = $('#titelmonochrome2').val();
+		return {"titel":title};
+	},
+	onSubmit:function(files)
+	{
+		var title = $('#titelmonochrome2').val();
+		if(title.length==0){
+			return false;
+		}
+		
+	},
+	onSuccess:function(files,data,xhr,pd)
+	{
+		//console.log(data);
+		$("#upload_image_monochrome2").hide();
+		$('#titelmonochrome2').prop('disabled', true);
+		fileUploadConfigs[5]['fileId'] = data.data.fileId;
+		
+	},
+    onError: function (files, status, message, pd) 
+    {
+    	console.log("onError",files, status, message, pd);
+    },
+	onLoad:function(obj,pd)
+	   {
+	   	$.ajax({
+		    	cache: false,
+			    url: "json/loadimage",
+		    	dataType: "json",
+		    	data: (function() { 
+		    		fileUploadConfigs[5]['action'] = "load";
+		    		return fileUploadConfigs[5];
+		    	})(), 
+			    success: function(data) 
+			    {
+			    	if(data.data.fileId){ //File is available
+			    		fileUploadConfigs[5]['fileId'] = data.data.fileId;
+				    	$("#titelmonochrome2").val(data.data.titel);
+				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	pd.filename.html("");
+				    	$("#upload_image_monochrome2").hide();
+						$('#titelmonochrome2').prop('disabled', true);
+			    	}else{
+			    		
+			    	}
+			    	
+		        }
+			});
+	  },
+	  deleteCallback: function (data, pd) {
+		   $.ajax({
+			    url: "json/deleteimage",
+			    dataType: "json",
+	        	data:  (function() { 
+		    		fileUploadConfigs[5]['action'] = "delete";
+		    		return fileUploadConfigs[5];
+		    	})(),
+	        	success: function(result){
+		        		$("#upload_image_monochrome2").show();
+		        		$('#titelmonochrome2').prop('disabled', false); 
+		        		$("#titelmonochrome2").val('');
+	                   pd.statusbar.hide(); //You choice. */
+	        }});
+
+		}
+	});
+	
+$("#upload_image_monochrome3").uploadFile({
+	url:"json/saveimage",
+	dragDrop: true,
+	multiple:false,
+	maxFileCount:1,
+	fileName:"images",
+	acceptFiles:"image/*",
+	showPreview:true,
+	showDelete: true,
+	previewHeight: "100px",
+	previewWidth: "100px",
+	allowedTypes:"jpg,jpeg",
+	maxFileSize:20848820,
+	uploadErrorStr: "Upload is not allowed.Enter Title.",
+	headers: headers,
+	formData: (function() { 
+		fileUploadConfigs[6]['action'] = "save";
+		fileUploadConfigs[6][csrfParameter] = csrfToken;
+		return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[6]);
+	})(),
+	dynamicFormData: function()
+	{
+		var title = $('#titelmonochrome3').val();
+		return {"titel":title};
+	},
+	onSubmit:function(files)
+	{
+		var title = $('#titelmonochrome3').val();
+		if(title.length==0){
+			return false;
+		}
+		
+	},
+	onSuccess:function(files,data,xhr,pd)
+	{
+		//console.log(data);
+		$("#upload_image_monochrome3").hide();
+		$('#titelmonochrome3').prop('disabled', true);
+		fileUploadConfigs[6]['fileId'] = data.data.fileId;
+		
+	},
+    onError: function (files, status, message, pd) 
+    {
+    	console.log("onError",files, status, message, pd);
+    },
+	onLoad:function(obj,pd)
+	   {
+	   	$.ajax({
+		    	cache: false,
+			    url: "json/loadimage",
+		    	dataType: "json",
+		    	data: (function() { 
+		    		fileUploadConfigs[6]['action'] = "load";
+		    		return fileUploadConfigs[6];
+		    	})(), 
+			    success: function(data) 
+			    {
+			    	if(data.data.fileId){ //File is available
+			    		fileUploadConfigs[6]['fileId'] = data.data.fileId;
+				    	$("#titelmonochrome3").val(data.data.titel);
+				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	pd.filename.html("");
+				    	$("#upload_image_monochrome3").hide();
+						$('#titelmonochrome3').prop('disabled', true);
+			    	}else{
+			    		
+			    	}
+			    	
+		        }
+			});
+	  },
+	  deleteCallback: function (data, pd) {
+		   $.ajax({
+			    url: "json/deleteimage",
+			    dataType: "json",
+	        	data:  (function() { 
+		    		fileUploadConfigs[6]['action'] = "delete";
+		    		return fileUploadConfigs[6];
+		    	})(),
+	        	success: function(result){
+		        		$("#upload_image_monochrome3").show();
+		        		$('#titelmonochrome3').prop('disabled', false); 
+		        		$("#titelmonochrome3").val('');
+	                   pd.statusbar.hide(); //You choice. */
+	        }});
+
+		}
+	});
+	
+$("#upload_image_monochrome4").uploadFile({
+	url:"json/saveimage",
+	dragDrop: true,
+	multiple:false,
+	maxFileCount:1,
+	fileName:"images",
+	acceptFiles:"image/*",
+	showPreview:true,
+	showDelete: true,
+	previewHeight: "100px",
+	previewWidth: "100px",
+	allowedTypes:"jpg,jpeg",
+	maxFileSize:20848820,
+	uploadErrorStr: "Upload is not allowed.Enter Title.",
+	headers: headers,
+	formData: (function() { 
+		fileUploadConfigs[7]['action'] = "save";
+		fileUploadConfigs[7][csrfParameter] = csrfToken;
+		return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[7]);
+	})(),
+	dynamicFormData: function()
+	{
+		var title = $('#titelmonochrome4').val();
+		return {"titel":title};
+	},
+	onSubmit:function(files)
+	{
+		var title = $('#titelmonochrome4').val();
+		if(title.length==0){
+			return false;
+		}
+		
+	},
+	onSuccess:function(files,data,xhr,pd)
+	{
+		//console.log(data);
+		$("#upload_image_monochrome4").hide();
+		$('#titelmonochrome4').prop('disabled', true);
+		fileUploadConfigs[7]['fileId'] = data.data.fileId;
+		
+	},
+    onError: function (files, status, message, pd) 
+    {
+    	console.log("onError",files, status, message, pd);
+    },
+	onLoad:function(obj,pd)
+	   {
+	   	$.ajax({
+		    	cache: false,
+			    url: "json/loadimage",
+		    	dataType: "json",
+		    	data: (function() { 
+		    		fileUploadConfigs[7]['action'] = "load";
+		    		return fileUploadConfigs[7];
+		    	})(), 
+			    success: function(data) 
+			    {
+			    	if(data.data.fileId){ //File is available
+			    		fileUploadConfigs[7]['fileId'] = data.data.fileId;
+				    	$("#titelmonochrome4").val(data.data.titel);
+				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	pd.filename.html("");
+				    	$("#upload_image_monochrome4").hide();
+						$('#titelmonochrome4').prop('disabled', true);
+			    	}else{
+			    		
+			    	}
+			    	
+		        }
+			});
+	  },
+	  deleteCallback: function (data, pd) {
+		   $.ajax({
+			    url: "json/deleteimage",
+			    dataType: "json",
+	        	data:  (function() { 
+		    		fileUploadConfigs[7]['action'] = "delete";
+		    		return fileUploadConfigs[7];
+		    	})(),
+	        	success: function(result){
+		        		$("#upload_image_monochrome4").show();
+		        		$('#titelmonochrome4').prop('disabled', false); 
+		        		$("#titelmonochrome4").val('');
+	                   pd.statusbar.hide(); //You choice. */
+	        }});
+
+		}
+	});
+	
+	///////////////////////////monochrome ends//////////////////////////////
+	
+	
+	
+	//////////////////////////////nature starts////////////////////////////
+	
+	$("#upload_image_nature1").uploadFile({
+	url:"json/saveimage",
+	dragDrop: true,
+	multiple:false,
+	maxFileCount:1,
+	fileName:"images",
+	acceptFiles:"image/*",
+	showPreview:true,
+	showDelete: true,
+	previewHeight: "100px",
+	previewWidth: "100px",
+	allowedTypes:"jpg,jpeg",
+	maxFileSize:20848820,
+	uploadErrorStr: "Upload is not allowed.Enter Title.",
+	headers: headers,
 	formData: (function() { 
 		fileUploadConfigs[8]['action'] = "save";
-		//console.log("Form Data Upload",fileUploadConfigs[8]);
-		return $.extend({}, fileUploadConfigs[8]);
+		fileUploadConfigs[8][csrfParameter] = csrfToken;
+		return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[8]);
 	})(),
 	dynamicFormData: function()
 	{
@@ -1004,17 +1215,25 @@ $("#upload_image_monochrome1").uploadFile({
 	},
 	onSubmit:function(files)
 	{
-		//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-		//console.log('onSubmit');
+		var title = $('#titelnature1').val();
+		if(title.length==0){
+			return false;
+		}
+		
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
-
-		$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-		//console.log('onSuccess ' +JSON.stringify(data));
+		//console.log(data);
+		$("#upload_image_nature1").hide();
+		$('#titelnature1').prop('disabled', true);
+		fileUploadConfigs[8]['fileId'] = data.data.fileId;
 		
 	},
-	onLoad:function(obj)
+    onError: function (files, status, message, pd) 
+    {
+    	console.log("onError",files, status, message, pd);
+    },
+	onLoad:function(obj,pd)
 	   {
 	   	$.ajax({
 		    	cache: false,
@@ -1022,14 +1241,21 @@ $("#upload_image_monochrome1").uploadFile({
 		    	dataType: "json",
 		    	data: (function() { 
 		    		fileUploadConfigs[8]['action'] = "load";
-		    		//console.log("Data onLoad",fileUploadConfigs[8]);
 		    		return fileUploadConfigs[8];
 		    	})(), 
 			    success: function(data) 
 			    {
-			    	fileUploadConfigs[8]['fileId'] = data.data.fileId;
-			    	$("#titelnature1").val(data.data.titel);
-			    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+			    	if(data.data.fileId){ //File is available
+			    		fileUploadConfigs[8]['fileId'] = data.data.fileId;
+				    	$("#titelnature1").val(data.data.titel);
+				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	pd.filename.html("");
+				    	$("#upload_image_nature1").hide();
+						$('#titelnature1').prop('disabled', true);
+			    	}else{
+			    		
+			    	}
+			    	
 		        }
 			});
 	  },
@@ -1042,14 +1268,20 @@ $("#upload_image_monochrome1").uploadFile({
 		    		return fileUploadConfigs[8];
 		    	})(),
 	        	success: function(result){
+		        		$("#upload_image_nature1").show();
+		        		$('#titelnature1').prop('disabled', false); 
+		        		$("#titelnature1").val('');
 	                   pd.statusbar.hide(); //You choice. */
 	        }});
 
 		}
 	});
 	
+	
+	
 	$("#upload_image_nature2").uploadFile({
 		url:"json/saveimage",
+		dragDrop: true,
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
@@ -1060,10 +1292,12 @@ $("#upload_image_monochrome1").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
 		formData: (function() { 
-			fileUploadConfigs[1]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[9]);
-			return $.extend({}, fileUploadConfigs[9]);
+			fileUploadConfigs[9]['action'] = "save";
+			fileUploadConfigs[9][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[9]);
 		})(),
 		dynamicFormData: function()
 		{
@@ -1072,17 +1306,25 @@ $("#upload_image_monochrome1").uploadFile({
 		},
 		onSubmit:function(files)
 		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
+			var title = $('#titelnature2').val();
+			if(title.length==0){
+				return false;
+			}
+			
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
+			//console.log(data);
+			$("#upload_image_nature2").hide();
+			$('#titelnature2').prop('disabled', true);
+			fileUploadConfigs[9]['fileId'] = data.data.fileId;
 			
 		},
-		onLoad:function(obj)
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
 		   {
 		   	$.ajax({
 			    	cache: false,
@@ -1090,14 +1332,21 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[9]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[9]);
 			    		return fileUploadConfigs[9];
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	fileUploadConfigs[9]['fileId'] = data.data.fileId;
-				    	$("#titelnature2").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[9]['fileId'] = data.data.fileId;
+					    	$("#titelnature2").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_nature2").hide();
+							$('#titelnature2').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
 			        }
 				});
 		  },
@@ -1110,6 +1359,9 @@ $("#upload_image_monochrome1").uploadFile({
 			    		return fileUploadConfigs[9];
 			    	})(),
 		        	success: function(result){
+			        		$("#upload_image_nature2").show();
+			        		$('#titelnature2').prop('disabled', false); 
+			        		$("#titelnature2").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
@@ -1118,6 +1370,7 @@ $("#upload_image_monochrome1").uploadFile({
 	
 	$("#upload_image_nature3").uploadFile({
 		url:"json/saveimage",
+		dragDrop: true,
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
@@ -1128,10 +1381,12 @@ $("#upload_image_monochrome1").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
 		formData: (function() { 
 			fileUploadConfigs[10]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[10]);
-			return $.extend({}, fileUploadConfigs[10]);
+			fileUploadConfigs[10][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[10]);
 		})(),
 		dynamicFormData: function()
 		{
@@ -1140,17 +1395,25 @@ $("#upload_image_monochrome1").uploadFile({
 		},
 		onSubmit:function(files)
 		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
+			var title = $('#titelnature3').val();
+			if(title.length==0){
+				return false;
+			}
+			
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
+			//console.log(data);
+			$("#upload_image_nature3").hide();
+			$('#titelnature3').prop('disabled', true);
+			fileUploadConfigs[10]['fileId'] = data.data.fileId;
 			
 		},
-		onLoad:function(obj)
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
 		   {
 		   	$.ajax({
 			    	cache: false,
@@ -1158,14 +1421,21 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[10]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[10]);
 			    		return fileUploadConfigs[10];
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	fileUploadConfigs[10]['fileId'] = data.data.fileId;
-				    	$("#titelnature3").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[10]['fileId'] = data.data.fileId;
+					    	$("#titelnature3").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_nature3").hide();
+							$('#titelnature3').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
 			        }
 				});
 		  },
@@ -1178,6 +1448,9 @@ $("#upload_image_monochrome1").uploadFile({
 			    		return fileUploadConfigs[10];
 			    	})(),
 		        	success: function(result){
+			        		$("#upload_image_nature3").show();
+			        		$('#titelnature3').prop('disabled', false); 
+			        		$("#titelnature3").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
@@ -1186,6 +1459,7 @@ $("#upload_image_monochrome1").uploadFile({
 	
 	$("#upload_image_nature4").uploadFile({
 		url:"json/saveimage",
+		dragDrop: true,
 		multiple:false,
 		maxFileCount:1,
 		fileName:"images",
@@ -1196,10 +1470,12 @@ $("#upload_image_monochrome1").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
 		formData: (function() { 
 			fileUploadConfigs[11]['action'] = "save";
-			//console.log("Form Data Upload",fileUploadConfigs[11]);
-			return $.extend({}, fileUploadConfigs[11]);
+			fileUploadConfigs[11][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[11]);
 		})(),
 		dynamicFormData: function()
 		{
@@ -1208,17 +1484,25 @@ $("#upload_image_monochrome1").uploadFile({
 		},
 		onSubmit:function(files)
 		{
-			//$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Submitting:"+JSON.stringify(files));
-			//console.log('onSubmit');
+			var title = $('#titelnature4').val();
+			if(title.length==0){
+				return false;
+			}
+			
 		},
 		onSuccess:function(files,data,xhr,pd)
 		{
-
-			$("#eventsmessage").html($("#eventsmessage").html()+"<br/>Success for: "+data.message);
-			//console.log('onSuccess ' +JSON.stringify(data));
+			//console.log(data);
+			$("#upload_image_nature4").hide();
+			$('#titelnature4').prop('disabled', true);
+			fileUploadConfigs[11]['fileId'] = data.data.fileId;
 			
 		},
-		onLoad:function(obj)
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
 		   {
 		   	$.ajax({
 			    	cache: false,
@@ -1226,14 +1510,21 @@ $("#upload_image_monochrome1").uploadFile({
 			    	dataType: "json",
 			    	data: (function() { 
 			    		fileUploadConfigs[11]['action'] = "load";
-			    		//console.log("Data onLoad",fileUploadConfigs[11]);
 			    		return fileUploadConfigs[11];
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	fileUploadConfigs[11]['fileId'] = data.data.fileId;
-				    	$("#titelnature4").val(data.data.titel);
-				    	obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[11]['fileId'] = data.data.fileId;
+					    	$("#titelnature4").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_nature4").hide();
+							$('#titelnature4').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
 			        }
 				});
 		  },
@@ -1246,12 +1537,378 @@ $("#upload_image_monochrome1").uploadFile({
 			    		return fileUploadConfigs[11];
 			    	})(),
 		        	success: function(result){
+			        		$("#upload_image_nature4").show();
+			        		$('#titelnature4').prop('disabled', false); 
+			        		$("#titelnature4").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
 			}
 		});
 	//////////////////////////////nature ends//////////////////////////////
+	
+	//////////////////////////////photojournalism start//////////////////////////////
+	$("#upload_image_photojournalism1").uploadFile({
+	url:"json/saveimage",
+	dragDrop: true,
+	multiple:false,
+	maxFileCount:1,
+	fileName:"images",
+	acceptFiles:"image/*",
+	showPreview:true,
+	showDelete: true,
+	previewHeight: "100px",
+	previewWidth: "100px",
+	allowedTypes:"jpg,jpeg",
+	maxFileSize:20848820,
+	uploadErrorStr: "Upload is not allowed.Enter Title.",
+	headers: headers,
+	formData: (function() { 
+		fileUploadConfigs[12]['action'] = "save";
+		fileUploadConfigs[12][csrfParameter] = csrfToken;
+		return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[12]);
+	})(),
+	dynamicFormData: function()
+	{
+		var title = $('#titelphotojournalism1').val();
+		return {"titel":title};
+	},
+	onSubmit:function(files)
+	{
+		var title = $('#titelphotojournalism1').val();
+		if(title.length==0){
+			return false;
+		}
+		
+	},
+	onSuccess:function(files,data,xhr,pd)
+	{
+		//console.log(data);
+		$("#upload_image_photojournalism1").hide();
+		$('#titelphotojournalism1').prop('disabled', true);
+		fileUploadConfigs[12]['fileId'] = data.data.fileId;
+		
+	},
+    onError: function (files, status, message, pd) 
+    {
+    	console.log("onError",files, status, message, pd);
+    },
+	onLoad:function(obj,pd)
+	   {
+	   	$.ajax({
+		    	cache: false,
+			    url: "json/loadimage",
+		    	dataType: "json",
+		    	data: (function() { 
+		    		fileUploadConfigs[12]['action'] = "load";
+		    		return fileUploadConfigs[12];
+		    	})(), 
+			    success: function(data) 
+			    {
+			    	if(data.data.fileId){ //File is available
+			    		fileUploadConfigs[12]['fileId'] = data.data.fileId;
+				    	$("#titelphotojournalism1").val(data.data.titel);
+				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+				    	pd.filename.html("");
+				    	$("#upload_image_photojournalism1").hide();
+						$('#titelphotojournalism1').prop('disabled', true);
+			    	}else{
+			    		
+			    	}
+			    	
+		        }
+			});
+	  },
+	  deleteCallback: function (data, pd) {
+		   $.ajax({
+			    url: "json/deleteimage",
+			    dataType: "json",
+	        	data:  (function() { 
+		    		fileUploadConfigs[12]['action'] = "delete";
+		    		return fileUploadConfigs[12];
+		    	})(),
+	        	success: function(result){
+		        		$("#upload_image_photojournalism1").show();
+		        		$('#titelphotojournalism1').prop('disabled', false); 
+		        		$("#titelphotojournalism1").val('');
+	                   pd.statusbar.hide(); //You choice. */
+	        }});
+
+		}
+	});
+	
+	
+	$("#upload_image_photojournalism2").uploadFile({
+		url:"json/saveimage",
+		dragDrop: true,
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
+		formData: (function() { 
+			fileUploadConfigs[13]['action'] = "save";
+			fileUploadConfigs[13][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[13]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelphotojournalism2').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			var title = $('#titelphotojournalism2').val();
+			if(title.length==0){
+				return false;
+			}
+			
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+			//console.log(data);
+			$("#upload_image_photojournalism2").hide();
+			$('#titelphotojournalism2').prop('disabled', true);
+			fileUploadConfigs[13]['fileId'] = data.data.fileId;
+			
+		},
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[13]['action'] = "load";
+			    		return fileUploadConfigs[13];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[13]['fileId'] = data.data.fileId;
+					    	$("#titelphotojournalism2").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_photojournalism2").hide();
+							$('#titelphotojournalism2').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[13]['action'] = "delete";
+			    		return fileUploadConfigs[13];
+			    	})(),
+		        	success: function(result){
+			        		$("#upload_image_photojournalism2").show();
+			        		$('#titelphotojournalism2').prop('disabled', false); 
+			        		$("#titelphotojournalism2").val('');
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	
+	$("#upload_image_photojournalism3").uploadFile({
+		url:"json/saveimage",
+		dragDrop: true,
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
+		formData: (function() { 
+			fileUploadConfigs[14]['action'] = "save";
+			fileUploadConfigs[14][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[14]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelphotojournalism3').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			var title = $('#titelphotojournalism3').val();
+			if(title.length==0){
+				return false;
+			}
+			
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+			//console.log(data);
+			$("#upload_image_photojournalism3").hide();
+			$('#titelphotojournalism3').prop('disabled', true);
+			fileUploadConfigs[14]['fileId'] = data.data.fileId;
+			
+		},
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[14]['action'] = "load";
+			    		return fileUploadConfigs[14];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[14]['fileId'] = data.data.fileId;
+					    	$("#titelphotojournalism3").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_photojournalism3").hide();
+							$('#titelphotojournalism3').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[14]['action'] = "delete";
+			    		return fileUploadConfigs[14];
+			    	})(),
+		        	success: function(result){
+			        		$("#upload_image_photojournalism3").show();
+			        		$('#titelphotojournalism3').prop('disabled', false); 
+			        		$("#titelphotojournalism3").val('');
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	$("#upload_image_photojournalism4").uploadFile({
+		url:"json/saveimage",
+		dragDrop: true,
+		multiple:false,
+		maxFileCount:1,
+		fileName:"images",
+		acceptFiles:"image/*",
+		showPreview:true,
+		showDelete: true,
+		previewHeight: "100px",
+		previewWidth: "100px",
+		allowedTypes:"jpg,jpeg",
+		maxFileSize:20848820,
+		uploadErrorStr: "Upload is not allowed.Enter Title.",
+		headers: headers,
+		formData: (function() { 
+			fileUploadConfigs[15]['action'] = "save";
+			fileUploadConfigs[15][csrfParameter] = csrfToken;
+			return $.extend({/*  _csrf : csrfToken */}, fileUploadConfigs[15]);
+		})(),
+		dynamicFormData: function()
+		{
+			var title = $('#titelphotojournalism4').val();
+			return {"titel":title};
+		},
+		onSubmit:function(files)
+		{
+			var title = $('#titelphotojournalism4').val();
+			if(title.length==0){
+				return false;
+			}
+			
+		},
+		onSuccess:function(files,data,xhr,pd)
+		{
+			//console.log(data);
+			$("#upload_image_photojournalism4").hide();
+			$('#titelphotojournalism4').prop('disabled', true);
+			fileUploadConfigs[15]['fileId'] = data.data.fileId;
+			
+		},
+	    onError: function (files, status, message, pd) 
+	    {
+	    	console.log("onError",files, status, message, pd);
+	    },
+		onLoad:function(obj,pd)
+		   {
+		   	$.ajax({
+			    	cache: false,
+				    url: "json/loadimage",
+			    	dataType: "json",
+			    	data: (function() { 
+			    		fileUploadConfigs[15]['action'] = "load";
+			    		return fileUploadConfigs[15];
+			    	})(), 
+				    success: function(data) 
+				    {
+				    	console.log(data);
+				    	if(data.data.fileId){ //File is available
+				    		fileUploadConfigs[15]['fileId'] = data.data.fileId;
+					    	$("#titelphotojournalism4").val(data.data.titel);
+					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
+					    	pd.filename.html("");
+					    	$("#upload_image_photojournalism4").hide();
+							$('#titelphotojournalism4').prop('disabled', true);
+				    	}else{
+				    		
+				    	}
+				    	
+			        }
+				});
+		  },
+		  deleteCallback: function (data, pd) {
+			   $.ajax({
+				    url: "json/deleteimage",
+				    dataType: "json",
+		        	data:  (function() { 
+			    		fileUploadConfigs[15]['action'] = "delete";
+			    		return fileUploadConfigs[15];
+			    	})(),
+		        	success: function(result){
+		        		
+			        		$("#upload_image_photojournalism4").show();
+			        		$('#titelphotojournalism4').prop('disabled', false); 
+			        		$("#titelphotojournalism4").val('');
+		                   pd.statusbar.hide(); //You choice. */
+		        }});
+
+			}
+		});
+	
+	//////////////////////////////photojournalism ends//////////////////////////////
 
 });
 </script>
