@@ -439,7 +439,7 @@ $(document).ready(function()
 		{"catagoryName":"photojournalism","positionName":"photojournalism1"}, 
 		{"catagoryName":"photojournalism","positionName":"photojournalism2"},
 		{"catagoryName":"photojournalism","positionName":"photojournalism3"},
-		{"catagoryName":"photojournalism","positionName":"photojournalism"}] 
+		{"catagoryName":"photojournalism","positionName":"photojournalism4"}] 
 	
 	/* var csrfParam   = $("meta[name='_csrf_parameter']").attr("content");
 	var csrfToken  = $("meta[name='_csrf']").attr("content"); */
@@ -485,7 +485,6 @@ $(document).ready(function()
 	},
 	onSuccess:function(files,data,xhr,pd)
 	{
-		//console.log(data);
 		$("#upload_image_color1").hide();
 		$('#titelcolour1').prop('disabled', true);
 		fileUploadConfigs[0]['fileId'] = data.data.fileId;
@@ -507,7 +506,7 @@ $(document).ready(function()
 		    	})(), 
 			    success: function(data) 
 			    {
-			    	console.log(data);
+			    	//console.log(data);
 			    	if(data.data.fileId){ //File is available
 			    		fileUploadConfigs[0]['fileId'] = data.data.fileId;
 				    	$("#titelcolour1").val(data.data.titel);
@@ -527,8 +526,7 @@ $(document).ready(function()
 			    		   //$('#upload_image_color1').addClass("disabledbutton");
 			    		   $('#upload_image_color1 *').prop('disabled',true);
 			    		  }
-			    	    }
-			    	
+			    	    }			    	
 		        }
 			});
 	  },
@@ -614,9 +612,19 @@ $(document).ready(function()
 					    	pd.filename.html("");
 					    	$("#upload_image_color2").hide();
 							$('#titelcolour2').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    		   $('#titelcolour2').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_color2 *').prop('disabled',true);
+				    		  }
+				    	    }	
 				    	
 			        }
 				});
@@ -706,9 +714,19 @@ $(document).ready(function()
 					    	pd.filename.html("");
 					    	$("#upload_image_color3").hide();
 							$('#titelcolour3').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    		   $('#titelcolour3').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_color3 *').prop('disabled',true);
+				    		  }
+				    	    }	
 				    	
 			        }
 				});
@@ -797,9 +815,19 @@ $(document).ready(function()
 					    	pd.filename.html("");
 					    	$("#upload_image_color4").hide();
 							$('#titelcolour4').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    		   $('#titelcolour4').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_color4 *').prop('disabled',true);
+				    		  }
+				    	    }	
 				    	
 			        }
 				});
@@ -890,9 +918,19 @@ $("#upload_image_monochrome1").uploadFile({
 				    	pd.filename.html("");
 				    	$("#upload_image_monochrome1").hide();
 						$('#titelmonochrome1').prop('disabled', true);
+						if(!data.data.editable){
+							pd.del.hide();						
+						   }
+						else{
+							  pd.del.show();
+						    }
 			    	}else{
-			    		
-			    	}
+			    		if(!data.data.editable){
+			    		   $('#titelmonochrome1').prop('disabled', true);	
+			    		   //$('#upload_image_color1').addClass("disabledbutton");
+			    		   $('#upload_image_monochrome1 *').prop('disabled',true);
+			    		  }
+			    	    }	
 			    	
 		        }
 			});
@@ -979,9 +1017,19 @@ $("#upload_image_monochrome2").uploadFile({
 				    	pd.filename.html("");
 				    	$("#upload_image_monochrome2").hide();
 						$('#titelmonochrome2').prop('disabled', true);
+						if(!data.data.editable){
+							pd.del.hide();						
+						   }
+						else{
+							  pd.del.show();
+						    }
 			    	}else{
-			    		
-			    	}
+			    		if(!data.data.editable){
+			    		   $('#titelmonochrome2').prop('disabled', true);	
+			    		   //$('#upload_image_color1').addClass("disabledbutton");
+			    		   $('#upload_image_monochrome2 *').prop('disabled',true);
+			    		  }
+			    	    }	
 			    	
 		        }
 			});
@@ -1068,9 +1116,19 @@ $("#upload_image_monochrome3").uploadFile({
 				    	pd.filename.html("");
 				    	$("#upload_image_monochrome3").hide();
 						$('#titelmonochrome3').prop('disabled', true);
+						if(!data.data.editable){
+							pd.del.hide();						
+						   }
+						else{
+							  pd.del.show();
+						    }
 			    	}else{
-			    		
-			    	}
+			    		if(!data.data.editable){
+			    		   $('#titelmonochrome3').prop('disabled', true);	
+			    		   //$('#upload_image_color1').addClass("disabledbutton");
+			    		   $('#upload_image_monochrome3 *').prop('disabled',true);
+			    		  }
+			    	    }	
 			    	
 		        }
 			});
@@ -1157,9 +1215,19 @@ $("#upload_image_monochrome4").uploadFile({
 				    	pd.filename.html("");
 				    	$("#upload_image_monochrome4").hide();
 						$('#titelmonochrome4').prop('disabled', true);
+						if(!data.data.editable){
+							pd.del.hide();						
+						   }
+						else{
+							  pd.del.show();
+						    }
 			    	}else{
-			    		
-			    	}
+			    		if(!data.data.editable){
+			    		   $('#titelmonochrome4').prop('disabled', true);	
+			    		   //$('#upload_image_color1').addClass("disabledbutton");
+			    		   $('#upload_image_monochrome4 *').prop('disabled',true);
+			    		  }
+			    	    }	
 			    	
 		        }
 			});
@@ -1252,9 +1320,19 @@ $("#upload_image_monochrome4").uploadFile({
 				    	pd.filename.html("");
 				    	$("#upload_image_nature1").hide();
 						$('#titelnature1').prop('disabled', true);
+						if(!data.data.editable){
+							pd.del.hide();						
+						   }
+						else{
+							  pd.del.show();
+						    }
 			    	}else{
-			    		
-			    	}
+			    		if(!data.data.editable){
+			    		   $('#titelnature1').prop('disabled', true);	
+			    		   //$('#upload_image_color1').addClass("disabledbutton");
+			    		   $('#upload_image_nature1 *').prop('disabled',true);
+			    		  }
+			    	    }	
 			    	
 		        }
 			});
@@ -1343,9 +1421,19 @@ $("#upload_image_monochrome4").uploadFile({
 					    	pd.filename.html("");
 					    	$("#upload_image_nature2").hide();
 							$('#titelnature2').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    		   $('#titelnature2').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_nature2 *').prop('disabled',true);
+				    		  }
+				    	    }	
 				    	
 			        }
 				});
@@ -1432,9 +1520,19 @@ $("#upload_image_monochrome4").uploadFile({
 					    	pd.filename.html("");
 					    	$("#upload_image_nature3").hide();
 							$('#titelnature3').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    		   $('#titelnature3').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_nature3 *').prop('disabled',true);
+				    		  }
+				    	    }	
 				    	
 			        }
 				});
@@ -1521,9 +1619,19 @@ $("#upload_image_monochrome4").uploadFile({
 					    	pd.filename.html("");
 					    	$("#upload_image_nature4").hide();
 							$('#titelnature4').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    		   $('#titelnature4').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_nature4 *').prop('disabled',true);
+				    		  }
+				    	    }	
 				    	
 			        }
 				});
@@ -1612,9 +1720,19 @@ $("#upload_image_monochrome4").uploadFile({
 				    	pd.filename.html("");
 				    	$("#upload_image_photojournalism1").hide();
 						$('#titelphotojournalism1').prop('disabled', true);
+						if(!data.data.editable){
+							pd.del.hide();						
+						   }
+						else{
+							  pd.del.show();
+						    }
 			    	}else{
-			    		
-			    	}
+			    		if(!data.data.editable){
+			    		   $('#titelphotojournalism1').prop('disabled', true);	
+			    		   //$('#upload_image_color1').addClass("disabledbutton");
+			    		   $('#upload_image_photojournalism1 *').prop('disabled',true);
+			    		  }
+			    	    }	
 			    	
 		        }
 			});
@@ -1702,9 +1820,19 @@ $("#upload_image_monochrome4").uploadFile({
 					    	pd.filename.html("");
 					    	$("#upload_image_photojournalism2").hide();
 							$('#titelphotojournalism2').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    		   $('#titelphotojournalism2').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_photojournalism2 *').prop('disabled',true);
+				    		  }
+				    	    }
 				    	
 			        }
 				});
@@ -1792,10 +1920,19 @@ $("#upload_image_monochrome4").uploadFile({
 					    	pd.filename.html("");
 					    	$("#upload_image_photojournalism3").hide();
 							$('#titelphotojournalism3').prop('disabled', true);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
-				    	
+				    		if(!data.data.editable){
+				    		   $('#titelphotojournalism3').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_photojournalism3 *').prop('disabled',true);
+				    		  }
+				    	    }  	
 			        }
 				});
 		  },
@@ -1874,7 +2011,7 @@ $("#upload_image_monochrome4").uploadFile({
 			    	})(), 
 				    success: function(data) 
 				    {
-				    	console.log(data);
+				    	
 				    	if(data.data.fileId){ //File is available
 				    		fileUploadConfigs[15]['fileId'] = data.data.fileId;
 					    	$("#titelphotojournalism4").val(data.data.titel);
@@ -1882,9 +2019,21 @@ $("#upload_image_monochrome4").uploadFile({
 					    	pd.filename.html("");
 					    	$("#upload_image_photojournalism4").hide();
 							$('#titelphotojournalism4').prop('disabled', true);
+							//console.log("prosenjit :",data.data.editable);
+							if(!data.data.editable){
+								pd.del.hide();						
+							   }
+							else{
+								  pd.del.show();
+							    }
 				    	}else{
-				    		
-				    	}
+				    		if(!data.data.editable){
+				    			console.log("prosenjit :",data.data.editable);
+				    		   $('#titelphotojournalism4').prop('disabled', true);	
+				    		   //$('#upload_image_color1').addClass("disabledbutton");
+				    		   $('#upload_image_photojournalism4 *').prop('disabled',true);
+				    		  }
+				    	    }  	
 				    	
 			        }
 				});
