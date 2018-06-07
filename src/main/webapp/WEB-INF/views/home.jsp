@@ -49,7 +49,6 @@ div.ex3 {
 	<li><a href="getUserTable">Entry Status</a></li>
 	<li><a href="getDownload">Download</a></li>   
     <li><a href="getContuctUs">Contuct Us</a></li>
-    <li><a href="imageViewer">Image Viewer</a></li>
   </ul>
 </div>
   

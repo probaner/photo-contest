@@ -1,17 +1,21 @@
 package com.photo.contest.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.photo.contest.dto.EditTableDataDTO;
+import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.ResponseDTO;
+import com.photo.contest.exception.ApplicationException;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.service.DbServices;
 
@@ -47,6 +51,20 @@ public class EditTableController {
 		if(editTableDataDTO != null) {
 		   dbServices.updateUserDataByEditTable(editTableDataDTO);
 		   responseDTO.setSuccess(true);
+		  }
+		return responseDTO;
+		
+}
+	@GetMapping(value = "/admin/json/fetchImagesForUser/{userId}")
+	public @ResponseBody ResponseDTO fetchAllImagesForUser(@PathVariable(name = "userId") String userId) throws  BusinessException, ApplicationException {
+		
+		ResponseDTO responseDTO = new ResponseDTO();
+		
+		if(userId != null) {
+			HashMap<String,List<FileDTO>> result = dbServices.getAllImagesOfaUser(userId);
+			if(result.size()>0)
+				responseDTO.setData(result);
+			    responseDTO.setSuccess(true);
 		  }
 		return responseDTO;
 		

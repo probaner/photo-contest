@@ -72,6 +72,7 @@ div.ex6 {
 			<div
 				style="float: right; font-size: 120%; position: relative; top: -10px">
 				<a href="<%=request.getContextPath()%>/logout"> Log Out </a>
+				<a href="imageViewer">Image Viewer</a>
 			</div>
 		</div>
 	</div>

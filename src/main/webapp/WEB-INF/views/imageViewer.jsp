@@ -34,34 +34,12 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 					<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
-							<li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
-							<li data-target="#myCarousel1" data-slide-to="1"></li>
-							<li data-target="#myCarousel1" data-slide-to="2"></li>
+							
 						</ol>
 
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
-							<div class="item active">
-								<img src="<c:url value="/resources/image/tulips.jpeg" />"
-									alt="Los Angeles" class="center"> <input
-									id="titelcolour1" class="form-control"
-									placeholder="Enter Title" value="" required />
-							</div>
-
-							<div class="item">
-								<img
-									src="<c:url value="/resources/image/garden-rose-red.jpeg" />"
-									alt="Chicago" class="center"> <input id="titelcolour2"
-									class="form-control" placeholder="Enter Title" value=""
-									required />
-							</div>
-
-							<div class="item">
-								<img src="<c:url value="/resources/image/rose-flower.jpeg" />"
-									alt="New York" class="center"> <input id="titelcolour3"
-									class="form-control" placeholder="Enter Title" value=""
-									required />
-							</div>
+							
 						</div>
 
 						<!-- Left and right controls -->
@@ -82,34 +60,12 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 					<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
-							<li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
-							<li data-target="#myCarousel2" data-slide-to="1"></li>
-							<li data-target="#myCarousel2" data-slide-to="2"></li>
+							
 						</ol>
 
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
-							<div class="item active">
-								<img src="<c:url value="/resources/image/tulips.jpeg" />"
-									alt="Los Angeles" class="center"> <input
-									id="titelcolour1" class="form-control"
-									placeholder="Enter Title" value="" required />
-							</div>
-
-							<div class="item">
-								<img
-									src="<c:url value="/resources/image/garden-rose-red.jpeg" />"
-									alt="Chicago" class="center"> <input id="titelcolour2"
-									class="form-control" placeholder="Enter Title" value=""
-									required />
-							</div>
-
-							<div class="item">
-								<img src="<c:url value="/resources/image/rose-flower.jpeg" />"
-									alt="New York" class="center"> <input id="titelcolour3"
-									class="form-control" placeholder="Enter Title" value=""
-									required />
-							</div>
+							
 						</div>
 
 						<!-- Left and right controls -->
@@ -135,8 +91,34 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 </body>
 <script>
 $(document).ready(function()
-{
-	
-});
+		{
+			 $.ajax({
+				    url: "admin/json/fetchImagesForUser/500022512",
+				    dataType: "json",
+		         	success: function(result){
+		     		//console.log(result.data);
+		     		result.data['color'].forEach(function(element, i) {
+		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption"></div>   </div>').appendTo('#myCarousel1 > .carousel-inner');
+		     		    $('<li data-target="#myCarousel1" data-slide-to="'+i+'"></li>').appendTo('#myCarousel1 > .carousel-indicators')
+		     		});
+		     		
+		     		  $('#myCarousel1 > .carousel-inner > .item').first().addClass('active');
+		     		  $('#myCarousel1 > .carousel-indicators > li').first().addClass('active');
+		     		  $('#myCarousel1').carousel();
+		     		  
+		     		result.data['photojournalism'].forEach((element, i) => {
+		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center"><div class="carousel-caption"></div>   </div>').appendTo('#myCarousel2 > .carousel-inner');
+		     		    $('<li data-target="#myCarousel2" data-slide-to="'+i+'"></li>').appendTo('#myCarousel2 > .carousel-indicators')
+		     		});
+		     		
+		     		  $('#myCarousel2 > .carousel-inner > .item').first().addClass('active');
+		     		  $('#myCarousel2 > .carousel-indicators > li').first().addClass('active');
+		     		  $('#myCarousel2').carousel();
+		          },
+		             error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		             console.log("Status: " + textStatus,errorThrown); 
+		          }  
+			 });
+		});
 </script>
 </html>
