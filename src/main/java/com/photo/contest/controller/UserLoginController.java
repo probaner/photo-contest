@@ -64,8 +64,8 @@ public class UserLoginController {
 			String email = getCurrentUser();
 			if (email != null) {
 				LogingResponseDTO logingResponseDTO = dbServices.getUserData(email);
-				System.out.println("PROSENJIT");
-				System.out.println(logingResponseDTO.getHm());
+				/*System.out.println("PROSENJIT");
+				System.out.println(logingResponseDTO.getHm());*/
 				Users user = logingResponseDTO.getUser();
 				if (user != null) {
 
@@ -78,7 +78,7 @@ public class UserLoginController {
 								+ userDTO.getFirstname().toUpperCase());
 						model.addAttribute("paymentDetail", new PaymentDTO());
 						model.addAttribute("displayFileDTOMap", logingResponseDTO.getHm());
-
+						
 						return "registrationsuccess";
 					} 
 					else if (userDTO.getRole().equals("admin")) {

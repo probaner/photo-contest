@@ -29,6 +29,7 @@ import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
+import com.photo.contest.exception.ApplicationException;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.exception.ErrorCode;
 import com.photo.contest.exception.PayStatusNotFoundException;
@@ -159,11 +160,10 @@ public class DbServices {
 	public LogingResponseDTO getUserData(String email) throws IOException {
 		
 		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
+		List<String> keys  = new ArrayList();
 		
 		Users users = new Users();
 		users.setEmail(email);
-		//users.setEmail(login.getUsername());
-		//users.setPassword(login.getPassword());
 		@SuppressWarnings("unchecked")
 		List<Users> userData = usersDAO.findByExample(users);
 		
@@ -172,7 +172,7 @@ public class DbServices {
 			Users currentUser = userData.get(0);
 			Set<File> fileSet = currentUser.getFiles();
 					
-		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
+		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {//file has and role participate
 			 
 			 HashMap<String,FileDTO> hm = new HashMap<String, FileDTO>();
 			 
@@ -185,25 +185,45 @@ public class DbServices {
 				 displayFileDTO.setPositionName(file.getCategoryIndex());
 				 displayFileDTO.setTitel(file.getTitel());
 				 displayFileDTO.setEditable(true);
-				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 
+				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);
+				 keys.add(file.getCategory().getCategoryName()+file.getCategoryIndex());
 			    }
-			
+			 
 			 
 			 for (Entry<String, Integer> pair : results.entrySet()) {
-				   //System.out.println(pair.getKey());
-				   
-				   for(int i =1; i<=4 ; i++) {
-					   if(!hm.containsKey(pair.getKey()+pair.getKey()+i) && currentUser.getPayStatus().getPayingStatus().equals("Paid")) {					   
-						   hm.put(pair.getKey()+pair.getKey()+i, new FileDTO());
-					      }
-					   else if(!hm.containsKey(pair.getKey()+pair.getKey()+i) && currentUser.getPayStatus().getPayingStatus().equals("Being Check")){
-						       FileDTO fd =new FileDTO();
-						       fd.setEditable(true);
-						       hm.put(pair.getKey()+pair.getKey()+i, fd);
-					          }
-					   
-				       }
-				}
+				 if(currentUser.getPayStatus().getPayingStatus().equals("Paid")) {
+					 List<String> currentKeyNotInHM = new ArrayList();
+					 for(int i =1; i<=4 ; i++) {
+						  if(!keys.contains(pair.getKey()+pair.getKey()+i)) {
+							  currentKeyNotInHM.add(pair.getKey()+pair.getKey()+i);
+						    }
+					     }
+					 if(currentKeyNotInHM.size()==4) {
+						for(String key: currentKeyNotInHM) 
+							hm.put(key, new FileDTO());				   
+					   }
+					 else if(currentKeyNotInHM.size()>0 && currentKeyNotInHM.size()<4){
+						     for(String key: currentKeyNotInHM) {
+						    	 FileDTO fdto = new FileDTO();
+						    	 fdto.setEditable(true);
+						    	 hm.put(key, fdto);
+						        }
+					        }
+					 
+					 
+				   }else if(currentUser.getPayStatus().getPayingStatus().equals("Being Check")){
+					   for(int i =1; i<=4 ; i++) {
+					      if(!hm.containsKey(pair.getKey()+pair.getKey()+i) ){
+					       FileDTO fd =new FileDTO();
+					       fd.setEditable(true);
+					       hm.put(pair.getKey()+pair.getKey()+i, fd);
+				          }
+					   }
+					      
+				         }
+			 }
+			
+			
 			 }else { // after expair date all display status is false.				
 					 for(File file : fileSet) {
 						 FileDTO displayFileDTO = new FileDTO();
@@ -257,12 +277,8 @@ public class DbServices {
 			    logingResponseDTO.setUser(null);
 			    logingResponseDTO.setHm(null);
 		      }
-		
-		
-		
-		
+					
 			return logingResponseDTO;
-
 	}
 	
 	
@@ -415,47 +431,6 @@ public class DbServices {
 	
 	
 	
-	//@Transactional
-		/*public void updatePayStatusforNonZeroEntry(PayStatus payStatus, List<CategoryCountMap> fileDetailList) {
-			System.out.println("I am in a writre palce");
-			int totalNimberofEntry = 0;
-			String[] arry = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
-			PayStatus updatedpayStatus = new PayStatus();
-			updatedpayStatus.setPayId(payStatus.getPayId());
-
-			if (fileDetailList.size() > 0) {
-				for (CategoryCountMap c : fileDetailList) {
-					totalNimberofEntry = totalNimberofEntry + c.getFile_id();
-				}
-				updatedpayStatus.setAttemptSection(fileDetailList.size());
-				updatedpayStatus.setTotalEntry(totalNimberofEntry);
-				if (payStatus.getCourencyType().equals(configProperty.getNetiveCurrencyName()))
-					updatedpayStatus.setTotalAmount(Integer
-							.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()] + "Netive")));
-				else
-					updatedpayStatus.setTotalAmount(
-							Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()])));
-
-				updatedpayStatus.setDiscountAmount(updatedpayStatus.getTotalAmount());
-
-			} else {
-				updatedpayStatus.setAttemptSection(0);
-				updatedpayStatus.setTotalEntry(0);
-				updatedpayStatus.setTotalAmount(0);
-				updatedpayStatus.setDiscountAmount(0);
-			}
-			updatedpayStatus.setCourencyType(payStatus.getCourencyType());
-			updatedpayStatus.setCouponCodeNumber("");
-			updatedpayStatus.setEntryCreatedTime(payStatus.getEntryCreatedTime());
-			updatedpayStatus.setLastUpdateTime(commonUtil.sqlDateTime());
-			updatedpayStatus.setUsers(payStatus.getUsers());
-			updatedpayStatus.setPayingStatus("Being Check");
-			updatedpayStatus.setRecivedAmont(0);
-			updatedpayStatus.setRecivedCourencyType(null);
-			System.out.println("updatedpayStatus=" + updatedpayStatus.toString());
-			payStatusDAO.attachDirty(updatedpayStatus);
-		}
-	*/
 	
 
 	@Transactional
@@ -512,7 +487,6 @@ public class DbServices {
 		
 		results = categoryDAO.getCategoryMap();
 		
-		//System.out.println(results);
 	}
 	
 	/*public Integer getCategoryIDfromCategoryName(FileDTO fileDTO) {
@@ -533,58 +507,7 @@ public class DbServices {
 		return fileDetailList;
 	}
 
-	/*@Transactional
-	public void updatePayStatusOfAUser(UserDTO userDTO) {
-
-		Users user = new Users();
-		user.setEmail(userDTO.getEmail());
-		List<Users> usersList = usersDAO.findByExample(user);
-		System.out.println(user.toString());
-		if (usersList.size() > 0) {
-			File fileDetail = new File();
-			fileDetail.setUsers(user);
-			List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCount(fileDetail);
-
-			PayStatus currentUserPayStatus = payStatusDAO.findByUserId(user);
-
-			if (currentUserPayStatus == null && fileDetailList.size() == 0) { // if entry not found and number of entry
-																				// zero, 1st login
-				System.out.println("I am on my way ");
-				savePayStatusforZeroEntry(user);
-			} else if (currentUserPayStatus != null) {
-				updatePayStatusforNonZeroEntry(currentUserPayStatus, fileDetailList);
-			}
-
-		}
-
-	}*/
-
-	//@Transactional
-	/*public void savePayStatusforZeroEntry(Users user) {
-
-		PayStatus payStatus = new PayStatus();
-		payStatus.setAttemptSection(0);
-		payStatus.setCouponCodeNumber("");
-		List<String> netiveCountryList = Arrays.asList(configProperty.getNetiveCountry().split(","));
-		if (netiveCountryList.contains(user.getCountry().toUpperCase()))
-			payStatus.setCourencyType(configProperty.getNetiveCurrencyName());
-		else
-			payStatus.setCourencyType(configProperty.getForeignCurrencyName());
-		payStatus.setDiscountAmount(0);
-		payStatus.setEntryCreatedTime(commonUtil.sqlDateTime());
-		payStatus.setLastUpdateTime(commonUtil.sqlDateTime());
-		// payStatus.setPayTime(commonUtil.sqlDateTime());
-		payStatus.setPayingStatus(null);
-		payStatus.setRecivedAmont(0);
-		payStatus.setRecivedCourencyType(null);
-		payStatus.setTotalAmount(0);
-		payStatus.setTotalEntry(0);
-		payStatus.setUsers(user);
-		payStatus.setPayingStatus("Being Check");
-		System.out.println("payStatus=" + payStatus.toString());
-		payStatusDAO.persist(payStatus);
-
-	}*/
+	
 
 	
 
@@ -648,19 +571,20 @@ public class DbServices {
 	
 	
 	@Transactional
-	public HashMap<String,List<FileDTO>> getAllImagesOfaUser(String userId) {
+	public HashMap<String,List<FileDTO>> getAllImagesOfaUser(String userId) throws ApplicationException , BusinessException{
 		
 		HashMap<String,List<FileDTO>> map = new HashMap<String, List<FileDTO>>();
 		
+   try {
 		Users user =usersDAO.findById(Integer.parseInt(userId));
 		
+		if(user!=null) {
 		Set<File> files = user.getFiles();
 		
 		if(files.size()>0) {
 		    	
-			for(File file : files) {
-				
-				if(map.containsKey(file.getCategory().getCategoryName())) {
+			for(File file : files) {				
+				if(map.containsKey(file.getCategory().getCategoryName())){
 					List<FileDTO>  l = map.get(file.getCategory().getCategoryName());
 					 FileDTO displayFileDTO = new FileDTO();
 					 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
@@ -670,7 +594,7 @@ public class DbServices {
 					 displayFileDTO.setTitel(file.getTitel());
 					 displayFileDTO.setEditable(true);
 					 l.add(displayFileDTO);
-					map.put(file.getCategory().getCategoryName(), l);
+					 map.put(file.getCategory().getCategoryName(), l);
 				  }
 				else {
 					   List<FileDTO>  l  = new ArrayList<FileDTO>();
@@ -683,17 +607,19 @@ public class DbServices {
 						 displayFileDTO.setEditable(true);
 					     l.add(displayFileDTO);
 					   map.put(file.getCategory().getCategoryName(), l);
-				     }
-				
-			    }
-			
+				     }				
+			    }			
 		  }
-		
+		}else {
+			    ErrorCode errorCode = new ErrorCode("Please contact System Admin.","User Not found.",500);
+			    throw new UserNotFoundException(errorCode);
+		      }
+		}catch(NumberFormatException ex) {
+			                               ErrorCode errorCode = new ErrorCode("Please contact System Admin.","NumberFormatException",500);		                               
+			                                throw new ApplicationException(errorCode);
+		                                 }
 		
 		return map;
-
-		
-
 	}
 	
 
@@ -734,34 +660,6 @@ public class DbServices {
 			
 		    }
 		
-		
-		
-		
-		//List<String> getUserIdofCreatedCouponCode = getUserIdofCreatedCouponCode("usrID");
-	/*	for (Users u : usersList) {
-			DiscountData discountData = new DiscountData();
-			String couponcode = commonService.createCouponCode(u.getUserId(), u.getFirstName(), u.getLastName());
-			discountData.setCouponCode(couponcode);
-			discountData.setUsers(u);
-			discountData.setDiscountPersent(Integer.parseInt(persent));
-			discountData.setCreatedBy(createorUserId);
-
-			if (getUserIdofCreatedCouponCode.contains(Integer.toString(u.getUserId()))) {
-				System.out.println("in if ");
-				DiscountData discountData_exist = new DiscountData();
-				discountData_exist.setUsers(u);
-				List<DiscountData> DiscountData_existList = discountDataDAO.findByExample(discountData_exist);
-				discountData.setDiscountId(DiscountData_existList.get(0).getDiscountId());
-				discountDataDAO.attachDirty(discountData);
-				// commonService.sendCreateCouponCodeMailforaUser(u,couponcode,adminEmail);
-			} else {
-				    System.out.println("in if ");
-				    discountDataDAO.persist(discountData);
-				// commonService.sendCreateCouponCodeMailforaUser(u,couponcode,adminEmail);
-			}
-
-		}*/
-
 	}
 
 
