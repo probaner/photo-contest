@@ -47,6 +47,7 @@ public class Users  implements java.io.Serializable {
      private String password;
      private String role;
      private String state;
+     private String forgetPasswAuthToken;
     // private Set<PayStatus> payStatuses = new HashSet<PayStatus>(0);
      private PayStatus payStatus;
      private Set<File> files = new HashSet<File>(0);
@@ -57,7 +58,7 @@ public class Users  implements java.io.Serializable {
     }
 
 	
-    public Users(int userId, String address, String city, String country, Date createdOn, String email, String firstName, String gender, Date lastLoggin, String lastName, String password, String role, String state) {
+    public Users(int userId, String address, String city, String country, Date createdOn, String email, String firstName, String gender, Date lastLoggin, String lastName, String password, String role, String state,String forgetPasswAuthToken) {
         this.userId = userId;
         this.address = address;
         this.city = city;
@@ -71,27 +72,9 @@ public class Users  implements java.io.Serializable {
         this.password = password;
         this.role = role;
         this.state = state;
+        this.forgetPasswAuthToken=forgetPasswAuthToken;
     }
-   /* public Users(int userId, String address, String city, String club, String country, Date createdOn, String email, String firstName, String gender, String honer, Date lastLoggin, String lastName, String password, String role, String state, Set<PayStatus> payStatuses, Set<File> files, Set<DiscountData> discountDatas) {
-       this.userId = userId;
-       this.address = address;
-       this.city = city;
-       this.club = club;
-       this.country = country;
-       this.createdOn = createdOn;
-       this.email = email;
-       this.firstName = firstName;
-       this.gender = gender;
-       this.honer = honer;
-       this.lastLoggin = lastLoggin;
-       this.lastName = lastName;
-       this.password = password;
-       this.role = role;
-       this.state = state;
-       this.payStatuses = payStatuses;
-       this.files = files;
-       this.discountDatas = discountDatas;
-    }*/
+  
    
      @Id 
     
@@ -276,7 +259,14 @@ public class Users  implements java.io.Serializable {
 		this.discountData = discountData;
 	}
 
+	@Column(name="forget_passw_auth_token", nullable=true, length=200)
+	public String getForgetPasswAuthToken() {
+		return forgetPasswAuthToken;
+	}
 
+	public void setForgetPasswAuthToken(String forgetPasswAuthToken) {
+		this.forgetPasswAuthToken = forgetPasswAuthToken;
+	}
 
 
 }

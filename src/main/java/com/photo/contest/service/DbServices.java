@@ -136,23 +136,19 @@ public class DbServices {
 		Integer id =usersDAO.persist(users);
 		
 		users.setUserId(id);
+				
+		//commonService.sendRegistrationConfirmMail(users, userDTO.getPassword());
+		//System.out.println(users.toString());
 		
 		return users;
-		
-		// commonService.sendRegistrationConfirmMail(users);
-		//System.out.println(users.toString());
 	}
 
-/*	@Transactional
-	public List<Users> getUserData(Login login) throws IOException {
-		Users users = new Users();
-		users.setEmail(login.getUsername());
-		users.setPassword(login.getPassword());
-		@SuppressWarnings("unchecked")
-		List<Users> userData = usersDAO.findByExample(users);
-		return userData;
+	@Transactional
+	public Users getUserDataByToken(String token) throws IOException {
+		Users user = usersDAO.findByforgetPasswAuthToken(token);		
+		return user;
 
-	}*/
+	}
 
 	
 	@Transactional
@@ -283,52 +279,7 @@ public class DbServices {
 	
 	
 	
-	/*@Transactional
-	public LogingResponseDTO getUserData(String email) throws IOException {
-		
-		LogingResponseDTO logingResponseDTO = new LogingResponseDTO(); 
-		
-		Users users = new Users();
-		users.setEmail(email);
-		//users.setPassword(login.getPassword());
-		@SuppressWarnings("unchecked")
-		List<Users> userData = usersDAO.findByExample(users);
-		
-		if(userData.size()==1) {
-			logingResponseDTO.setUser(userData.get(0));						
-			Users currentUser = userData.get(0);
-			Set<File> fileSet = currentUser.getFiles();
-					
-		 if( fileSet.size()>0 && currentUser.getRole().equals("participate")) {
-			 HashMap<String,FileDTO> hm = new HashMap<String, FileDTO>();
-			 for(File file : fileSet) {
-				 FileDTO displayFileDTO = new FileDTO();
-				 displayFileDTO.setCatagoryName(file.getCategory().getCategoryName());
-				 displayFileDTO.setFileId(file.getFileId());
-				 displayFileDTO.setEncodedString(new String(Base64.encodeBase64( file.getFile())));
-				 displayFileDTO.setPositionName(file.getCategoryIndex());
-				 displayFileDTO.setTitel(file.getTitel());
-				 
-				 hm.put(file.getCategory().getCategoryName()+file.getCategoryIndex(), displayFileDTO);				 
-			    }
-			 logingResponseDTO.setHm(hm);					
-			
-		   }else {
-			       logingResponseDTO.setHm(new HashMap<String, FileDTO>() );
-		         }
-			
-			currentUser.setLastLoggin(commonUtil.sqlDateTime());
-			usersDAO.attachDirty(currentUser);
-					   
-		}else {
-			    
-			    logingResponseDTO.setUser(null);
-			    logingResponseDTO.setHm(null);
-		      }
-		
-			return logingResponseDTO;
-
-	}*/
+	
 		
 	
 	@Transactional
@@ -367,6 +318,16 @@ public class DbServices {
 		users.setRole(user.getRole());
 		usersDAO.attachDirty(users);
 
+	}
+	
+	@Transactional
+	public void updateForgetPasswAuthToken(Users user, String data) {		
+		usersDAO.attachDirty(user);	
+		/*if(data.contains("token=")) {
+		   commonService.sendforgetPassWordMail(user, data);
+		  }else {
+			    commonService.sendRegistrationConfirmMail(user, data);
+		      }*/
 	}
 
 	@Transactional
@@ -480,20 +441,23 @@ public class DbServices {
 		}
 
 	}
-
+  
+	
+	@Transactional
+	public Users getUser(String email) {
+		
+		Users user = usersDAO.findByEmail(email);				
+			return user;
+	}
    
+	
+	
 	@Transactional
 	public void getCategoryMap() {
 		
 		results = categoryDAO.getCategoryMap();
 		
 	}
-	
-	/*public Integer getCategoryIDfromCategoryName(FileDTO fileDTO) {
-
-		return categoryDAO.getCategoryID(fileDTO.getCatagoryName());
-	}
-*/
 	
 
 	@Transactional

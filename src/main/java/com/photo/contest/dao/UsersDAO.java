@@ -2,6 +2,7 @@ package com.photo.contest.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Query;
 
@@ -132,6 +133,23 @@ public class UsersDAO {
 			
 	}
 	
+	
+	public Users findByforgetPasswAuthToken(String forgetPasswAuthToken) {
+		log.debug("getting User instance with id: " + forgetPasswAuthToken);
+		try{
+			 //Session session = sessionFactory.getCurrentSession();
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(Users.class)
+					     .add(Restrictions.eq("forgetPasswAuthToken", forgetPasswAuthToken));
+			Users Users = (Users) cr.uniqueResult();
+						
+			return Users;      		
+		   } catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		   }
+			
+	}
+	
 	public Users findByEmail(String email) {
 		log.debug("getting User instance with email: " + email);
 		try{
@@ -141,6 +159,23 @@ public class UsersDAO {
 			Users Users = (Users) cr.uniqueResult();
 						
 			return Users;      		
+		   } catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		   }
+			
+	}
+	
+	
+	public Optional<Users> findByEmailOptional(String email) {
+		log.debug("getting User instance with email: " + email);
+		try{
+			 //Session session = sessionFactory.getCurrentSession();
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(Users.class)
+					     .add(Restrictions.eq("email", email));
+			Optional<Users> users = (Optional<Users>) cr.uniqueResult();
+						
+			return users;      		
 		   } catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;

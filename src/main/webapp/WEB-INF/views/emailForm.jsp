@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="<c:url value="/resources/css/emailformstyle." />">
+  <link rel="stylesheet" href="<c:url value="/resources/css/emailformstyle.css" />">
  <style>
 div.ex1 {
     padding: 50px 100px 0px 100px;
@@ -47,13 +47,13 @@ div.ex3 {
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><a href="#"> RULES & REGULATIONS 2017 </a></li>
-        <li><a href="#"> FIAP DEFINITIONS OF DIVISIONS </a></li>                       
+        <li><a href="getrulesandregulations"> RULES & REGULATIONS 2017 </a></li>
+        <li><a href="getfipdefination"> FIAP DEFINITIONS OF DIVISIONS </a></li>                       
       </ul>
     </li>
 	<li><a href="getloginForm">Perticipate/Login</a></li>
 	<li><a href="getUserTable">Entry Status</a></li>
-	<li><a href="getDownload">Download</a></li>   
+	<li><a href="getDownload">Result</a></li>   
     <li><a href="getContuctUs">Contuct Us</a></li>
   </ul>
 </div>

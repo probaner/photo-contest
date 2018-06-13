@@ -41,13 +41,13 @@ div.ex3 {
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><a href="#"> RULES & REGULATIONS 2017 </a></li>
-        <li><a href="#"> FIAP DEFINITIONS OF DIVISIONS </a></li>                       
+        <li><a href="getrulesandregulations"> RULES & REGULATIONS 2017 </a></li>
+        <li><a href="getfipdefination"> FIAP DEFINITIONS OF DIVISIONS </a></li>                       
       </ul>
     </li>
 	<li><a href="getloginForm">Perticipate/Login</a></li>
 	<li><a href="getUserTable">Entry Status</a></li>
-	<li><a href="getDownload">Download</a></li>   
+	<li><a href="getDownload">Result</a></li>   
     <li><a href="getContuctUs">Contuct Us</a></li>
   </ul>
 </div>

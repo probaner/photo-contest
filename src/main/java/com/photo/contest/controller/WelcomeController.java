@@ -45,7 +45,17 @@ public class WelcomeController {
 	    public ModelAndView helloWorld() throws IOException {	    		    		        	    	
 	        return new ModelAndView("home"); 
 	    } 
+	
+	@GetMapping("/getrulesandregulations")  
+    public ModelAndView getrules() throws IOException {	    		    		        	    	
+        return new ModelAndView("rules"); 
+    } 
 	    
+	@GetMapping("/getfipdefination")  
+    public ModelAndView getfipdefination() throws IOException {	    		    		        	    	
+        return new ModelAndView("fipdefination");
+    } 
+	
 	@GetMapping("/getUserTable")
 		public String viewLogin(Map<String, Object> model) throws IOException {
 	    	List<UserStatusDisplayDTO> userStatusDisplayDTOList = dbServices.getUserDateForStatusTable();

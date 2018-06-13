@@ -10,18 +10,35 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- <style>
+ <link rel="stylesheet" href="<c:url value="/resources/css/flipclock.css" />">
+
+
+
+<style>
 div.ex1 {
-    padding: 50px 100px 0px 100px;
+	padding: 50px 100px 0px 100px;
 }
 
 div.ex2 {
-    padding: 0px 100px 10px 100px;
+	padding: 0px 100px 10px 100px;
 }
 
 div.ex3 {
-    padding: 50px 0px 0px 0px;
+	padding: 50px 0px 0px 0px;
 }
+
+
+
+ .outer-div
+{
+     padding: 90px;
+}
+.inner-div
+{
+     margin: 0 auto;
+     max-width: 450px; 
+}
+
 </style>
 </head>
 <body>
@@ -41,13 +58,13 @@ div.ex3 {
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><a href="#"> RULES & REGULATIONS 2017 </a></li>
-        <li><a href="#"> FIAP DEFINITIONS OF DIVISIONS </a></li>                       
+        <li><a href="getrulesandregulations"> RULES & REGULATIONS 2017 </a></li>
+        <li><a href="getfipdefination"> FIAP DEFINITIONS OF DIVISIONS </a></li>                       
       </ul>
     </li>
 	<li><a href="getloginForm">Perticipate/Login</a></li>
 	<li><a href="getUserTable">Entry Status</a></li>
-	<li><a href="getDownload">Download</a></li>   
+	<li><a href="getDownload"> Result </a></li>   
     <li><a href="getContuctUs">Contuct Us</a></li>
   </ul>
 </div>
@@ -60,14 +77,53 @@ div.ex3 {
      </div>    
          
          
-   <div>       
-       <%--  <a href="<c:url value='/download/internal' />">Download This File (located inside project)</a>  --%>
+<div class="outer-div"><div class="inner-div"><div class="clock-builder-output"></div></div></div>
+
+
+<script src="<c:url value="/resources/javaScript/flipclock.js" />"></script>
+<style text="text/css">body .flip-clock-wrapper ul li a div div.inn, body .flip-clock-small-wrapper ul li a div div.inn { color: #CCCCCC; background-color: #333333; } body .flip-clock-dot, body .flip-clock-small-wrapper .flip-clock-dot { background: #323434; } body .flip-clock-wrapper .flip-clock-meridium a, body .flip-clock-small-wrapper .flip-clock-meridium a { color: #323434; }</style>
+<script type="text/javascript">
+$(function(){
+	FlipClock.Lang.Custom = { days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds' };
+	var opts = {
+		clockFace: 'DailyCounter',
+		countdown: true,
+		language: 'Custom'
+	};  	
+	opts.classes = {
+			active: 'flip-clock-active',
+			before: 'flip-clock-before',
+			divider: 'flip-clock-divider',
+			dot: 'flip-clock-dot',
+			label: 'flip-clock-label',
+			flip: 'flip',
+			play: 'play',
+			wrapper: 'flip-clock-small-wrapper'
+		};
+	
+	var countdown = 1543896180 - ((new Date().getTime())/1000); <%--   from: 12/04/2018 09:33 am +0530  --%>
+	console.log(countdown);
+	
+	countdown = Math.max(1, countdown);
+	$('.clock-builder-output').FlipClock(countdown, opts);
+});
+</script>    
         
-       <%--  <a href="<c:url value='/download/external' />">Download This Result File </a>  --%>
+ <%--   from: 06/09/2018 04:20 pm +0530 --%     // http://www.dwuser.com/education/content/easy-javascript-jquery-countdown-clock-builder/>
+         
+  <%-- 
+   
+   <div>       
+        <a href="<c:url value='/download/internal' />">Download This File (located inside project)</a> 
+        
+        <a href="<c:url value='/download/external' />">Download This Result File </a> 
         
    
          
-    </div> 
+    </div>  --%>
+    
+   
+    
   
   
 </body>

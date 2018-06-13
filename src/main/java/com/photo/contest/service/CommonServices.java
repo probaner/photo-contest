@@ -38,15 +38,27 @@ public class CommonServices {
 
 	}
 
-	public void sendRegistrationConfirmMail(Users users) {
+	public void sendRegistrationConfirmMail(Users users , String password) {
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
 		mailRecipientDTO.setSender("salonechnchy@gmail.com");
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("Registration Sucess \nRegistration Id:" + users.getUserId() + "\nUser Id: "
-				+ users.getEmail() + "\n Password: " + users.getPassword() + " \n");
+				+ users.getEmail() + "\n Password: " + password + " \n");
 		mailRecipientDTO.setSubject("Registration Success");
+		commonUtil.doSendEmail(mailRecipientDTO, null);
+
+	}
+	
+	public void sendforgetPassWordMail(Users users, String url) {
+
+		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
+
+		mailRecipientDTO.setSender("salonechnchy@gmail.com");
+		mailRecipientDTO.setRecipient(users.getEmail());
+		mailRecipientDTO.setMessage("To reset your password, click the link below:\\n" + url);
+		mailRecipientDTO.setSubject("Password Reset Request");
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 
 	}

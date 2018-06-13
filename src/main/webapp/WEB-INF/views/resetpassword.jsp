@@ -46,31 +46,8 @@ color: red !important;
 
 <body>
 
-<div class="container">
-  <div class="page-header">
-    <h2>Login</h2>      
-  </div>
-  <p></p>      
-  <p></p>      
-</div>
 
- <div class="container">
-  <h4></h4>
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="home">Home</a></li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><a href="getrulesandregulations"> RULES & REGULATIONS 2017 </a></li>
-        <li><a href="getfipdefination"> FIAP DEFINITIONS OF DIVISIONS </a></li>                       
-      </ul>
-    </li>
-	<li><a href="getloginForm">Perticipate/Login</a></li>
-	<li><a href="getUserTable">Entry Status</a></li>
-	<li><a href="getDownload">Result</a></li>   
-    <li><a href="getContuctUs">Contuct Us</a></li>
-  </ul>
-</div> 
+
   
   <div>
   <p class="big"></p>
@@ -86,11 +63,20 @@ color: red !important;
             <div class="panel panel-default">
               <div class="panel-body">
                 <div class="text-center">
+                  <c:choose>
+				  <c:when test="${success=='true'}">
                   <h3><i class="fa fa-lock fa-4x"></i></h3>
-                  <h2 class="text-center">Forgot Password?</h2>
-                  <p>You can get your password here.</p>
+                  <h2 class="text-center">Reset Password?</h2>
+                  <p>You can reset your password here</p>
+                  </c:when>
+                  <c:otherwise>
+                  <h3><i class="glyphicon glyphicon-envelope"></i></h3>
+                  <h2 class="text-center">Password Changed</h2>
+                  <p>New password is Set</p>
+                 </c:otherwise>
+                  </c:choose>
                   <div class="panel-body">               
-                     <form:form  action="processForgetPassword" method="post" modelAttribute="getPassword">
+                     <form:form  action="resetpassword" method="post" modelAttribute="resetpasswordDTO">
     
                          <style>
                           .foo{
@@ -99,6 +85,7 @@ color: red !important;
                          </style>
                          <div style="margin-bottom: 25px" class="alert-danger" ><strong>${massage}</strong>
                          <!-- <a href="getForgetPasswordForm" class="alert-link"></a> -->
+                         <P><span><strong><a href="<c:url value="/login" />">Login</a><strong></span></P>
                          <span></span>                                              
                          </div>
                          <script type="text/javascript">
@@ -109,22 +96,43 @@ color: red !important;
                            }                        
                           });
                          </script>
-    
-    
-    
-                      <div class="form-group">
-                        <div class="input-group">
-                          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
-                          <form:input path="email" id="email" type="text" name="email" placeholder="email address" class="form-control" />
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Get Password" type="submit">
-                      </div>
-                      
-                      <input type="hidden" class="hide" name="token" id="token" value="Submit"> 
-                    </form:form>
-    
+
+									<c:choose>
+									<c:when test="${success=='true'}">
+                                                
+										<form:input type="hidden" path="token" value="${token}" />
+
+										<div class="form-group">
+											<div class="input-group">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-eye-close"></i></span>
+												<form:input path="password" id="password" type="password"
+													name="password" placeholder="password" class="form-control" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="input-group">
+												<span class="input-group-addon"><i
+													class="glyphicon glyphicon-eye-close"></i></span>
+												<form:input path="password" id="confirm_password"
+													type="password" name="password"
+													placeholder="confirm password" class="form-control" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<input name="recover-submit"
+												class="btn btn-lg btn-primary btn-block"
+												value="Get Password" type="submit">
+										</div>
+
+										<input type="hidden" class="hide" name="token" id="token"
+											value="Submit">
+											
+									</c:when></c:choose>
+															
+								</form:form>   
                   </div>
                 </div>
               </div>
