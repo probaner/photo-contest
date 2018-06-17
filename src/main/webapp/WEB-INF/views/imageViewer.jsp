@@ -26,6 +26,7 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 			<li class="active"><a href="#1" data-toggle="tab">Colour</a></li>
 			<li>               <a href="#2" data-toggle="tab">Monochrome</a></li>
 			<li>			   <a href="#3" data-toggle="tab">Nature</a></li>
+			<li>			   <a href="#4" data-toggle="tab">Photo Journalism</a></li>
 		</ul>
 
 		<div class="tab-content ">
@@ -81,8 +82,57 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane" id="3">
-				<h3>add clearfix to tab-content (see the css)</h3>
+			<div class="tab-pane active" id="3">
+				<div class="row">
+					<div id="myCarousel3" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							
+						</ol>
+
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							
+						</div>
+
+						<!-- Left and right controls -->
+						<a class="left carousel-control" href="#myCarousel3"
+							data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="right carousel-control" href="#myCarousel3"
+							data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span> <span
+							class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane active" id="4">
+				<div class="row">
+					<div id="myCarousel4" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							
+						</ol>
+
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							
+						</div>
+
+						<!-- Left and right controls -->
+						<a class="left carousel-control" href="#myCarousel4"
+							data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="right carousel-control" href="#myCarousel4"
+							data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span> <span
+							class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -92,8 +142,12 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 <script>
 $(document).ready(function()
 		{
+	
+	
+
+	
 			 $.ajax({
-				    url: "admin/json/fetchImagesForUser/400021921",
+				    url: "admin/json/fetchImagesForUser/500031101",
 				    dataType: "json",
 		         	success: function(result){
 		     		//console.log(result.data);
@@ -106,14 +160,55 @@ $(document).ready(function()
 		     		  $('#myCarousel1 > .carousel-indicators > li').first().addClass('active');
 		     		  $('#myCarousel1').carousel();
 		     		  
-		     		result.data['photojournalism'].forEach((element, i) => {
-		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center"><div class="carousel-caption"></div>   </div>').appendTo('#myCarousel2 > .carousel-inner');
-		     		    $('<li data-target="#myCarousel2" data-slide-to="'+i+'"></li>').appendTo('#myCarousel2 > .carousel-indicators')
+		     		result.data['monochrome'].forEach(function(element, i) {
+		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption"></div>   </div>').appendTo('#myCarousel2 > .carousel-inner');
+		     		    $('<li data-target="#myCarousel2" data-slide-to="'+i+'"></li>').appendTo('#myCarousel2 > .carousel-indicators');
 		     		});
 		     		
 		     		  $('#myCarousel2 > .carousel-inner > .item').first().addClass('active');
 		     		  $('#myCarousel2 > .carousel-indicators > li').first().addClass('active');
 		     		  $('#myCarousel2').carousel();
+		     		  
+		     		 result.data['nature'].forEach(function(element, i) {
+			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption"></div>   </div>').appendTo('#myCarousel3 > .carousel-inner');
+			     		    $('<li data-target="#myCarousel3" data-slide-to="'+i+'"></li>').appendTo('#myCarousel3 > .carousel-indicators');
+			     		});
+			     		
+			     		  $('#myCarousel3 > .carousel-inner > .item').first().addClass('active');
+			     		  $('#myCarousel3 > .carousel-indicators > li').first().addClass('active');
+			     		  $('#myCarousel3').carousel();
+			     		  
+		     		 result.data['photojournalism'].forEach(function(element, i) {
+			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption"></div>   </div>').appendTo('#myCarousel4 > .carousel-inner');
+			     		    $('<li data-target="#myCarousel4" data-slide-to="'+i+'"></li>').appendTo('#myCarousel4 > .carousel-indicators');
+			     		});
+			     		
+			     		  $('#myCarousel4 > .carousel-inner > .item').first().addClass('active');
+			     		  $('#myCarousel4 > .carousel-indicators > li').first().addClass('active');
+			     		  $('#myCarousel4').carousel();
+	     		  
+		     		/* var $item = $('.item');
+		     		var $wHeight = $(window).height();
+
+		     		$item.height($wHeight);
+		     		$item.addClass('full-screen');
+
+		     		$('.carousel img').each(function() {
+		     		  var $src = $(this).attr('src');
+		     		  var $color = $(this).attr('data-color');
+		     		  $(this).parent().css({
+		     		    'background-image' : 'url(' + $src + ')',
+		     		    'background-color' : $color
+		     		  });
+		     		  $(this).remove();
+		     		});  */
+		     		
+		     		 var $item = $('img');
+			     	 var $wHeight = $(window).height();
+			     	 var $wWidth = $(window).width();
+			     	 $item.height($wHeight);
+			     	 $item.height($wWidth);
+			     	$item.addClass('full-img');
 		          },
 		             error: function(XMLHttpRequest, textStatus, errorThrown) { 
 		             console.log("Status: " + textStatus,errorThrown); 

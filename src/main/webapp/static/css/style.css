@@ -1,6 +1,27 @@
+
 .center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-   /*  width: 50%; */
+object-fit: contain;
+margin: 0 auto;  /*important */
 }
+ 
+/* img {
+        height: 100px;
+        width: 100px;
+        object-fit: contain;
+}
+
+*/
+.full-screen {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: contain;
+} 
+
+.full-img {
+  object-fit: contain;
+  max-height: 1020px;
+  max-width: 800px;
+  margin: 0 auto;  /*important */
+} 
+
