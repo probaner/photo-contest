@@ -11,6 +11,12 @@ public class ErrorCode {
 		this.reason = reason;
 		this.httpStatusCode = httpStatusCode;
 	}
+	
+	public ErrorCode(Integer httpStatusCode) {
+		super();		
+		this.httpStatusCode = httpStatusCode;
+	}
+	
 	public String getMessage() {
 		return message;
 	}

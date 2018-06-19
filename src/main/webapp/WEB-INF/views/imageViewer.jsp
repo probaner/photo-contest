@@ -9,12 +9,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
-<script
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+<script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+
+<!-- <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 </head>
 <body>
 	<!-- a block container is required -->
@@ -147,19 +151,23 @@ $(document).ready(function()
 
 	
 			 $.ajax({
-				    url: "admin/json/fetchImagesForUser/500031101",
+				    url: "admin/json/fetchImagesForUser/100020806",
 				    dataType: "json",
 		         	success: function(result){
-		     		//console.log(result.data);
-		     		result.data['color'].forEach(function(element, i) {
-		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption trickcenter">'+element.titel+'</div>   </div>').appendTo('#myCarousel1 > .carousel-inner');
-		     		    $('<li data-target="#myCarousel1" data-slide-to="'+i+'"></li>').appendTo('#myCarousel1 > .carousel-indicators')
-		     		});
+		     		console.log(result.data);
 		     		
-		     		  $('#myCarousel1 > .carousel-inner > .item').first().addClass('active');
-		     		  $('#myCarousel1 > .carousel-indicators > li').first().addClass('active');
-		     		  $('#myCarousel1').carousel();
-		     		  
+		     		if(result.data['color']){
+		     			result.data['color'].forEach(function(element, i) {
+			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption trickcenter">'+element.titel+'</div>   </div>').appendTo('#myCarousel1 > .carousel-inner');
+			     		    $('<li data-target="#myCarousel1" data-slide-to="'+i+'"></li>').appendTo('#myCarousel1 > .carousel-indicators')
+			     		});
+			     		
+			     		  $('#myCarousel1 > .carousel-inner > .item').first().addClass('active');
+			     		  $('#myCarousel1 > .carousel-indicators > li').first().addClass('active');
+			     		  $('#myCarousel1').carousel();
+		     		}
+		     		
+		     		if(result.data['monochrome']){  
 		     		result.data['monochrome'].forEach(function(element, i) {
 		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption d-none d-md-block"> <input type="text" id="'+element.positionName+'" value="'+element.titel+'"/></div>   </div>').appendTo('#myCarousel2 > .carousel-inner');
 		     		    $('<li data-target="#myCarousel2" data-slide-to="'+i+'"></li>').appendTo('#myCarousel2 > .carousel-indicators');
@@ -168,7 +176,9 @@ $(document).ready(function()
 		     		  $('#myCarousel2 > .carousel-inner > .item').first().addClass('active');
 		     		  $('#myCarousel2 > .carousel-indicators > li').first().addClass('active');
 		     		  $('#myCarousel2').carousel();
-		     		  
+		     		}
+		     		
+		     		if(result.data['nature']){  
 		     		 result.data['nature'].forEach(function(element, i) {
 			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption d-none d-md-block trickcenter">'+element.titel+'</div>   </div>').appendTo('#myCarousel3 > .carousel-inner');
 			     		    $('<li data-target="#myCarousel3" data-slide-to="'+i+'"></li>').appendTo('#myCarousel3 > .carousel-indicators');
@@ -177,7 +187,9 @@ $(document).ready(function()
 			     		  $('#myCarousel3 > .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel3 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel3').carousel();
+		     		}	  
 			     		  
+		     		if(result.data['photojournalism']){    
 		     		 result.data['photojournalism'].forEach(function(element, i) {
 			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption d-none d-md-block trickcenter">'+element.titel+'</div>   </div>').appendTo('#myCarousel4 > .carousel-inner');
 			     		    $('<li data-target="#myCarousel4" data-slide-to="'+i+'"></li>').appendTo('#myCarousel4 > .carousel-indicators');
@@ -186,7 +198,7 @@ $(document).ready(function()
 			     		  $('#myCarousel4 > .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel4 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel4').carousel();
-	     		  
+		     		}
 		     		/* var $item = $('.item');
 		     		var $wHeight = $(window).height();
 

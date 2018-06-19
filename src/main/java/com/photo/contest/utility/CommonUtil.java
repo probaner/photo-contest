@@ -1,7 +1,10 @@
 package com.photo.contest.utility;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
@@ -9,7 +12,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,6 +25,11 @@ import org.springframework.stereotype.Component;
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.config.LastIdProperty;
 import com.photo.contest.dto.MailRecipientDTO;
+import com.photo.contest.exception.BusinessException;
+import com.photo.contest.exception.ErrorCode;
+import com.photo.contest.exception.ImageErrorCode;
+import com.photo.contest.exception.ImageFormateException;
+import com.photo.contest.exception.UserNotFoundException;
 
 
 
@@ -193,6 +205,63 @@ public int getNumbrtofSection(int number) {
 	 	    section =10;
     
     return section;
+	
+}
+
+
+public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessException, IOException{
+	
+	BufferedImage img = null;
+	InputStream inputstream = new ByteArrayInputStream(fileContent);
+	img = ImageIO.read(inputstream);
+	System.out.println("Image Height : " + img.getHeight());
+	// Image Height
+	System.out.println("Image Width : " + img.getWidth());
+	// Image Width
+	
+	if(img.getWidth() ==img.getHeight()) {
+		
+		if(img.getWidth()>=Integer.parseInt(configProperty.getFileMinlongestSideResolution()) && img.getWidth() <= Integer.parseInt(configProperty.getFileMaxlongestSideResolution())) 
+			return true;
+		else {
+			   Map <String, String> errorMap = new HashMap<>();
+			   
+			   ImageErrorCode errorCode = new ImageErrorCode(500);
+			   errorMap.put("jquery-upload-file-error","dimetion problems");
+			   errorCode.setErrorMap(errorMap);
+			   throw new ImageFormateException(errorCode);
+		     }
+		
+	}else if(img.getWidth() > img.getHeight()) {
+		if(img.getWidth()>=Integer.parseInt(configProperty.getFileMinlongestSideResolution()) && img.getWidth() <= Integer.parseInt(configProperty.getFileMaxlongestSideResolution())) 
+			return true;
+		else {
+			
+			Map <String, String> errorMap = new HashMap<>();
+			   
+			   ImageErrorCode errorCode = new ImageErrorCode(500);
+			   errorMap.put("jquery-upload-file-error","dimetion problems");
+			   errorCode.setErrorMap(errorMap);
+			   throw new ImageFormateException(errorCode);
+		     }
+		
+	}else if(img.getWidth() < img.getHeight()) {
+		if(img.getHeight()>=Integer.parseInt(configProperty.getFileMinlongestSideResolution()) && img.getHeight() <= Integer.parseInt(configProperty.getFileMaxlongestSideResolution())) 
+			return true;
+		else {
+			
+			Map <String, String> errorMap = new HashMap<>();
+			   
+			   ImageErrorCode errorCode = new ImageErrorCode(500);
+			   errorMap.put("jquery-upload-file-error","dimetion problems");
+			   errorCode.setErrorMap(errorMap);
+			   throw new ImageFormateException(errorCode);
+		     }
+		
+	}
+	
+	
+	return false;	
 	
 }
 

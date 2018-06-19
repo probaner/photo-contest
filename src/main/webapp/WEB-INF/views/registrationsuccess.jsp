@@ -12,19 +12,27 @@
 <title>Bootstrap Example</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<%-- <link href="<c:url value="/resources/css/style.css" /> rel="stylesheet"> --%>
-<link rel="stylesheet"
+
+<%-- <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="<c:url value="/resources/javaScript/utility.js" />"></script>
 <script
 	src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script>
 	
 <link href="http://hayageek.github.io/jQuery-Upload-File/4.0.11/uploadfile.css" rel="stylesheet">
-<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script>
+<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script> --%>
+
+
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/uploadfile.css" />">
+<script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+<%-- <script src="<c:url value="/resources/javaScript/jquery.uploadfile.min.js" />"></script> --%>
+<script src="<c:url value="/resources/javaScript/jquery.uploadfile.js" />"></script>
+
 <style>
 div.ex1 {
 	padding: 50px 100px 0px 100px;
@@ -51,7 +59,7 @@ div.ex5 {
 
 
 </head>
-<body onload="dissableField(); dissablePayField();dissableImageArea();lockPage(); ">
+<body>
 
 	<div class="container">
 		<div class="page-header">
@@ -492,7 +500,9 @@ $(document).ready(function()
 	},
     onError: function (files, status, message, pd) 
     {
-    	console.log("onError",files, status, message, pd);
+    	console.log(status);
+    	console.log(message);
+    	//console.log("onError",files, status, message, pd);
     },
 	onLoad:function(obj,pd)
 	   {

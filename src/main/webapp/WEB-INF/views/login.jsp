@@ -10,7 +10,7 @@
 <title>Salon</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
+<%-- <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.min.css">
@@ -22,7 +22,15 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
 <script src="<c:url value="/resources/javaScript/utility.js" />"></script>
 <script
-	src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script>
+	src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script> --%>
+
+
+ <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+ <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-formhelpers.min.css" />">
+ <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+ <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+ <script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
+ <script src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script>
 
 <style>
 div.redplaceholder ::-webkit-input-placeholder {
@@ -116,13 +124,13 @@ div.redplaceholder :-ms-input-placeholder {
 									<div class="input-group input-sm">
 										<label class="input-group-addon" for="username"><i
 											class="fa fa-user"></i></label> <input type="text"
-											class="form-control" id="username" name="username"
+											class="form-control" id="username" name="username" size="50"
 											placeholder="Enter Username" required>
 									</div>
 									<div class="input-group input-sm">
 										<label class="input-group-addon" for="password"><i
 											class="fa fa-lock"></i></label> <input type="password"
-											class="form-control" id="password" name="password"
+											class="form-control" id="password" name="password" size="25"
 											placeholder="Enter Password" required>
 									</div>
 									<div class="input-group input-sm">

@@ -76,14 +76,16 @@ public class ConfigProperty {
 	@Value("${close.date}")
 	private String closeDate;
 	
+	@Value("${file.maxlongestSideResolution}")
+	private String fileMaxlongestSideResolution;
+	@Value("${file.minlongestSideResolution}")
+	private String fileMinlongestSideResolution;
+	
 	
 	public ConfigProperty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
-	
 
 
 	public ConfigProperty(String basePath, Long maxSize, String chargeingTypeCategoryWiseNetive,
@@ -95,7 +97,8 @@ public class ConfigProperty {
 			String categoryThreeNetive, String categoryFourNetive, String categoryFiveNetive, String categorySixNetive,
 			String categorySevenNetive, String categoryEightNetive, String categoryNineNetive, String categoryTenNetive,
 			String overall, String overallNetive, String netiveCountry, String netiveCurrencyName,
-			String foreignCurrencyName, String closeDate) {
+			String foreignCurrencyName, String closeDate, String fileMaxlongestSideResolution,
+			String fileMinlongestSideResolution) {
 		super();
 		this.basePath = basePath;
 		this.maxSize = maxSize;
@@ -131,7 +134,14 @@ public class ConfigProperty {
 		this.netiveCurrencyName = netiveCurrencyName;
 		this.foreignCurrencyName = foreignCurrencyName;
 		this.closeDate = closeDate;
+		this.fileMaxlongestSideResolution = fileMaxlongestSideResolution;
+		this.fileMinlongestSideResolution = fileMinlongestSideResolution;
 	}
+
+
+
+
+
 
 
 
@@ -536,6 +546,24 @@ public class ConfigProperty {
 	}
 
 
+	public String getFileMaxlongestSideResolution() {
+		return fileMaxlongestSideResolution;
+	}
+
+
+	public void setFileMaxlongestSideResolution(String fileMaxlongestSideResolution) {
+		this.fileMaxlongestSideResolution = fileMaxlongestSideResolution;
+	}
+
+
+	public String getFileMinlongestSideResolution() {
+		return fileMinlongestSideResolution;
+	}
+
+
+	public void setFileMinlongestSideResolution(String fileMinlongestSideResolution) {
+		this.fileMinlongestSideResolution = fileMinlongestSideResolution;
+	}
 
 
 	

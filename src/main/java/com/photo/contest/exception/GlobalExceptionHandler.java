@@ -2,6 +2,7 @@ package com.photo.contest.exception;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,6 +31,17 @@ public class GlobalExceptionHandler {
 		logger.error("IOException handler executed");
 		//returning 404 error code
 	}
+	
+	
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(ImageFormateException.class)
+	public Map<String, String> handleImageFormateException(ImageFormateException e) {
+	    // Optionally do additional things with the exception, for example map
+	    // individual field errors (from e.getBindingResult()) to the Error object
+	    return e.getImageErrorCode().getErrorMap();
+	}
+	
 	
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

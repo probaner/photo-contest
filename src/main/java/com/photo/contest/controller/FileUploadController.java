@@ -20,7 +20,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
+import com.photo.contest.exception.BusinessException;
 import com.photo.contest.service.DbServices;
+import com.photo.contest.utility.CommonUtil;
 
 @Controller
 @SessionAttributes({"userForm","displayFileDTOMap"})
@@ -28,15 +30,20 @@ public class FileUploadController {
 
 	@Autowired
 	DbServices dbServices;
-		
+	@Autowired
+	CommonUtil commonUtil;
+	
 	@PostMapping(value = "/json/saveimage")
 	public @ResponseBody ResponseDTO uploadResourcesJson(@ModelAttribute FileDTO fileDTO,
-			@ModelAttribute("userForm") UserDTO userDTO) throws IOException {
+			@ModelAttribute("userForm") UserDTO userDTO) throws IOException, BusinessException {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		if (fileDTO.getAction().equals("save")) {
 			CommonsMultipartFile imagecm = fileDTO.getImages();
 			if (fileDTO.getTitel().trim().length() > 1 && fileDTO.getTitel().trim().length() < 70) {
+				
+				commonUtil.imageDimentionValidation(fileDTO.getImages().getBytes());
+				
 				Integer fileid = dbServices.saveFileData(fileDTO, userDTO);
 								
 				if (fileid != 0) {
@@ -52,7 +59,7 @@ public class FileUploadController {
 					responseDTO.setMessage("title should not be same on same catagory");
 				
 				}
-				
+			
 
 			} else if (fileDTO.getTitel() == null) {
 				responseDTO.setSuccess(false);

@@ -7,8 +7,11 @@ public class BusinessException extends Exception {
 	 */
 	private static final long serialVersionUID = -8666042015858062674L;
 	private final ErrorCode code;
+	
 
-    public BusinessException(ErrorCode code) {
+   
+	
+	public BusinessException(ErrorCode code) {
 
         super();
 

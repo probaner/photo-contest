@@ -8,15 +8,18 @@
 <head>
   <title>User Registration</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.min.css" >
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
-  <script src="<c:url value="/resources/javaScript/utility.js" />"></script>
-  <script src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script>
- 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/site-demos.css" />">
+<script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
+<script src="<c:url value="/resources/javaScript/additional-methods.min.js" />"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+    
 <style> 
 div.redplaceholder ::-webkit-input-placeholder {
 color: red !important;
@@ -80,7 +83,7 @@ color: red !important;
                             <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="getloginForm" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
                          </div> 
                          <div class="panel-body">
-                         <form:form action="processRegistration" method="post" modelAttribute="userForm">
+                         <form:form action="processRegistration" id="signupForm" method="post" modelAttribute="userForm">
                          
                           <style>
                           .foo{
@@ -110,7 +113,7 @@ color: red !important;
                                     </div>
                                     
                                      <div style="margin-bottom: 25px" class="form-group col-md-12 redplaceholder">
-                                        <input  id="confirm_password" type="password" class="form-control" name="confirm_password" value="" onblur="myFunction();" placeholder="* Confirm Password" />                                        
+                                        <input  id="confirm_password" type="password" class="form-control" name="confirm_password" value=""  placeholder="* Confirm Password" />                                        
                                     </div>  
                                     
                                     <div style="margin-bottom: 25px" class="form-group col-md-12 redplaceholder"> 
@@ -126,7 +129,7 @@ color: red !important;
                                     </div> 
                                     
                                     <div style="margin-bottom: 25px" class="form-group col-md-12 redplaceholder"> 
-                                        <form:input path="address" id="address" type="text" class="form-control" name="address" value="" placeholder="* Address with PIN code" />                                        
+                                        <form:input path="address" id="address" type="text" class="form-control" name="address" value="" placeholder="* Address" />                                        
                                    </div>
                                    
                                    <div style="margin-bottom: 25px" class="form-group col-md-12 redplaceholder"> 
@@ -138,7 +141,7 @@ color: red !important;
                                    </div>
                                    
                                    <div style="margin-bottom: 25px" class="col-sm-12">
-                                     <form:select class="form-control" path="country" items="${countryList}" />
+                                     <form:select class="form-control" path="country" id="country_list"  items="${countryList}" />
                                     </div>
                                    
                                     <div style="margin-bottom: 25px" class="col-md-12"> 
@@ -161,8 +164,133 @@ color: red !important;
 
 </div> 
 </div> 
-</div> 
-                        
-                         
+</div>     
+<script>
+
+	$().ready(function() {
+		 
+		$("#signupForm").validate({
+			rules: {					
+					firstname: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+						         minlength: 1,
+						         maxlength: 50,
+						         lettersonly: true 
+					           },
+					lastname: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+				                minlength: 1,
+				                maxlength: 50,
+				                lettersonly: true
+			                  },
+					address: { required:{
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				                          }
+				                        },
+		                       minlength: 4,
+		                       maxlength: 120,
+		                       alphanumeric: true
+		                              
+	                         },
+					city: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+	                        minlength: 3,
+	                        maxlength: 50,
+	                        lettersonly: true
+                          },
+				    password: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+					            minlength: 6,
+		                        maxlength: 25
+			                  },            
+				    confirm_password: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+		                                minlength: 6,
+		                                maxlength: 25,
+		                                equalTo: "#password"
+	                                  },
+					                  
+				    email: {
+					        required: true,
+					        email: true
+				           },
+				    pin: {
+					       required: true,
+					       minlength: 4,
+					       maxlength: 12,
+					       digits: true
+				         }
+			},
+			messages: {
+				firstname: {required: "Please enter your firstname",
+					        minlength: "Your firstname must be at least 1 characters long",
+			                maxlength: "Your firstname not more then 50 characters",
+					        lettersonly: "Only letter are allowed"
+				           }, 
+				lastname: {required: "Please enter your lastname",
+			               minlength: "Your lastname must be at least 1 characters long",
+	                       maxlength: "Your lastname not more then 50 characters",
+			               lettersonly: "Only letter are allow"
+		                  },
+				address: {required: "Please enter your address",
+		                  minlength: "Your address must be at least 4 characters long",
+                          maxlength: "Your address not more then 120 characters",
+                          alphanumeric: "Special characters are not allowed"
+	                     },
+				city: {required: "Please enter your city",
+		               minlength: "Your city must be at least 4 characters long",
+                       maxlength: "Your city not more then 50 characters",
+		               lettersonly: "Only letter are allowed"
+	                  },
+				pin: { 
+					   required: "Please enter your valide ZIP Code/PIN",
+					   minlength: "Your ZIP Code/PIN must be at least 4 digits long",
+					   maxlength: "Your ZIP Code/PIN not more then 12 digits",
+					   digits: "Your ZIP Code/PIN not digits"
+				     },
+				password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password not more then 25 characters"
+				},
+				confirm_password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password not more then 25 characters",
+					equalTo: "Please enter the same password as above"
+				},
+				email: "Please enter a valid email address"
+				
+				
+			}
+			
+		});
+
+	});
+	</script>                     
 </body>
 </html>
+
+<!-- https://jqueryvalidation.org -->
