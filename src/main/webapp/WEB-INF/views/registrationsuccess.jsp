@@ -460,6 +460,7 @@ $(document).ready(function()
 	
 	$("#upload_image_color1").uploadFile({
 	url:"json/saveimage",
+	returnType:"json",
 	dragDrop: true,
 	multiple:false,
 	maxFileCount:1,
@@ -500,8 +501,9 @@ $(document).ready(function()
 	},
     onError: function (files, status, message, pd) 
     {
-    	console.log(status);
+    	console.log("pbbbb");
     	console.log(message);
+    	pd.cancel.show();
     	//console.log("onError",files, status, message, pd);
     },
 	onLoad:function(obj,pd)
