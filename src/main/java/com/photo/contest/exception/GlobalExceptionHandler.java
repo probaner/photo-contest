@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -44,13 +45,23 @@ public class GlobalExceptionHandler {
 	}*/
 	
 	
-	@ResponseBody
+	/*@ResponseBody
 	@ExceptionHandler(ImageFormateException.class)
 	public ResponseEntity<?> handleImageFormateException(ImageFormateException e) {
 	    // Optionally do additional things with the exception, for example map
 	    // individual field errors (from e.getBindingResult()) to the Error object
 		ResponseEntity<Map<String, String>> responseEntity = new ResponseEntity<>(e.getImageErrorCode().getErrorMap(),
                 HttpStatus.OK);
+	    return responseEntity;
+	}*/
+	
+	@ResponseBody
+	@ExceptionHandler(ImageFormateException.class)
+	public ResponseEntity<?> handleImageFormateException(ImageFormateException e) {
+	    // Optionally do additional things with the exception, for example map
+	    // individual field errors (from e.getBindingResult()) to the Error object
+		ResponseEntity<String> responseEntity = new ResponseEntity<>(e.getCode().getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
 	    return responseEntity;
 	}
 	

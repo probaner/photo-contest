@@ -12,8 +12,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -27,9 +25,7 @@ import com.photo.contest.config.LastIdProperty;
 import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.exception.ErrorCode;
-import com.photo.contest.exception.ImageErrorCode;
 import com.photo.contest.exception.ImageFormateException;
-import com.photo.contest.exception.UserNotFoundException;
 
 
 
@@ -224,11 +220,7 @@ public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessExce
 		if(img.getWidth()>=Integer.parseInt(configProperty.getFileMinlongestSideResolution()) && img.getWidth() <= Integer.parseInt(configProperty.getFileMaxlongestSideResolution())) 
 			return true;
 		else {
-			   Map <String, String> errorMap = new HashMap<>();
-			   
-			   ImageErrorCode errorCode = new ImageErrorCode(500);
-			   errorMap.put("jquery-upload-file-error","dimetion problems");
-			   errorCode.setErrorMap(errorMap);
+			   ErrorCode errorCode = new ErrorCode("Image width should be between " +configProperty.getFileMinlongestSideResolution() +" and " +configProperty.getFileMaxlongestSideResolution() + ". ","Image dimension problem.",500);
 			   throw new ImageFormateException(errorCode);
 		     }
 		
@@ -237,11 +229,7 @@ public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessExce
 			return true;
 		else {
 			
-			Map <String, String> errorMap = new HashMap<>();
-			   
-			   ImageErrorCode errorCode = new ImageErrorCode(500);
-			   errorMap.put("jquery-upload-file-error","dimetion problems");
-			   errorCode.setErrorMap(errorMap);
+			   ErrorCode errorCode = new ErrorCode("Image width should be between " +configProperty.getFileMinlongestSideResolution() +" and " +configProperty.getFileMaxlongestSideResolution() + ". ","Image dimension problem.",500);
 			   throw new ImageFormateException(errorCode);
 		     }
 		
@@ -249,12 +237,8 @@ public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessExce
 		if(img.getHeight()>=Integer.parseInt(configProperty.getFileMinlongestSideResolution()) && img.getHeight() <= Integer.parseInt(configProperty.getFileMaxlongestSideResolution())) 
 			return true;
 		else {
-			
-			Map <String, String> errorMap = new HashMap<>();
 			   
-			   ImageErrorCode errorCode = new ImageErrorCode(500);
-			   errorMap.put("jquery-upload-file-error","dimetion problems");
-			   errorCode.setErrorMap(errorMap);
+			   ErrorCode errorCode = new ErrorCode("Image width should be between " +configProperty.getFileMinlongestSideResolution() +" and " +configProperty.getFileMaxlongestSideResolution() + ". ","Image dimension problem.",500);
 			   throw new ImageFormateException(errorCode);
 		     }
 		

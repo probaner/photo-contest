@@ -796,7 +796,6 @@
 
                 },
                 success: function (data, message, xhr) {
-                	console.log("CHANDAN SUCESS");
                 	pd.cancel.remove();
                 	progressQ.pop();
                     //For custom errors.
@@ -861,8 +860,7 @@
                     form.remove();
                 },
                 error: function (xhr, status, errMsg) {
-                	console.log("CHANDAN ERROE",xhr, status, errMsg);
-                	pd.cancel.remove();
+                	//pd.cancel.remove(); //@prosenjit commented this line
                 	progressQ.pop();
                     pd.abort.hide();
                     if(xhr.statusText == "abort") //we aborted it
@@ -871,10 +869,22 @@
                         updateFileCounter(s, obj);
 
                     } else {
-                        s.onError.call(this, fileArray, status, errMsg, pd);
+                        s.onError.call(this, fileArray, status, xhr.responseText, pd); //@prosenjit instead of errMsg, pass xhr.responseText
                         if(s.showStatusAfterError) {
                             pd.progressDiv.hide();
-                            pd.statusbar.append("<span class='" + s.errorClass + "'>ERROR: " + errMsg + "</span>");
+                            pd.statusbar.append("<div class='" + s.errorClass + "'>" + xhr.responseText + "</div>");//@prosenjit instead of errMsg, pass xhr.responseText
+                            //pd.statusbar.append("<span class='" + s.errorClass + "'>ERROR: " + errMsg + "</span>");//@prosenjit commented this line
+                            //Start: added by Prosenjit
+                            pd.cancel.show()
+                            pd.cancel.click(function () {
+                            	 mainQ.splice(mainQ.indexOf(form), 1);
+                                removeExistingFileName(obj, fileArray);
+                                pd.statusbar.remove();
+                                s.onCancel.call(obj, fileArray, pd);
+                                obj.selectedFiles -= fileArray.length; //reduce selected File count
+                                updateFileCounter(s, obj);
+                            });
+                          //End: added by Prosenjit
                         } else {
                             pd.statusbar.hide();
                             pd.statusbar.remove();

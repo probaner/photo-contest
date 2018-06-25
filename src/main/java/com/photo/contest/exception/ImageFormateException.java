@@ -4,7 +4,7 @@ public class ImageFormateException extends BusinessException {
 	
 	private static final long serialVersionUID = 1L;
 	
-	ImageErrorCode imageErrorCode = null;
+	/*ImageErrorCode imageErrorCode = null;
 
 	public ImageErrorCode getImageErrorCode() {
 		return imageErrorCode;
@@ -16,7 +16,7 @@ public class ImageFormateException extends BusinessException {
 	public ImageFormateException(ImageErrorCode imageErrorCode) {
 		super(imageErrorCode);
 		this.imageErrorCode= imageErrorCode;
-	}
+	}*/
 	public ImageFormateException(ErrorCode code) {
 		super(code);
 		// TODO Auto-generated constructor stub
