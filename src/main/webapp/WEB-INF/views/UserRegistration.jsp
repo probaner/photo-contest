@@ -13,12 +13,13 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/site-demos.css" />">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
 <script src="<c:url value="/resources/javaScript/additional-methods.min.js" />"></script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="<c:url value="/resources/javaScript/jquery.form.js" />"></script>
     
 <style> 
 div.redplaceholder ::-webkit-input-placeholder {
@@ -105,6 +106,7 @@ color: red !important;
                          
                                
                                     <div style="margin-bottom: 25px" class="form-group col-md-12 redplaceholder"> 
+                                         
                                         <form:input path="email" id="email" type="text" class="form-control" name="email" value="" placeholder="* Email Address" required="autofocus" />                                        
                                     </div>
                                     
@@ -141,7 +143,7 @@ color: red !important;
                                    </div>
                                    
                                    <div style="margin-bottom: 25px" class="col-sm-12">
-                                     <form:select class="form-control" path="country" id="country_list"  items="${countryList}" />
+                                     <form:select class="form-control" path="country" id="country_list" name="country_list" items="${countryList}" />
                                     </div>
                                    
                                     <div style="margin-bottom: 25px" class="col-md-12"> 
@@ -168,6 +170,17 @@ color: red !important;
 <script>
 
 	$().ready(function() {
+		
+		
+		$.validator.addMethod(
+		        "regex",
+		        function(value, element, regexp) {
+		            var re = new RegExp(regexp);
+		            return this.optional(element) || re.test(value);
+		        },
+		        "Please check your input."
+		);
+		
 		 
 		$("#signupForm").validate({
 			rules: {					
@@ -179,7 +192,7 @@ color: red !important;
 				    },
 						         minlength: 1,
 						         maxlength: 50,
-						         lettersonly: true 
+						         lettersonly: false 
 					           },
 					lastname: { required: {
 				        depends:function(){
@@ -189,7 +202,8 @@ color: red !important;
 				    },
 				                minlength: 1,
 				                maxlength: 50,
-				                lettersonly: true
+				                lettersonly: false
+				                
 			                  },
 					address: { required:{
 				        depends:function(){
@@ -198,9 +212,8 @@ color: red !important;
 				                          }
 				                        },
 		                       minlength: 4,
-		                       maxlength: 120,
-		                       alphanumeric: true
-		                              
+		                       maxlength: 120
+		                      /*  regex: /^[\w\-\s]+$/ */
 	                         },
 					city: { required: {
 				        depends:function(){
@@ -241,7 +254,12 @@ color: red !important;
 					       minlength: 4,
 					       maxlength: 12,
 					       digits: true
-				         }
+				         },
+				           
+				   country_list: { 
+					               required: true
+					             }
+			        
 			},
 			messages: {
 				firstname: {required: "Please enter your firstname",
@@ -256,8 +274,7 @@ color: red !important;
 		                  },
 				address: {required: "Please enter your address",
 		                  minlength: "Your address must be at least 4 characters long",
-                          maxlength: "Your address not more then 120 characters",
-                          alphanumeric: "Special characters are not allowed"
+                          maxlength: "Your address not more then 120 characters"                        
 	                     },
 				city: {required: "Please enter your city",
 		               minlength: "Your city must be at least 4 characters long",
@@ -281,7 +298,8 @@ color: red !important;
 					maxlength: "Your password not more then 25 characters",
 					equalTo: "Please enter the same password as above"
 				},
-				email: "Please enter a valid email address"
+				email: "Please enter a valid email address",
+				country_list : "Select your Counter" 
 				
 				
 			}

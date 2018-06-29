@@ -61,7 +61,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
       /* registry.addViewController("/login").setViewName("login");*/
        registry.addViewController("/accessDenied").setViewName("accessDenied");
        registry.addViewController("/imageViewer").setViewName("imageViewer");
+       registry.addViewController("/registrationconfirm").setViewName("registrationconfirm");     
    }
+   
+   
    @Override
    public Validator getValidator() {
       LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();

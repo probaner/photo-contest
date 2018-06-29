@@ -25,10 +25,11 @@
 	src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script> --%>
 
 
- <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-formhelpers.min.css" />">
- <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
- <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  <script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
  <script src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script>
 
@@ -115,21 +116,27 @@ div.redplaceholder :-ms-input-placeholder {
 										<div class="alert alert-danger">
 											<p>Invalid username and password.</p>
 										</div>
-									</c:if>
+									</c:if>									
 									<c:if test="${param.logout != null}">
 										<div class="alert alert-success">
 											<p>You have been logged out successfully.</p>
 										</div>
-									</c:if>
+									</c:if>								   
+									
 									<div class="input-group input-sm">
-										<label class="input-group-addon" for="username"><i
-											class="fa fa-user"></i></label> <input type="text"
+										<!-- <label class="input-group-addon" for="username"><i
+											class="fa fa-user"></i></label> -->
+											<span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+											 <input type="text"
 											class="form-control" id="username" name="username" size="50"
 											placeholder="Enter Username" required>
 									</div>
 									<div class="input-group input-sm">
-										<label class="input-group-addon" for="password"><i
-											class="fa fa-lock"></i></label> <input type="password"
+										<!-- <label class="input-group-addon" for="password"><i
+											class="fa fa-lock"></i></label>  -->
+											<span class="input-group-addon"><i
+													class="glyphicon glyphicon-eye-close"></i></span>
+											<input type="password"
 											class="form-control" id="password" name="password" size="25"
 											placeholder="Enter Password" required>
 									</div>
@@ -161,13 +168,19 @@ div.redplaceholder :-ms-input-placeholder {
 							</div>
 						</div>
 					</div>
-
-
-
 				</div>
 			</div>
 		</div>
 	</div>
+	
+<script>
+$().ready(function() {
+	
+	
+	
+});
+
+</script>	
 </body>
 </html>
 

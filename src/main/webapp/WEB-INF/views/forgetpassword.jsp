@@ -10,13 +10,18 @@
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.min.css" >
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
-<script src="<c:url value="/resources/javaScript/utility.js" />"></script>
-<script src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script>
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+ <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-formhelpers.min.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/site-demos.css" />">
+<script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
+<script src="<c:url value="/resources/javaScript/additional-methods.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/jquery.form.js" />"></script>
+
+
 
 <style> 
 div.redplaceholder ::-webkit-input-placeholder {
@@ -90,7 +95,7 @@ color: red !important;
                   <h2 class="text-center">Forgot Password?</h2>
                   <p>You can get your password here.</p>
                   <div class="panel-body">               
-                     <form:form  action="processForgetPassword" method="post" modelAttribute="getPassword">
+                     <form:form  action="processForgetPassword" id="forgetpassword"  method="post" modelAttribute="getPassword">
     
                          <style>
                           .foo{
@@ -115,14 +120,14 @@ color: red !important;
                       <div class="form-group">
                         <div class="input-group">
                           <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
-                          <form:input path="email" id="email" type="text" name="email" placeholder="email address" class="form-control" />
+                          <form:input path="email" id="email" type="text" name="email" size="35" placeholder="email address" class="form-control" />
                         </div>
                       </div>
                       <div class="form-group">
                         <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Get Password" type="submit">
                       </div>
                       
-                      <input type="hidden" class="hide" name="token" id="token" value="Submit"> 
+                      <!-- <input type="hidden" class="hide" name="token" id="token" value="Submit">  -->
                     </form:form>
     
                   </div>
@@ -132,7 +137,21 @@ color: red !important;
           </div>
 	</div>
 </div>
+<script>
 
+$().ready(function() {
+	 	$("#forgetpassword").validate({
+			rules: { email:{
+				             required: true,
+	                         email: true
+	                      }
+				    
+		           },
+			messages: {email: "Please enter a valid email address"}
+				
+			});	 
+	});
+</script>
 </body>
 </html>
 

@@ -43,6 +43,14 @@ public class UserLoginController {
 	 AuthenticationTrustResolver authenticationTrustResolver;
 	
 	
+	 @GetMapping("/getloginFormAfterRegister")
+		public String viewLoginAfterRegister(Map<String, Object> model) throws IOException {
+			Login loginForm = new Login();
+			model.put("loginForm", loginForm);	
+			return "login";		
+		  }
+	 
+	 
 	
 	@GetMapping("/getloginForm")
 		public String viewLogin(Map<String, Object> model) throws IOException {

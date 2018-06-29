@@ -410,19 +410,29 @@ public class DbServices {
 		     if(fileset.size()>0) {
 		    	                    
 		    	      
-		    	         int section = commonUtil.getNumbrtofSection(fileset.size());
-						 payStatus.setAttemptSection(section);
+		    	         //int section = commonUtil.getNumbrtofSection(fileset.size());
+		    	   
+		    	         List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCountUsingUserID(user.getUserId());
+		    	         if(fileDetailList.size()>0) {
+						 payStatus.setAttemptSection(fileDetailList.size());
 				         payStatus.setTotalEntry(fileset.size());
 				         
 				         if (payStatus.getCourencyType().equals(configProperty.getNetiveCurrencyName()))
-				        	 payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[section] + "Netive")));
+				        	 payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()] + "Netive")));
 							else
-								payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[section])));
+								payStatus.setTotalAmount(Integer.parseInt(commonUtil.getMethodOutPut("getCategory" + arry[fileDetailList.size()])));
 				                payStatus.setDiscountAmount(payStatus.getTotalAmount());
 				                payStatus.setLastUpdateTime(commonUtil.sqlDateTime());
 				                //System.out.println("payStatus="+payStatus.toString()); 
 				                payStatusDAO.attachDirty(payStatus);
-				              
+		    	         }else {
+		    	        	    payStatus.setAttemptSection(0);
+				    	        payStatus.setLastUpdateTime(commonUtil.sqlDateTime());
+				    	        payStatus.setTotalAmount(0);
+				    	        payStatus.setTotalEntry(0);
+				    	        payStatus.setDiscountAmount(0);
+				    	        payStatusDAO.attachDirty(payStatus);
+		    	               }
 						
 		    	 
 		    	 
@@ -433,7 +443,7 @@ public class DbServices {
 		    	       payStatus.setTotalAmount(0);
 		    	       payStatus.setTotalEntry(0);
 		    	       payStatus.setDiscountAmount(0);
-		    	       
+		    	       payStatusDAO.attachDirty(payStatus);
 		             }			
 			return "Success";
 		} else {

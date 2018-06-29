@@ -163,4 +163,33 @@ public class FileDetailDAO {
 		
 		 
 	 }
+	 
+	 
+	 public List<CategoryCountMap> getCategoryWiseFileCountUsingUserID(Integer userID) {
+		 log.debug("finding Category Wise FileCount of a User");
+		String sql = "select  category_id, count(category_id) file_id from salontest.file where user_id="+userID +" group by category_id";	
+	
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			
+			
+			@SuppressWarnings("unchecked")
+			List<CategoryCountMap> results = session.createSQLQuery(sql)
+					                         .addScalar("category_id", StandardBasicTypes.INTEGER)
+					                         .addScalar("file_id", StandardBasicTypes.INTEGER)
+					                         .setResultTransformer( Transformers.aliasToBean(CategoryCountMap.class))
+											 .list();
+			 
+			 //System.out.println(results.size());
+			if(results.size()>0)
+			   return results;
+			else
+				return new ArrayList<CategoryCountMap>();
+		}catch (RuntimeException re) {
+			log.error("finding Category Wise FileCount of a User", re);
+			throw re;
+		}
+		
+		 
+	 }
 }

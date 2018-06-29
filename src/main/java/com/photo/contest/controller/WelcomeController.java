@@ -1,15 +1,18 @@
 package com.photo.contest.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -84,14 +87,16 @@ public class WelcomeController {
 			   Users users =dbServices.saveUserData(userDTO);
 	  
 			   UserDTO userDTOn = commonServices.createCurrentUserDTO( users , new UserDTO());
-			   model.addAttribute("userForm", userDTOn);	
-			   model.addAttribute("sucessMagssage", "welcome "+userDTO.getLastname()+" " + userDTO.getFirstname());
-			   model.addAttribute("product", new FileDTO());
-			   model.addAttribute("paymentDetail", new PaymentDTO());
-               return "registrationsuccess";
+			   //model.addAttribute("userForm", userDTOn);	
+			   //model.addAttribute("sucessMagssage", "welcome "+userDTO.getLastname()+" " + userDTO.getFirstname());
+			   //model.addAttribute("product", new FileDTO());			   
+			   //model.addAttribute("paymentDetail", new PaymentDTO());
+			   model.addAttribute("sucess", "abcd");
+			   return "registrationconfirm";
+               //return "registrationsuccess";
 		   }else {
 			       model.addAttribute("userForm", userDTO);
-			       model.addAttribute("error", "Last Login Date is Over !   ");
+			       model.addAttribute("error", "Last Login Date is Over !");
 			       List<String> genderList = selectData.genderData();
 			       List<String> countryList = selectData.countryData();
 		           model.addAttribute("genderList", genderList);

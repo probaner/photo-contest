@@ -10,13 +10,16 @@
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/css/bootstrap-formhelpers.min.css" >
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js"></script>
-<script src="<c:url value="/resources/javaScript/utility.js" />"></script>
-<script src="<c:url value="/resources/javaScript/dissableBackBotton.js" />"></script>
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+ <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-formhelpers.min.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/site-demos.css" />">
+<script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
+<script src="<c:url value="/resources/javaScript/additional-methods.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/jquery.form.js" />"></script>
 
 <style> 
 div.redplaceholder ::-webkit-input-placeholder {
@@ -76,7 +79,7 @@ color: red !important;
                  </c:otherwise>
                   </c:choose>
                   <div class="panel-body">               
-                     <form:form  action="resetpassword" method="post" modelAttribute="resetpasswordDTO">
+                     <form:form  action="resetpassword" id="resetpassword" method="post" modelAttribute="resetpasswordDTO">
     
                          <style>
                           .foo{
@@ -115,8 +118,8 @@ color: red !important;
 											<div class="input-group">
 												<span class="input-group-addon"><i
 													class="glyphicon glyphicon-eye-close"></i></span>
-												<form:input path="password" id="confirm_password"
-													type="password" name="password"
+												<form:input path="confirm_password" id="confirm_password"
+													type="password" name="confirm_password"
 													placeholder="confirm password" class="form-control" />
 											</div>
 										</div>
@@ -140,7 +143,48 @@ color: red !important;
           </div>
 	</div>
 </div>
-
+<script>
+$().ready(function() {
+	 	$("#resetpassword").validate({
+	 		rules: {
+	 		 password: { required: {
+			        depends:function(){
+			            $(this).val($.trim($(this).val()));
+			            return true;
+			        }
+			    },
+				            minlength: 6,
+	                        maxlength: 25
+		                  },            
+			    confirm_password: { required: {
+			        depends:function(){
+			            $(this).val($.trim($(this).val()));
+			            return true;
+			        }
+			     },
+			     
+			     minlength: 6,
+                 maxlength: 25,
+                 equalTo: "#password"
+			    }
+	 		},
+	 messages: {	
+		 password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long",
+				maxlength: "Your password not more then 25 characters"
+			    },
+			confirm_password: {
+				required: "Please provide a password",
+				minlength: "Your password must be at least 6 characters long",
+				maxlength: "Your password not more then 25 characters",
+				equalTo: "Please enter the same password as above"
+			   }
+		 
+	           }
+	 	});	 
+});
+</script>	 	
 </body>
 </html>
 

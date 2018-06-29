@@ -27,6 +27,7 @@ public class LogoutControler {
 	            new SecurityContextLogoutHandler().logout(request, response, auth);
 	        }
 		model.clear();
+		model.addAttribute("logout","");
 		return "redirect:/getloginForm";
 	}
 }

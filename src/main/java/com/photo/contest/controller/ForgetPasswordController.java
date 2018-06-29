@@ -82,7 +82,7 @@ public class ForgetPasswordController {
 	 @RequestMapping(value="/resetpassword", method = RequestMethod.POST) 
 	 public String resetPasswor(Map<String, Object> model, @RequestParam Map<String, String> requestParams) throws IOException {
 		 		 
-		 //System.out.println("Chandan="+requestParams.get("token")+"    "+requestParams.get("password"));
+		 System.out.println("Chandan="+requestParams.get("token")+"    "+requestParams.get("password")+"    "+requestParams.get("confirm_password"));
 		 
 		 Users user = dbServices.getUserDataByToken(requestParams.get("token"));
 		 
