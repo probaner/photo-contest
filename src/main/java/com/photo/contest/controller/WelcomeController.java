@@ -72,7 +72,7 @@ public class WelcomeController {
 		    UserDTO userForm = new UserDTO(); 
 		    model.put("userForm", userForm);	 		    
 		    List<String> genderList = selectData.genderData();
-		    List<String> countryList = selectData.countryData();
+		    Map<String,String> countryList = selectData.countryData();
 	        model.put("genderList", genderList);
 	        model.put("countryList", countryList);	        
 	        return "UserRegistration";
@@ -98,7 +98,7 @@ public class WelcomeController {
 			       model.addAttribute("userForm", userDTO);
 			       model.addAttribute("error", "Last Login Date is Over !");
 			       List<String> genderList = selectData.genderData();
-			       List<String> countryList = selectData.countryData();
+			       Map<String,String> countryList = selectData.countryData();
 		           model.addAttribute("genderList", genderList);
 		           model.addAttribute("countryList", countryList);   
 			       return "UserRegistration";
@@ -109,7 +109,7 @@ public class WelcomeController {
 			    model.addAttribute("userForm", userDTO);
 			    model.addAttribute("error", "Email Already Exist !   ");
 			    List<String> genderList = selectData.genderData();
-			    List<String> countryList = selectData.countryData();
+			    Map<String,String> countryList = selectData.countryData();
 		        model.addAttribute("genderList", genderList);
 		        model.addAttribute("countryList", countryList);
 			    return "UserRegistration";

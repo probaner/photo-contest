@@ -2,6 +2,7 @@ package com.photo.contest.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +18,9 @@ public class CountryController {
 	SelectData selectData;
 	
 	@RequestMapping(value = "/admin/json/getcountrylist")
-	public @ResponseBody List<String> getCountryResourcesJson() throws IOException {
+	public @ResponseBody Map<String,String> getCountryResourcesJson() throws IOException {
 		
-		List<String> countryList = selectData.countryData();		
+		Map<String,String> countryList = selectData.countryData();		
 		return countryList;
 		
 	}

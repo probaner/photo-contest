@@ -143,7 +143,7 @@ color: red !important;
                                    </div>
                                    
                                    <div style="margin-bottom: 25px" class="col-sm-12">
-                                     <form:select class="form-control" path="country" id="country_list" name="country_list" items="${countryList}" />
+                                     <form:select class="form-control" path="country" id="country"  items="${countryList}"  />
                                     </div>
                                    
                                     <div style="margin-bottom: 25px" class="col-md-12"> 
@@ -256,7 +256,7 @@ color: red !important;
 					       digits: true
 				         },
 				           
-				   country_list: { 
+				   country: { 
 					               required: true
 					             }
 			        
@@ -299,13 +299,15 @@ color: red !important;
 					equalTo: "Please enter the same password as above"
 				},
 				email: "Please enter a valid email address",
-				country_list : "Select your Counter" 
+				country : {
+					required: "Select your Counter" 
+				}
 				
 				
 			}
 			
 		});
-
+		
 	});
 	</script>                     
 </body>
