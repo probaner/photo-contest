@@ -77,7 +77,7 @@ div.ex6 {
 			<div
 				style="float: right; font-size: 120%; position: relative; top: -10px">
 				<a href="<%=request.getContextPath()%>/logout"> Log Out </a>
-				<a href="imageViewer">Image Viewer</a>
+				<!-- <a href="imageViewer/500031101">Image Viewer</a> -->
 			</div>
 		</div>
 	</div>
@@ -158,7 +158,31 @@ div.ex6 {
       </div>
       </div>
       </div>
+      
 
+
+<!-- /.container -->
+<div class="modal fade modal-fullscreen  footer-to-bottom" id="myModalFullscreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog animated zoomInLeft">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!-- 	<h4 class="modal-title">Modal title</h4>
+ -->
+            </div>
+            <div class="modal-body">
+                <p class="">One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
  <script type="text/javascript">
 $(document).ready(function($)
 {
@@ -181,9 +205,10 @@ $(document).ready(function($)
     	  dataType: "json",
     	  success: function(countrylist) 
     				    {
-    				     countrylist.forEach(function(item,index){
+    		  console.log(countrylist);
+    				     /* countrylist.forEach(function(item,index){
     				    	 countries.push({ Name: item, Id: index});
-    				     })
+    				     }) */
     				     //console.log(countries);
     				      $("#jsGrid").jsGrid({
     				         width: "100%",
@@ -199,7 +224,11 @@ $(document).ready(function($)
     				         editing: true,
     				         sorting: true,
     				         fields: [
-    				        	 { name: "userId", type: "text", width: 50, validate: "required", editing: false },
+    				        	
+    				        	 { name: "userId", 
+    			                        itemTemplate: function(value) {
+    			                            return $("<a class='herf'>").attr("href", 'imageViewer/'+value).text(value);
+    			                        } , width: 50,  validate: "required", editing: false },
     				             { name: "firstName", type: "text", width: 50, validate: "required"},
     				             { name: "lastName", type: "text", width: 50, validate: "required" },
     				             { name: "address", type: "text", width: 100 },
@@ -251,11 +280,25 @@ $(document).ready(function($)
     							     }
     								});
     				             }
+    				         },
+    				         onDataLoaded: function(grid,data) {
+    				             //after data loading
+    				        	 console.log('data loaded');
+    				        	 $(".herf").click(function(e){
+				        	        	console.log('Link Clicked');
+				        	            e.preventDefault(); //To prevent the default anchor tag behaviour
+				        	            var url = this.href;
+				        	            $('.modal-body').load(url,function(){
+				        	                $('#myModalFullscreen').modal({show:true});
+				        	            });
+				        	        });
+    				             
     				         }
     				     });
     			        }
     	});
 
+    
 });
 </script>
        

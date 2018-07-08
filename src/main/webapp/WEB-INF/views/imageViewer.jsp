@@ -33,7 +33,7 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 			<li>			   <a href="#4" data-toggle="tab">Photo Journalism</a></li>
 		</ul>
 
-		<div class="tab-content ">
+		<div class="tab-content">
 			<div class="tab-pane active" id="1">
 				<div class="row">
 					<div id="myCarousel1" class="carousel slide" data-ride="carousel">
@@ -41,12 +41,12 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 						<ol class="carousel-indicators">
 							
 						</ol>
-
+						<div class="container" style="background-color:grey">
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
 							
 						</div>
-
+						</div>
 						<!-- Left and right controls -->
 						<a class="left carousel-control" href="#myCarousel1"
 							data-slide="prev"> <span
@@ -68,9 +68,11 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 							
 						</ol>
 
+						<div class="container" style="background-color:grey" >
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
 							
+						</div>
 						</div>
 
 						<!-- Left and right controls -->
@@ -94,9 +96,11 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 							
 						</ol>
 
+						<div class="container" style="background-color:grey">
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
 							
+						</div>
 						</div>
 
 						<!-- Left and right controls -->
@@ -120,9 +124,11 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 							
 						</ol>
 
+						<div class="container" style="background-color:grey">
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
 							
+						</div>
 						</div>
 
 						<!-- Left and right controls -->
@@ -151,51 +157,51 @@ $(document).ready(function()
 
 	
 			 $.ajax({
-				    url: "admin/json/fetchImagesForUser/100020806",
+				    url: "admin/json/fetchImagesForUser/${userId}",
 				    dataType: "json",
 		         	success: function(result){
 		     		console.log(result.data);
 		     		
 		     		if(result.data['color']){
 		     			result.data['color'].forEach(function(element, i) {
-			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption trickcenter">'+element.titel+'</div>   </div>').appendTo('#myCarousel1 > .carousel-inner');
+			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="#">save</a> </div></div></div>  </div>').appendTo('#myCarousel1 > .container > .carousel-inner');
 			     		    $('<li data-target="#myCarousel1" data-slide-to="'+i+'"></li>').appendTo('#myCarousel1 > .carousel-indicators')
 			     		});
 			     		
-			     		  $('#myCarousel1 > .carousel-inner > .item').first().addClass('active');
+			     		  $('#myCarousel1 > .container > .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel1 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel1').carousel();
 		     		}
 		     		
 		     		if(result.data['monochrome']){  
 		     		result.data['monochrome'].forEach(function(element, i) {
-		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption d-none d-md-block"> <input type="text" id="'+element.positionName+'" value="'+element.titel+'"/></div>   </div>').appendTo('#myCarousel2 > .carousel-inner');
+		     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="#">save</a> </div></div></div></div>').appendTo('#myCarousel2 > .container > .carousel-inner');
 		     		    $('<li data-target="#myCarousel2" data-slide-to="'+i+'"></li>').appendTo('#myCarousel2 > .carousel-indicators');
 		     		});
 		     		
-		     		  $('#myCarousel2 > .carousel-inner > .item').first().addClass('active');
+		     		  $('#myCarousel2 > .container > .carousel-inner > .item').first().addClass('active');
 		     		  $('#myCarousel2 > .carousel-indicators > li').first().addClass('active');
 		     		  $('#myCarousel2').carousel();
 		     		}
 		     		
 		     		if(result.data['nature']){  
 		     		 result.data['nature'].forEach(function(element, i) {
-			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption d-none d-md-block trickcenter">'+element.titel+'</div>   </div>').appendTo('#myCarousel3 > .carousel-inner');
+			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="#">save</a> </div></div></div></div>').appendTo('#myCarousel3 > .container > .carousel-inner');
 			     		    $('<li data-target="#myCarousel3" data-slide-to="'+i+'"></li>').appendTo('#myCarousel3 > .carousel-indicators');
 			     		});
 			     		
-			     		  $('#myCarousel3 > .carousel-inner > .item').first().addClass('active');
+			     		  $('#myCarousel3 > .container> .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel3 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel3').carousel();
 		     		}	  
 			     		  
 		     		if(result.data['photojournalism']){    
 		     		 result.data['photojournalism'].forEach(function(element, i) {
-			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'" class="center" ><div class="carousel-caption d-none d-md-block trickcenter">'+element.titel+'</div>   </div>').appendTo('#myCarousel4 > .carousel-inner');
+			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="#">save</a> </div></div></div></div>').appendTo('#myCarousel4 > .container> .carousel-inner');
 			     		    $('<li data-target="#myCarousel4" data-slide-to="'+i+'"></li>').appendTo('#myCarousel4 > .carousel-indicators');
 			     		});
 			     		
-			     		  $('#myCarousel4 > .carousel-inner > .item').first().addClass('active');
+			     		  $('#myCarousel4 > .container > .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel4 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel4').carousel();
 		     		}

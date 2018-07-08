@@ -60,7 +60,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
        //this will map uri to jsp view directly without a controller
       /* registry.addViewController("/login").setViewName("login");*/
        registry.addViewController("/accessDenied").setViewName("accessDenied");
-       registry.addViewController("/imageViewer").setViewName("imageViewer");
+       /*registry.addViewController("/imageViewer").setViewName("imageViewer");*/
        registry.addViewController("/registrationconfirm").setViewName("registrationconfirm");     
    }
    

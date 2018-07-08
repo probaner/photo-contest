@@ -3,6 +3,7 @@ package com.photo.contest.controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,14 @@ public class EditTableController {
 			    responseDTO.setSuccess(true);
 		  }
 		return responseDTO;
+		
+}
+	
+	@GetMapping(value = "/imageViewer/{userId}")
+	public String fetchAllImagesPageForUser(@PathVariable(name = "userId") String userId,Map<String, Object> model) throws  BusinessException, ApplicationException {
+		
+		model.put("userId", userId);	
+		return "imageViewer";
 		
 }
 	
