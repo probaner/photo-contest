@@ -53,6 +53,20 @@ div.ex4 {
 div.ex5 {
 	padding: 0px 100px 10px 100px;
 }
+
+
+.header img {
+  float: left;
+  width: 400px;
+  height: 80px;
+  background: #555;
+}
+.headerr img {
+  float: right;
+  width: 280px;
+  height: 78px;
+  background: #555;
+}
 </style>
 
 
@@ -61,13 +75,13 @@ div.ex5 {
 </head>
 <body>
 
-	<div class="container">
-		<div class="page-header">
-			<h2>Example Page Header</h2>
-		</div>
-		<p></p>
-		<p></p>
-	</div>
+  <div class="container">
+  <div class="page-header">
+  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
+  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
+  </div>      
+</div>
+ 
 
 
 <script type="text/javascript">

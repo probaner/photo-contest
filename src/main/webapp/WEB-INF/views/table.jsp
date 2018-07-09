@@ -27,6 +27,20 @@ div.ex2 {
 div.ex3 {
     padding: 50px 0px 0px 0px;
 }
+
+.header img {
+  float: left;
+  width: 400px;
+  height: 80px;
+  background: #555;
+}
+.headerr img {
+  float: right;
+  width: 280px;
+  height: 78px;
+  background: #555;
+}
+
 </style>
   
   
@@ -42,11 +56,13 @@ $(document).ready(function(){
 
 <div class="container">
   <div class="page-header">
-    <h2>Example Page Header</h2>      
-  </div>
-  <p></p>      
-  <p></p>      
+  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
+  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
+  </div>      
 </div>
+
+<p></p>      
+<p></p> 
 
 <div class="container">
   <h4></h4>

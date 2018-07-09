@@ -53,11 +53,31 @@ div.ex6 {
   width: 25%;
   float: left;
 }
+
+
+.header img {
+  float: left;
+  width: 400px;
+  height: 80px;
+  background: #555;
+}
+.headerr img {
+  float: right;
+  width: 280px;
+  height: 78px;
+  background: #555;
+}
 </style>
 
  
 </head>
 <body>
+<div class="container">
+  <div class="page-header">
+  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
+  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
+  </div>      
+</div>
 
 <div class="container">
   <div class="page-header">

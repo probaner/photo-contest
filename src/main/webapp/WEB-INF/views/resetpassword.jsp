@@ -10,11 +10,11 @@
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />">
  <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-formhelpers.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/site-demos.css" />">
-<script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">"></script>
 <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
@@ -42,14 +42,32 @@ color: red !important;
     padding-top: 70px;
 }
 
+.header img {
+  float: left;
+  width: 400px;
+  height: 80px;
+  background: #555;
+}
+.headerr img {
+  float: right;
+  width: 280px;
+  height: 78px;
+  background: #555;
+}
+
+
 </style>
 </head>
-
-
-
 <body>
 
-
+<div class="container">
+  <div class="page-header">
+  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
+  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
+  </div>      
+</div>
+ <p></p>      
+ <p></p> 
 
   
   <div>

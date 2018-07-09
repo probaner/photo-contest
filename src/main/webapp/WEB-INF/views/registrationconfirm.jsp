@@ -246,10 +246,35 @@ p {
     color: brown;
 }
 
+
+.header img {
+  float: left;
+  width: 400px;
+  height: 80px;
+  /* background: #555; */
+}
+.headerr img {
+  float: right;
+  width: 280px;
+  height: 78px;
+  /* background: #555; */
+}
+
+
   </style>
 </head>
 
 <body>
+  
+  <div class="container">
+  <div class="page-header">
+  <div class="header">  <img src="<c:url value="/resources/image/Logo.png" />" alt="logo" /> </div>
+  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.png" />" alt="logo" />   </div>    
+  </div>      
+</div>
+ <p></p>      
+  <p></p> 
+  
   
   <div id="w">
     <div id="content">
