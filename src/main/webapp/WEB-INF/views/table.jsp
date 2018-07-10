@@ -40,7 +40,12 @@ div.ex3 {
   height: 78px;
   background: #555;
 }
-
+.headerm img {
+  float: left;
+  width: 460px;
+  height: 80px;
+  
+}
 </style>
   
   
@@ -57,6 +62,7 @@ $(document).ready(function(){
 <div class="container">
   <div class="page-header">
   <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
   <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
   </div>      
 </div>
