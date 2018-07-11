@@ -97,16 +97,16 @@ public class DbServices {
 	public Users saveUserData(UserDTO userDTO) throws IOException {
 		Users users = new Users();
 		users.setUserId(commonUtil.getUserId());
-		users.setFirstName(userDTO.getFirstname());
-		users.setLastName(userDTO.getLastname());
+		users.setFirstName(userDTO.getFirstname().trim());
+		users.setLastName(userDTO.getLastname().trim());
 		users.setGender(userDTO.getGender());
-		users.setAddress(userDTO.getAddress());
-		users.setCity(userDTO.getCity());
-		users.setState(userDTO.getPin());
+		users.setAddress(userDTO.getAddress().trim());
+		users.setCity(userDTO.getCity().trim());
+		users.setState(userDTO.getPin().trim());
 		users.setCountry(userDTO.getCountry());
-		users.setClub(userDTO.getClub());
-		users.setHoner(userDTO.getHoner());
-		users.setEmail(userDTO.getEmail());
+		users.setClub(userDTO.getClub().trim().toUpperCase());
+		users.setHoner(userDTO.getHoner().trim());
+		users.setEmail(userDTO.getEmail().trim());
 		users.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		users.setCreatedOn(commonUtil.sqlDateTime());
 		users.setLastLoggin(commonUtil.sqlDateTime());
@@ -342,7 +342,7 @@ public class DbServices {
 		catagory.setCategoryId(results.get(fileDTO.getCatagoryName()));
 		
 		fileDetail.setUsers(user);
-		fileDetail.setTitel(fileDTO.getTitel());
+		fileDetail.setTitel(fileDTO.getTitel().trim().toUpperCase());
 		fileDetail.setFile(fileDTO.getImages().getBytes());
 		// fileDetail.setOriginalFileName(fileDTO.getPositionName()+"_"+fileDTO.getImages().getOriginalFilename());
 		fileDetail.setCategoryIndex(fileDTO.getPositionName());
