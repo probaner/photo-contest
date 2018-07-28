@@ -16,9 +16,12 @@
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />   
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script> -->
 
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+<%-- <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />"> --%>
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="<c:url value="/resources/css/jsgrid.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/jsgrid-theme.min.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/modal-fullscreen.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/carousel-fit.css" />">
 <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/jsgrid.min.js" />"></script>  
@@ -79,18 +82,13 @@ div.ex6 {
  
 </head>
 <body>
-<div class="container">
-  <div class="page-header">
-  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
-  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
-  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
-  </div>      
-</div>
 
 <div class="container">
   <div class="page-header">
-    <h2>Example Page Header</h2>      
-  </div>
+<%--   <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
+  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    --%> 
+  </div>  
   <p></p>      
   <p></p>      
 </div>
@@ -190,27 +188,31 @@ div.ex6 {
 
 
 <!-- /.container -->
-<div class="modal fade modal-fullscreen  footer-to-bottom" id="myModalFullscreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog animated zoomInLeft">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <!-- 	<h4 class="modal-title">Modal title</h4>
- -->
-            </div>
-            <div class="modal-body">
-                <p class="">One fine body…</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
+<div class="modal fade modal-fullscreen  " id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				
+				
+					<h4 class="modal-title">Modal title</h4>
+				
+			</div>
+			<div class="modal-body">
+				<p>One fine body&hellip;</p>
+			</div>
+			
+				<div class="modal-footer">
+					
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					
+				</div>
+			
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
  <script type="text/javascript">
 $(document).ready(function($)
 {
@@ -317,7 +319,11 @@ $(document).ready(function($)
 				        	            e.preventDefault(); //To prevent the default anchor tag behaviour
 				        	            var url = this.href;
 				        	            $('.modal-body').load(url,function(){
-				        	                $('#myModalFullscreen').modal({show:true});
+				        	                $('#myModalFullscreen').modal({
+				        	                    show: true, 
+				        	                    backdrop: 'static',
+				        	                    keyboard: true
+				        	                 });
 				        	            });
 				        	        });
     				             

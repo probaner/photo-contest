@@ -5,26 +5,7 @@
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
-<script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
-<script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
-
-<!-- <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-</head>
-<body>
-	<!-- a block container is required -->
-<!-- 
-https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-dynamically-using-jquery
- -->	<div class="container">
+	<div class="container">
 
 		<ul class="nav nav-tabs" id="tab-container">
 			<li class="active"><a href="#1" data-toggle="tab">Colour</a></li>
@@ -36,7 +17,7 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 		<div class="tab-content">
 			<div class="tab-pane active" id="1">
 				<div class="row">
-					<div id="myCarousel1" class="carousel slide" data-ride="carousel">
+					<div id="myCarousel1" class="carousel slide carousel-fit" data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
 							
@@ -62,7 +43,7 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 			</div>
 			<div class="tab-pane" id="2">
 				<div class="row">
-					<div id="myCarousel2" class="carousel slide" data-ride="carousel">
+					<div id="myCarousel2" class="carousel slide  carousel-fit" data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
 							
@@ -90,7 +71,7 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 			</div>
 			<div class="tab-pane" id="3">
 				<div class="row">
-					<div id="myCarousel3" class="carousel slide" data-ride="carousel">
+					<div id="myCarousel3" class="carousel slide carousel-fit" data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
 							
@@ -118,7 +99,7 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 			</div>
 			<div class="tab-pane" id="4">
 				<div class="row">
-					<div id="myCarousel4" class="carousel slide" data-ride="carousel">
+					<div id="myCarousel4" class="carousel slide carousel-fit" data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
 							
@@ -148,7 +129,6 @@ https://stackoverflow.com/questions/24177572/add-slides-to-bootstrap-3-carousel-
 
 
 	</div>
-</body>
 <script>
 $(document).ready(function()
 		{
@@ -221,12 +201,16 @@ $(document).ready(function()
 		     		  $(this).remove();
 		     		});  */
 		     		
-		     		 var $item = $('img');
+		     		 /* var $item = $('img');
 			     	 var $wHeight = $(window).height();
 			     	 var $wWidth = $(window).width();
 			     	 $item.height($wHeight);
-			     	 $item.height($wWidth);
-			     	$item.addClass('full-img');
+			     	 $item.height($wWidth); 
+			     	$item.addClass('full-img');*/
+			     	 
+			     	//var $item = $('img');
+			     	//$item.addClass('full-img');
+			     	//$item.addClass('img-responsive'); 
 		          },
 		             error: function(XMLHttpRequest, textStatus, errorThrown) { 
 		             console.log("Status: " + textStatus,errorThrown); 
