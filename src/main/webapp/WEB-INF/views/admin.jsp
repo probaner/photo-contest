@@ -16,12 +16,13 @@
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />   
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script> -->
 
-<%-- <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />"> --%>
-<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="<c:url value="/resources/css/jsgrid.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/jsgrid-theme.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/modal-fullscreen.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/carousel-fit.css" />">
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.min.css" />"> --%>
+<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jsgrid.min.css" />">
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css" />"> --%>
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jsgrid-theme.min.css" />">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/modal-fullscreen.css" />">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/carousel-fit.css" />">
 <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/jsgrid.min.js" />"></script>  
@@ -188,26 +189,19 @@ div.ex6 {
 
 
 <!-- /.container -->
-<div class="modal fade modal-fullscreen  " id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-fullscreen" id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				
-				
-					<h4 class="modal-title">Modal title</h4>
-				
+					<!-- <h4 class="modal-title">Modal title</h4> -->
 			</div>
 			<div class="modal-body">
 				<p>One fine body&hellip;</p>
 			</div>
 			
 				<div class="modal-footer">
-					
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					
 				</div>
 			
 		</div><!-- /.modal-content -->

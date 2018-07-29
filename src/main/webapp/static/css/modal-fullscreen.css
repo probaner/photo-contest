@@ -10,6 +10,7 @@
 	 * in an absolute position. You must handle by yourself the margin of the
 	 * content.
 	 */
+	   background-color: white !important;
 
 }
 .modal.modal-fullscreen .modal-dialog,
@@ -32,6 +33,7 @@
   -moz-box-shadow: inherit;
   -o-box-shadow: inherit;
   box-shadow: inherit;
+  background-color:inherit;
 }
 .modal.modal-fullscreen.force-fullscreen {
   /* Remove the padding inside the body */
