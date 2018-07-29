@@ -18,14 +18,16 @@
 
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.min.css" />"> --%>
 <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.loading-indicator.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jsgrid.min.css" />">
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css" />"> --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jsgrid-theme.min.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/modal-fullscreen.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/carousel-fit.css" />">
 <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/jsgrid.min.js" />"></script> 
 <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
-<script src="<c:url value="/resources/javaScript/jsgrid.min.js" />"></script>  
+<script src="<c:url value="/resources/javaScript/jquery.loading-indicator.min.js" />"></script>  
  
  <style>
 

@@ -133,7 +133,9 @@
 $(document).ready(function()
 		{
 	
-	
+			var myCarousel1Loader = $('#1').loadingIndicator({
+				useImage: false,
+			}).data("loadingIndicator");
 
 	
 			 $.ajax({
@@ -151,6 +153,7 @@ $(document).ready(function()
 			     		  $('#myCarousel1 > .container > .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel1 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel1').carousel();
+			     		  myCarousel1Loader.hide();
 		     		}
 		     		
 		     		if(result.data['monochrome']){  
