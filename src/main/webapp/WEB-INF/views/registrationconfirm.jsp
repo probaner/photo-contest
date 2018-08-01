@@ -259,7 +259,12 @@ p {
   height: 78px;
   /* background: #555; */
 }
-
+.headerm img {
+  float: left;
+  width: 460px;
+  height: 80px;
+  
+}
 
   </style>
 </head>
@@ -269,6 +274,7 @@ p {
   <div class="container">
   <div class="page-header">
   <div class="header">  <img src="<c:url value="/resources/image/Logo.png" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="/resources/image/White background png.png" />" alt="logo" />   </div>
   <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.png" />" alt="logo" />   </div>    
   </div>      
 </div>
