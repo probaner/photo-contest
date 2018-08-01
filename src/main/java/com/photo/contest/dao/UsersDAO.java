@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.photo.contest.dto.ClubDTO;
+import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.model.Users;
 
 
@@ -219,6 +220,29 @@ public class UsersDAO {
 	}
 	
 	
+	
+	public List<PaystatusGraphDTO> fetchSqlforGraph(String sql) {
+		try {			
+			@SuppressWarnings("unchecked")
+			List<PaystatusGraphDTO> results = sessionFactory.getCurrentSession().createSQLQuery(sql)
+					                         .addScalar("country", StandardBasicTypes.STRING)
+					                         .addScalar("paid", StandardBasicTypes.INTEGER)
+					                         .addScalar("unpaid", StandardBasicTypes.INTEGER)
+					                         .setResultTransformer( Transformers.aliasToBean(PaystatusGraphDTO.class))
+											 .list();
+			 
+			 //System.out.println("results.size="+results.size());
+			if(results.size()>0)
+			   return results;
+			else
+				return new ArrayList<PaystatusGraphDTO>();
+		}catch (RuntimeException re) {
+			log.error("finding Category Wise FileCount of a User", re);
+			throw re;
+		}
+	}
+	
+	
 	public List<Users> getAllUsersList(String tableName){
 	    String jpql = "SELECT t FROM " + tableName+ " t";
 	    Query query = sessionFactory.getCurrentSession().createQuery(jpql);
@@ -226,6 +250,8 @@ public class UsersDAO {
 	    //rest of the code    
 		return list;
 	}
+	
+	
 	
 
 }

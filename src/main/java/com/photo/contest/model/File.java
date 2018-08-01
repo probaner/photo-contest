@@ -63,7 +63,7 @@ public class File  implements java.io.Serializable {
     public void setFileId(Integer fileId) {
         this.fileId = fileId;
     }
-@ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="category_id", nullable=false)
     public Category getCategory() {
         return this.category;
@@ -72,7 +72,7 @@ public class File  implements java.io.Serializable {
     public void setCategory(Category category) {
         this.category = category;
     }
-@ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false)
     public Users getUsers() {
         return this.users;

@@ -27,6 +27,7 @@ import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.LogingResponseDTO;
+import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.exception.ApplicationException;
@@ -497,6 +498,33 @@ public class DbServices {
 		return userStatusDisplayDTOList;
 
 	}
+	
+	
+	
+	@Transactional
+	public Map<String,List<?>> getPaystatusCountryWise() {
+
+		String sql = "select dset1.country, \n" + 
+				"CASE WHEN dset1.paying_status='Paid' THEN dset1.user_cnt ELSE 0 END 'paid', \n" + 
+				"CASE WHEN dset1.paying_status='Being Check' THEN dset1.user_cnt ELSE 0 END 'unpaid' \n" + 
+				"from \n" + 
+				"(\n" + 
+				"select usr.country, pst.paying_status, count(pst.user_id) user_cnt from \n" + 
+				"salontest.pay_status pst inner join salontest.users usr \n" + 
+				"on pst.user_id=usr.user_id group by usr.country, pst.paying_status\n" + 
+				") dset1 ";
+
+		//List<PaystatusGraphDTO> paystatusGraphDTOList = payStatusDAO.fetchSql(sql);
+		List<PaystatusGraphDTO> paystatusGraphDTOList =usersDAO.fetchSqlforGraph(sql);
+		
+		//System.out.println("paystatusGraphDTOList="+paystatusGraphDTOList);
+		
+		Map<String,List<?>> map = commonService.formatGraphData(paystatusGraphDTOList);
+
+		return map;
+
+	}
+	
 
 	@Transactional
 	public int getDiscountPersent(UserDTO userDTO) {

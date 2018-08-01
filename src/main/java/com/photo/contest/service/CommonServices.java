@@ -2,8 +2,11 @@ package com.photo.contest.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.MailRecipientDTO;
+import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
@@ -136,8 +140,8 @@ public class CommonServices {
 				file.delete();
 				System.out.println(file.getName() + " is deleted!");
 			} else {
-				System.out.println("Delete operation is failed.");
-			}
+				     System.out.println("Delete operation is failed.");
+			        }
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -151,5 +155,46 @@ public class CommonServices {
 		else
 			return false;
 	}
+	
+	
+	public Map<String,List<?>> formatGraphData(List<PaystatusGraphDTO> paystatusGraphDTOList) {
+		
+		Map<String,List<?>> map = new HashMap<>();
+		
+		if(paystatusGraphDTOList.size() > 0) {
+			List<String> country = new ArrayList<>();
+			List<Integer> paid = new ArrayList<>();
+			List<Integer> unpaid = new ArrayList<>();
+			
+			for(PaystatusGraphDTO pg : paystatusGraphDTOList) {
+				  
+				if (country.contains(pg.getCountry())) {
+					int index = country.indexOf(pg.getCountry());
+					
+					if(paid.get(index)==0 && pg.getPaid()!=0) {
+						paid.set(index, pg.getPaid());
+					  }
+					else if(unpaid.get(index)==0 && pg.getUnpaid()!=0) {
+						     unpaid.set(index, pg.getUnpaid());     
+					       }
+				   }else {
+					       country.add(pg.getCountry());
+					       paid.add(pg.getPaid());
+					       unpaid.add(pg.getUnpaid());
+				         }
+			   }
+			/*System.out.println(country);
+			System.out.println(paid);
+			System.out.println(unpaid);*/
+			map.put("country", country);
+			map.put("paid", paid);
+			map.put("unpaid", unpaid);
+		  }
+		
+		return map;
+		
+	}
+	
+	
 
 }
