@@ -1,10 +1,14 @@
 package com.photo.contest.config;
 
+import java.util.Properties;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
@@ -54,6 +58,25 @@ public class WebMvcConfig implements WebMvcConfigurer {
       source.setBasename("messages");
       return source;
    }
+   
+   
+   @Bean
+   public JavaMailSender javaMailService() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+	    mailSender.setHost("mail.vibgyorcircuit");
+	    mailSender.setPort(587);//try with 25/587	     
+	    mailSender.setUsername("support@vibgyorcircuit.co");
+	    //mailSender.setPassword("password");
+	     
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.auth", "false");//Put  false, if no https is needed
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.debug", "true");
+	     
+	    return mailSender;
+		
+	}
    
    @Override
    public void addViewControllers(ViewControllerRegistry registry) {

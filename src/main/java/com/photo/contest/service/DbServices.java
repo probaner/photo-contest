@@ -324,11 +324,11 @@ public class DbServices {
 	@Transactional
 	public void updateForgetPasswAuthToken(Users user, String data) {		
 		usersDAO.attachDirty(user);	
-		/*if(data.contains("token=")) {
+		if(data.contains("token=")) {
 		   commonService.sendforgetPassWordMail(user, data);
 		  }else {
 			    commonService.sendRegistrationConfirmMail(user, data);
-		      }*/
+		      }
 	}
 
 	@Transactional
