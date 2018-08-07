@@ -56,6 +56,19 @@ public class EditTableController {
 		return responseDTO;
 		
 }
+	
+	@RequestMapping(value = "/admin/json/updateimagetitel")
+	public @ResponseBody ResponseDTO updateImageTitelJson(@RequestBody FileDTO fileDTO) throws  BusinessException {		
+		ResponseDTO responseDTO = new ResponseDTO();	
+		if(fileDTO != null) {
+		   dbServices.updateImageTitel(fileDTO);
+		   responseDTO.setSuccess(true);
+		  }
+		return responseDTO;	
+}
+	
+	
+	
 	@GetMapping(value = "/admin/json/fetchImagesForUser/{userId}")
 	public @ResponseBody ResponseDTO fetchAllImagesForUser(@PathVariable(name = "userId") String userId) throws  BusinessException, ApplicationException {
 		
@@ -72,11 +85,9 @@ public class EditTableController {
 }
 	
 	@GetMapping(value = "/imageViewer/{userId}")
-	public String fetchAllImagesPageForUser(@PathVariable(name = "userId") String userId,Map<String, Object> model) throws  BusinessException, ApplicationException {
-		
+	public String fetchAllImagesPageForUser(@PathVariable(name = "userId") String userId,Map<String, Object> model) throws  BusinessException, ApplicationException {		
 		model.put("userId", userId);	
-		return "imageViewer";
-		
+		return "imageViewer";		
 }
 	
 	

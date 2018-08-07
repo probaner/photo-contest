@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.model.File;
+import com.photo.contest.model.Users;
 
 @Repository
 public class FileDetailDAO {
@@ -42,6 +43,20 @@ public class FileDetailDAO {
 			         throw re;
 		            }		 
 	 }
+	 
+	 
+	 public void attachDirty(File instance) {
+			log.debug("attaching dirty User instance");
+			try {				 
+				  sessionFactory.getCurrentSession().saveOrUpdate(instance);
+				  log.debug("attach successful");
+				  
+			    }catch (RuntimeException re) {
+				log.error("attach failed", re);
+				throw re;
+			}
+		}
+	 
 	 
 	 
 	 @SuppressWarnings("deprecation")
@@ -115,6 +130,30 @@ public class FileDetailDAO {
 	          }
 			 
 		 }
+	 
+	 
+	 
+	 public File findById(java.lang.Integer id) {
+			log.debug("getting File instance with id: " + id);
+			File instance = new File();
+			try{
+				//Session session = sessionFactory.getCurrentSession();
+				 instance = (File) sessionFactory.getCurrentSession().get("com.photo.contest.model.File", id);
+				if (instance == null) {
+					log.debug("get successful, no instance found");
+				} else {
+					log.debug("get successful, instance found");
+				    }
+				
+			   } catch (RuntimeException re) {
+				log.error("get failed", re);
+				throw re;
+			   }
+			return instance;
+			
+		}
+	 
+	 
 	 
 	 public List<File> findByExample(File instance) {
 		 log.debug("finding User instance by example");

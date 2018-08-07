@@ -33,6 +33,7 @@ import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.exception.ApplicationException;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.exception.ErrorCode;
+import com.photo.contest.exception.ImageNotFoundException;
 import com.photo.contest.exception.PayStatusNotFoundException;
 import com.photo.contest.exception.UserNotFoundException;
 import com.photo.contest.model.Category;
@@ -462,12 +463,24 @@ public class DbServices {
 	}
    
 	
+	@Transactional
+	public void updateImageTitel(FileDTO fileDTO) throws UserNotFoundException, ImageNotFoundException {
+		File file = fileDetailDAO.findById(fileDTO.getFileId());
+		if(file != null) {
+		   file.setTitel(fileDTO.getTitel());
+		   fileDetailDAO.attachDirty(file);
+		  }else {
+			      ErrorCode errorCode = new ErrorCode("Please contact System Admin.","User Not found.",500);
+	              throw new ImageNotFoundException(errorCode);
+		        }		
+	}
+	
+	
 	
 	@Transactional
 	public void getCategoryMap() {
 		
-		results = categoryDAO.getCategoryMap();
-		
+		results = categoryDAO.getCategoryMap();		
 	}
 	
 
@@ -688,12 +701,12 @@ public class DbServices {
 		user.setPayStatus(payStatus);
 		usersDAO.attachDirty(user);
 		}else {
-			ErrorCode errorCode = new ErrorCode("Please contact System Admin.","Paystatus record is not found for this user while updating User.",500);
-			throw new UserNotFoundException(errorCode);
-		}
+			   ErrorCode errorCode = new ErrorCode("Please contact System Admin.","Paystatus record is not found for this user while updating User.",500);
+			   throw new UserNotFoundException(errorCode);
+		      }
 		}else {
-			ErrorCode errorCode = new ErrorCode("Please contact System Admin.","User record is not found for this user while updating User.",500);
-			throw new PayStatusNotFoundException(errorCode);
+			   ErrorCode errorCode = new ErrorCode("Please contact System Admin.","User record is not found for this user while updating User.",500);
+			   throw new PayStatusNotFoundException(errorCode);
 		}
 		}
 	}
