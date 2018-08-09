@@ -142,8 +142,11 @@ $(document).ready(function()
 				    url: "admin/json/fetchImagesForUser/${userId}",
 				    dataType: "json",
 		         	success: function(result){
-		     		console.log(result.data);
+		         		//console.log("Chandan+1");
 		     		
+		     		
+		     	if(result.data){
+		     		console.log(result.data);
 		     		if(result.data['color']){
 		     			result.data['color'].forEach(function(element, i) {
 			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="#">save</a> </div></div></div>  </div>').appendTo('#myCarousel1 > .container > .carousel-inner');
@@ -165,6 +168,7 @@ $(document).ready(function()
 		     		  $('#myCarousel2 > .container > .carousel-inner > .item').first().addClass('active');
 		     		  $('#myCarousel2 > .carousel-indicators > li').first().addClass('active');
 		     		  $('#myCarousel2').carousel();
+		     		  myCarousel1Loader.hide();
 		     		}
 		     		
 		     		if(result.data['nature']){  
@@ -176,6 +180,7 @@ $(document).ready(function()
 			     		  $('#myCarousel3 > .container> .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel3 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel3').carousel();
+			     		  myCarousel1Loader.hide();
 		     		}	  
 			     		  
 		     		if(result.data['photojournalism']){    
@@ -187,7 +192,11 @@ $(document).ready(function()
 			     		  $('#myCarousel4 > .container > .carousel-inner > .item').first().addClass('active');
 			     		  $('#myCarousel4 > .carousel-indicators > li').first().addClass('active');
 			     		  $('#myCarousel4').carousel();
+			     		  myCarousel1Loader.hide();
 		     		}
+		     	}else{
+		     		 myCarousel1Loader.hide();
+		     	}
 		     		/* var $item = $('.item');
 		     		var $wHeight = $(window).height();
 
