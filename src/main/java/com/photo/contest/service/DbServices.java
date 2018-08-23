@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,6 +20,8 @@ import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dao.CategoryDAO;
 import com.photo.contest.dao.DiscountDataDAO;
 import com.photo.contest.dao.FileDetailDAO;
+import com.photo.contest.dao.JudgeDAO;
+import com.photo.contest.dao.OrganizerClubDAO;
 import com.photo.contest.dao.PayStatusDAO;
 import com.photo.contest.dao.UsersDAO;
 import com.photo.contest.dto.CategoryCountMap;
@@ -26,6 +29,8 @@ import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
+import com.photo.contest.dto.JudgeCreationDTO;
+import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
@@ -39,6 +44,8 @@ import com.photo.contest.exception.UserNotFoundException;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.DiscountData;
 import com.photo.contest.model.File;
+import com.photo.contest.model.Judge;
+import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.PayStatus;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
@@ -47,7 +54,7 @@ import com.photo.contest.utility.CommonUtil;
 @Service
 public class DbServices {
 	
-	static Map<String, Integer> results = new HashMap<String, Integer>();
+	public static Map<String, Integer> results = new HashMap<String, Integer>();
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -66,7 +73,12 @@ public class DbServices {
 	private PayStatusDAO payStatusDAO;
 	@Autowired
 	private DiscountDataDAO discountDataDAO;
-
+	@Autowired
+	private OrganizerClubDAO organizerClubDAO;
+	@Autowired
+	private JudgeDAO judgeDAO;
+	
+	
 	public void setUsersDAO(UsersDAO usersDAO) {
 		this.usersDAO = usersDAO;
 	}
@@ -94,6 +106,16 @@ public class DbServices {
 	public void setDiscountDataDAO(DiscountDataDAO discountDataDAO) {
 		this.discountDataDAO = discountDataDAO;
 	}
+	
+	
+	public void setOrganizerClubDAO(OrganizerClubDAO organizerClubDAO) {
+		this.organizerClubDAO = organizerClubDAO;
+	}
+		
+
+	public void setJudgeDAO(JudgeDAO judgeDAO) {
+		this.judgeDAO = judgeDAO;
+	}
 
 	@Transactional
 	public Users saveUserData(UserDTO userDTO) throws IOException {
@@ -113,6 +135,7 @@ public class DbServices {
 		users.setCreatedOn(commonUtil.sqlDateTime());
 		users.setLastLoggin(commonUtil.sqlDateTime());
 		users.setRole("participate");
+		users.setCreatedBy("own");
 		
 		PayStatus payStatus = new PayStatus();
 		payStatus.setAttemptSection(0);
@@ -328,8 +351,8 @@ public class DbServices {
 		if(data.contains("token=")) {
 		   commonService.sendforgetPassWordMail(user, data);
 		  }else {
-			    commonService.sendRegistrationConfirmMail(user, data);
-		      }
+			      commonService.sendRegistrationConfirmMail(user, data);
+		        }
 	}
 
 	@Transactional
@@ -559,6 +582,13 @@ public class DbServices {
 		String password = usersDAO.findPassword(getPassword.getEmail());
 		return password;
 	}
+	
+	@Transactional
+	public List<OrganizerClub> getOrganizerClubList() {
+		List<OrganizerClub> organizerClubList = organizerClubDAO.getOrganizerClubList("OrganizerClub");
+		//System.out.println("organizerClubList="+organizerClubList.size());
+		return organizerClubList;
+	}
 
 	@Transactional
 	public String createSingleCouponeCode(String userId, String persent, Integer createorUserId, String adminEmail) {
@@ -661,11 +691,7 @@ public class DbServices {
 				discountDataDAO.persist(ndiscountData);
 				//commonService.sendCreateCouponCodeMailforaUser(u,couponcode,adminEmail);
 			  }else {
-				      //System.out.println("IN else");				      
-				      //DiscountData ndiscountData = new DiscountData(); 
-				      //ndiscountData.setDiscountId(discountData.getDiscountId());
-				      //ndiscountData.setCouponCode(discountData.getCouponCode());
-					  //ndiscountData.setUsers(u);
+				      
 					  discountData.setDiscountPersent(Integer.parseInt(persent));
 					  //ndiscountData.setCreatedBy(createorUserId);					  
 					  discountDataDAO.attachDirty(discountData);
@@ -760,8 +786,126 @@ public class DbServices {
 		return editTableDataDTOList;
 		
 	}
+	
+	@Transactional
+	public String createJudge(JudgeCreationDTO judgeRegistrationDTO, UserDTO userDTO, String token, String judgeRegisterUrl) throws IOException {
+		
+		OrganizerClub organizerClub = organizerClubDAO.findByOrganizerClubName(judgeRegistrationDTO.getOrganizerclubName());
+		Users user = usersDAO.findById(userDTO.getUserid());
+		Users judge = new Users();
+		judge.setUserId(commonUtil.getUserId());
+		judge.setEmail(judgeRegistrationDTO.getEmail());
+		judge.setFirstName(judgeRegistrationDTO.getFirstname());
+		judge.setLastName(judgeRegistrationDTO.getLastname());
+		judge.setJudgeOrganizerClub(organizerClub);
+		judge.setCreatedOn(commonUtil.sqlDateTime());
+		judge.setLastLoggin(commonUtil.sqlDateTime());
+		judge.setJudgeRegistrationToken(token);
+		judge.setCreatedBy(String.valueOf(user.getUserId()));
+		judge.setRole("judge");
+		if(judgeRegistrationDTO.getCategory().size()>0) {
+			Set<Category> categorySet = new HashSet<>();
+			for(String categoryName : judgeRegistrationDTO.getCategory()) {
+				if(results.containsKey(categoryName)){
+				   Category category = new Category();
+				   category.setCategoryName(categoryName);
+				   category.setCategoryId(results.get(categoryName));
+				   categorySet.add(category);
+				  }
+			   }
+			judge.setJudgeCategoryMapping(categorySet);
+		   }
+		/*Judge judge = new Judge();
+		judge.setJudgeName(judgeRegistrationDTO.getName());
+		judge.setJudgeEmail(judgeRegistrationDTO.getEmail());
+		judge.setJudgeOrganizerClub(organizerClub);
+		judge.setJudgeCreatedTime(commonUtil.sqlDateTime());
+		judge.setJudgeLastUpdateTime(commonUtil.sqlDateTime());
+		judge.setJudgeRegistrationToken(token);
+		judge.setJudgeCreatedBy(user);
+		if(judgeRegistrationDTO.getCategory().size()>0) {
+			Set<Category> categorySet = new HashSet<>();
+			for(String categoryName : judgeRegistrationDTO.getCategory()) {
+				if(results.containsKey(categoryName)){
+				   Category category = new Category();
+				   category.setCategoryName(categoryName);
+				   category.setCategoryId(results.get(categoryName));
+				   categorySet.add(category);
+				  }
+			   }
+			judge.setJudgeCategoryMapping(categorySet);
+		   }*/
+		
+		int id = usersDAO.persist(judge);
+		
+		
+		if (id > 0) {
+			          //commonService.sendJudgeRegistrationURLMail(judgeRegisterUrl, judgeRegistrationDTO.getEmail());			            
+			          return "ok";			          
+		            }
+		else {
+			   return "not ok";
+		     }
+		
+	}
 
 
+	@Transactional
+	public Users getJudge(String email) {
+		
+		Users judge = usersDAO.findByEmail(email);	
+		return judge;
+		
+		}
+	
+	
+	
+	@Transactional
+	public Users getJudgeforRegister(String judgeRegisterURLToken) {
+		Users judge = usersDAO.findJudgeByRegisterURLToken(judgeRegisterURLToken);
+		return judge;
+	}
+	
+	@Transactional
+	public Judge getJudgeforChangePassword(String forgetPasswAuthToken) {
+		Judge judge = judgeDAO.findByforgetPasswAuthToken(forgetPasswAuthToken);
+		return judge;
+	}
+	
+	@Transactional
+	public void registerJudge(Users judge, JudgeRegisterDTO judgeRegisterDTO ) {
+		if(judge != null)
+		  {
+			judge.setJudgeRegistrationToken(null);
+			judge.setAddress(judgeRegisterDTO.getJudgeAddress());
+			judge.setCity(judgeRegisterDTO.getJudgeCity());
+			judge.setState(judgeRegisterDTO.getJudgePin());
+			judge.setCountry(judgeRegisterDTO.getJudgeCountry());
+			judge.setLastLoggin(commonUtil.sqlDateTime());
+			
+			usersDAO.attachDirty(judge);
+		  }	
+		
+		System.out.println("judge="+judge.toString());
+	}
+	
+	@Transactional
+	public List<String> getCategoryListofaJudge(int id) {
+		
+		Users judge = usersDAO.findById(id);
+		Set<Category> categorySet = judge.getJudgeCategoryMapping();
+		List<String> categoryList = new ArrayList();
+		if (categorySet.size() > 0 ) {
+		    for(Category c : categorySet) {
+		    	categoryList.add(c.getCategoryName());
+		       }
+		   }
+		
+		return categoryList;
+	}
+	
+	
+	
 }
 
 

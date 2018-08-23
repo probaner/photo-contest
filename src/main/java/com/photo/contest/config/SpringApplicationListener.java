@@ -16,7 +16,7 @@ public class SpringApplicationListener implements ApplicationListener<ContextRef
 	
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		
-		dbServices. getCategoryMap();
+		dbServices.getCategoryMap();
       
     }
 

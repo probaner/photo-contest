@@ -20,6 +20,7 @@ import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.PaymentDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
+import com.photo.contest.model.Judge;
 import com.photo.contest.model.Users;
 import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
@@ -45,7 +46,8 @@ public class WelcomeController {
 	    }  
 			
 	@GetMapping("/home")  
-	    public ModelAndView helloWorld() throws IOException {	    		    		        	    	
+	    public ModelAndView helloWorld() throws IOException {
+		commonServices.getJudgeOpeningDate();
 	        return new ModelAndView("home"); 
 	    } 
 	
@@ -62,7 +64,7 @@ public class WelcomeController {
 	@GetMapping("/getUserTable")
 		public String viewLogin(Map<String, Object> model) throws IOException {
 	    	List<UserStatusDisplayDTO> userStatusDisplayDTOList = dbServices.getUserDateForStatusTable();
-	    	System.out.println("userStatusDisplayDTOList="+userStatusDisplayDTOList);
+	    	//System.out.println("userStatusDisplayDTOList="+userStatusDisplayDTOList);
 			model.put("tableData", userStatusDisplayDTOList);	
 			return "table";		
 		  }
@@ -87,13 +89,8 @@ public class WelcomeController {
 			   Users users =dbServices.saveUserData(userDTO);
 	  
 			   UserDTO userDTOn = commonServices.createCurrentUserDTO( users , new UserDTO());
-			   //model.addAttribute("userForm", userDTOn);	
-			   //model.addAttribute("sucessMagssage", "welcome "+userDTO.getLastname()+" " + userDTO.getFirstname());
-			   //model.addAttribute("product", new FileDTO());			   
-			   //model.addAttribute("paymentDetail", new PaymentDTO());
 			   model.addAttribute("sucess", "abcd");
 			   return "registrationconfirm";
-               //return "registrationsuccess";
 		   }else {
 			       model.addAttribute("userForm", userDTO);
 			       model.addAttribute("error", "Last Login Date is Over !");

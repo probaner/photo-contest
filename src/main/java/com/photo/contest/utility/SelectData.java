@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.photo.contest.dto.ClubDTO;
+import com.photo.contest.model.OrganizerClub;
 
 @Component
 public class SelectData {
@@ -21,6 +22,27 @@ public class SelectData {
 		gerderList.add("Male");
 		return gerderList;
 		
+	}
+	
+	public List<String> getCategoryList(Map<String, Integer> categoryMap){
+		
+		List<String> categoryList = new ArrayList<String>(categoryMap.keySet());
+		
+		return categoryList;
+		
+	}
+	
+	
+	public List<String> organizerClubList(List<OrganizerClub> organizerClubDTOList) {
+
+		List<String> clubData = new ArrayList<String>();
+		clubData.add(0, "select club name");
+		if (organizerClubDTOList.size() > 0) {
+			for (OrganizerClub organizerClub : organizerClubDTOList) {
+				 clubData.add(organizerClub.getOrganizerclubname());
+			    }
+		   }
+		 return clubData;
 	}
 	
    public Map<String,String> countryData(){

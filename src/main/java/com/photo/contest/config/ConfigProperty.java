@@ -81,6 +81,12 @@ public class ConfigProperty {
 	@Value("${file.minlongestSideResolution}")
 	private String fileMinlongestSideResolution;
 	
+	@Value("${judging.startdate}")
+	private String judgingStartdate;
+	@Value("${judging.enddate}")
+	private String judgingEnddate;
+	
+	
 	
 	public ConfigProperty() {
 		super();
@@ -98,7 +104,7 @@ public class ConfigProperty {
 			String categorySevenNetive, String categoryEightNetive, String categoryNineNetive, String categoryTenNetive,
 			String overall, String overallNetive, String netiveCountry, String netiveCurrencyName,
 			String foreignCurrencyName, String closeDate, String fileMaxlongestSideResolution,
-			String fileMinlongestSideResolution) {
+			String fileMinlongestSideResolution, String judgingStartdate, String judgingEnddate) {
 		super();
 		this.basePath = basePath;
 		this.maxSize = maxSize;
@@ -136,9 +142,9 @@ public class ConfigProperty {
 		this.closeDate = closeDate;
 		this.fileMaxlongestSideResolution = fileMaxlongestSideResolution;
 		this.fileMinlongestSideResolution = fileMinlongestSideResolution;
+		this.judgingStartdate = judgingStartdate;
+		this.judgingEnddate = judgingEnddate;
 	}
-
-
 
 
 
@@ -566,5 +572,24 @@ public class ConfigProperty {
 	}
 
 
+	public String getJudgingStartdate() {
+		return judgingStartdate;
+	}
+
+
+	public void setJudgingStartdate(String judgingStartdate) {
+		this.judgingStartdate = judgingStartdate;
+	}
+
+
+	public String getJudgingEnddate() {
+		return judgingEnddate;
+	}
+
+
+	public void setJudgingEnddate(String judgingEnddate) {
+		this.judgingEnddate = judgingEnddate;
+	}
+	
 	
 }

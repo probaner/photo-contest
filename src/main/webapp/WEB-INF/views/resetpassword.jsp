@@ -157,7 +157,8 @@ color: red !important;
 										<input type="hidden" class="hide" name="token" id="token"
 											value="Submit">
 											
-									</c:when></c:choose>
+									</c:when>
+									</c:choose>
 															
 								</form:form>   
                   </div>

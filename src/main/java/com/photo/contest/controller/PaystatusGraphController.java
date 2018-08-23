@@ -24,7 +24,7 @@ public class PaystatusGraphController {
 			
 		Map<String,List<?>> map = dbServices.getPaystatusCountryWise();
 		
-		System.out.println(map);
+		//System.out.println(map);
 				
 		return map;
 		

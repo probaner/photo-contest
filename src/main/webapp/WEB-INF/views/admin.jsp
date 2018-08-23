@@ -17,7 +17,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script> -->
 
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.min.css" />"> --%>
-<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.loading-indicator.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jsgrid.min.css" />">
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css" />"> --%>
@@ -27,8 +27,13 @@
 <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/jsgrid.min.js" />"></script> 
 <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
-<script src="<c:url value="/resources/javaScript/jquery.loading-indicator.min.js" />"></script>  
- 
+<script src="<c:url value="/resources/javaScript/jquery.loading-indicator.min.js" />"></script> 
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script> 
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>  -->
  <style>
 
 div.ex1 {
@@ -54,7 +59,19 @@ div.ex6 {
     padding: 50px 100px 0px 90px;
 }
 
+div.ex7 {
+    padding: 20px 100px 20px 230px;
+}
 
+div.ex8 {
+    padding: 20px 100px 20px 450px;
+}
+div.ex9 {
+    padding: 0px 0px 0px 50px;
+}
+div.ex10 {
+    padding: 10px 0px 0px 50px;
+}
 .cellContainer {
   width: 25%;
   float: left;
@@ -80,6 +97,53 @@ div.ex6 {
   height: 80px;
   
 }
+
+
+.material-switch > input[type="checkbox"] {
+    display: none;   
+}
+
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 40px;  
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 20px;
+}
+
 </style>
 
  
@@ -111,84 +175,194 @@ div.ex6 {
 		</div>
 	</div>
 
-<div class="container">  
-  <div class="panel-group">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse1">Create Coupon Code</a>
-        </h4>
-      </div>
-   <div id="collapse1" class="panel-collapse collapse">
-  <div class="row">
- <form:form  action="createCoupon" method="post" modelAttribute="couponCode">
-       
-	   
-      <div class="col-sm-6">
-	   <div class="ex3">	  
-       <form:select class="form-control" path="clubData" items="${clubDataList}" />
-       
-        
-             <input type="text" class="form-control" id="persent" name="persent" placeholder="Enter discount persent(%)" required="autofocus"/>                                        
-            
-		<div style="color: red"> ${clubcouponCodeError} </div>
-		<div class="ex6">
-		<label class="btn btn-danger">Submit<input type="submit" id="creatrColubcouponcode" style="display: none;" name="action" value="createClubCoupon"  /></label>
+	<div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse1">Create Coupon Code</a>
+					</h4>
+				</div>
+				<div id="collapse1" class="panel-collapse collapse">
+					<div class="row">
+						<form:form action="createCoupon" method="post"
+							modelAttribute="couponCode">
+
+
+							<div class="col-sm-6">
+						   <div class="col-sm-9"> <div style="color: red">${clubcouponCodeError}</div></div>
+								<div class="ex3">
+									<form:select class="form-control" path="clubData"
+										items="${clubDataList}" />
+									<p></p>
+									<p></p>
+									<p></p>
+									<p></p>
+									<input type="text" class="form-control" id="persent"
+										name="persent" placeholder="Enter discount persent(%)"
+										required="autofocus" />
+
+									
+									<div class="ex6">
+										<label class="btn btn-danger">Submit<input
+											type="submit" id="creatrColubcouponcode"
+											style="display: none;" name="action" value="createClubCoupon" /></label>
+									</div>
+									<div class="ex5"></div>
+								</div>
+							</div>
+						</form:form>
+						<form:form action="createCoupon" method="post"
+							modelAttribute="couponCode">
+							<div class="col-sm-6">
+							  <div class="col-sm-9"><div style="color: red">${couponCodeError}</div></div>
+								<div class="ex3">
+									<div class=style=
+										"margin-bottom: 25px" class="form-group col-md-12 redplaceholder">
+										<input type="text" class="form-control" id="userId"
+											name="userId" placeholder="Enter perticipant id"
+											required="autofocus">
+										<p></p>
+										<p></p>
+										<p></p>
+										<p></p>
+
+										<input type="text" class="form-control" id="persent"
+											name="persent" placeholder="Enter discount persent(%)"
+											required="autofocus" />
+									</div>
+
+									<div class="ex6">
+										
+										<label class="btn btn-danger">Submit<input
+											type="submit" id="creatrsinglecouponcode"
+											style="display: none;" name="action" value="createSigle" /></label>
+									</div>
+									<div class="ex5"></div>
+								</div>
+							</div>
+
+							<!--end of row -->
+						</form:form>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="ex5"></div>
-	   </div>
-	   </div>
-	   </form:form>
-	  <form:form  action="createCoupon" method="post" modelAttribute="couponCode">
-	   <div class="col-sm-6">
-	   <div class="ex3">
-	   <div class="form-group">
-    		
-    		<div class=style="margin-bottom: 25px" class="form-group col-md-12 redplaceholder">
-    			<input type="text" class="form-control" id="userId" name="userId" placeholder="Enter perticipant id" required="autofocus">
-    		</div>
-    		 <div class="cellContainer"></div>
-    		 <div style="margin-bottom: 25px" class="form-group col-md-12 redplaceholder"> 
-             <input type="text" class="form-control" id="persent" name="persent" placeholder="Enter discount persent(%)" required="autofocus"/>                                        
-            </div>
-            
-    	</div>
-    	<div style="color: red"> ${couponCodeError} </div>
-		 <label class="btn btn-danger">Submit<input type="submit" id="creatrsinglecouponcode" style="display: none;" name="action" value="createSigle"  /></label>
-		<div class="ex5"></div>
-	   </div>
-	   </div>
-	   
-         <!--end of row -->
-        </form:form>
-        </div>
-      </div>          
-    </div>
-  </div>
-</div>
+	</div>
 
 
 
-<div class="container">  
+	<div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse2">User Data Table</a>
+					</h4>
+					<div id="collapse2" class="panel-collapse collapse">
+						<div class="row">
+
+							<div id="jsGrid"></div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse3">Judge Registration</a>
+					</h4>
+				</div>
+				<div id="collapse3" class="panel-collapse collapse">
+
+					<div class="row">
+						<form:form action="createJudge" method="post"
+							modelAttribute="judgeCreationDTO">
+
+							<div class="col-sm-9">
+							<div class="ex7"><div style="color: red">${judgeCreationError}</div></div>
+								<div class="ex7">
+									<input type="text" style="display: inline; text-align: center;"
+										class="form-control" id="firstname" name="firstname"
+										placeholder="Enter First Name" required="autofocus" />
+									<p></p>
+									<p></p>
+									<input type="text" style="display: inline; text-align: center;"
+										class="form-control" id="lastname" name="lastname"
+										placeholder="Enter Last Name" required="autofocus" />
+									<p></p>
+									<p></p>
+									<input type="text" style="display: inline; text-align: center;"
+										class="form-control" id="email" name="email"
+										placeholder="Enter Email" required="autofocus" />
+									<p></p>
+									<p></p>
+									<form:select class="form-control" path="organizerclubName"
+										items="${organizerclubList}" />
+								</div>
+								<div class="container">
+									<div
+										class="col-xs-15 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-3">
+										<div class="panel panel-default">
+											<!-- Default panel contents -->
+											<div class="panel-heading">Select Section</div>
+
+											<!-- List group -->
+											<ul class="list-group">
+												<li class="list-group-item">
+												<c:forEach items="${categoryList}" var="categoryListValue">   
+                                
+                                           ${categoryListValue}
+                       <div class="material-switch pull-right">
+															<input id=${categoryListValue } name=category
+																type="checkbox" value="${categoryListValue}" /> <label
+																for=${categoryListValue } class="label-success"></label>
+														</div>
+														<p></p>
+													</c:forEach></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								<div class="ex8">								
+									
+									<label class="btn btn-danger">Submit<input
+										type="submit" id="registerJudge" style="display: none;"
+										name="action" value="registerJudge" /></label>
+								</div>
+							</div>
+						</form:form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">  
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse2">User Data Table</a>
-        </h4>
-        <div id="collapse2" class="panel-collapse collapse">
-       <div class="row">
-
-		<div id="jsGrid"></div>
+          <a data-toggle="collapse" href="#collapse4">Payment Status Grapg</a>
+        </h4></div>
+       <div id="collapse4" class="panel-collapse collapse">
        
+       <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+       
+       </div>
       </div>
       </div>
-      </div>
-      </div>
-      </div>
-      </div>
-      
-
+      </div>  
 
 <!-- /.container -->
 <div class="modal fade modal-fullscreen" id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -327,8 +501,51 @@ $(document).ready(function($)
     				     });
     			        }
     	});
-
     
+
+    $.ajax({
+	     url: "admin/json/getpaystatusgraphdata",
+	         type: "GET",
+	         dataType: "json",
+	
+	        	 success: function(graphdata) 
+			    {
+	        		   console.log(graphdata);
+	        		   
+	        		 Highcharts.chart('container', {
+	        			  chart: {
+	        			    type: 'bar'
+	        			  },
+	        			  title: {
+	        			    text: 'Paystatus Graph'
+	        			  },
+	        			  xAxis: {
+	        			    categories: graphdata.country
+	        			  },
+	        			  yAxis: {
+	        			    min: 0,
+	        			    title: {
+	        			      text: 'Total fruit consumption'
+	        			    }
+	        			  },
+	        			  legend: {
+	        			    reversed: true
+	        			  },
+	        			  plotOptions: {
+	        			    series: {
+	        			      stacking: 'normal'
+	        			    }
+	        			  },
+	        			  series: [{
+	        			    name: 'Paid',
+	        			    data: graphdata.paid
+	        			  }, {
+	        			    name: 'Unpaid',
+	        			    data: graphdata.unpaid
+	        			  }]
+	        			});
+			    }
+     });
 });
 </script>
        

@@ -151,6 +151,23 @@ public class UsersDAO {
 			
 	}
 	
+	
+	public Users findJudgeByRegisterURLToken(String judgeRegisterURLToken) {
+		log.debug("getting User instance with id: " + judgeRegisterURLToken);
+		try{
+			 //Session session = sessionFactory.getCurrentSession();
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(Users.class)
+					     .add(Restrictions.eq("judgeRegistrationToken", judgeRegisterURLToken));
+			Users Users = (Users) cr.uniqueResult();
+						
+			return Users;      		
+		   } catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		   }
+			
+	}
+	
 	public Users findByEmail(String email) {
 		log.debug("getting User instance with email: " + email);
 		try{

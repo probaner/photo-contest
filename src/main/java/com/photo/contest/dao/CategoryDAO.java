@@ -21,13 +21,13 @@ import com.photo.contest.model.Category;
 public class CategoryDAO {
 	
 	
-	 private static final Log log = LogFactory.getLog(UsersDAO.class);
+	 private static final Log log = LogFactory.getLog(CategoryDAO.class);
      @Autowired
 	 private SessionFactory sessionFactory;
 	 
-	 public void setSessionFactory(SessionFactory sessionFactory) {
+	 /*public void setSessionFactory(SessionFactory sessionFactory) {
 	        this.sessionFactory = sessionFactory;
-	       }
+	       }*/
 	
 	 
 	 public Integer getCategoryID(String categoryName){

@@ -73,7 +73,7 @@ div.redplaceholder :-ms-input-placeholder {
 </head>
 <body>
 
-<div class="container">
+<%-- <div class="container">
   <div class="page-header">
   <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
   <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
@@ -81,7 +81,7 @@ div.redplaceholder :-ms-input-placeholder {
   </div>      
 </div>
  <p></p>      
- <p></p> 
+ <p></p> --%> 
 
 	<div class="container">
 		<h4></h4>

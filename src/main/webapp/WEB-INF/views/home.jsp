@@ -47,7 +47,7 @@ div.ex3 {
 </head>
 <body>
  
-<div class="container">
+<%-- <div class="container">
   <div class="page-header">
   <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
   <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
@@ -55,7 +55,7 @@ div.ex3 {
   </div>      
 </div>
  <p></p>      
-  <p></p> 
+  <p></p>  --%>
 <div class="container">
   <h4></h4>
   <ul class="nav nav-tabs">

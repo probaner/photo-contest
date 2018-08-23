@@ -13,6 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,36 +50,52 @@ public class Users  implements java.io.Serializable {
      private String role;
      private String state;
      private String forgetPasswAuthToken;
-    // private Set<PayStatus> payStatuses = new HashSet<PayStatus>(0);
+     private OrganizerClub judgeOrganizerClub;
+     private String createdBy;
+     private String judgeRegistrationToken;
      private PayStatus payStatus;
      private Set<File> files = new HashSet<File>(0);
-     //private Set<DiscountData> discountDatas = new HashSet<DiscountData>(0);
      private DiscountData discountData;
+     private Set<Category> judgeCategoryMapping;
 
     public Users() {
     }
 
 	
-    public Users(int userId, String address, String city, String country, Date createdOn, String email, String firstName, String gender, Date lastLoggin, String lastName, String password, String role, String state,String forgetPasswAuthToken) {
-        this.userId = userId;
-        this.address = address;
-        this.city = city;
-        this.country = country;
-        this.createdOn = createdOn;
-        this.email = email;
-        this.firstName = firstName;
-        this.gender = gender;
-        this.lastLoggin = lastLoggin;
-        this.lastName = lastName;
-        this.password = password;
-        this.role = role;
-        this.state = state;
-        this.forgetPasswAuthToken=forgetPasswAuthToken;
-    }
+    
   
    
-     @Id 
-    
+    public Users(int userId, String address, String city, String club, String country, Date createdOn, String email,
+			String firstName, String gender, String honer, Date lastLoggin, String lastName, String password,
+			String role, String state, String forgetPasswAuthToken, OrganizerClub judgeOrganizerClub, String createdBy,
+			String judgeRegistrationToken) {
+		super();
+		this.userId = userId;
+		this.address = address;
+		this.city = city;
+		this.club = club;
+		this.country = country;
+		this.createdOn = createdOn;
+		this.email = email;
+		this.firstName = firstName;
+		this.gender = gender;
+		this.honer = honer;
+		this.lastLoggin = lastLoggin;
+		this.lastName = lastName;
+		this.password = password;
+		this.role = role;
+		this.state = state;
+		this.forgetPasswAuthToken = forgetPasswAuthToken;
+		this.judgeOrganizerClub = judgeOrganizerClub;
+		this.createdBy = createdBy;
+		this.judgeRegistrationToken = judgeRegistrationToken;
+	}
+
+
+
+
+
+	@Id   
     @Column(name="user_id", unique=true, nullable=false)
     public int getUserId() {
         return this.userId;
@@ -87,7 +105,7 @@ public class Users  implements java.io.Serializable {
         this.userId = userId;
     }
     
-    @Column(name="address", nullable=false, length=500)
+    @Column(name="address", nullable=true, length=500)
     public String getAddress() {
         return this.address;
     }
@@ -96,7 +114,7 @@ public class Users  implements java.io.Serializable {
         this.address = address;
     }
     
-    @Column(name="city", nullable=false, length=200)
+    @Column(name="city", nullable=true, length=200)
     public String getCity() {
         return this.city;
     }
@@ -105,7 +123,7 @@ public class Users  implements java.io.Serializable {
         this.city = city;
     }
     
-    @Column(name="club", length=200)
+    @Column(name="club" , nullable=true, length=200)
     public String getClub() {
         return this.club;
     }
@@ -114,7 +132,7 @@ public class Users  implements java.io.Serializable {
         this.club = club;
     }
     
-    @Column(name="country", nullable=false, length=200)
+    @Column(name="country", nullable=true, length=200)
     public String getCountry() {
         return this.country;
     }
@@ -150,7 +168,7 @@ public class Users  implements java.io.Serializable {
         this.firstName = firstName;
     }
     
-    @Column(name="gender", nullable=false, length=200)
+    @Column(name="gender", nullable=true, length=200)
     public String getGender() {
         return this.gender;
     }
@@ -159,7 +177,7 @@ public class Users  implements java.io.Serializable {
         this.gender = gender;
     }
     
-    @Column(name="honer", length=200)
+    @Column(name="honer", nullable=true, length=200)
     public String getHoner() {
         return this.honer;
     }
@@ -186,7 +204,7 @@ public class Users  implements java.io.Serializable {
         this.lastName = lastName;
     }
     
-    @Column(name="password", nullable=false, length=200)
+    @Column(name="password", nullable=true, length=200)
     public String getPassword() {
         return this.password;
     }
@@ -204,7 +222,7 @@ public class Users  implements java.io.Serializable {
         this.role = role;
     }
     
-    @Column(name="state", nullable=false, length=200)
+    @Column(name="state", nullable=true, length=200)
     public String getState() {
         return this.state;
     }
@@ -212,14 +230,7 @@ public class Users  implements java.io.Serializable {
     public void setState(String state) {
         this.state = state;
     }
-/*@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="users")
-    public Set<PayStatus> getPayStatuses() {
-        return this.payStatuses;
-    }
-    
-    public void setPayStatuses(Set<PayStatus> payStatuses) {
-        this.payStatuses = payStatuses;
-    }*/
+
 @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="users")
     public Set<File> getFiles() {
         return this.files;
@@ -228,14 +239,7 @@ public class Users  implements java.io.Serializable {
     public void setFiles(Set<File> files) {
         this.files = files;
     }
-/*@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="users")
-    public Set<DiscountData> getDiscountDatas() {
-        return this.discountDatas;
-    }
-    
-    public void setDiscountDatas(Set<DiscountData> discountDatas) {
-        this.discountDatas = discountDatas;
-    }*/
+
 
     @OneToOne(mappedBy="users",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
@@ -267,6 +271,68 @@ public class Users  implements java.io.Serializable {
 	public void setForgetPasswAuthToken(String forgetPasswAuthToken) {
 		this.forgetPasswAuthToken = forgetPasswAuthToken;
 	}
+	
+	
+	@OneToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="judge_organize_club_id", nullable=true)
+	public OrganizerClub getJudgeOrganizerClub() {
+		return judgeOrganizerClub;
+	}
+
+
+	public void setJudgeOrganizerClub(OrganizerClub judgeOrganizerClub) {
+		this.judgeOrganizerClub = judgeOrganizerClub;
+	}
+	
+	@Column(name="judge_registration_token", nullable=true, length=200)
+	public String getJudgeRegistrationToken() {
+		return judgeRegistrationToken;
+	   }
+
+
+	public void setJudgeRegistrationToken(String judgeRegistrationToken) {
+		this.judgeRegistrationToken = judgeRegistrationToken;
+	}
+	
+	
+	@Column(name="created_by", nullable=true, length=45)
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable( name = "judge_category_mapping",
+	            joinColumns = @JoinColumn(name = "user_id"),
+	            inverseJoinColumns = @JoinColumn(name = "category_id"))
+	public Set<Category> getJudgeCategoryMapping() {
+		return judgeCategoryMapping;
+	}
+
+	
+	public void setJudgeCategoryMapping(Set<Category> judgeCategoryMapping) {
+		this.judgeCategoryMapping = judgeCategoryMapping;
+	}
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "Users [userId=" + userId + ", address=" + address + ", city=" + city + ", club=" + club + ", country="
+				+ country + ", createdOn=" + createdOn + ", email=" + email + ", firstName=" + firstName + ", gender="
+				+ gender + ", honer=" + honer + ", lastLoggin=" + lastLoggin + ", lastName=" + lastName + ", password="
+				+ password + ", role=" + role + ", state=" + state + ", forgetPasswAuthToken=" + forgetPasswAuthToken
+				+ ", judgeOrganizerClub=" + judgeOrganizerClub + ", createdBy=" + createdBy
+				+ ", judgeRegistrationToken=" + judgeRegistrationToken + "]";
+	}
+	
+	
+	
 
 
 }

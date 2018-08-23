@@ -67,19 +67,31 @@ public class CommonUtil {
 	
 	 public  int getUserId() throws IOException{
 		String temp = CommonUtil.getDateTime();
-		String temp_part1=(temp.substring(9,10)).replace("/", "");
+	    String temp_part1=(temp.substring(9,10)).replace("/", "");
 		String temp_part2=(temp.substring(13,temp.length())).replace(":", "");
 		
 		int temp1 = Integer.parseInt(lastIdProperty.getLastId()) +1;
 		
 		lastIdProperty.setLastId(String.valueOf(temp1));
-		if(temp1<10)
-		return Integer.parseInt(temp_part1+"000"+temp1+ temp_part2);
-		else if(temp1<100 && temp1>=10)
-			return Integer.parseInt(temp_part1+"00"+temp1+ temp_part2);
-		else if(temp1<1000 && temp1>=100)
-			return Integer.parseInt(temp_part1+"0"+temp1+ temp_part2);  
-		
+		if(temp1<10) {	
+			          if (temp_part1.equals("0")) 			        	 
+			        	  return Integer.parseInt("4"+"000"+temp1+ temp_part2);			        	
+			          else		        	     
+		                   return Integer.parseInt(temp_part1+"000"+temp1+ temp_part2);
+			               
+		             }
+		else if(temp1<100 && temp1>=10) {
+			                             if (temp_part1.equals("0")) 
+			                            	 return Integer.parseInt("4"+"00"+temp1+ temp_part2);
+			                             else
+			                                  return Integer.parseInt(temp_part1+"00"+temp1+ temp_part2);
+		                                }
+		else if(temp1<1000 && temp1>=100) {
+			                               if (temp_part1.equals("0"))
+			                                    return Integer.parseInt("4"+"0"+temp1+ temp_part2);
+			                               else 
+			                                    return Integer.parseInt(temp_part1+"0"+temp1+ temp_part2);  
+		                                  }
 		return 0;		
 	 }
 	

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.photo.contest.dto.CouponCode;
+import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
@@ -23,7 +24,7 @@ import com.photo.contest.service.DbServices;
 
 
 @Controller
-@SessionAttributes({"userForm", "clubDataList"})
+@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList"})
 @EnableWebMvc
 public class CouponCodeController {
 	
@@ -86,6 +87,13 @@ public class CouponCodeController {
 		          }
 		  
 	           }
+		 
+		    //CouponCode couponCode = new CouponCode();
+			model.addAttribute("couponCode", new CouponCode());
+			model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
+			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
+					+ userDTO.getFirstname().toUpperCase());
+		 
 		return "admin";
 	}
 }

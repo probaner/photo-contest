@@ -46,7 +46,7 @@ public class CommonServices {
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
-		mailRecipientDTO.setSender("salonechnchy@gmail.com");
+		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("Registration Sucess \nRegistration Id:" + users.getUserId() + "\nUser Id: "
 				+ users.getEmail() + "\n Password: " + password + " \n");
@@ -59,9 +59,22 @@ public class CommonServices {
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
-		mailRecipientDTO.setSender("salonechnchy@gmail.com");
+		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("To reset your password, click the link below:\\n" + url);
+		mailRecipientDTO.setSubject("Password Reset Request");
+		commonUtil.doSendEmail(mailRecipientDTO, null);
+
+	}
+	
+	
+	public void sendJudgeRegistrationURLMail(String url, String judgeMail) {
+
+		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
+
+		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
+		mailRecipientDTO.setRecipient(judgeMail);
+		mailRecipientDTO.setMessage("To register your as a judge, click the link below URL:\\n" + url);
 		mailRecipientDTO.setSubject("Password Reset Request");
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 
@@ -69,7 +82,7 @@ public class CommonServices {
 
 	public void sendCreateCouponCodeMailforaUser(Users users, String couponCode, String bcc) {
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
-		mailRecipientDTO.setSender("salonechnchy@gmail.com");
+		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("couponCode=" + couponCode);
 		mailRecipientDTO.setSubject("Coupon Code Details");
@@ -79,7 +92,6 @@ public class CommonServices {
 
 	public void sendQueryEmail(MailRecipientDTO mailRecipientDTO) {
 		mailRecipientDTO.setRecipient("salonechnchy@gmail.com");
-
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 	}
 
@@ -156,6 +168,26 @@ public class CommonServices {
 			return false;
 	}
 	
+	public boolean getJudgeOpeningDate() {
+		
+		long start = commonUtil.findNumberofDaysBetweenTwoDate(configProperty.getJudgingStartdate(),
+				commonUtil.getDateTime().substring(0, commonUtil.getDateTime().indexOf(" ")));
+		
+		long end = commonUtil.findNumberofDaysBetweenTwoDate(configProperty.getJudgingEnddate(),
+				commonUtil.getDateTime().substring(0, commonUtil.getDateTime().indexOf(" ")));
+		
+		System.out.println("START ="+start);
+		
+		System.out.println("END ="+end);
+		
+		if(end >=0 && start <=0)
+			return true;
+		else
+			return false;
+		
+		
+	}
+	
 	
 	public Map<String,List<?>> formatGraphData(List<PaystatusGraphDTO> paystatusGraphDTOList) {
 		
@@ -194,6 +226,9 @@ public class CommonServices {
 		return map;
 		
 	}
+	
+	
+	
 	
 	
 
