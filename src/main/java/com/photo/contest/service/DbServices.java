@@ -31,6 +31,7 @@ import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.JudgeRegisterDTO;
+import com.photo.contest.dto.JudgeTableDTO;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
@@ -382,17 +383,13 @@ public class DbServices {
 		if(listOfTitel.size() == 0 || !listOfTitel.contains(fileDetail.getTitel())){
 			Integer fileid = fileDetailDAO.persist(fileDetail);
 			
-			if(fileid>0) {
-				           
-				           PayStatus  payStatus = user.getPayStatus();
-				          
+			if(fileid>0) {				           
+				           PayStatus  payStatus = user.getPayStatus();				          
 				          // payStatus.setUsers(user);
 				           List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCount(fileDetail);
-				           
-				           
 				           if (fileDetailList.size() > 0) {
 								for (CategoryCountMap c : fileDetailList) {
-									totalNimberofEntry = totalNimberofEntry + c.getFile_id();
+									 totalNimberofEntry = totalNimberofEntry + c.getFile_id();
 								    }
 								 payStatus.setAttemptSection(fileDetailList.size());
 						         payStatus.setTotalEntry(totalNimberofEntry);
@@ -472,8 +469,8 @@ public class DbServices {
 		             }			
 			return "Success";
 		} else {
-			return "Unable to delete.";
-		}
+			     return "Unable to delete.";
+		       }
 
 	}
   
@@ -903,6 +900,53 @@ public class DbServices {
 		
 		return categoryList;
 	}
+	
+	@Transactional
+	public List<JudgeTableDTO> getJudgeTableData() {
+		
+		List<JudgeTableDTO> judgeTableData = new ArrayList<>();
+		
+		List<Users> judgeList =  usersDAO.findUserByRole("judge");
+		
+		 if(judgeList.size()>0) {
+		   for(Users u : judgeList) {
+			   JudgeTableDTO judgeTableDTO = new JudgeTableDTO();
+			   judgeTableDTO.setJudgeId(u.getUserId());
+			   judgeTableDTO.setJudgeEmail(u.getEmail());
+			   judgeTableDTO.setJudgeAddress(u.getAddress());
+			   judgeTableDTO.setJudgeCity(u.getCity());
+			   judgeTableDTO.setJudgeCountry(u.getCountry());
+			   judgeTableDTO.setJudgeFirstname(u.getFirstName());
+			   judgeTableDTO.setJudgeLastname(u.getLastName());
+			   judgeTableDTO.setOrganizerclubName(u.getJudgeOrganizerClub().getOrganizerclubname());
+			  		   
+			   Set<Category> catmap = u.getJudgeCategoryMapping();
+			   if(catmap.size() > 0) {
+				   Map<String, String> catagoryMap = new HashMap<>();	
+				   List<String> cl = new ArrayList<>(); 
+				   for(Category c : catmap) {
+					   cl.add(c.getCategoryName());
+				      }
+				   //judgeTableDTO.setCategory(cl);
+				   for(Map.Entry e : results.entrySet()) {
+					   if(!cl.contains(e.getKey()))
+						  catagoryMap.put((String) e.getKey(), "N");
+					   else
+						   catagoryMap.put((String) e.getKey(), "Y");
+				      }
+				   
+				   judgeTableDTO.setCategory(catagoryMap);
+				   System.out.println("judgeTableDTO="+judgeTableDTO.toString());
+			     }
+			   judgeTableData.add(judgeTableDTO);
+		      }	
+		  }	
+		return judgeTableData;		
+	}
+	
+	
+	
+	
 	
 	
 	

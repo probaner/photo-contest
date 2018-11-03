@@ -2,6 +2,7 @@ package com.photo.contest.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,14 +18,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.JudgeCreationDTO;
+import com.photo.contest.dto.ProcessFileDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
+import com.photo.contest.utility.SelectData;
 
 
 
 @Controller
-@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList"})
+@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList","processDataType"})
 @EnableWebMvc
 public class CouponCodeController {
 	
@@ -33,13 +36,16 @@ public class CouponCodeController {
 	@Autowired
 	private DbServices dbServices;
 	
+	
 	@RequestMapping("/createCoupon")
-	public String createCouponCode(@RequestParam String action, Model model, 
-			@ModelAttribute("couponCode") CouponCode couponCodeBean, 
-			HttpServletResponse response,
+	public String createCouponCode(@RequestParam String action, 
+			Model model, 
+			@ModelAttribute("couponCode") CouponCode couponCodeBean,			
 			@ModelAttribute("userForm") UserDTO userDTO,
-			@ModelAttribute("clubDataList") List<String> clubDataList, 
-			HttpServletRequest request) throws IOException {
+			@ModelAttribute("clubDataList") List<String> clubDataList,
+			@ModelAttribute("processDataType") Map<String, String> processDataType,
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 		
 		 model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "+ userDTO.getFirstname().toUpperCase());
 		 if (action.equals("createSigle")) {
@@ -47,7 +53,7 @@ public class CouponCodeController {
 		    	if( commonServices.checkPersentInpout(couponCodeBean.getPersent().trim())) {
 		    		
 		    	    if(commonServices.checkNumberOnly(couponCodeBean.getUserId().trim())){
-		    	    	System.out.println("I am creating");
+		    	    	//System.out.println("I am creating");
 		    		    String outPut = dbServices.createSingleCouponeCode(couponCodeBean.getUserId().trim(),couponCodeBean.getPersent().trim(),userDTO.getUserid(),userDTO.getEmail());
 		    		    model.addAttribute("couponCodeError",outPut);
 		    		   
@@ -74,7 +80,7 @@ public class CouponCodeController {
 		        		  }
 		        		else {
 		        			  String clubName = couponCodeBean.getClubData().substring(0,couponCodeBean.getClubData().indexOf(" >")).trim();
-			        		  System.out.println("clubName="+clubName);
+			        		  //System.out.println("clubName="+clubName);
 		        		      dbServices.createClubCouponeCode(clubName,couponCodeBean.getPersent().trim(),userDTO.getUserid(),userDTO.getEmail());
 		        		      model.addAttribute("clubcouponCodeError","CouponCode Created");
 		        		      model.addAttribute("clubDataList", clubDataList);
@@ -88,9 +94,11 @@ public class CouponCodeController {
 		  
 	           }
 		 
-		    //CouponCode couponCode = new CouponCode();
+		 
 			model.addAttribute("couponCode", new CouponCode());
 			model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
+			model.addAttribute("processDataType", processDataType);
+			model.addAttribute("processFileDTO", new ProcessFileDTO());
 			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());
 		 

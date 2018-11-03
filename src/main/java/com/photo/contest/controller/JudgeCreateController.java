@@ -1,6 +1,7 @@
 package com.photo.contest.controller;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,18 +23,17 @@ import com.photo.contest.model.Users;
 import com.photo.contest.service.DbServices;
 
 @Controller
-@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList"})
+@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList","processDataType"})
 @EnableWebMvc
 public class JudgeCreateController {
 	
 	@Autowired
 	private DbServices dbServices;
-
-	
 	
 	@RequestMapping("/createJudge")
 	public String createJudge(@RequestParam String action, ModelMap model, 
-			@ModelAttribute("judgeCreationDTO") JudgeCreationDTO judgeCreationDTO,			
+			@ModelAttribute("judgeCreationDTO") JudgeCreationDTO judgeCreationDTO,
+			@ModelAttribute("processDataType") Map<String,String> processDataType,
 			HttpServletResponse response,
 			HttpServletRequest request) throws IOException {
 		
@@ -82,6 +82,7 @@ public class JudgeCreateController {
 	}
 			model.addAttribute("couponCode", new CouponCode());
 			model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
+			model.addAttribute("processDataType", processDataType);
 			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());
 			

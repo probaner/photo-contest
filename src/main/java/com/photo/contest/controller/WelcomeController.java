@@ -1,29 +1,25 @@
 package com.photo.contest.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.photo.contest.dto.FileDTO;
-import com.photo.contest.dto.PaymentDTO;
+import com.itextpdf.text.DocumentException;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
-import com.photo.contest.model.Judge;
 import com.photo.contest.model.Users;
 import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
+import com.photo.contest.utility.ResultPDFUtility;
 import com.photo.contest.utility.SelectData;
 
 
@@ -37,6 +33,8 @@ public class WelcomeController {
 	SelectData selectData;
 	@Autowired
 	CommonServices 	commonServices;
+	@Autowired
+	ResultPDFUtility resultPDFUtility;
 	
 	
 	
@@ -47,7 +45,7 @@ public class WelcomeController {
 			
 	@GetMapping("/home")  
 	    public ModelAndView helloWorld() throws IOException {
-		commonServices.getJudgeOpeningDate();
+		
 	        return new ModelAndView("home"); 
 	    } 
 	

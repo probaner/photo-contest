@@ -86,14 +86,21 @@ public class ConfigProperty {
 	@Value("${judging.enddate}")
 	private String judgingEnddate;
 	
-	
+	@Value("${salon.name}")
+	private String salonName;
+	@Value("${salon.patronage}")
+	private String salonPatronage;
+	@Value("${result.dest}")
+	private String resultDest;
+	@Value("${result.date}")
+	private String resultDate;
 	
 	public ConfigProperty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-
+	
 	public ConfigProperty(String basePath, Long maxSize, String chargeingTypeCategoryWiseNetive,
 			String chargeingTypeCategoryWiseForeign, String chargeingTypeIndivisualPhotoWiseNetive,
 			String chargeingTypeIndivisualPhotoWiseForeign, String chargeingTypeOverallNetive,
@@ -104,7 +111,8 @@ public class ConfigProperty {
 			String categorySevenNetive, String categoryEightNetive, String categoryNineNetive, String categoryTenNetive,
 			String overall, String overallNetive, String netiveCountry, String netiveCurrencyName,
 			String foreignCurrencyName, String closeDate, String fileMaxlongestSideResolution,
-			String fileMinlongestSideResolution, String judgingStartdate, String judgingEnddate) {
+			String fileMinlongestSideResolution, String judgingStartdate, String judgingEnddate, String salonName,
+			String salonPatronage, String resultDest, String resultDate) {
 		super();
 		this.basePath = basePath;
 		this.maxSize = maxSize;
@@ -144,12 +152,11 @@ public class ConfigProperty {
 		this.fileMinlongestSideResolution = fileMinlongestSideResolution;
 		this.judgingStartdate = judgingStartdate;
 		this.judgingEnddate = judgingEnddate;
+		this.salonName = salonName;
+		this.salonPatronage = salonPatronage;
+		this.resultDest = resultDest;
+		this.resultDate = resultDate;
 	}
-
-
-
-
-
 
 
 
@@ -590,6 +597,52 @@ public class ConfigProperty {
 	public void setJudgingEnddate(String judgingEnddate) {
 		this.judgingEnddate = judgingEnddate;
 	}
+
+
+
+	public String getSalonName() {
+		return salonName;
+	}
+
+
+
+	public void setSalonName(String salonName) {
+		this.salonName = salonName;
+	}
+
+
+
+	public String getSalonPatronage() {
+		return salonPatronage;
+	}
+
+
+
+	public void setSalonPatronage(String salonPatronage) {
+		this.salonPatronage = salonPatronage;
+	}
+
+
+	public String getResultDest() {
+		return resultDest;
+	}
+
+
+	public void setResultDest(String resultDest) {
+		this.resultDest = resultDest;
+	}
+
+
+	public String getResultDate() {
+		return resultDate;
+	}
+
+
+	public void setResultDate(String resultDate) {
+		this.resultDate = resultDate;
+	}
+	
+		
 	
 	
 }

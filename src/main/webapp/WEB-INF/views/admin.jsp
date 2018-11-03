@@ -20,6 +20,8 @@
 <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.loading-indicator.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jsgrid.min.css" />">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/validation/screen.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/site-demos.css" />">
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css" />"> --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jsgrid-theme.min.css" />">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/modal-fullscreen.css" />">
@@ -31,6 +33,9 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script> 
+<script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
+<script src="<c:url value="/resources/javaScript/additional-methods.min.js" />"></script>
+<script src="<c:url value="/resources/javaScript/jquery.form.js" />"></script>
 <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>  -->
@@ -45,7 +50,7 @@ div.ex2 {
 }
 
 div.ex3 {
-    padding: 50px 100px 0px 115px;
+    padding: 50px 100px 20px 115px;
 }
 
 div.ex4 {
@@ -64,13 +69,16 @@ div.ex7 {
 }
 
 div.ex8 {
-    padding: 20px 100px 20px 450px;
+    padding: 20px 100px 50px 450px;
 }
 div.ex9 {
     padding: 0px 0px 0px 50px;
 }
 div.ex10 {
     padding: 10px 0px 0px 50px;
+}
+div.ex11 {
+    padding: 30px 410px 20px 410px;
 }
 .cellContainer {
   width: 25%;
@@ -185,14 +193,14 @@ div.ex10 {
 				</div>
 				<div id="collapse1" class="panel-collapse collapse">
 					<div class="row">
-						<form:form action="createCoupon" method="post"
+						<form:form id="couponeCodeForm" action="createCoupon" method="post"
 							modelAttribute="couponCode">
 
 
 							<div class="col-sm-6">
 						   <div class="col-sm-9"> <div style="color: red">${clubcouponCodeError}</div></div>
 								<div class="ex3">
-									<form:select class="form-control" path="clubData"
+									<form:select class="form-control" id="clubData"  path="clubData"
 										items="${clubDataList}" />
 									<p></p>
 									<p></p>
@@ -252,6 +260,9 @@ div.ex10 {
 
 
 
+
+
+
 	<div class="container">
 		<div class="panel-group">
 			<div class="panel panel-default">
@@ -259,6 +270,7 @@ div.ex10 {
 					<h4 class="panel-title">
 						<a data-toggle="collapse" href="#collapse2">User Data Table</a>
 					</h4>
+					
 					<div id="collapse2" class="panel-collapse collapse">
 						<div class="row">
 
@@ -332,8 +344,7 @@ div.ex10 {
 									</div>
 								</div>
 
-								<div class="ex8">								
-									
+								<div class="ex8">																	
 									<label class="btn btn-danger">Submit<input
 										type="submit" id="registerJudge" style="display: none;"
 										name="action" value="registerJudge" /></label>
@@ -348,12 +359,32 @@ div.ex10 {
 	</div>
 
 
-	<div class="container">  
+<div class="container">
+<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse12">Judge Table</a>
+					</h4>
+                     <div id="collapse12" class="panel-collapse collapse">
+						<div class="row">
+							<div id="jsGrid1"></div>
+						</div>
+					</div>
+	                </div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+<div class="container">  
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse4">Payment Status Grapg</a>
+          <a data-toggle="collapse" href="#collapse4">Payment Status Graph</a>
         </h4></div>
        <div id="collapse4" class="panel-collapse collapse">
        
@@ -362,7 +393,38 @@ div.ex10 {
        </div>
       </div>
       </div>
-      </div>  
+      </div>
+      
+      
+ <div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse8">Process Judging File</a>
+					</h4>
+				</div>
+				<div id="collapse8" class="panel-collapse collapse">
+					<div class="row">
+						<form:form action="processFile" method="post" modelAttribute="processFileDTO" id="processFileForm">
+						      </div>
+								<div class="ex11">
+								    <div style="color: red">${processDataError}</div>
+									<form:select class="form-control" path="status" id = "status"
+										items="${processDataType}" />
+									<div class="ex6">
+										<label class="btn btn-danger">Submit<input
+											type="submit" id="creatrColubcouponcode"
+											style="display: none;" name="action" value="processJudgingFile" /></label>
+									</div>
+									<div class="ex5"></div>
+						</form:form>					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 <!-- /.container -->
 <div class="modal fade modal-fullscreen" id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -383,9 +445,14 @@ div.ex10 {
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+
  <script type="text/javascript">
 $(document).ready(function($)
-{
+{   
+	
      
 	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
 	var csrfToken = $("meta[name='_csrf']").attr("content"); 
@@ -399,24 +466,29 @@ $(document).ready(function($)
         { Name: "Paid", Id: 2 },      
     ];
     
+    
+
+    
+    
     $.ajax({
     	  url: "admin/json/getcountrylist",
     	  type: "GET",
     	  dataType: "json",
     	  success: function(countrylist) 
     				    {
-    		  console.log(countrylist);
+    		  //console.log(countrylist);
     				     /* countrylist.forEach(function(item,index){
     				    	 countries.push({ Name: item, Id: index});
     				     }) */
     				     //console.log(countries);
     				      $("#jsGrid").jsGrid({
     				         width: "100%",
-    				         height: "400px",
+    				         height: "auto",
     				         autoload: true,
     				         paging: true,
     				         pageLoading: true,
-    				         pageSize: 15,
+    				         pageSize: 10,
+    				         pageButtonCount: 5,
     				         pageIndex: 2,
     				         heading: true,
     				         filtering: false,
@@ -428,15 +500,15 @@ $(document).ready(function($)
     				        	 { name: "userId", 
     			                        itemTemplate: function(value) {
     			                            return $("<a class='herf'>").attr("href", 'imageViewer/'+value).text(value);
-    			                        } , width: 50,  validate: "required", editing: false },
-    				             { name: "firstName", type: "text", width: 50, validate: "required"},
-    				             { name: "lastName", type: "text", width: 50, validate: "required" },
-    				             { name: "address", type: "text", width: 100 },
-    				             { name: "city", type: "text", width: 50 },
-    				             { name: "state", type: "text", width: 50 },
+    			                        } , width: 50,  validate: "required", editing: false ,align: "center"},
+    				             { name: "firstName", type: "text", width: 50, validate: "required" ,align: "center"},
+    				             { name: "lastName", type: "text", width: 50, validate: "required" ,align: "center"},
+    				             { name: "address", type: "text", width: 100 ,align: "center"},
+    				             { name: "city", type: "text", width: 50 ,align: "center"},
+    				             { name: "state", type: "text", width: 50 ,align: "center"},
     				             /* { name: "country", type: "select", items: countries, valueField: "Name", textField: "Name" }, */
-    				             { name: "payingStatus", type: "select", items: pay, valueField: "Name", textField: "Name" },
-    				             { type: "control" , deleteButton: false }
+    				             { name: "payingStatus", type: "select", items: pay, valueField: "Name", textField: "Name" ,align: "center"},
+    				             { type: "control" , deleteButton: false , align: "center", width: 5}
     				         ],
     				         controller: {
     				             loadData: function(filter) {
@@ -504,13 +576,13 @@ $(document).ready(function($)
     
 
     $.ajax({
-	     url: "admin/json/getpaystatusgraphdata",
+	         url: "admin/json/getpaystatusgraphdata",
 	         type: "GET",
 	         dataType: "json",
 	
 	        	 success: function(graphdata) 
 			    {
-	        		   console.log(graphdata);
+	        		   //console.log(graphdata);
 	        		   
 	        		 Highcharts.chart('container', {
 	        			  chart: {
@@ -546,9 +618,99 @@ $(document).ready(function($)
 	        			});
 			    }
      });
+    
+    $.ajax({
+        url: "admin/json/getjudgetabledata",
+        type: "GET",
+        dataType: "json",
+
+       	 success: function(data) 
+		    {
+       		/*  console.log("PB1");
+       		 console.log(data);
+       		console.log(data.data[0].category);
+       		
+       		var jsonObj = data.data[0].category;
+       		
+       		 for (var key in jsonObj) {
+       	       console.log(key);
+       	       console.log(jsonObj[key]);
+       	   } */
+       	   
+       	var jsonObj = data.data[0].category;
+       	var fieldsGenerated = [];
+       	 fieldsGenerated.push( { name: "judgeId", type: "number", width: 10 , align: "center" , editing: false});
+       	 fieldsGenerated.push(  { name: "judgeFirstname", type: "text", width: 20 , align: "center"});
+       	 fieldsGenerated.push(  { name: "judgeLastname", type: "text", width: 20 , align: "center"});
+       	 fieldsGenerated.push( { name: "organizerclubName", type: "text", width: 25 , align: "center"});
+       	//console.log("check1="+fieldsGenerated);
+       	  for (var key in jsonObj) {
+       		  if(jsonObj[key]=='Y'){
+       			  
+       			console.log("YES");
+       		     fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false, disabled: false });
+       	  }
+       		  else{
+       			fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false, disabled: true });
+       			console.log("NO");
+       		  }
+       	 }
+       	 fieldsGenerated.push({ type: "control" , deleteButton: false,align: "center",width: 5} );
+       	 
+       	//console.log("check2="+fieldsGenerated);
+       	
+       	
+       	/* fields: [
+	       { name: "judgeId", type: "number", width: 10 , align: "center" , editing: false},
+       { name: "judgeFirstname", type: "text", width: 20 , align: "center"},        
+       { name: "judgeLastname", type: "text", width: 20 , align: "center"},
+       { name: "judgeEmail", type: "text", width: 25 , align: "center"},
+       { name: "organizerclubName", type: "text", width: 25 , align: "center"},
+      
+       { name: "test", type: "checkbox",  width: 5 , sorting: false }, 
+    
+       { type: "control" , deleteButton: false,align: "center",width: 5} 
+      ],  */
+       	   
+       		
+       		 $("#jsGrid1").jsGrid({
+		         width: "100%",
+		         height: "auto",
+		         autoload: true,
+		         paging: true,
+		         pageLoading: true,
+		         pageSize: 5,
+		         pageIndex: 2,
+		         pageButtonCount: 5,
+		         heading: true,
+		         filtering: false,
+		         inserting: false,
+		         editing: true,
+		         sorting: true,
+		         fields:fieldsGenerated,
+                  controller: { loadData: function(filter) {
+		                var d = $.Deferred();
+		                 $.ajax({
+		                 	type: "GET",
+		                     url: "admin/json/getjudgetabledata",
+		                     dataType: "json",
+		                     data: filter
+		                 }).done(function(response) {
+		                 	//console.log("KI BOLCHO"+response);
+		                     d.resolve(response);
+		                     return;
+		                 });
+		                 return d.promise(); 
+		             
+		             }
+                	 
+                 }
+             });
+		    }
+});
+    
+	
 });
 </script>
-       
-
 </body>
 </html>

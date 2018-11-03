@@ -54,7 +54,6 @@ div.ex5 {
 	padding: 0px 100px 10px 100px;
 }
 
-
 .header img {
   float: left;
   width: 400px;
@@ -73,21 +72,21 @@ div.ex5 {
   height: 80px;
   
 }
+
+p.b { 
+    word-spacing: 10px;
+}
 </style>
-
-
-
-
 </head>
 <body>
 
-  <div class="container">
+  <%-- <div class="container">
   <div class="page-header">
   <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
   <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
   <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
   </div>      
-</div>
+</div> --%>
  
 
 
@@ -97,13 +96,16 @@ div.ex5 {
 
 
 	<div class="ex1">
-		<div class="well">
+		<div class="well well-sm">
 			<h4>
 				<c:out value="${sucessMagssage}" />
-				<c:out value="${_csrf.parameterName}" /> <c:out value="${_csrf.token}" />
-			</h4>
+				<%-- <c:out value="${_csrf.parameterName}" /> <c:out value="${_csrf.token}" /> --%>
+			</h4>						
 			<div
-				style="float: right; font-size: 120%; position: relative; top: -10px">
+				style="float: right; font-size: 100%; position: relative; top: -12px">
+				<a href="#" id ="payment_id"> Payment </a>
+				&nbsp;
+                &nbsp;	              
 				<a href="<%=request.getContextPath()%>/logout"> Log Out </a>
 			</div>
 		</div>
@@ -410,45 +412,11 @@ div.ex5 {
 			<h4></h4>
 		</div>
 	</div>
-	<div class="ex5">
-		<div class="page-header">
-			<h4>Payment Area</h4>
-		</div>
-	</div>
-
-	<%-- <form:form id="mypayment_form" action="payment" method="post" --%>
-	<form:form id="mypayment_form" action="payment" method="post" modelAttribute="paymentDetail">
-		
-		<div class="col-sm-2"></div>
-		<div class="col-sm-6">
-			<div class="ex5">
-				<div class="col-sm-12" required autofocus>
-					<form:input path="couponCode" id="couponCodeId"
-						class="form-control" placeholder="Enter coupon code if available" />
-				</div>
-			</div>
-			<div class="ex5">
-				<div class="col-sm-12">
-					<!-- <input type="image" id="paySubmit" name="action" value="payment"
-						src="<c:url value="/resources/image/pay.jpg" />" width="400"
-						height="80" border="0" /> -->
-						<a href='<c:url value="/payment/${payurl}" />'>Home</a>
-						
-				</div>
-			</div>
-			<div class="ex3">
-				<div class="page-header">
-					<h4></h4>
-				</div>
-			</div>
-		</div>
-	</form:form>
-
-
+	
 </body>
 <script>
 $(document).ready(function()
-{
+{				
 	var fileUploadConfigs = [
 		{"catagoryName":"color","positionName":"color1"}, 
 		{"catagoryName":"color","positionName":"color2"},
@@ -470,14 +438,34 @@ $(document).ready(function()
 		{"catagoryName":"photojournalism","positionName":"photojournalism3"},
 		{"catagoryName":"photojournalism","positionName":"photojournalism4"}] 
 	
-	/* var csrfParam   = $("meta[name='_csrf_parameter']").attr("content");
-	var csrfToken  = $("meta[name='_csrf']").attr("content"); */
-	
+		
 	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
 	var csrfToken = $("meta[name='_csrf']").attr("content"); 
 	var csrfHeader = $("meta[name='_csrf_header']").attr("content");  // THIS WAS ADDED
 	var headers = {};
 	headers[csrfHeader] = csrfToken; 
+	
+	
+	 
+	 $("#payment_id" ).click(function(e) {
+		 e.preventDefault();		 
+		 $.ajax({
+		   	  url: "json/getpaystatu",
+		   	  type: "GET",
+		   	  dataType: "json",
+		   	  success: function(ispay) {
+		   		                         if(ispay){
+		   		                                    console.log("ispay="+ispay);
+		   		                             	    <%--  //$(location).attr("href", "getpay");
+		   		                             	    window.location.href("<%=request.getContextPath()%>/getpay"); --%>
+		   		                             	    window.location.href = "<%=request.getContextPath()%>/getpay";
+		   		                             	     
+		   		                                  }
+		   	                           }
+		       });
+		 
+	 });
+	
 	
 	$("#upload_image_color1").uploadFile({
 	url:"json/saveimage",
@@ -2088,10 +2076,15 @@ $("#upload_image_monochrome4").uploadFile({
 		        }});
 
 			}
+		  
+		  
+		  
+		  
 		});
 	
 	//////////////////////////////photojournalism ends//////////////////////////////
-
+	
+	
 });
 </script>
 </html>

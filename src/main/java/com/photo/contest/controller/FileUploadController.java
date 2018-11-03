@@ -46,8 +46,7 @@ public class FileUploadController {
 				
 				Integer fileid = dbServices.saveFileData(fileDTO, userDTO);
 								
-				if (fileid != 0) {
-					
+				if (fileid != 0) {					
 					responseDTO.setSuccess(true);
 					responseDTO.setMessage("file upload is successful");
 					fileDTO.setFileId(fileid);
@@ -55,10 +54,9 @@ public class FileUploadController {
 					responseDTO.setData(fileDTO);
 					
 				} else {
-					responseDTO.setSuccess(false);
-					responseDTO.setMessage("title should not be same on same catagory");
-				
-				}
+					    responseDTO.setSuccess(false);
+					    responseDTO.setMessage("title should not be same on same catagory");				
+				       }
 			
 
 			} else if (fileDTO.getTitel() == null) {
@@ -66,9 +64,9 @@ public class FileUploadController {
 				responseDTO.setMessage("Kindly enter a valid title");
 				
 			} else if (fileDTO.getTitel().trim().length() > 70) {				
-				responseDTO.setSuccess(false);
-				responseDTO.setMessage("enter title within 50 chareactere");
-			}
+				       responseDTO.setSuccess(false);
+				       responseDTO.setMessage("enter title within 50 chareactere");
+			          }
 		}
 		return responseDTO;
 	}

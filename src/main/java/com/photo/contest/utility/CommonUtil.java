@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -260,6 +261,34 @@ public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessExce
 	return false;	
 	
 }
+
+
+public double getDiscountValue(int amount, int precent){
+	
+	//float value = amount - amount*precent/100;
+	
+	return java.lang.Math.ceil(amount - amount*precent/100);
+	
+}
+
+public String getPreviouDayDate(String date,int  diff)  {
+	
+	DateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd");	
+	Calendar cal = null;
+	Date dayminusone = null;
+	try {
+	      Date parseDate = simpleDateFormat.parse(date);
+	      cal = Calendar.getInstance();
+	      cal.setTime(parseDate);
+	      cal.add(Calendar.DATE, -diff);
+	      dayminusone = cal.getTime();
+	      return simpleDateFormat.format(dayminusone);
+        } catch (ParseException e) {
+                                     e.printStackTrace();
+                                   }
+	return null;	
+}
+
 
 	
   }

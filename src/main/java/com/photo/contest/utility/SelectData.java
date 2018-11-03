@@ -315,5 +315,15 @@ public class SelectData {
 	      }
 	   return clubData;		   
    }
+   
+   public Map<String,String> fileProcessType(){	   
+	   Map<String,String>  processData = new HashMap<>();	   
+	   processData.put("0","Select  ");
+	   processData.put("1","All Participate");
+	   processData.put("2","Paid Participate");
+	   
+	return processData;
+	   
+   }
 
 }

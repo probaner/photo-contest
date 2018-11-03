@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
-<link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css"/>">
 <link rel="stylesheet" href="<c:url value="/resources/css/site-demos.css" />">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
@@ -278,8 +278,8 @@ color: red !important;
 				         },
 				           
 				   country: { 
-					               required: true
-					             }
+					           required: true
+					        }
 			        
 			},
 			messages: {
@@ -322,7 +322,7 @@ color: red !important;
 				email: "Please enter a valid email address",
 				country : {
 					required: "Select your Counter" 
-				}
+				          }
 				
 				
 			}

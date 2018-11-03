@@ -22,6 +22,7 @@ import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.Login;
 import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.PaymentDTO;
+import com.photo.contest.dto.ProcessFileDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.Users;
@@ -32,11 +33,11 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller 
-@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList"})
+@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList","processDataType"})
 public class UserLoginController {
 	
 	@Autowired
-	CommonServices 	commonServices;
+    CommonServices 	commonServices;
 	@Autowired
 	private DbServices dbServices;
 	@Autowired
@@ -75,8 +76,7 @@ public class UserLoginController {
 			String email = getCurrentUser();
 			if (email != null) {
 				LogingResponseDTO logingResponseDTO = dbServices.getUserData(email);
-				/*System.out.println("PROSENJIT");
-				System.out.println(logingResponseDTO.getHm());*/
+				
 				Users user = logingResponseDTO.getUser();
 				if (user != null) {
 
@@ -90,12 +90,20 @@ public class UserLoginController {
 						model.addAttribute("paymentDetail", new PaymentDTO());
 						model.addAttribute("displayFileDTOMap", logingResponseDTO.getHm());
 						
+						/*if((logingResponseDTO.getUser().getPayStatus().getPayingStatus()).toUpperCase().equals("PAID"))
+						    model.addAttribute("paymentstatus", "false");
+						else if(logingResponseDTO.getUser().getPayStatus().getAttemptSection()==0) 
+							    model.addAttribute("paymentstatus", "false");						       
+						else 
+							 model.addAttribute("paymentstatus", "true");*/
+								
+						
 						return "registrationsuccess";
 					} 
 					else if (userDTO.getRole().equals("admin")) {
-						//CouponCode couponCode = new CouponCode();
 						
 						model.addAttribute("couponCode", new CouponCode());
+						model.addAttribute("processFileDTO", new ProcessFileDTO());
 						model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
 						model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 								+ userDTO.getFirstname().toUpperCase());
@@ -108,10 +116,11 @@ public class UserLoginController {
 						Map<String, Integer> categoryMap = dbServices.results;
 						List<String> categoryList = selectData.getCategoryList(categoryMap);
 						
-
 						model.addAttribute("clubDataList", clubDataList);
 						model.addAttribute("organizerclubList", organizerclubList);
 						model.addAttribute("categoryList", categoryList);
+						model.addAttribute("categoryList", categoryList);
+						model.addAttribute("processDataType", selectData.fileProcessType());
 						
 						return "admin";
 
@@ -133,8 +142,6 @@ public class UserLoginController {
 						        	        return "judgeerrorpage";
 						               }
 						      
-						      
-						       //model.addAttribute("error", "Last Login Date is Over");
 					          }
 
 				} else {
