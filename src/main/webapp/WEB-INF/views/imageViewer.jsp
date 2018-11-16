@@ -149,7 +149,7 @@ $(document).ready(function()
 		     		console.log(result.data);
 		     		if(result.data['color']){
 		     			result.data['color'].forEach(function(element, i) {
-			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="#">save</a> </div></div></div>  </div>').appendTo('#myCarousel1 > .container > .carousel-inner');
+			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="updateImageTitel(\''+element.positionName+'\','+element.fileId+')">save</a> </div></div></div>  </div>').appendTo('#myCarousel1 > .container > .carousel-inner');
 			     		    $('<li data-target="#myCarousel1" data-slide-to="'+i+'"></li>').appendTo('#myCarousel1 > .carousel-indicators')
 			     		});
 			     		
@@ -229,5 +229,32 @@ $(document).ready(function()
 		          }  
 			 });
 		});
+		
+		function updateImageTitel(positionName,imageId){
+			console.log("CC1->",positionName,imageId);
+			console.log("CC2->",$("#"+positionName).val());
+			
+			var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+			var csrfToken = $("meta[name='_csrf']").attr("content"); 
+			var csrfHeader = $("meta[name='_csrf_header']").attr("content");  // THIS WAS ADDED
+			var headers = {};
+			headers[csrfHeader] = csrfToken; 
+			console.log(headers);
+			//validation
+			  $.ajax({
+			        url: 'admin/json/updateimagetitel',
+			        type: 'POST',
+			        headers:headers,
+			        contentType: 'application/json',
+			        data: JSON.stringify({
+			        	fileId:imageId,
+			        	titel: $("#"+positionName).val()
+			        }),
+			        dataType: 'json',
+			    	success: function(result){
+			    		console.log("CC SUCCESS "+result);
+			    	}
+			    });
+		}
 </script>
 </html>

@@ -481,6 +481,8 @@ $(document).ready(function()
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	showFileCounter:false,
+	errorClass: "alert-danger",
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	headers: headers,
 	formData: (function() { 

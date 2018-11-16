@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.photo.contest.dto.EditTableDataDTO;
@@ -57,7 +58,7 @@ public class EditTableController {
 		
 }
 	
-	@RequestMapping(value = "/admin/json/updateimagetitel")
+	@RequestMapping(value = "/admin/json/updateimagetitel", method = RequestMethod.POST)
 	public @ResponseBody ResponseDTO updateImageTitelJson(@RequestBody FileDTO fileDTO) throws  BusinessException {		
 		ResponseDTO responseDTO = new ResponseDTO();	
 		if(fileDTO != null) {
