@@ -404,7 +404,7 @@ div.ex11 {
 						<a data-toggle="collapse" href="#collapse8">Process Judging File</a>
 					</h4>
 				</div>
-				<div id="collapse8" class="panel-collapse collapse">
+				<%-- <div id="collapse8" class="panel-collapse collapse">
 					<div class="row">
 						<form:form action="processFile" method="post" modelAttribute="processFileDTO" id="processFileForm">
 						      </div>
@@ -420,7 +420,7 @@ div.ex11 {
 									<div class="ex5"></div>
 						</form:form>					
 					</div>
-				</div>
+				</div> --%>
 			</div>
 		</div>
 	</div>
@@ -626,6 +626,18 @@ $(document).ready(function($)
 
        	 success: function(data) 
 		    {
+       		 
+       		//console.log(data);
+       		var newData = data.data.map(function (judge, index, array){
+       			var categoryObj = judge.category;
+       	     	Object.keys(categoryObj).map(function (category, index, categoryArray){
+       	     		//console.log("CATEGORY",category);
+       	     	judge[category] = categoryObj[category]=='Y'?true:false;
+       	     	})
+       			return judge
+       		});
+       		
+       		//console.log("newData",newData);
        		/*  console.log("PB1");
        		 console.log(data);
        		console.log(data.data[0].category);
@@ -644,9 +656,9 @@ $(document).ready(function($)
        	 fieldsGenerated.push(  { name: "judgeLastname", type: "text", width: 20 , align: "center"});
        	 fieldsGenerated.push( { name: "organizerclubName", type: "text", width: 25 , align: "center"});
        	//console.log("check1="+fieldsGenerated);
-       	  for (var key in jsonObj) {
+       	  /* for (var key in jsonObj) {
        		  if(jsonObj[key]=='Y'){
-       			  
+       			console.log(jsonObj[key]);
        			console.log("YES");
        		     fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false, disabled: false });
        	  }
@@ -654,7 +666,10 @@ $(document).ready(function($)
        			fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false, disabled: true });
        			console.log("NO");
        		  }
-       	 }
+       	 } */
+       	for (var key in jsonObj) {
+       		fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false });
+     	 }
        	 fieldsGenerated.push({ type: "control" , deleteButton: false,align: "center",width: 5} );
        	 
        	//console.log("check2="+fieldsGenerated);
@@ -688,23 +703,7 @@ $(document).ready(function($)
 		         editing: true,
 		         sorting: true,
 		         fields:fieldsGenerated,
-                  controller: { loadData: function(filter) {
-		                var d = $.Deferred();
-		                 $.ajax({
-		                 	type: "GET",
-		                     url: "admin/json/getjudgetabledata",
-		                     dataType: "json",
-		                     data: filter
-		                 }).done(function(response) {
-		                 	//console.log("KI BOLCHO"+response);
-		                     d.resolve(response);
-		                     return;
-		                 });
-		                 return d.promise(); 
-		             
-		             }
-                	 
-                 }
+		         data: newData
              });
 		    }
 });
