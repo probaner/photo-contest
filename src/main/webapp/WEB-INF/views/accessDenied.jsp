@@ -4,7 +4,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>AccessDenied page</title>
+    <title>${titel}</title>
+    <link rel="icon" href="${titelImage}" />
 </head>
 <body>
     <div class="generic-container">

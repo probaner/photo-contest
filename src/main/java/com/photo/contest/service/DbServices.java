@@ -812,26 +812,7 @@ public class DbServices {
 			   }
 			judge.setJudgeCategoryMapping(categorySet);
 		   }
-		/*Judge judge = new Judge();
-		judge.setJudgeName(judgeRegistrationDTO.getName());
-		judge.setJudgeEmail(judgeRegistrationDTO.getEmail());
-		judge.setJudgeOrganizerClub(organizerClub);
-		judge.setJudgeCreatedTime(commonUtil.sqlDateTime());
-		judge.setJudgeLastUpdateTime(commonUtil.sqlDateTime());
-		judge.setJudgeRegistrationToken(token);
-		judge.setJudgeCreatedBy(user);
-		if(judgeRegistrationDTO.getCategory().size()>0) {
-			Set<Category> categorySet = new HashSet<>();
-			for(String categoryName : judgeRegistrationDTO.getCategory()) {
-				if(results.containsKey(categoryName)){
-				   Category category = new Category();
-				   category.setCategoryName(categoryName);
-				   category.setCategoryId(results.get(categoryName));
-				   categorySet.add(category);
-				  }
-			   }
-			judge.setJudgeCategoryMapping(categorySet);
-		   }*/
+		
 		
 		int id = usersDAO.persist(judge);
 		
@@ -843,6 +824,35 @@ public class DbServices {
 		else {
 			   return "not ok";
 		     }
+		
+	}
+	
+	
+	@Transactional
+	public void updateJudgeTableData(JudgeTableDTO judgeTableDTO) {
+		
+		Users judge = usersDAO.findById(judgeTableDTO.getJudgeId());
+	
+		judge.setFirstName(judgeTableDTO.getJudgeFirstname());
+		judge.setLastName(judgeTableDTO.getJudgeLastname());
+		judge.setCreatedOn(commonUtil.sqlDateTime());
+		Map<String, String> categoryMap = judgeTableDTO.getCategory();
+		Set<Category> categorySet = new HashSet<>();
+		for(Map.Entry<String,String> entry : categoryMap.entrySet()) {			
+			
+			   if(entry.getValue().toUpperCase().equals("Y")) {
+			   Category category = new Category();
+			   category.setCategoryName(entry.getKey());
+			   category.setCategoryId(results.get(entry.getKey()));
+			   categorySet.add(category);
+			   System.out.println("category="+category.toString());
+			  }
+			
+		   }
+		judge.setJudgeCategoryMapping(categorySet);
+		
+		System.out.println("judge="+judge.toString());
+		usersDAO.attachDirty(judge);
 		
 	}
 

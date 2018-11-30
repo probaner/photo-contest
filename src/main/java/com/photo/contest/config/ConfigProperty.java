@@ -7,6 +7,20 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:config.properties")
 public class ConfigProperty {
+	
+	@Value("${index.name}")
+	private String indexName;
+	@Value("${index.image}")
+	private String indexImage;
+	@Value("${header.left}")
+	private String headerLeft;
+	@Value("${header.middle}")
+	private String headerMiddle;
+	@Value("${header.right}")
+	private String headerRight;
+	
+	
+	
 	@Value("${base.path}")
 	private String basePath;
 	@Value("${file.maxsize}")
@@ -101,7 +115,9 @@ public class ConfigProperty {
 	}
 
 	
-	public ConfigProperty(String basePath, Long maxSize, String chargeingTypeCategoryWiseNetive,
+
+	public ConfigProperty(String indexName, String indexImage, String headerLeft, String headerMiddle,
+			String headerRight, String basePath, Long maxSize, String chargeingTypeCategoryWiseNetive,
 			String chargeingTypeCategoryWiseForeign, String chargeingTypeIndivisualPhotoWiseNetive,
 			String chargeingTypeIndivisualPhotoWiseForeign, String chargeingTypeOverallNetive,
 			String chargeingTypeOverallForeign, String categoryOne, String categoryTwo, String categoryThree,
@@ -114,6 +130,11 @@ public class ConfigProperty {
 			String fileMinlongestSideResolution, String judgingStartdate, String judgingEnddate, String salonName,
 			String salonPatronage, String resultDest, String resultDate) {
 		super();
+		this.indexName = indexName;
+		this.indexImage = indexImage;
+		this.headerLeft = headerLeft;
+		this.headerMiddle = headerMiddle;
+		this.headerRight = headerRight;
 		this.basePath = basePath;
 		this.maxSize = maxSize;
 		this.chargeingTypeCategoryWiseNetive = chargeingTypeCategoryWiseNetive;
@@ -159,6 +180,52 @@ public class ConfigProperty {
 	}
 
 
+	public String getHeaderLeft() {
+		return headerLeft;
+	}
+
+
+	public void setHeaderLeft(String headerLeft) {
+		this.headerLeft = headerLeft;
+	}
+
+
+	public String getHeaderMiddle() {
+		return headerMiddle;
+	}
+
+
+	public void setHeaderMiddle(String headerMiddle) {
+		this.headerMiddle = headerMiddle;
+	}
+
+
+	public String getHeaderRight() {
+		return headerRight;
+	}
+
+
+	public void setHeaderRight(String headerRight) {
+		this.headerRight = headerRight;
+	}
+
+
+	public String getIndexName() {
+		return indexName;
+	}
+
+
+	public void setIndexName(String indexName) {
+		this.indexName = indexName;
+	}
+
+	public String getIndexImage() {
+		return indexImage;
+	}
+
+	public void setIndexImage(String indexImage) {
+		this.indexImage = indexImage;
+	}
 
 	public String getBasePath() {
 		return basePath;

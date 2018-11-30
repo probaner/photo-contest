@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.ProcessFileDTO;
@@ -32,10 +33,11 @@ import com.photo.contest.utility.SelectData;
 public class CouponCodeController {
 	
 	@Autowired
-	CommonServices 	commonServices;
+	private CommonServices 	commonServices;
 	@Autowired
 	private DbServices dbServices;
-	
+	@Autowired
+	private ConfigProperty configProperty;
 	
 	@RequestMapping("/createCoupon")
 	public String createCouponCode(@RequestParam String action, 
@@ -101,6 +103,13 @@ public class CouponCodeController {
 			model.addAttribute("processFileDTO", new ProcessFileDTO());
 			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());
+			
+			
+			 model.addAttribute("titel",configProperty.getIndexName());
+	  		  model.addAttribute("titelImage",configProperty.getIndexImage());
+	  		  model.addAttribute("headerLeft",configProperty.getHeaderLeft());
+			  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
+			  model.addAttribute("headerRight",configProperty.getHeaderRight());
 		 
 		return "admin";
 	}

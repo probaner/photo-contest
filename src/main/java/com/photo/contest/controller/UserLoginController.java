@@ -50,7 +50,14 @@ public class UserLoginController {
 	 @GetMapping("/getloginFormAfterRegister")
 		public String viewLoginAfterRegister(Map<String, Object> model) throws IOException {
 			Login loginForm = new Login();
-			model.put("loginForm", loginForm);	
+			model.put("loginForm", loginForm);
+			
+			model.put("titel",configProperty.getIndexName());
+			model.put("titelImage",configProperty.getIndexImage());
+			model.put("headerLeft",configProperty.getHeaderLeft());
+			model.put("headerMiddle",configProperty.getHeaderMiddle());
+			model.put("headerRight",configProperty.getHeaderRight());
+			
 			return "login";		
 		  }
 	 
@@ -60,6 +67,13 @@ public class UserLoginController {
 		public String viewLogin(Map<String, Object> model) throws IOException {
 			Login loginForm = new Login();
 			model.put("loginForm", loginForm);	
+			
+			model.put("titel",configProperty.getIndexName());
+			model.put("titelImage",configProperty.getIndexImage());
+			model.put("headerLeft",configProperty.getHeaderLeft());
+			model.put("headerMiddle",configProperty.getHeaderMiddle());
+			model.put("headerRight",configProperty.getHeaderRight());
+			
 			return "login";		
 		  }
 	
@@ -69,6 +83,14 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
     public String loginPage(Model model) throws IOException{
+    	
+    	
+    	  model.addAttribute("titel",configProperty.getIndexName());
+ 		  model.addAttribute("titelImage",configProperty.getIndexImage());
+ 		  model.addAttribute("headerLeft",configProperty.getHeaderLeft());
+		  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
+		  model.addAttribute("headerRight",configProperty.getHeaderRight());
+    	    	    	
         if (isCurrentAuthenticationAnonymous()) {
             return "login";
 		} else {

@@ -6,7 +6,8 @@
 <html lang="en">
 <head>
 <sec:csrfMetaTags/>
-  <title>Bootstrap Example</title>
+ <title>${titel}</title>
+<link rel="icon" href="${titelImage}" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -160,9 +161,9 @@ div.ex11 {
 
 <div class="container">
   <div class="page-header">
-<%--   <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
-  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
-  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    --%> 
+<%--  <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="${headerMiddle}" />" alt="logo" />   </div>
+  <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" />   </div>     --%> 
   </div>  
   <p></p>      
   <p></p>      
@@ -476,11 +477,7 @@ $(document).ready(function($)
     	  dataType: "json",
     	  success: function(countrylist) 
     				    {
-    		  //console.log(countrylist);
-    				     /* countrylist.forEach(function(item,index){
-    				    	 countries.push({ Name: item, Id: index});
-    				     }) */
-    				     //console.log(countries);
+    		 
     				      $("#jsGrid").jsGrid({
     				         width: "100%",
     				         height: "auto",
@@ -506,7 +503,6 @@ $(document).ready(function($)
     				             { name: "address", type: "text", width: 100 ,align: "center"},
     				             { name: "city", type: "text", width: 50 ,align: "center"},
     				             { name: "state", type: "text", width: 50 ,align: "center"},
-    				             /* { name: "country", type: "select", items: countries, valueField: "Name", textField: "Name" }, */
     				             { name: "payingStatus", type: "select", items: pay, valueField: "Name", textField: "Name" ,align: "center"},
     				             { type: "control" , deleteButton: false , align: "center", width: 5}
     				         ],
@@ -524,12 +520,6 @@ $(document).ready(function($)
     				                     return;
     				                 });
     				                 return d.promise(); 
-    				               /*   return $.ajax({
-    				                     type: "GET",
-    				                     url: "json/getedittabledata",
-    				                     data: filter,
-    				                     dataType: "JSON"
-    				                 }) */
     				             },
     				             updateItem: function(data) { 
     				             	//console.log("updateItem",data);
@@ -543,8 +533,7 @@ $(document).ready(function($)
     							    	data: JSON.stringify(data), 
     								    success: function(data) 
     								    {
-    								    	//console.log("success",data);
-    								    	 alert("successfully edited");
+    								    	alert(data.message);
     							        },
     							        error: function(jqXHR, textStatus,errorThrown){
     							            //console.debug(jqXHR.status,jqXHR.responseJSON); 
@@ -630,63 +619,26 @@ $(document).ready(function($)
        		//console.log(data);
        		var newData = data.data.map(function (judge, index, array){
        			var categoryObj = judge.category;
-       	     	Object.keys(categoryObj).map(function (category, index, categoryArray){
-       	     		//console.log("CATEGORY",category);
+       	     	Object.keys(categoryObj).map(function (category, index, categoryArray){       	     		
        	     	judge[category] = categoryObj[category]=='Y'?true:false;
        	     	})
        			return judge
        		});
        		
-       		//console.log("newData",newData);
-       		/*  console.log("PB1");
-       		 console.log(data);
-       		console.log(data.data[0].category);
        		
-       		var jsonObj = data.data[0].category;
-       		
-       		 for (var key in jsonObj) {
-       	       console.log(key);
-       	       console.log(jsonObj[key]);
-       	   } */
        	   
        	var jsonObj = data.data[0].category;
        	var fieldsGenerated = [];
        	 fieldsGenerated.push( { name: "judgeId", type: "number", width: 10 , align: "center" , editing: false});
-       	 fieldsGenerated.push(  { name: "judgeFirstname", type: "text", width: 20 , align: "center"});
-       	 fieldsGenerated.push(  { name: "judgeLastname", type: "text", width: 20 , align: "center"});
-       	 fieldsGenerated.push( { name: "organizerclubName", type: "text", width: 25 , align: "center"});
-       	//console.log("check1="+fieldsGenerated);
-       	  /* for (var key in jsonObj) {
-       		  if(jsonObj[key]=='Y'){
-       			console.log(jsonObj[key]);
-       			console.log("YES");
-       		     fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false, disabled: false });
-       	  }
-       		  else{
-       			fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false, disabled: true });
-       			console.log("NO");
-       		  }
-       	 } */
+       	 fieldsGenerated.push(  { name: "judgeFirstname", type: "text", width: 20 , align: "center", editing: false});
+       	 fieldsGenerated.push(  { name: "judgeLastname", type: "text", width: 20 , align: "center", editing: false});
+       	 fieldsGenerated.push( { name: "organizerclubName", type: "text", width: 25 , align: "center", editing: false});
+       	
        	for (var key in jsonObj) {
        		fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false });
      	 }
        	 fieldsGenerated.push({ type: "control" , deleteButton: false,align: "center",width: 5} );
-       	 
-       	//console.log("check2="+fieldsGenerated);
-       	
-       	
-       	/* fields: [
-	       { name: "judgeId", type: "number", width: 10 , align: "center" , editing: false},
-       { name: "judgeFirstname", type: "text", width: 20 , align: "center"},        
-       { name: "judgeLastname", type: "text", width: 20 , align: "center"},
-       { name: "judgeEmail", type: "text", width: 25 , align: "center"},
-       { name: "organizerclubName", type: "text", width: 25 , align: "center"},
       
-       { name: "test", type: "checkbox",  width: 5 , sorting: false }, 
-    
-       { type: "control" , deleteButton: false,align: "center",width: 5} 
-      ],  */
-       	   
        		
        		 $("#jsGrid1").jsGrid({
 		         width: "100%",
@@ -703,7 +655,37 @@ $(document).ready(function($)
 		         editing: true,
 		         sorting: true,
 		         fields:fieldsGenerated,
-		         data: newData
+		         data: newData,
+		         controller: {
+		        	  updateItem: function(data) { 
+			             	console.log("UPDATE DATA 1",data);
+			             	var dataModified = Object.assign({}, data);
+			             	Object.keys(data.category).map(function (categoryKey, index, categoryArray){
+			             		console.log(categoryKey,data.category[categoryKey]);
+			             		dataModified.category[categoryKey] = data[categoryKey] === true ? 'Y': 'N'
+			           	     	})
+			             	//console.log("UPDATE DATA 2",dataModified);
+			             	var myData = {};
+			             	myData['judgeTableDTO'] = data;
+			                	$.ajax({
+			             		type: "POST",
+			             		headers:headers,
+							    url: "admin/json/updatejudgetable",
+							    contentType: 'application/json',
+						    	data: JSON.stringify(data), 
+							    success: function(data) 
+							    {
+							    	
+							    	alert(data.message);
+						        },
+						        error: function(jqXHR, textStatus,errorThrown){
+						            console.debug(jqXHR.status,jqXHR.responseJSON); 
+						        	 alert(jqXHR.status+jqXHR.responseJSON.message+jqXHR.responseJSON.reason);
+						     }
+							}); 
+			             }
+		         }
+	           
              });
 		    }
 });

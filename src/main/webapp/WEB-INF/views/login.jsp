@@ -7,7 +7,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-<title>Salon</title>
+
+<title>${titel}</title>
+<link rel="icon" href="${titelImage}" />
+
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%-- <link rel="stylesheet"
@@ -73,15 +77,15 @@ div.redplaceholder :-ms-input-placeholder {
 </head>
 <body>
 
-<%-- <div class="container">
+<div class="container">
   <div class="page-header">
-  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
-  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
-  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
+  <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="${headerMiddle}" />" alt="logo" />   </div>
+  <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" />   </div>    
   </div>      
-</div>
+</div> 
  <p></p>      
- <p></p> --%> 
+ <p></p> 
 
 	<div class="container">
 		<h4></h4>

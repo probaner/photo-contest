@@ -9,8 +9,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>User profile form requirement</title>
-    <title>Bootstrap Example</title>
+<title>${titel}</title>
+<link rel="icon" href="${titelImage}" />
+    
+    
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

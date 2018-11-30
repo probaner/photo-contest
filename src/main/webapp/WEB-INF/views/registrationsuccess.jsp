@@ -9,7 +9,10 @@
 <html lang="en">
 <head>
 <sec:csrfMetaTags/>
-<title>Bootstrap Example</title>
+
+<title>${titel}</title>
+<link rel="icon" href="${titelImage}" />
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -80,13 +83,13 @@ p.b {
 </head>
 <body>
 
-  <%-- <div class="container">
+ <div class="container">
   <div class="page-header">
-  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
-  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
-  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
+  <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="${headerMiddle}" />" alt="logo" />   </div>
+  <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" />   </div>    
   </div>      
-</div> --%>
+</div> 
  
 
 
@@ -584,6 +587,8 @@ $(document).ready(function()
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -686,6 +691,8 @@ $(document).ready(function()
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -787,6 +794,8 @@ $(document).ready(function()
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -890,6 +899,8 @@ $("#upload_image_monochrome1").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	showFileCounter:false,
+	errorClass: "alert-danger",
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	headers: headers,
 	formData: (function() { 
@@ -989,6 +1000,8 @@ $("#upload_image_monochrome2").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	showFileCounter:false,
+	errorClass: "alert-danger",
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	headers: headers,
 	formData: (function() { 
@@ -1088,6 +1101,8 @@ $("#upload_image_monochrome3").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	showFileCounter:false,
+	errorClass: "alert-danger",
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	headers: headers,
 	formData: (function() { 
@@ -1187,6 +1202,8 @@ $("#upload_image_monochrome4").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	showFileCounter:false,
+	errorClass: "alert-danger",
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	headers: headers,
 	formData: (function() { 
@@ -1292,6 +1309,8 @@ $("#upload_image_monochrome4").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	showFileCounter:false,
+	errorClass: "alert-danger",
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	headers: headers,
 	formData: (function() { 
@@ -1393,6 +1412,8 @@ $("#upload_image_monochrome4").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -1492,6 +1513,8 @@ $("#upload_image_monochrome4").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -1591,6 +1614,8 @@ $("#upload_image_monochrome4").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -1692,6 +1717,8 @@ $("#upload_image_monochrome4").uploadFile({
 	previewWidth: "100px",
 	allowedTypes:"jpg,jpeg",
 	maxFileSize:20848820,
+	showFileCounter:false,
+	errorClass: "alert-danger",
 	uploadErrorStr: "Upload is not allowed.Enter Title.",
 	headers: headers,
 	formData: (function() { 
@@ -1792,6 +1819,8 @@ $("#upload_image_monochrome4").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -1892,6 +1921,8 @@ $("#upload_image_monochrome4").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 
@@ -1990,6 +2021,8 @@ $("#upload_image_monochrome4").uploadFile({
 		previewWidth: "100px",
 		allowedTypes:"jpg,jpeg",
 		maxFileSize:20848820,
+		showFileCounter:false,
+		errorClass: "alert-danger",
 		uploadErrorStr: "Upload is not allowed.Enter Title.",
 		headers: headers,
 		formData: (function() { 

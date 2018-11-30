@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.model.Users;
 import com.photo.contest.service.DbServices;
@@ -26,12 +27,20 @@ public class JudgeRegistrationController {
 	
 	 @Autowired
 	 private BCryptPasswordEncoder bCryptPasswordEncoder;
-	 
 	 @Autowired
-	 SelectData selectData;
+	 private ConfigProperty configProperty;
+	 @Autowired
+	 private SelectData selectData;
 	
 	@RequestMapping(value="/getregisterjudge")
 	 public String displayJudgeRegistrationPage(Map<String, Object> model, @RequestParam("token") String token) {
+		
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
+		
 		
 		Users judge = dbServices.getJudgeforRegister(token);
 		
@@ -57,6 +66,13 @@ public class JudgeRegistrationController {
 	@RequestMapping(value="/registerjudge", method = RequestMethod.POST) 
 	public String registerJudge(Map<String, Object> model,
 			@ModelAttribute("judgeRegisterDTO") JudgeRegisterDTO judgeRegisterDTO) {
+		
+		
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
 				
 		Users judge = dbServices.getJudgeforRegister(judgeRegisterDTO.getJudgeToken());
 		if (judge!=null) {	

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.UserDTO;
@@ -29,6 +30,8 @@ public class JudgeCreateController {
 	
 	@Autowired
 	private DbServices dbServices;
+	@Autowired
+	ConfigProperty configProperty;
 	
 	@RequestMapping("/createJudge")
 	public String createJudge(@RequestParam String action, ModelMap model, 
@@ -85,6 +88,13 @@ public class JudgeCreateController {
 			model.addAttribute("processDataType", processDataType);
 			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());
+			
+			
+			  model.addAttribute("titel",configProperty.getIndexName());
+	  		  model.addAttribute("titelImage",configProperty.getIndexImage());
+	  		  model.addAttribute("headerLeft",configProperty.getHeaderLeft());
+			  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
+			  model.addAttribute("headerRight",configProperty.getHeaderRight());
 			
 		return "admin";
 	}

@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>${titel}</title>
+  <link rel="icon" href="${titelImage}" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
@@ -169,12 +170,13 @@ button.btn-default:before {
 
 <div class="container">
 
-<div class="page-header">
-  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
-  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
-  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
-  </div>
-  </div> 
+<div class="container">
+  <div class="page-header">
+  <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="${headerMiddle}" />" alt="logo" />   </div>
+  <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" />   </div>    
+  </div>      
+</div> 
   <p></p>      
   <p></p>
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.ResetpasswordDTO;
 import com.photo.contest.model.Users;
@@ -30,11 +31,20 @@ public class ForgetPasswordController {
 	
 	 @Autowired
 	 private BCryptPasswordEncoder bCryptPasswordEncoder;
+	 @Autowired
+	 private ConfigProperty configProperty;
 	
 	@RequestMapping("/getForgetPasswordForm") 
 	public String viewForgetPasswordForm(Map<String, Object> model) throws IOException {
 		          GetPassword getPassword = new GetPassword();
 		           model.put("getPassword", getPassword);
+		           
+		           model.put("titel",configProperty.getIndexName());
+		   		   model.put("titelImage",configProperty.getIndexImage());
+		   		   model.put("headerLeft",configProperty.getHeaderLeft());
+		   	       model.put("headerMiddle",configProperty.getHeaderMiddle());
+		   		   model.put("headerRight",configProperty.getHeaderRight());
+		           
 		           return "forgetpassword";
                  }
 	
@@ -54,7 +64,13 @@ public class ForgetPasswordController {
 			     dbServices.updateForgetPasswAuthToken(user,appUrl);
 			     model.addAttribute("massage","A password reset link has been sent to: "+getPassword.getEmail());		     
 			     
-		       }		
+		       }	
+		 
+		 model.addAttribute("titel",configProperty.getIndexName());
+ 		  model.addAttribute("titelImage",configProperty.getIndexImage());
+ 		  model.addAttribute("headerLeft",configProperty.getHeaderLeft());
+		  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
+		  model.addAttribute("headerRight",configProperty.getHeaderRight());
 		 
 		 return "forgetpassword";		 
 	 }
@@ -62,7 +78,11 @@ public class ForgetPasswordController {
 	 @RequestMapping(value="/getresetpassword")
 	 public String displayResetPasswordPage(Map<String, Object> model, @RequestParam("token") String token) throws IOException {
 		 
-		//System.out.println(token);
+		  model.put("titel",configProperty.getIndexName());
+ 		  model.put("titelImage",configProperty.getIndexImage());
+ 		  model.put("headerLeft",configProperty.getHeaderLeft());
+		  model.put("headerMiddle",configProperty.getHeaderMiddle());
+		  model.put("headerRight",configProperty.getHeaderRight());
 		
 		Users user = dbServices.getUserDataByToken(token);
 		if(user!=null) {
@@ -81,7 +101,14 @@ public class ForgetPasswordController {
 	 
 	 @RequestMapping(value="/resetpassword", method = RequestMethod.POST) 
 	 public String resetPasswor(Map<String, Object> model, @RequestParam Map<String, String> requestParams) throws IOException {
-		 		 
+            
+		  model.put("titel",configProperty.getIndexName());
+ 		  model.put("titelImage",configProperty.getIndexImage());
+ 		  model.put("headerLeft",configProperty.getHeaderLeft());
+		  model.put("headerMiddle",configProperty.getHeaderMiddle());
+		  model.put("headerRight",configProperty.getHeaderRight());
+		 
+		 
 		 System.out.println("Chandan="+requestParams.get("token")+"    "+requestParams.get("password")+"    "+requestParams.get("confirm_password"));
 		 
 		 Users user = dbServices.getUserDataByToken(requestParams.get("token"));

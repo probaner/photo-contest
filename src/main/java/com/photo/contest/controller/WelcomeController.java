@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itextpdf.text.DocumentException;
+import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.model.Users;
@@ -35,27 +36,49 @@ public class WelcomeController {
 	CommonServices 	commonServices;
 	@Autowired
 	ResultPDFUtility resultPDFUtility;
+	@Autowired
+	ConfigProperty configProperty;
 	
 	
 	
 	@GetMapping("/")
-	 public ModelAndView getWelcomePage() throws IOException {	    		    		        	    	
+	 public ModelAndView getWelcomePage(Map<String, Object> model) throws IOException {	
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
+		
 	        return new ModelAndView("home"); 
 	    }  
 			
 	@GetMapping("/home")  
-	    public ModelAndView helloWorld() throws IOException {
-		
+	    public ModelAndView helloWorld(Map<String, Object> model) throws IOException {
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
 	        return new ModelAndView("home"); 
 	    } 
 	
 	@GetMapping("/getrulesandregulations")  
-    public ModelAndView getrules() throws IOException {	    		    		        	    	
+    public ModelAndView getrules(Map<String, Object> model) throws IOException {	
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
         return new ModelAndView("rules"); 
     } 
 	    
 	@GetMapping("/getfipdefination")  
-    public ModelAndView getfipdefination() throws IOException {	    		    		        	    	
+    public ModelAndView getfipdefination(Map<String, Object> model) throws IOException {
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
         return new ModelAndView("fipdefination");
     } 
 	
@@ -63,7 +86,12 @@ public class WelcomeController {
 		public String viewLogin(Map<String, Object> model) throws IOException {
 	    	List<UserStatusDisplayDTO> userStatusDisplayDTOList = dbServices.getUserDateForStatusTable();
 	    	//System.out.println("userStatusDisplayDTOList="+userStatusDisplayDTOList);
+	    	model.put("titel",configProperty.getIndexName());
+			model.put("titelImage",configProperty.getIndexImage());
 			model.put("tableData", userStatusDisplayDTOList);	
+			model.put("headerLeft",configProperty.getHeaderLeft());
+			model.put("headerMiddle",configProperty.getHeaderMiddle());
+			model.put("headerRight",configProperty.getHeaderRight());
 			return "table";		
 		  }
 	 
@@ -74,20 +102,30 @@ public class WelcomeController {
 		    List<String> genderList = selectData.genderData();
 		    Map<String,String> countryList = selectData.countryData();
 	        model.put("genderList", genderList);
-	        model.put("countryList", countryList);	        
+	        model.put("countryList", countryList);	
+	        model.put("titel",configProperty.getIndexName());
+			model.put("titelImage",configProperty.getIndexImage());
+			model.put("headerLeft",configProperty.getHeaderLeft());
+			model.put("headerMiddle",configProperty.getHeaderMiddle());
+			model.put("headerRight",configProperty.getHeaderRight());
 	        return "UserRegistration";
 	    }
 
 	 @PostMapping(value="/processRegistration")
 	 public String processRegistration(@ModelAttribute("userForm") UserDTO userDTO,  Model model) throws IOException{
 		  List<String> usersEmailList=dbServices.getListOfAColumn("email");
+		  model.addAttribute("titel",configProperty.getIndexName());
+  		  model.addAttribute("titelImage",configProperty.getIndexImage());
+  		  model.addAttribute("headerLeft",configProperty.getHeaderLeft());
+		  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
+		  model.addAttribute("headerRight",configProperty.getHeaderRight());
+		  
 		  if(!usersEmailList.contains(userDTO.getEmail())){
 			  
 		   if(commonServices.getExpairStatus())	{  
 			   Users users =dbServices.saveUserData(userDTO);
-	  
 			   UserDTO userDTOn = commonServices.createCurrentUserDTO( users , new UserDTO());
-			   model.addAttribute("sucess", "abcd");
+			   model.addAttribute("sucess", "abcd");		  
 			   return "registrationconfirm";
 		   }else {
 			       model.addAttribute("userForm", userDTO);
@@ -95,7 +133,7 @@ public class WelcomeController {
 			       List<String> genderList = selectData.genderData();
 			       Map<String,String> countryList = selectData.countryData();
 		           model.addAttribute("genderList", genderList);
-		           model.addAttribute("countryList", countryList);   
+		           model.addAttribute("countryList", countryList);
 			       return "UserRegistration";
 		         }
 	      

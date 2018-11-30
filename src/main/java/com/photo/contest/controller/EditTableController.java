@@ -52,7 +52,8 @@ public class EditTableController {
 		
 		if(editTableDataDTO != null) {
 		   dbServices.updateUserDataByEditTable(editTableDataDTO);
-		   responseDTO.setSuccess(true);
+		   //responseDTO.setSuccess(true);
+		   responseDTO.setMessage("Successfully Edited");
 		  }
 		return responseDTO;
 		

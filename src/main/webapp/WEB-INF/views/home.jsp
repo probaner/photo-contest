@@ -4,7 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+ 
+
+<title>${titel}</title>
+<link rel="icon" href="${titelImage}" />
+
+ 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
@@ -47,15 +52,18 @@ div.ex3 {
 </head>
 <body>
  
-<%-- <div class="container">
+
+<div class="container">
   <div class="page-header">
-  <div class="header">  <img src="<c:url value="/resources/image/Logo.jpg" />" alt="logo" /> </div>
-  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
-  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.jpg" />" alt="logo" />   </div>    
+  <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="${headerMiddle}" />" alt="logo" />   </div>
+  <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" />   </div>    
   </div>      
-</div>
+</div> 
+
+
  <p></p>      
-  <p></p>  --%>
+  <p></p> 
 <div class="container">
   <h4></h4>
   <ul class="nav nav-tabs">
@@ -72,7 +80,6 @@ div.ex3 {
 	<li><a href="getDownload">Result</a></li>   
     <li><a href="getContuctUs">Contuct Us</a></li>
   </ul>
-</div>
-  
+</div> 
 </body>
 </html>

@@ -5,6 +5,10 @@
 <!doctype html>
 <html lang="en-US">
 <head>
+
+<title>${titel}</title>
+<link rel="icon" href="${titelImage}" />
+
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
   <title>Success Notification Boxes</title>
   <link rel="shortcut icon" href="favicon.ico">

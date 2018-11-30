@@ -12,15 +12,22 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.photo.contest.config.ConfigProperty;
+
 @Controller
 
 public class FileDownloadController {
+	
+	
+	@Autowired
+	ConfigProperty configProperty;
 	
 	private static final String EXTERNAL_FILE_PATH="D:\\test\\PAYMENT.pdf";
 	//private static final String INTERNAL_FILE="irregular-verbs-list.pdf";
@@ -30,6 +37,13 @@ public class FileDownloadController {
 	@RequestMapping("/getDownload")
 	public String viewLogin(Map<String, Object> model) throws IOException {
 			
+		
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
+		
 		return "download";		
 	  }
 	
