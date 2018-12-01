@@ -500,9 +500,9 @@ $(document).ready(function($)
     			                        } , width: 50,  validate: "required", editing: false ,align: "center"},
     				             { name: "firstName", type: "text", width: 50, validate: "required" ,align: "center"},
     				             { name: "lastName", type: "text", width: 50, validate: "required" ,align: "center"},
-    				             { name: "address", type: "text", width: 100 ,align: "center"},
-    				             { name: "city", type: "text", width: 50 ,align: "center"},
-    				             { name: "state", type: "text", width: 50 ,align: "center"},
+    				             { name: "address", type: "text", width: 100 , validate: "required",align: "center"},
+    				             { name: "city", type: "text", width: 50 , validate: "required",align: "center"},
+    				             { name: "state", type: "text", width: 50 , validate: "required",align: "center"},
     				             { name: "payingStatus", type: "select", items: pay, valueField: "Name", textField: "Name" ,align: "center"},
     				             { type: "control" , deleteButton: false , align: "center", width: 5}
     				         ],
