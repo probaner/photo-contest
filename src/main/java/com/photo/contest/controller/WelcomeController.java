@@ -48,6 +48,7 @@ public class WelcomeController {
 		model.put("headerLeft",configProperty.getHeaderLeft());
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
+		model.put("homePageImage",configProperty.getHomepageImage());
 		
 	        return new ModelAndView("home"); 
 	    }  
@@ -59,6 +60,8 @@ public class WelcomeController {
 		model.put("headerLeft",configProperty.getHeaderLeft());
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
+		model.put("homePageImage",configProperty.getHomepageImage());
+		
 	        return new ModelAndView("home"); 
 	    } 
 	
@@ -80,6 +83,18 @@ public class WelcomeController {
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
         return new ModelAndView("fipdefination");
+    } 
+	
+	
+	@GetMapping("/getjudges")  
+    public ModelAndView getJudges(Map<String, Object> model) throws IOException {
+		model.put("titel",configProperty.getIndexName());
+		model.put("titelImage",configProperty.getIndexImage());
+		model.put("headerLeft",configProperty.getHeaderLeft());
+		model.put("headerMiddle",configProperty.getHeaderMiddle());
+		model.put("headerRight",configProperty.getHeaderRight());
+		model.put("judgePageImage",configProperty.getJudgepageImage());
+        return new ModelAndView("judgesList");
     } 
 	
 	@GetMapping("/getUserTable")

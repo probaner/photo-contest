@@ -18,6 +18,10 @@ public class ConfigProperty {
 	private String headerMiddle;
 	@Value("${header.right}")
 	private String headerRight;
+	@Value("${judgepage.image}")
+	private String judgepageImage;
+	@Value("${homepage.image}")
+	private String homepageImage;
 	
 	
 	
@@ -114,27 +118,28 @@ public class ConfigProperty {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 
 	public ConfigProperty(String indexName, String indexImage, String headerLeft, String headerMiddle,
-			String headerRight, String basePath, Long maxSize, String chargeingTypeCategoryWiseNetive,
-			String chargeingTypeCategoryWiseForeign, String chargeingTypeIndivisualPhotoWiseNetive,
-			String chargeingTypeIndivisualPhotoWiseForeign, String chargeingTypeOverallNetive,
-			String chargeingTypeOverallForeign, String categoryOne, String categoryTwo, String categoryThree,
-			String categoryFour, String categoryFive, String categorySix, String categorySeven, String categoryEight,
-			String categoryNine, String categoryTen, String categoryOneNetive, String categoryTwoNetive,
-			String categoryThreeNetive, String categoryFourNetive, String categoryFiveNetive, String categorySixNetive,
-			String categorySevenNetive, String categoryEightNetive, String categoryNineNetive, String categoryTenNetive,
-			String overall, String overallNetive, String netiveCountry, String netiveCurrencyName,
-			String foreignCurrencyName, String closeDate, String fileMaxlongestSideResolution,
-			String fileMinlongestSideResolution, String judgingStartdate, String judgingEnddate, String salonName,
-			String salonPatronage, String resultDest, String resultDate) {
+			String headerRight, String judgepageImage, String homepageImage, String basePath, Long maxSize,
+			String chargeingTypeCategoryWiseNetive, String chargeingTypeCategoryWiseForeign,
+			String chargeingTypeIndivisualPhotoWiseNetive, String chargeingTypeIndivisualPhotoWiseForeign,
+			String chargeingTypeOverallNetive, String chargeingTypeOverallForeign, String categoryOne,
+			String categoryTwo, String categoryThree, String categoryFour, String categoryFive, String categorySix,
+			String categorySeven, String categoryEight, String categoryNine, String categoryTen,
+			String categoryOneNetive, String categoryTwoNetive, String categoryThreeNetive, String categoryFourNetive,
+			String categoryFiveNetive, String categorySixNetive, String categorySevenNetive, String categoryEightNetive,
+			String categoryNineNetive, String categoryTenNetive, String overall, String overallNetive,
+			String netiveCountry, String netiveCurrencyName, String foreignCurrencyName, String closeDate,
+			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
+			String judgingEnddate, String salonName, String salonPatronage, String resultDest, String resultDate) {
 		super();
 		this.indexName = indexName;
 		this.indexImage = indexImage;
 		this.headerLeft = headerLeft;
 		this.headerMiddle = headerMiddle;
 		this.headerRight = headerRight;
+		this.judgepageImage = judgepageImage;
+		this.homepageImage = homepageImage;
 		this.basePath = basePath;
 		this.maxSize = maxSize;
 		this.chargeingTypeCategoryWiseNetive = chargeingTypeCategoryWiseNetive;
@@ -177,6 +182,25 @@ public class ConfigProperty {
 		this.salonPatronage = salonPatronage;
 		this.resultDest = resultDest;
 		this.resultDate = resultDate;
+	}
+
+
+	public String getHomepageImage() {
+		return homepageImage;
+	}
+
+
+	public void setHomepageImage(String homepageImage) {
+		this.homepageImage = homepageImage;
+	}
+
+
+	public String getJudgepageImage() {
+		return judgepageImage;
+	}
+
+	public void setJudgepageImage(String judgepageImage) {
+		this.judgepageImage = judgepageImage;
 	}
 
 

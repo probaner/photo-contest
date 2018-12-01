@@ -8,9 +8,9 @@
 
 
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+
 <!------ Include the above in your HEAD tag ---------->
 
 <html lang="en">
@@ -20,18 +20,17 @@
     <link rel="icon" href="${titelImage}" />
     
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-
-		<!-- Website CSS style -->
-		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
-
-		<!-- Website Font style -->
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-		
-		<!-- Google Fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<link rel="stylesheet" href="<c:url value="/resources/css/validation/screen.css"/>">
+		       
+        <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
+        <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>
+        <script src="<c:url value="/resources/javaScript/bootstrap-formhelpers.min.js" />"></script>
+        <script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
+        <script src="<c:url value="/resources/javaScript/additional-methods.min.js" />"></script>
+        <script src="<c:url value="/resources/javaScript/jquery.form.js" />"></script>
+        
+     
 		
 <style>
 body, html{
@@ -113,14 +112,14 @@ input::-webkit-input-placeholder {
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form:form class="form-horizontal" method="post" action="registerjudge" modelAttribute="judgeRegisterDTO">
+					<form:form class="form-horizontal" method="post" id="judgesignupForm" action="registerjudge" modelAttribute="judgeRegisterDTO">
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Your Name</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<form:input type="text" class="form-control" name="judgeName" id="judgeName" path="judgeName" placeholder="Enter your Name" />
+									<form:input type="text" class="form-control" name="judgeName" id="judgeName" path="judgeName" placeholder="Enter your Name" readonly="true" />
 								</div>
 							</div>
 						</div>
@@ -130,20 +129,11 @@ input::-webkit-input-placeholder {
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<form:input type="text" class="form-control" name="judgeEmail" id="judgeEmail" path="judgeEmail" placeholder="Enter your Email" />
+									<form:input type="text" class="form-control" name="judgeEmail" id="judgeEmail" path="judgeEmail" placeholder="Enter your Email" readonly="true" />
 								</div>
 							</div>
 						</div>
-
-						<!-- <div class="form-group">
-							<label for="username" class="cols-sm-2 control-label">Username</label>
-							<div class="cols-sm-10">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username"/>
-								</div>
-							</div>
-						</div> -->
+						
 
 						<div class="form-group">
 							<label for="password" class="cols-sm-2 control-label">Password</label>
@@ -221,6 +211,114 @@ input::-webkit-input-placeholder {
 			</div>
 		</div>
 
-		<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+	
+<script>
+
+	$().ready(function() {
+		
+		
+		$.validator.addMethod(
+		        "regex",
+		        function(value, element, regexp) {
+		            var re = new RegExp(regexp);
+		            return this.optional(element) || re.test(value);
+		        },
+		        "Please check your input."
+		);
+		
+		 
+		$("#judgesignupForm").validate({
+			rules: {					
+					
+				judgeAddress: { required:{
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				                          }
+				                        },
+		                       minlength: 4,
+		                       maxlength: 120
+		                      /*  regex: /^[\w\-\s]+$/ */
+	                         },
+	            judgeCity: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+	                        minlength: 3,
+	                        maxlength: 50,
+	                        lettersonly: true
+                          },
+               judgePassword: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+					            minlength: 6,
+		                        maxlength: 25
+			                  },            
+			   confirm: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+		                                minlength: 6,
+		                                maxlength: 25,
+		                                equalTo: "#password"
+	                                  },
+				
+	           judgePin: {
+					       required: true,
+					       minlength: 4,
+					       maxlength: 12,
+					       digits: true
+				         },
+				           
+			  judgeCountry: { 
+					           required: true
+					        }
+			        
+			},
+			messages: {
+			
+				judgeAddress: {required: "Please enter your address",
+		                  minlength: "Your address must be at least 4 characters long",
+                          maxlength: "Your address not more then 120 characters"                        
+	                     },
+	            judgeCity: {required: "Please enter your city",
+		               minlength: "Your city must be at least 4 characters long",
+                       maxlength: "Your city not more then 50 characters",
+		               lettersonly: "Only letter are allowed"
+	                  },
+	            judgePin: { 
+					   required: "Please enter your valide ZIP Code/PIN",
+					   minlength: "Your ZIP Code/PIN must be at least 4 digits long",
+					   maxlength: "Your ZIP Code/PIN not more then 12 digits",
+					   digits: "Your ZIP Code/PIN not digits"
+				     },
+				judgePassword: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password not more then 25 characters"
+				},
+				confirm: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 6 characters long",
+					maxlength: "Your password not more then 25 characters",
+					equalTo: "Please enter the same password as above"
+				},
+			
+				judgeCountry : {
+					required: "Select your Counter" 
+				          }
+			}
+			
+		});
+		
+	});
+	</script>    
 	</body>
 </html>
