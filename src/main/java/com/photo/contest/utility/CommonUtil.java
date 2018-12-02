@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +35,8 @@ import com.photo.contest.exception.ImageFormateException;
 public class CommonUtil {
 	
 	
-	/* @Autowired
-	 private MailSender mailSender;*/
+	 @Autowired
+	 private MailSender mailSender;
 	 
 	 @Autowired
 	 private LastIdProperty lastIdProperty;
@@ -46,9 +47,9 @@ public class CommonUtil {
 	 private static DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	 
 	 
-	/* public void setMailSender(MailSender mailSender) {
+	 public void setMailSender(MailSender mailSender) {
 		this.mailSender = mailSender;
-	   }*/
+	   }
 	 public void setLastIdProperty(LastIdProperty lastIdProperty) {
 			this.lastIdProperty = lastIdProperty;
 		}
@@ -109,7 +110,7 @@ public class CommonUtil {
 		 email.setText(mailRecipientDTO.getMessage());
 		 if(bcc!=null)
 		    email.setBcc(bcc);
-		 //mailSender.send(email);		 
+		 mailSender.send(email);		 
 		 return "success";		 
 	 }
 

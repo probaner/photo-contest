@@ -60,13 +60,31 @@ public class WebMvcConfig implements WebMvcConfigurer {
    }
    
    
-   @Bean
+  /* @Bean
    public JavaMailSender javaMailService() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 	    mailSender.setHost("mail.vibgyorcircuit");
 	    mailSender.setPort(587);//try with 25/587	     
 	    mailSender.setUsername("support@vibgyorcircuit.co");
 	    //mailSender.setPassword("password");
+	     
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.auth", "false");//Put  false, if no https is needed
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.debug", "true");
+	     
+	    return mailSender;
+		
+	}*/
+   
+   @Bean
+   public JavaMailSender javaMailService() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+	    mailSender.setHost("smtp.gmail.com");
+	    mailSender.setPort(587);//try with 25/587	     
+	    mailSender.setUsername("microcircuit.asia@gmail.com");
+	    mailSender.setPassword("Salon2018");
 	     
 	    Properties props = mailSender.getJavaMailProperties();
 	    props.put("mail.transport.protocol", "smtp");
@@ -84,7 +102,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
       /* registry.addViewController("/login").setViewName("login");*/
        registry.addViewController("/accessDenied").setViewName("accessDenied");
        /*registry.addViewController("/imageViewer").setViewName("imageViewer");*/
-       registry.addViewController("/registrationconfirm").setViewName("registrationconfirm");     
+       registry.addViewController("/registrationconfirm").setViewName("registrationconfirm"); 
+       registry.addViewController("/paymentSuccess").setViewName("paymentSuccess");   
    }
    
    

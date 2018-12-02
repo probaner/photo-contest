@@ -29,7 +29,7 @@
 <script src="http://hayageek.github.io/jQuery-Upload-File/4.0.11/jquery.uploadfile.min.js"></script> --%>
 
 
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="<c:url value="/resources/css/uploadfile.css" />">
 <script src="<c:url value="/resources/javaScript/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/bootstrap.min.js" />"></script>

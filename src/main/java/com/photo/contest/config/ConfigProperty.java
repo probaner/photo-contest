@@ -113,10 +113,20 @@ public class ConfigProperty {
 	@Value("${result.date}")
 	private String resultDate;
 	
+	@Value("${mail.sender}")
+	private String mailsender;	
+	@Value("${mail.password}")
+	private String mailpassword;
+	
+	
+	
 	public ConfigProperty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
+	
 
 
 	public ConfigProperty(String indexName, String indexImage, String headerLeft, String headerMiddle,
@@ -131,7 +141,8 @@ public class ConfigProperty {
 			String categoryNineNetive, String categoryTenNetive, String overall, String overallNetive,
 			String netiveCountry, String netiveCurrencyName, String foreignCurrencyName, String closeDate,
 			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
-			String judgingEnddate, String salonName, String salonPatronage, String resultDest, String resultDate) {
+			String judgingEnddate, String salonName, String salonPatronage, String resultDest, String resultDate,
+			String mailsender, String mailpassword) {
 		super();
 		this.indexName = indexName;
 		this.indexImage = indexImage;
@@ -182,7 +193,12 @@ public class ConfigProperty {
 		this.salonPatronage = salonPatronage;
 		this.resultDest = resultDest;
 		this.resultDate = resultDate;
+		this.mailsender = mailsender;
+		this.mailpassword = mailpassword;
 	}
+
+
+
 
 
 	public String getHomepageImage() {
@@ -732,8 +748,26 @@ public class ConfigProperty {
 	public void setResultDate(String resultDate) {
 		this.resultDate = resultDate;
 	}
+
+
+	public String getMailsender() {
+		return mailsender;
+	}
+
+
+	public void setMailsender(String mailsender) {
+		this.mailsender = mailsender;
+	}
+
+
+	public String getMailpassword() {
+		return mailpassword;
+	}
+
+
+	public void setMailpassword(String mailpassword) {
+		this.mailpassword = mailpassword;
+	}
 	
-		
-	
-	
+			
 }

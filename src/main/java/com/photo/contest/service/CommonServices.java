@@ -86,12 +86,16 @@ public class CommonServices {
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("couponCode=" + couponCode);
 		mailRecipientDTO.setSubject("Coupon Code Details");
-
+        
 		commonUtil.doSendEmail(mailRecipientDTO, bcc);
 	}
 
 	public void sendQueryEmail(MailRecipientDTO mailRecipientDTO) {
-		mailRecipientDTO.setRecipient("salonechnchy@gmail.com");
+		
+		
+		mailRecipientDTO.setRecipient("microcircuit.asia@gmail.com");
+		System.out.println(mailRecipientDTO.toString());
+		
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 	}
 

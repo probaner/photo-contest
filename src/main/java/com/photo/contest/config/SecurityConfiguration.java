@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
         .authorizeRequests()
                 .antMatchers("/", "/home","/getRegistrationForm", "/getloginForm","/getUserTable","/getDownload","/getContuctUs","/getForgetPasswordForm","/processForgetPassword","/getresetpassword",
-                		"/resetpassword","/processRegistration","/imageViewer/**","/getrulesandregulations","/getfipdefination","/registrationconfirm","/getloginFormAfterRegister","/getregisterjudge","/registerjudge","/getjudges").permitAll()    
+                		"/resetpassword","/processRegistration","/imageViewer/**","/getrulesandregulations","/getfipdefination","/registrationconfirm","/getloginFormAfterRegister","/getregisterjudge","/registerjudge","/getjudges","/processmail").permitAll()    
                 /*.antMatchers("/getUserTable").hasAuthority("participate")*/
                 .antMatchers("/json/**").hasAuthority("participate") 
                 .antMatchers("/admin/json/**").hasAuthority("admin")
