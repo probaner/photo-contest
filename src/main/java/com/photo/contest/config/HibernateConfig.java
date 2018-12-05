@@ -78,7 +78,7 @@ public class HibernateConfig {
 			{
 				//setProperty("hibernate.hbm2ddl.auto", "create-drop");
 				setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-				setProperty("hibernate.show_sql", "true");
+				setProperty("hibernate.show_sql", "false");
 				setProperty("hibernate.archive.autodetection", "class,hbm");
 				//setProperty("hibernate.globally_quoted_identifiers", "true");
 			}

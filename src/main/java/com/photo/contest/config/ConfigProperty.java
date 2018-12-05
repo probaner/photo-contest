@@ -103,6 +103,8 @@ public class ConfigProperty {
 	private String judgingStartdate;
 	@Value("${judging.enddate}")
 	private String judgingEnddate;
+	@Value("${judg.loginurl}")
+	private String judgloginurl;
 	
 	@Value("${salon.name}")
 	private String salonName;
@@ -126,9 +128,6 @@ public class ConfigProperty {
 	}
 
 
-	
-
-
 	public ConfigProperty(String indexName, String indexImage, String headerLeft, String headerMiddle,
 			String headerRight, String judgepageImage, String homepageImage, String basePath, Long maxSize,
 			String chargeingTypeCategoryWiseNetive, String chargeingTypeCategoryWiseForeign,
@@ -141,8 +140,8 @@ public class ConfigProperty {
 			String categoryNineNetive, String categoryTenNetive, String overall, String overallNetive,
 			String netiveCountry, String netiveCurrencyName, String foreignCurrencyName, String closeDate,
 			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
-			String judgingEnddate, String salonName, String salonPatronage, String resultDest, String resultDate,
-			String mailsender, String mailpassword) {
+			String judgingEnddate, String judgloginurl, String salonName, String salonPatronage, String resultDest,
+			String resultDate, String mailsender, String mailpassword) {
 		super();
 		this.indexName = indexName;
 		this.indexImage = indexImage;
@@ -189,6 +188,7 @@ public class ConfigProperty {
 		this.fileMinlongestSideResolution = fileMinlongestSideResolution;
 		this.judgingStartdate = judgingStartdate;
 		this.judgingEnddate = judgingEnddate;
+		this.judgloginurl = judgloginurl;
 		this.salonName = salonName;
 		this.salonPatronage = salonPatronage;
 		this.resultDest = resultDest;
@@ -196,6 +196,11 @@ public class ConfigProperty {
 		this.mailsender = mailsender;
 		this.mailpassword = mailpassword;
 	}
+
+
+
+
+
 
 
 
@@ -768,6 +773,15 @@ public class ConfigProperty {
 	public void setMailpassword(String mailpassword) {
 		this.mailpassword = mailpassword;
 	}
-	
-			
+
+
+	public String getJudgloginurl() {
+		return judgloginurl;
+	}
+
+
+	public void setJudgloginurl(String judgloginurl) {
+		this.judgloginurl = judgloginurl;
+	}
+				
 }

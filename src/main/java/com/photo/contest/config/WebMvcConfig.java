@@ -2,6 +2,7 @@ package com.photo.contest.config;
 
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +25,9 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.photo.contest"})
 public class WebMvcConfig implements WebMvcConfigurer {
+	
+	@Autowired
+	ConfigProperty configProperty;
 
 	@Bean
     public MultipartResolver multipartResolver() {
@@ -83,8 +87,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 	    mailSender.setHost("smtp.gmail.com");
 	    mailSender.setPort(587);//try with 25/587	     
-	    mailSender.setUsername("microcircuit.asia@gmail.com");
-	    mailSender.setPassword("Salon2018");
+	    mailSender.setUsername(configProperty.getMailsender());
+	    mailSender.setPassword(configProperty.getMailpassword());
 	     
 	    Properties props = mailSender.getJavaMailProperties();
 	    props.put("mail.transport.protocol", "smtp");

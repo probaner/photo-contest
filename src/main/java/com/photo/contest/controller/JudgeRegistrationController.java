@@ -3,7 +3,6 @@ package com.photo.contest.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +24,7 @@ public class JudgeRegistrationController {
 	@Autowired
 	DbServices dbServices;
 	
-	 @Autowired
-	 private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	 @Autowired
 	 private ConfigProperty configProperty;
 	 @Autowired
@@ -76,7 +74,7 @@ public class JudgeRegistrationController {
 				
 		Users judge = dbServices.getJudgeforRegister(judgeRegisterDTO.getJudgeToken());
 		if (judge!=null) {	
-			               judge.setPassword(bCryptPasswordEncoder.encode(judgeRegisterDTO.getJudgePassword()));
+			               //judge.setPassword(bCryptPasswordEncoder.encode(judgeRegisterDTO.getJudgePassword()));
 			               dbServices.registerJudge(judge, judgeRegisterDTO);			               
 		                   return "registrationconfirm";
 		                 }

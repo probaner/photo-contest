@@ -42,13 +42,45 @@ public class CommonServices {
 
 	}
 
-	public void sendRegistrationConfirmMail(Users users , String password) {
+	public void sendUserRegistrationConfirmMail(Users users , String password) {
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
-		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
+		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
-		mailRecipientDTO.setMessage("Registration Sucess \nRegistration Id:" + users.getUserId() + "\nUser Id: "
+		mailRecipientDTO.setMessage("Registration Sucessful \nRegistration Id:" + users.getUserId() + "\nUser Id: "
+				+ users.getEmail() + "\n Password: " + password + " \n");
+		mailRecipientDTO.setSubject("Registration Success");
+		commonUtil.doSendEmail(mailRecipientDTO, null);
+
+	}
+	
+	
+	public void sendJudgeRegistrationConfirmMail(Users users , String password) {
+
+		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
+
+		mailRecipientDTO.setSender(configProperty.getMailsender());
+		mailRecipientDTO.setRecipient(users.getEmail());
+		mailRecipientDTO.setMessage("Registration Sucessful \n" +"User Id: "
+				+ users.getEmail() + "\n Password: " + password + 
+				" \nJudgeing Page will open from: "+configProperty.getJudgingStartdate()+ " to: "+configProperty.getJudgingEnddate()+
+				"\nURL: "+configProperty.getJudgloginurl());
+		
+		
+		mailRecipientDTO.setSubject("Registration Success");
+		commonUtil.doSendEmail(mailRecipientDTO, null);
+
+	}
+	
+	
+	public void sendPasswordChangeConfirmMail(Users users , String password) {
+
+		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
+
+		mailRecipientDTO.setSender(configProperty.getMailsender());
+		mailRecipientDTO.setRecipient(users.getEmail());
+		mailRecipientDTO.setMessage("Password Change Sucessful. \nRegistration Id:" + users.getUserId() + "\nUser Id: "
 				+ users.getEmail() + "\n Password: " + password + " \n");
 		mailRecipientDTO.setSubject("Registration Success");
 		commonUtil.doSendEmail(mailRecipientDTO, null);
@@ -59,9 +91,9 @@ public class CommonServices {
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
-		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
+		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
-		mailRecipientDTO.setMessage("To reset your password, click the link below:\\n" + url);
+		mailRecipientDTO.setMessage("To reset your password, click the link below:\n" + url);
 		mailRecipientDTO.setSubject("Password Reset Request");
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 
@@ -72,9 +104,9 @@ public class CommonServices {
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
-		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
+		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(judgeMail);
-		mailRecipientDTO.setMessage("To register your as a judge, click the link below URL:\\n" + url);
+		mailRecipientDTO.setMessage("To register your as a judge, click the link below URL:\n" + url);
 		mailRecipientDTO.setSubject("Password Reset Request");
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 
@@ -82,7 +114,7 @@ public class CommonServices {
 
 	public void sendCreateCouponCodeMailforaUser(Users users, String couponCode, String bcc) {
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
-		mailRecipientDTO.setSender("support@vibgyorcircuit.co");
+		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("couponCode=" + couponCode);
 		mailRecipientDTO.setSubject("Coupon Code Details");
@@ -93,8 +125,8 @@ public class CommonServices {
 	public void sendQueryEmail(MailRecipientDTO mailRecipientDTO) {
 		
 		
-		mailRecipientDTO.setRecipient("microcircuit.asia@gmail.com");
-		System.out.println(mailRecipientDTO.toString());
+		mailRecipientDTO.setRecipient(configProperty.getMailsender());
+		//System.out.println(mailRecipientDTO.toString());
 		
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 	}

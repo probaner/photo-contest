@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +79,8 @@ public class DbServices {
 	private OrganizerClubDAO organizerClubDAO;
 	@Autowired
 	private JudgeDAO judgeDAO;
-	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	public void setUsersDAO(UsersDAO usersDAO) {
 		this.usersDAO = usersDAO;
@@ -117,6 +119,9 @@ public class DbServices {
 	public void setJudgeDAO(JudgeDAO judgeDAO) {
 		this.judgeDAO = judgeDAO;
 	}
+	
+	
+	
 
 	@Transactional
 	public Users saveUserData(UserDTO userDTO) throws IOException {
@@ -163,7 +168,7 @@ public class DbServices {
 		
 		users.setUserId(id);
 				
-		//commonService.sendRegistrationConfirmMail(users, userDTO.getPassword());
+		commonService.sendUserRegistrationConfirmMail(users, userDTO.getPassword());
 		//System.out.println(users.toString());
 		
 		return users;
@@ -352,7 +357,7 @@ public class DbServices {
 		if(data.contains("token=")) {
 		   commonService.sendforgetPassWordMail(user, data);
 		  }else {
-			      commonService.sendRegistrationConfirmMail(user, data);
+			      commonService.sendPasswordChangeConfirmMail(user, data);
 		        }
 	}
 
@@ -771,17 +776,20 @@ public class DbServices {
 			  editTableDataDTO.setLastName(users.getLastName());
 			  editTableDataDTO.setAddress(users.getAddress());
 			  editTableDataDTO.setCity(users.getCity());
-			  editTableDataDTO.setCountry(users.getCountry());
+			  //editTableDataDTO.setCountry(users.getCountry());
+			  editTableDataDTO.setState(users.getState());
 			  editTableDataDTO.setClub(users.getClub());
 			  if(users.getPayStatus()!=null)
-			  editTableDataDTO.setPayingStatus(users.getPayStatus().getPayingStatus());
-			  
-			  editTableDataDTOList.add(editTableDataDTO);
-			  }
+			     editTableDataDTO.setPayingStatus(users.getPayStatus().getPayingStatus()); 
+			     editTableDataDTOList.add(editTableDataDTO);
+			 }
 		  }
 		}
-		return editTableDataDTOList;
 		
+		//for(EditTableDataDTO editTableDataDTO:  editTableDataDTOList)
+			System.out.println("editTableDataDTOList="+editTableDataDTOList.toString());
+		
+		return editTableDataDTOList;		
 	}
 	
 	@Transactional
@@ -845,7 +853,7 @@ public class DbServices {
 			   category.setCategoryName(entry.getKey());
 			   category.setCategoryId(results.get(entry.getKey()));
 			   categorySet.add(category);
-			   System.out.println("category="+category.toString());
+			   //System.out.println("category="+category.toString());
 			  }
 			
 		   }
@@ -888,9 +896,11 @@ public class DbServices {
 			judge.setCity(judgeRegisterDTO.getJudgeCity());
 			judge.setState(judgeRegisterDTO.getJudgePin());
 			judge.setCountry(judgeRegisterDTO.getJudgeCountry());
-			judge.setLastLoggin(commonUtil.sqlDateTime());
-			
+			String pass = judgeRegisterDTO.getJudgePassword();
+			judge.setPassword(bCryptPasswordEncoder.encode(judgeRegisterDTO.getJudgePassword()));
+			judge.setLastLoggin(commonUtil.sqlDateTime());			
 			usersDAO.attachDirty(judge);
+			commonService.sendJudgeRegistrationConfirmMail(judge, pass);			
 		  }	
 		
 		System.out.println("judge="+judge.toString());
@@ -946,7 +956,7 @@ public class DbServices {
 				      }
 				   
 				   judgeTableDTO.setCategory(catagoryMap);
-				   System.out.println("judgeTableDTO="+judgeTableDTO.toString());
+				   //System.out.println("judgeTableDTO="+judgeTableDTO.toString());
 			     }
 			   judgeTableData.add(judgeTableDTO);
 		      }	

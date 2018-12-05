@@ -93,7 +93,7 @@ public class UserLoginController {
     	    	    	
         if (isCurrentAuthenticationAnonymous()) {
             return "login";
-		} else {
+		   } else {
 
 			String email = getCurrentUser();
 			if (email != null) {
