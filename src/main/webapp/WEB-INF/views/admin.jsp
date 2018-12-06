@@ -502,9 +502,9 @@ $(document).ready(function($)
     				             { name: "lastName", type: "text", width: 50, validate: "required" ,align: "center"},
     				             { name: "address", type: "text", width: 100 , validate: "required",align: "center"},
     				             { name: "city", type: "text", width: 50 , validate: "required",align: "center"},
-    				             { name: "state", type: "text", width: 50 , validate: "required",align: "center"}, 
+    				             { name: "state", type: "text", width: 50 , validate: "required",align: "center"},
     				             { name: "payingStatus", type: "select", items: pay, valueField: "Name", textField: "Name" ,align: "center"},
-    				             { type: "Control" , deleteButton: false , align: "center", width: 5}
+    				             { type: "control" , deleteButton: false , align: "center", width: 5}
     				         ],
     				         controller: {
     				             loadData: function(filter) {
@@ -515,7 +515,7 @@ $(document).ready(function($)
     				                     dataType: "json",
     				                     data: filter
     				                 }).done(function(response) {
-    				                 	console.log("KI BOLCHO"+response);
+    				                 	//console.log("KI BOLCHO"+response);
     				                     d.resolve(response);
     				                     return;
     				                 });
