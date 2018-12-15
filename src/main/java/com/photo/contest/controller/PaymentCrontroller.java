@@ -67,7 +67,8 @@ public class PaymentCrontroller {
 		                	model.addAttribute("dcc","DISCOUNT COPON CODE: "+user.getDiscountData().getCouponCode());
 		                	model.addAttribute("dp","\nDISCOUNT PERCENT: "+user.getDiscountData().getDiscountPersent());
 		                    model.addAttribute("payableamount","PAYABLE AMOUNT: "+value+" "+user.getPayStatus().getCourencyType());
-		                	
+		                	model.addAttribute("amount", user.getPayStatus().getTotalAmount());
+		                	model.addAttribute("courency", user.getPayStatus().getCourencyType());
 		                  }
 		                else {
 		                	   model.addAttribute("payableamount", "\nPAYABLE AMOUNT: "+user.getPayStatus().getTotalAmount()+" "+user.getPayStatus().getCourencyType());

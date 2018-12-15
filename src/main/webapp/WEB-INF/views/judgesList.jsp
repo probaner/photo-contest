@@ -69,8 +69,8 @@ div.ex4 {
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><a href="getrulesandregulations"> RULES & REGULATIONS 2017 </a></li>
-        <li><a href="getfipdefination"> FIAP DEFINITIONS OF DIVISIONS </a></li>  
+        <li><a href="getrulesandregulations"> RULES & REGULATIONS </a></li>
+        <li><a href="getfipdefination"> COMPETITION DIVITION & DEFINITION </a></li>  
         <li><a href="getjudges"> JUDGES </a></li>
                                 
       </ul>

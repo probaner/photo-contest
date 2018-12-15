@@ -110,7 +110,7 @@ $().ready(function() {
                  payment: {
                      transactions: [
                          {
-                             amount: { total: '45.01', currency: 'USD' }
+                             amount: { total: '<c:out value="${amount}"/>', currency: '<c:out value="${courency}"/>' }
                          }
                      ]
                  }
@@ -162,6 +162,7 @@ $().ready(function() {
 
                          $('#confirm').hide();
                          $('#thanks').show();
+                         //
                      });
                  });
              });
