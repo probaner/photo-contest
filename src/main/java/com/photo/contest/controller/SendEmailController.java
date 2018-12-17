@@ -33,7 +33,7 @@ public class SendEmailController {
     public String fetchEmailForm(Map<String, Object> model) {
 		
 		
-		 System.out.println("I am calling conroler");
+		 //System.out.println("I am calling conroler");
 		
 		  model.put("titel",configProperty.getIndexName());
 		  model.put("titelImage",configProperty.getIndexImage());
@@ -50,7 +50,7 @@ public class SendEmailController {
 	@RequestMapping(value="/processmail", method = RequestMethod.POST)
     public String doSendEmail(@ModelAttribute("mailRecipientform") MailRecipientDTO mailRecipientDTO, Map<String, Object> model) {	
 		//if(action.equals("processmail")){
-		 System.out.println("In controler");
+		 //System.out.println("In controler");
 		
 		    model.put("titel",configProperty.getIndexName());
 			model.put("titelImage",configProperty.getIndexImage());
@@ -58,7 +58,7 @@ public class SendEmailController {
 			model.put("headerMiddle",configProperty.getHeaderMiddle());
 			model.put("headerRight",configProperty.getHeaderRight());
 		
-		   System.out.println(mailRecipientDTO.toString());
+		   //System.out.println(mailRecipientDTO.toString());
 		   commonServices.sendQueryEmail(mailRecipientDTO);
 		   model.put("massage","mail send succesful");
 		//}

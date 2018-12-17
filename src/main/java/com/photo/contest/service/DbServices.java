@@ -57,6 +57,7 @@ import com.photo.contest.utility.CommonUtil;
 public class DbServices {
 	
 	public static Map<String, Integer> results = new HashMap<String, Integer>();
+	public static String dbname =null;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -122,6 +123,12 @@ public class DbServices {
 	
 	
 	
+	public  String getDBName() {
+		dbname= configProperty.getDbname();
+		return dbname;
+	}
+	
+	 
 
 	@Transactional
 	public Users saveUserData(UserDTO userDTO) throws IOException {
@@ -527,8 +534,8 @@ public class DbServices {
 	@Transactional
 	public List<UserStatusDisplayDTO> getUserDateForStatusTable() {
 
-		String sql = "SELECT ps.user_id, usr.first_name, usr.last_name, usr.club, usr.country,ps.attempt_section, ps.total_entry, ps.paying_status "
-				+ "FROM salontest.pay_status ps, salontest.users usr "
+		String sql = "SELECT ps.user_id, usr.first_name, usr.last_name, usr.club, usr.country,ps.attempt_section, ps.total_entry, ps.paying_status FROM "
+				+getDBName()+".pay_status ps, "+getDBName()+".users usr "
 				+ "where ps.user_id=usr.user_id and attempt_section > 0";
 
 		List<UserStatusDisplayDTO> userStatusDisplayDTOList = payStatusDAO.fetchSql(sql);
@@ -548,7 +555,7 @@ public class DbServices {
 				"from \n" + 
 				"(\n" + 
 				"select usr.country, pst.paying_status, count(pst.user_id) user_cnt from \n" + 
-				"salontest.pay_status pst inner join salontest.users usr \n" + 
+				getDBName()+".pay_status pst inner join "+getDBName()+".users usr \n" + 
 				"on pst.user_id=usr.user_id group by usr.country, pst.paying_status\n" + 
 				") dset1 ";
 
@@ -744,8 +751,9 @@ public class DbServices {
 	
 	@Transactional
 	public List<ClubDTO> getClubData() {
+		
 
-		String sql = "SELECT club, count(user_id) members_count FROM salontest.users where role!='admin' and club != '' group by club";
+		String sql = "SELECT club, count(user_id) members_count FROM "+configProperty.getDbname()+".users where role!='admin' and club != '' group by club";
 		List<ClubDTO> clubList = usersDAO.fetchSql(sql);
 		return clubList;
 	}

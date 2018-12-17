@@ -124,7 +124,7 @@ $(function(){
 			wrapper: 'flip-clock-small-wrapper'
 		};
 	
-	var countdown = 1543896180 - ((new Date().getTime())/1000); <%--   from: 12/04/2018 09:33 am +0530  --%>
+	var countdown = 1554229800 - ((new Date().getTime())/1000); <%--   from: 12/04/2018 09:33 am +0530  --%>
 	console.log(countdown);
 	
 	countdown = Math.max(1, countdown);
