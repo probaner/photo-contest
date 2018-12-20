@@ -2,13 +2,13 @@ package com.photo.contest.controller;
 
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.photo.contest.config.ConfigProperty;
@@ -33,7 +33,7 @@ public class SendEmailController {
     public String fetchEmailForm(Map<String, Object> model) {
 		
 		
-		 System.out.println("I am calling conroler");
+		 //System.out.println("I am calling conroler");
 		
 		  model.put("titel",configProperty.getIndexName());
 		  model.put("titelImage",configProperty.getIndexImage());
@@ -50,7 +50,7 @@ public class SendEmailController {
 	@RequestMapping(value="/processmail", method = RequestMethod.POST)
     public String doSendEmail(@ModelAttribute("mailRecipientform") MailRecipientDTO mailRecipientDTO, Map<String, Object> model) {	
 		//if(action.equals("processmail")){
-		 System.out.println("In controler");
+		 //System.out.println("In controler");
 		
 		    model.put("titel",configProperty.getIndexName());
 			model.put("titelImage",configProperty.getIndexImage());
@@ -58,8 +58,13 @@ public class SendEmailController {
 			model.put("headerMiddle",configProperty.getHeaderMiddle());
 			model.put("headerRight",configProperty.getHeaderRight());
 		
-		   System.out.println(mailRecipientDTO.toString());
-		   commonServices.sendQueryEmail(mailRecipientDTO);
+		   //System.out.println(mailRecipientDTO.toString());
+		   try {
+			commonServices.sendQueryEmail(mailRecipientDTO);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		   model.put("massage","mail send succesful");
 		//}
 	       return "emailForm";

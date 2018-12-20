@@ -120,6 +120,9 @@ public class ConfigProperty {
 	@Value("${mail.password}")
 	private String mailpassword;
 	
+	@Value("${db.name}")
+	private String dbname;
+	
 	
 	
 	public ConfigProperty() {
@@ -141,7 +144,7 @@ public class ConfigProperty {
 			String netiveCountry, String netiveCurrencyName, String foreignCurrencyName, String closeDate,
 			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
 			String judgingEnddate, String judgloginurl, String salonName, String salonPatronage, String resultDest,
-			String resultDate, String mailsender, String mailpassword) {
+			String resultDate, String mailsender, String mailpassword, String dbname) {
 		super();
 		this.indexName = indexName;
 		this.indexImage = indexImage;
@@ -195,33 +198,27 @@ public class ConfigProperty {
 		this.resultDate = resultDate;
 		this.mailsender = mailsender;
 		this.mailpassword = mailpassword;
+		this.dbname = dbname;
 	}
 
 
-
-
-
-
-
-
-
-
-	public String getHomepageImage() {
-		return homepageImage;
+	public String getIndexName() {
+		return indexName;
 	}
 
 
-	public void setHomepageImage(String homepageImage) {
-		this.homepageImage = homepageImage;
+	public void setIndexName(String indexName) {
+		this.indexName = indexName;
 	}
 
 
-	public String getJudgepageImage() {
-		return judgepageImage;
+	public String getIndexImage() {
+		return indexImage;
 	}
 
-	public void setJudgepageImage(String judgepageImage) {
-		this.judgepageImage = judgepageImage;
+
+	public void setIndexImage(String indexImage) {
+		this.indexImage = indexImage;
 	}
 
 
@@ -255,22 +252,25 @@ public class ConfigProperty {
 	}
 
 
-	public String getIndexName() {
-		return indexName;
+	public String getJudgepageImage() {
+		return judgepageImage;
 	}
 
 
-	public void setIndexName(String indexName) {
-		this.indexName = indexName;
+	public void setJudgepageImage(String judgepageImage) {
+		this.judgepageImage = judgepageImage;
 	}
 
-	public String getIndexImage() {
-		return indexImage;
+
+	public String getHomepageImage() {
+		return homepageImage;
 	}
 
-	public void setIndexImage(String indexImage) {
-		this.indexImage = indexImage;
+
+	public void setHomepageImage(String homepageImage) {
+		this.homepageImage = homepageImage;
 	}
+
 
 	public String getBasePath() {
 		return basePath;
@@ -392,6 +392,66 @@ public class ConfigProperty {
 	}
 
 
+	public String getCategoryFive() {
+		return categoryFive;
+	}
+
+
+	public void setCategoryFive(String categoryFive) {
+		this.categoryFive = categoryFive;
+	}
+
+
+	public String getCategorySix() {
+		return categorySix;
+	}
+
+
+	public void setCategorySix(String categorySix) {
+		this.categorySix = categorySix;
+	}
+
+
+	public String getCategorySeven() {
+		return categorySeven;
+	}
+
+
+	public void setCategorySeven(String categorySeven) {
+		this.categorySeven = categorySeven;
+	}
+
+
+	public String getCategoryEight() {
+		return categoryEight;
+	}
+
+
+	public void setCategoryEight(String categoryEight) {
+		this.categoryEight = categoryEight;
+	}
+
+
+	public String getCategoryNine() {
+		return categoryNine;
+	}
+
+
+	public void setCategoryNine(String categoryNine) {
+		this.categoryNine = categoryNine;
+	}
+
+
+	public String getCategoryTen() {
+		return categoryTen;
+	}
+
+
+	public void setCategoryTen(String categoryTen) {
+		this.categoryTen = categoryTen;
+	}
+
+
 	public String getCategoryOneNetive() {
 		return categoryOneNetive;
 	}
@@ -429,6 +489,66 @@ public class ConfigProperty {
 
 	public void setCategoryFourNetive(String categoryFourNetive) {
 		this.categoryFourNetive = categoryFourNetive;
+	}
+
+
+	public String getCategoryFiveNetive() {
+		return categoryFiveNetive;
+	}
+
+
+	public void setCategoryFiveNetive(String categoryFiveNetive) {
+		this.categoryFiveNetive = categoryFiveNetive;
+	}
+
+
+	public String getCategorySixNetive() {
+		return categorySixNetive;
+	}
+
+
+	public void setCategorySixNetive(String categorySixNetive) {
+		this.categorySixNetive = categorySixNetive;
+	}
+
+
+	public String getCategorySevenNetive() {
+		return categorySevenNetive;
+	}
+
+
+	public void setCategorySevenNetive(String categorySevenNetive) {
+		this.categorySevenNetive = categorySevenNetive;
+	}
+
+
+	public String getCategoryEightNetive() {
+		return categoryEightNetive;
+	}
+
+
+	public void setCategoryEightNetive(String categoryEightNetive) {
+		this.categoryEightNetive = categoryEightNetive;
+	}
+
+
+	public String getCategoryNineNetive() {
+		return categoryNineNetive;
+	}
+
+
+	public void setCategoryNineNetive(String categoryNineNetive) {
+		this.categoryNineNetive = categoryNineNetive;
+	}
+
+
+	public String getCategoryTenNetive() {
+		return categoryTenNetive;
+	}
+
+
+	public void setCategoryTenNetive(String categoryTenNetive) {
+		this.categoryTenNetive = categoryTenNetive;
 	}
 
 
@@ -492,185 +612,6 @@ public class ConfigProperty {
 	}
 
 
-
-
-
-	public String getCategoryFive() {
-		return categoryFive;
-	}
-
-
-
-
-
-	public void setCategoryFive(String categoryFive) {
-		this.categoryFive = categoryFive;
-	}
-
-
-
-
-
-	public String getCategorySix() {
-		return categorySix;
-	}
-
-
-
-
-
-	public void setCategorySix(String categorySix) {
-		this.categorySix = categorySix;
-	}
-
-
-
-
-
-	public String getCategorySeven() {
-		return categorySeven;
-	}
-
-
-
-
-
-	public void setCategorySeven(String categorySeven) {
-		this.categorySeven = categorySeven;
-	}
-
-
-
-
-
-	public String getCategoryEight() {
-		return categoryEight;
-	}
-
-
-
-
-
-	public void setCategoryEight(String categoryEight) {
-		this.categoryEight = categoryEight;
-	}
-
-
-
-
-
-	public String getCategoryNine() {
-		return categoryNine;
-	}
-
-
-
-
-
-	public void setCategoryNine(String categoryNine) {
-		this.categoryNine = categoryNine;
-	}
-
-
-
-
-
-	public String getCategoryTen() {
-		return categoryTen;
-	}
-
-
-
-
-
-	public void setCategoryTen(String categoryTen) {
-		this.categoryTen = categoryTen;
-	}
-
-
-
-
-
-	public String getCategoryFiveNetive() {
-		return categoryFiveNetive;
-	}
-
-
-
-
-
-	public void setCategoryFiveNetive(String categoryFiveNetive) {
-		this.categoryFiveNetive = categoryFiveNetive;
-	}
-
-
-
-
-
-	public String getCategorySixNetive() {
-		return categorySixNetive;
-	}
-
-
-
-
-
-	public void setCategorySixNetive(String categorySixNetive) {
-		this.categorySixNetive = categorySixNetive;
-	}
-
-
-
-
-
-	public String getCategorySevenNetive() {
-		return categorySevenNetive;
-	}
-
-
-
-
-
-	public void setCategorySevenNetive(String categorySevenNetive) {
-		this.categorySevenNetive = categorySevenNetive;
-	}
-
-
-
-
-
-	public String getCategoryEightNetive() {
-		return categoryEightNetive;
-	}
-
-
-
-
-
-	public void setCategoryEightNetive(String categoryEightNetive) {
-		this.categoryEightNetive = categoryEightNetive;
-	}
-
-	public String getCategoryNineNetive() {
-		return categoryNineNetive;
-	}
-
-
-
-	public void setCategoryNineNetive(String categoryNineNetive) {
-		this.categoryNineNetive = categoryNineNetive;
-	}
-
-	public String getCategoryTenNetive() {
-		return categoryTenNetive;
-	}
-
-
-	public void setCategoryTenNetive(String categoryTenNetive) {
-		this.categoryTenNetive = categoryTenNetive;
-	}
-
-
 	public String getFileMaxlongestSideResolution() {
 		return fileMaxlongestSideResolution;
 	}
@@ -711,11 +652,19 @@ public class ConfigProperty {
 	}
 
 
+	public String getJudgloginurl() {
+		return judgloginurl;
+	}
+
+
+	public void setJudgloginurl(String judgloginurl) {
+		this.judgloginurl = judgloginurl;
+	}
+
 
 	public String getSalonName() {
 		return salonName;
 	}
-
 
 
 	public void setSalonName(String salonName) {
@@ -723,11 +672,9 @@ public class ConfigProperty {
 	}
 
 
-
 	public String getSalonPatronage() {
 		return salonPatronage;
 	}
-
 
 
 	public void setSalonPatronage(String salonPatronage) {
@@ -775,13 +722,15 @@ public class ConfigProperty {
 	}
 
 
-	public String getJudgloginurl() {
-		return judgloginurl;
+	public String getDbname() {
+		return dbname;
 	}
 
 
-	public void setJudgloginurl(String judgloginurl) {
-		this.judgloginurl = judgloginurl;
+	public void setDbname(String dbname) {
+		this.dbname = dbname;
 	}
+
+
 				
 }

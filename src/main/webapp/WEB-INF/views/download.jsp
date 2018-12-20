@@ -80,9 +80,9 @@ div.ex3 {
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><a href="getrulesandregulations"> RULES & REGULATIONS 2017 </a></li>
-        <li><a href="getfipdefination"> FIAP DEFINITIONS OF DIVISIONS </a></li> 
-        <li><a href="getjudges"> JUDGES </a></li>                      
+        <li><a href="getrulesandregulations"> RULES & REGULATIONS </a></li>
+        <li><a href="getfipdefination"> COMPETITION DIVITION & DEFINITION </a></li> 
+        <!--  <li><a href="getjudges"> JUDGES </a></li> -->                      
       </ul>
     </li>
 	<li><a href="getloginForm">Perticipate/Login</a></li>
@@ -124,7 +124,7 @@ $(function(){
 			wrapper: 'flip-clock-small-wrapper'
 		};
 	
-	var countdown = 1543896180 - ((new Date().getTime())/1000); <%--   from: 12/04/2018 09:33 am +0530  --%>
+	var countdown = 1554229800 - ((new Date().getTime())/1000); <%--   from: 12/04/2018 09:33 am +0530  --%>
 	console.log(countdown);
 	
 	countdown = Math.max(1, countdown);

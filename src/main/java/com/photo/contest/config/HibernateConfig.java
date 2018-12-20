@@ -1,6 +1,7 @@
 package com.photo.contest.config;
 
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.sql.DataSource;
 
@@ -26,10 +27,10 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableTransactionManagement
 /*@ComponentScans(value = { @ComponentScan("com.photo.contest.model")})*/
 public class HibernateConfig {
-
-	/*@Autowired
-	private ApplicationContext context;*/
-
+	
+ private static ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
+	
+		
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() {
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
@@ -54,13 +55,13 @@ public class HibernateConfig {
 	
 	@Bean
     public DataSource dataSource() {
-
+		
     	HikariDataSource ds = new HikariDataSource();
     	ds.setMaximumPoolSize(10);
     	ds.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-    	ds.addDataSourceProperty("url", "jdbc:mysql://127.0.0.1:3306/salontest?autoReconnect=true");
-    	ds.addDataSourceProperty("user", "root");
-    	ds.addDataSourceProperty("password", "root1234");
+    	ds.addDataSourceProperty("url", "jdbc:mysql://"+resourceBundle.getString("db.ip")+":"+resourceBundle.getString("db.port")+"/"+resourceBundle.getString("db.name")+"?autoReconnect=true");
+    	ds.addDataSourceProperty("user", resourceBundle.getString("db.username"));
+    	ds.addDataSourceProperty("password", resourceBundle.getString("db.password"));
     	ds.addDataSourceProperty("cachePrepStmts", true);
     	ds.addDataSourceProperty("prepStmtCacheSize", 250);
     	ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
@@ -78,9 +79,9 @@ public class HibernateConfig {
 			{
 				//setProperty("hibernate.hbm2ddl.auto", "create-drop");
 				setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-				setProperty("hibernate.show_sql", "false");
+				setProperty("hibernate.show_sql", resourceBundle.getString("hibernate.show_sql"));
 				setProperty("hibernate.archive.autodetection", "class,hbm");
-				//setProperty("hibernate.globally_quoted_identifiers", "true");
+				setProperty("hibernate.globally_quoted_identifiers", "true");
 			}
 	      };
 	   }

@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>  
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<sec:csrfMetaTags/>
 <title>${titel}</title>
 <link rel="icon" href="${titelImage}" />
 
@@ -55,7 +56,9 @@
     position:fixed;
 }
 
-
+div.ex10 {
+    padding: 120px 0px 200px 130px;
+}
 </style>
 
 </head>
@@ -66,29 +69,30 @@
   <div class="column" style="background-color:#aaa;">
     <h3 align="center">PAYMENT DETAILS</h3>
      <p> </p>
-     <p align="center"><c:out value="${uid}"/></p>
-     <p align="center"><c:out value="${uname}"/></p>
-     <p align="center"><c:out value="${acscc}"/></p>
-     <p align="center"><c:out value="${actualamount}"/></p>
-     <p align="center"><c:out value="${dcc}"/></p>
-     <p align="center"><c:out value="${dp}"/></p>
-     <p align="center"><c:out value="${payableamount}"/></p>
+     <p style="text-align:center; font-weight: bold; color: #FF5733;"><c:out value="${uid}"/></p>
+     <p style="text-align:center; font-weight: bold; color: #FF5733;"><c:out value="${uname}"/></p>
+     <p style="text-align:center; font-weight: bold; color: #FF5733;"><c:out value="${acscc}"/></p>
+     <p style="text-align:center; font-weight: bold; color: #FF5733;"><c:out value="${actualamount}"/></p>
+     <p style="text-align:center; font-weight: bold; color: #FF5733;"><c:out value="${dcc}"/></p>
+     <p style="text-align:center; font-weight: bold; color: #FF5733;"><c:out value="${dp}"/></p>
+     <p style="text-align:center; font-weight: bold; color: #FF5733;"><c:out value="${payableamount}"/></p>
   </div>
   <div class="column" style="background-color:#bbb;">
-  <div id="paypal-button-container"></div>
+  <div class = "ex10"><div id="paypal-button-container"></div><!-- </div> -->
+  
 	<div id="confirm">
-	    <div>Ship to Prosenjit:</div>
-	    <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
-	    <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div>
+	    <div> Ship to Chandan:</div>
+	    <!-- <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
+	    <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div> -->
 	
-	    <button id="confirmButton">Complete Payment</button>
+	     <button id="confirmButton">Complete Payment</button>
 	</div>
-
-	<div id="thanks">
-	    Thanks, <span id="thanksname"></span>!
+	
+	<div id="thanks">  THANK YOU <span id="thanksname"></span>!
 	</div>
-
-  </div>
+	</div>
+    </div>
+    
 </div>
 
 <script>
@@ -101,7 +105,7 @@ $().ready(function() {
          env: 'sandbox', // sandbox | production
 
          client: {
-             sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+             sandbox:   'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
              production: '<insert production client id>'
          },
 
@@ -110,7 +114,7 @@ $().ready(function() {
                  payment: {
                      transactions: [
                          {
-                             amount: { total: '45.01', currency: 'USD' }
+                             amount: { total: '<c:out value="${amount}"/>', currency: '<c:out value="${courency}"/>' }
                          }
                      ]
                  }
@@ -148,20 +152,55 @@ $().ready(function() {
                  $('#confirmButton').click(function() {
 
                      // Disable the button and show a loading message
- 				console.log('Authorize3');
+ 				  console.log('Authorize3');
                      $('#confirm').text('Loading...');
                    //  $('#confirm').disabled = true;
 
                      // Execute the payment
 
-                     return actions.payment.execute().then(function() {
+                     return actions.payment.execute().then(function(paymentDetails) {
 
                          // Show a thank-you note
-
+                         console.log("payment executed");
+					     console.log(paymentDetails);	
+					     
+					     
+					    var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+					 	var csrfToken = $("meta[name='_csrf']").attr("content"); 
+					 	var csrfHeader = $("meta[name='_csrf_header']").attr("content");  // THIS WAS ADDED
+					 	var headers = {};
+					 	headers[csrfHeader] = csrfToken; 
+					     
+					 	 var obj={};
+					 	 var payPalPaymentResponseDTO = {};
+					 	 obj.payPalPaymentResponseDTO = payPalPaymentResponseDTO;
+					 	 var parent_payment =  data.id;					 	
+					 	 payPalPaymentResponseDTO["parent_payment"]=parent_payment;
+					 	 obj["payPalPaymentResponseDTO"]=payPalPaymentResponseDTO;
+					     console.log(obj); 
+					     
+					     $.ajax({
+					    	     type: "POST",
+		             		     headers:headers,
+						         url: "json/savepaymentdata",
+						         contentType: 'application/json',
+						         Accept: 'application/json',
+						    	 data: JSON.stringify(obj), 
+							     success: function(data) 
+							    {
+							    	console.log("DATA",data.id);
+							    	alert(data.message);
+						        },
+						        error: function(jqXHR, textStatus,errorThrown){
+						            //console.debug(jqXHR.status,jqXHR.responseJSON); 
+						        	 alert(jqXHR.status+jqXHR.responseJSON.message+jqXHR.responseJSON.reason);
+						     }
+							});
                          $('#thanksname').text(shipping.recipient_name);
 
                          $('#confirm').hide();
                          $('#thanks').show();
+                         //
                      });
                  });
              });
