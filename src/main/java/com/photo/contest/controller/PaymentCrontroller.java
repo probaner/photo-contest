@@ -6,20 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.photo.contest.dto.PayPalPaymentResponseDTO;
+import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
+import com.photo.contest.exception.BusinessException;
 import com.photo.contest.model.Users;
 import com.photo.contest.service.DbServices;
 import com.photo.contest.utility.CommonUtil;
 
 @Controller
 @SessionAttributes({"userForm"})
-@EnableWebMvc
 public class PaymentCrontroller {
 	
 	@Autowired
@@ -53,9 +56,9 @@ public class PaymentCrontroller {
 		   
 		String paymentData = null;
 		
-		model.addAttribute("uid", "USER ID: "+user.getUserId());
-		model.addAttribute("uname", "USER NAME: "+user.getFirstName()+" "+user.getLastName());
-		model.addAttribute("acscc", "ATTEMPT SECTION: "+user.getPayStatus().getAttemptSection());
+		model.addAttribute("uid", "USER ID : "+user.getUserId());
+		model.addAttribute("uname", "USER NAME : "+user.getFirstName()+" "+user.getLastName());
+		model.addAttribute("acscc", "ATTEMPT SECTION : "+user.getPayStatus().getAttemptSection());
 		
 	
 		//System.out.println("coupone code= "+user.getDiscountData().getCouponCode().length());
@@ -63,12 +66,12 @@ public class PaymentCrontroller {
 		                if(user.getDiscountData() != null) {
 		                	
 		                	Double value =commonUtil.getDiscountValue(user.getPayStatus().getTotalAmount(), user.getDiscountData().getDiscountPersent());
-		                	model.addAttribute("actualamount","\nACTUAL AMOUNT: "+user.getPayStatus().getTotalAmount()+" "+user.getPayStatus().getCourencyType());
-		                	model.addAttribute("dcc","DISCOUNT COPON CODE: "+user.getDiscountData().getCouponCode());
-		                	model.addAttribute("dp","\nDISCOUNT PERCENT: "+user.getDiscountData().getDiscountPersent());
-		                    model.addAttribute("payableamount","PAYABLE AMOUNT: "+value+" "+user.getPayStatus().getCourencyType());
+		                	model.addAttribute("actualamount","\nACTUAL AMOUNT : "+user.getPayStatus().getTotalAmount()+" "+user.getPayStatus().getCourencyType());
+		                	model.addAttribute("dcc","DISCOUNT COPON CODE : "+user.getDiscountData().getCouponCode());
+		                	model.addAttribute("dp","\nDISCOUNT PERCENT : "+user.getDiscountData().getDiscountPersent());
+		                    model.addAttribute("payableamount","PAYABLE AMOUNT : "+value+" "+user.getPayStatus().getCourencyType());
 		                	model.addAttribute("amount", user.getPayStatus().getTotalAmount());
-		                	model.addAttribute("courency", user.getPayStatus().getCourencyType());
+		                	model.addAttribute("courency", user.getPayStatus().getCourencyType().toUpperCase());
 		                  }
 		                else {
 		                	   model.addAttribute("payableamount", "\nPAYABLE AMOUNT: "+user.getPayStatus().getTotalAmount()+" "+user.getPayStatus().getCourencyType());
@@ -80,6 +83,18 @@ public class PaymentCrontroller {
     } 
 	
 	
-	
+	@RequestMapping(value = "/json/savepaymentdata"/*, method = RequestMethod.POST*/)
+	public @ResponseBody ResponseDTO getPaymentDetails(@RequestBody PayPalPaymentResponseDTO payPalPaymentResponseDTO,ModelMap model) 
+			throws IOException, BusinessException {
+		System.out.println(payPalPaymentResponseDTO.toString());
+		UserDTO userDTO = (UserDTO) model.get("userForm");
+		Users user = dbServices.getUser(userDTO.getEmail());
+		 
+		ResponseDTO responseDTO = new ResponseDTO();
+		responseDTO.setMessage("DONE");
+		
+				return responseDTO;
+		
+	}
 	
 }

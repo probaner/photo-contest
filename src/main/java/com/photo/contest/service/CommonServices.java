@@ -2,13 +2,17 @@ package com.photo.contest.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -42,21 +46,33 @@ public class CommonServices {
 
 	}
 
-	public void sendUserRegistrationConfirmMail(Users users , String password) {
+	public String sendUserRegistrationConfirmMail(Users users , String password) throws MessagingException {
 
+		String message=null;
+		
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
+		
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("Registration Sucessful \nRegistration Id:" + users.getUserId() + "\nUser Id: "
 				+ users.getEmail() + "\n Password: " + password + " \n");
 		mailRecipientDTO.setSubject("Registration Success");
-		commonUtil.doSendEmail(mailRecipientDTO, null);
-
+		
+		try {
+			 message=  commonUtil.doSendEmail(mailRecipientDTO, null);
+			  System.out.println("message="+message);
+			  
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return message;
 	}
 	
 	
-	public void sendJudgeRegistrationConfirmMail(Users users , String password) {
+	public void sendJudgeRegistrationConfirmMail(Users users , String password) throws MessagingException{
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
@@ -69,12 +85,17 @@ public class CommonServices {
 		
 		
 		mailRecipientDTO.setSubject("Registration Success");
+		try {
 		commonUtil.doSendEmail(mailRecipientDTO, null);
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	
 	
-	public void sendPasswordChangeConfirmMail(Users users , String password) {
+	public void sendPasswordChangeConfirmMail(Users users , String password) throws MessagingException{
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
@@ -83,11 +104,16 @@ public class CommonServices {
 		mailRecipientDTO.setMessage("Password Change Sucessful. \nRegistration Id:" + users.getUserId() + "\nUser Id: "
 				+ users.getEmail() + "\n Password: " + password + " \n");
 		mailRecipientDTO.setSubject("Registration Success");
+		try {
 		commonUtil.doSendEmail(mailRecipientDTO, null);
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	
-	public void sendforgetPassWordMail(Users users, String url) {
+	public void sendforgetPassWordMail(Users users, String url) throws MessagingException{
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
@@ -95,12 +121,17 @@ public class CommonServices {
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("To reset your password, click the link below:\n" + url);
 		mailRecipientDTO.setSubject("Password Reset Request");
+		try {
 		commonUtil.doSendEmail(mailRecipientDTO, null);
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	
 	
-	public void sendJudgeRegistrationURLMail(String url, String judgeMail) {
+	public void sendJudgeRegistrationURLMail(String url, String judgeMail) throws MessagingException{
 
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
@@ -108,27 +139,40 @@ public class CommonServices {
 		mailRecipientDTO.setRecipient(judgeMail);
 		mailRecipientDTO.setMessage("To register your as a judge, click the link below URL:\n" + url);
 		mailRecipientDTO.setSubject("Password Reset Request");
+		try {
 		commonUtil.doSendEmail(mailRecipientDTO, null);
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
-	public void sendCreateCouponCodeMailforaUser(Users users, String couponCode, String bcc) {
+	public void sendCreateCouponCodeMailforaUser(Users users, String couponCode, String bcc) throws MessagingException{
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
 		mailRecipientDTO.setMessage("couponCode=" + couponCode);
 		mailRecipientDTO.setSubject("Coupon Code Details");
-        
+		try {
 		commonUtil.doSendEmail(mailRecipientDTO, bcc);
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public void sendQueryEmail(MailRecipientDTO mailRecipientDTO) {
+	public void sendQueryEmail(MailRecipientDTO mailRecipientDTO) throws MessagingException{
 		
 		
 		mailRecipientDTO.setRecipient(configProperty.getMailsender());
 		//System.out.println(mailRecipientDTO.toString());
-		
+		try {
 		commonUtil.doSendEmail(mailRecipientDTO, null);
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public UserDTO createCurrentUserDTO(Users user, UserDTO userDTO) {

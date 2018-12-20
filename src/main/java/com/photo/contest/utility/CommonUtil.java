@@ -102,7 +102,7 @@ public class CommonUtil {
 	 
 	
 	//http://www.codejava.net/frameworks/spring/sending-e-mail-with-spring-mvc
-	 public String doSendEmail(MailRecipientDTO mailRecipientDTO,String bcc) {		 
+	 public String doSendEmail(MailRecipientDTO mailRecipientDTO,String bcc) throws java.net.ConnectException, org.springframework.mail.MailSendException,javax.mail.MessagingException{		 
 		 SimpleMailMessage email = new SimpleMailMessage();
 		 email.setFrom(mailRecipientDTO.getSender());
 		 email.setTo(mailRecipientDTO.getRecipient());
@@ -110,8 +110,9 @@ public class CommonUtil {
 		 email.setText(mailRecipientDTO.getMessage());
 		 if(bcc!=null)
 		    email.setBcc(bcc);
-		 mailSender.send(email);		 
-		 return "success";		 
+		 mailSender.send(email);
+		 return "success";
+		 		 
 	 }
 
 

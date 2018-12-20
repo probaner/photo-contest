@@ -277,9 +277,9 @@ p {
   
   <div class="container">
   <div class="page-header">
-  <div class="header">  <img src="<c:url value="/resources/image/Logo.png" />" alt="logo" /> </div>
-  <div class="headerm">  <img src="<c:url value="/resources/image/White background png.png" />" alt="logo" />   </div>
-  <div class="headerr">  <img src="<c:url value="/resources/image/Logo 2.png" />" alt="logo" />   </div>    
+  <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="/resources/image/White background.jpg" />" alt="logo" />   </div>
+   <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" /> </div>   
   </div>      
 </div>
  <p></p>      

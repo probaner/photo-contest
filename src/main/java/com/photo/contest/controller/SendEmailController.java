@@ -2,13 +2,13 @@ package com.photo.contest.controller;
 
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.photo.contest.config.ConfigProperty;
@@ -59,7 +59,12 @@ public class SendEmailController {
 			model.put("headerRight",configProperty.getHeaderRight());
 		
 		   //System.out.println(mailRecipientDTO.toString());
-		   commonServices.sendQueryEmail(mailRecipientDTO);
+		   try {
+			commonServices.sendQueryEmail(mailRecipientDTO);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		   model.put("massage","mail send succesful");
 		//}
 	       return "emailForm";

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -132,6 +134,8 @@ public class DbServices {
 
 	@Transactional
 	public Users saveUserData(UserDTO userDTO) throws IOException {
+		
+		
 		Users users = new Users();
 		users.setUserId(commonUtil.getUserId());
 		users.setFirstName(userDTO.getFirstname().trim());
@@ -175,7 +179,13 @@ public class DbServices {
 		
 		users.setUserId(id);
 				
-		commonService.sendUserRegistrationConfirmMail(users, userDTO.getPassword());
+		try {
+			  String message=  commonService.sendUserRegistrationConfirmMail(users, userDTO.getPassword());
+			  System.out.println("messagein dbService:"+ message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//System.out.println(users.toString());
 		
 		return users;
@@ -362,9 +372,19 @@ public class DbServices {
 	public void updateForgetPasswAuthToken(Users user, String data) {		
 		usersDAO.attachDirty(user);	
 		if(data.contains("token=")) {
-		   commonService.sendforgetPassWordMail(user, data);
+		   try {
+			commonService.sendforgetPassWordMail(user, data);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		  }else {
-			      commonService.sendPasswordChangeConfirmMail(user, data);
+			      try {
+					commonService.sendPasswordChangeConfirmMail(user, data);
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		        }
 	}
 
@@ -908,7 +928,12 @@ public class DbServices {
 			judge.setPassword(bCryptPasswordEncoder.encode(judgeRegisterDTO.getJudgePassword()));
 			judge.setLastLoggin(commonUtil.sqlDateTime());			
 			usersDAO.attachDirty(judge);
-			commonService.sendJudgeRegistrationConfirmMail(judge, pass);			
+			try {
+				  commonService.sendJudgeRegistrationConfirmMail(judge, pass);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
 		  }	
 		
 		System.out.println("judge="+judge.toString());
