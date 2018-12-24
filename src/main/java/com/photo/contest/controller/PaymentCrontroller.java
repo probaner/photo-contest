@@ -86,9 +86,14 @@ public class PaymentCrontroller {
 	@RequestMapping(value = "/json/savepaymentdata"/*, method = RequestMethod.POST*/)
 	public @ResponseBody ResponseDTO getPaymentDetails(@RequestBody PayPalPaymentResponseDTO payPalPaymentResponseDTO,ModelMap model) 
 			throws IOException, BusinessException {
-		System.out.println(payPalPaymentResponseDTO.toString());
+		
 		UserDTO userDTO = (UserDTO) model.get("userForm");
 		Users user = dbServices.getUser(userDTO.getEmail());
+		payPalPaymentResponseDTO.setUserid(user.getUserId());
+		System.out.println(payPalPaymentResponseDTO.toString());
+		
+		
+		
 		 
 		ResponseDTO responseDTO = new ResponseDTO();
 		responseDTO.setMessage("DONE");
