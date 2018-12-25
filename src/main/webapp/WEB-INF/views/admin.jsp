@@ -152,7 +152,6 @@ div.ex11 {
     background: inherit;
     left: 20px;
 }
-
 </style>
 
  
@@ -496,7 +495,20 @@ $(document).ready(function($)
     				        	
     				        	 { name: "userId", 
     			                        itemTemplate: function(value) {
-    			                            return $("<a class='herf'>").attr("href", 'imageViewer/'+value).text(value);
+    			                        	return $("<button>").text(value)
+    			                    		.on("click", function(e) {
+    			                    			console.log('Link Clicked');
+    					        	            e.preventDefault(); //To prevent the default anchor tag behaviour
+    					        	            var url = 'imageViewer/'+value;
+    					        	            $('.modal-body').load(url,function(){
+    					        	                $('#myModalFullscreen').modal({
+    					        	                    show: true, 
+    					        	                    backdrop: 'static',
+    					        	                    keyboard: true
+    					        	                 });
+    					        	            });
+    			                          return false;
+    			                        });
     			                        } , width: 50,  validate: "required", editing: false ,align: "center"},
     				             { name: "firstName", type: "text", width: 50, validate: "required" ,align: "center"},
     				             { name: "lastName", type: "text", width: 50, validate: "required" ,align: "center"},
@@ -545,19 +557,6 @@ $(document).ready(function($)
     				         onDataLoaded: function(grid,data) {
     				             //after data loading
     				        	 console.log('data loaded');
-    				        	 $(".herf").click(function(e){
-				        	        	console.log('Link Clicked');
-				        	            e.preventDefault(); //To prevent the default anchor tag behaviour
-				        	            var url = this.href;
-				        	            $('.modal-body').load(url,function(){
-				        	                $('#myModalFullscreen').modal({
-				        	                    show: true, 
-				        	                    backdrop: 'static',
-				        	                    keyboard: true
-				        	                 });
-				        	            });
-				        	        });
-    				             
     				         }
     				     });
     			        }
@@ -690,6 +689,9 @@ $(document).ready(function($)
 		    }
 });
     
+    $('#myModalFullscreen').on('hidden.bs.modal', function () {
+        // do something…
+    })
 	
 });
 </script>
