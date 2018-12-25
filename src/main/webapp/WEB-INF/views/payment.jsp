@@ -171,28 +171,44 @@ $().ready(function() {
 					 	var headers = {};
 					 	headers[csrfHeader] = csrfToken; 
 					     
-					 	 var obj={};
+					 	 
 					 	 var payPalPaymentResponseDTO = {};
-					 	 obj.payPalPaymentResponseDTO = payPalPaymentResponseDTO;
-					 	 var parent_payment =  data.id;					 	
-					 	 payPalPaymentResponseDTO["parent_payment"]=parent_payment;
-					 	 obj["payPalPaymentResponseDTO"]=payPalPaymentResponseDTO;
-					     console.log(obj); 
+					 		 	
+					 	 payPalPaymentResponseDTO["parentPaymentId"]=data.id;
+					 	 payPalPaymentResponseDTO["paymentAmount"]=paymentDetails.transactions[0].amount.total;
+					 	 payPalPaymentResponseDTO["paymentCurrency"]=paymentDetails.transactions[0].amount.currency;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleState"]=paymentDetails.transactions[0].related_resources[0].sale.state;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleUpdatetime"]=paymentDetails.transactions[0].related_resources[0].sale.update_time;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleCreatetime"]=paymentDetails.transactions[0].related_resources[0].sale.create_time;
+					 	 payPalPaymentResponseDTO["payerPayerinfoEmail"]=paymentDetails.payer.payer_info.email;
+					 	 payPalPaymentResponseDTO["payerPayerinfoName"]=paymentDetails.payer.payer_info.first_name;
+					 	
+					 		 
+					 	 // payPalPaymentResponseDTO["saleAmountCurrency"]=data.transactions[0].related_resources[0].sale.amount.currency;
+					 	/*  payPalPaymentResponseDTO["transactionsRelatedresourcesSaleAmountTotal"]=data.transactions[0].related_resources[0].sale.amount.total;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleId"]=data.transactions[0].related_resources[0].sale.id;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleCreatetime"]=data.transactions[0].related_resources[0].sale.create_time;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSalePaymentmode"]=data.transactions[0].related_resources[0].sale.payment_mode;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleProtectioneligibility"]=data.transactions[0].related_resources[0].sale.protection_eligibility;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleState"]=data.transactions[0].related_resources[0].sale.state;
+					 	 payPalPaymentResponseDTO["transactionsRelatedresourcesSaleUpdatetime"]=data.transactions[0].related_resources[0].sale.update_time; */
+					 	 payPalPaymentResponseDTO["transactionsResponse"]=JSON.stringify(paymentDetails);					 	 
+					 	  
+					 
+					     //console.log(payPalPaymentResponseDTO); 
 					     
 					     $.ajax({
 					    	     type: "POST",
 		             		     headers:headers,
 						         url: "json/savepaymentdata",
 						         contentType: 'application/json',
-						         Accept: 'application/json',
-						    	 data: JSON.stringify(obj), 
-							     success: function(data) 
+						    	 data: JSON.stringify(payPalPaymentResponseDTO), 
+							     success: function(pdata) 
 							    {
-							    	console.log("DATA",data.id);
-							    	alert(data.message);
+							    	//console.log("DATA",data.id);
+							    	//alert(pdata);
 						        },
 						        error: function(jqXHR, textStatus,errorThrown){
-						            //console.debug(jqXHR.status,jqXHR.responseJSON); 
 						        	 alert(jqXHR.status+jqXHR.responseJSON.message+jqXHR.responseJSON.reason);
 						     }
 							});
