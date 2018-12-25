@@ -1,12 +1,9 @@
 package com.photo.contest.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 //@JsonDeserialize(using = PayPalPaymentResponseDeserializer.class)
 public class PayPalPaymentResponseDTO {
 	
-	@JsonProperty("parent_payment")
-	private String parent_payment;
+	private String parentPayment;
 	/*private String payer_info_payer_id;
 	private String payer_info_email;
 	private String payer_info_country_code;
@@ -18,38 +15,34 @@ public class PayPalPaymentResponseDTO {
 	
 	public PayPalPaymentResponseDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
 
-	public PayPalPaymentResponseDTO(String parent_payment) {
+	public PayPalPaymentResponseDTO(String parentPayment) {
 		super();
-		this.parent_payment = parent_payment;
+		this.parentPayment = parentPayment;
 		
 	}
 
 
 
-	public String getParent_payment() {
-		return parent_payment;
+	public String getParentPayment() {
+		return parentPayment;
 	}
 
 
 
-	public void setParent_payment(String parent_payment) {
-		this.parent_payment = parent_payment;
+	public void setParentPayment(String parentPayment) {
+		this.parentPayment = parentPayment;
 	}
 
 
 
 	@Override
 	public String toString() {
-		return "PayPalPaymentResponseDTO [parent_payment=" + parent_payment + "]";
+		return "PayPalPaymentResponseDTO [parentPayment=" + parentPayment + "]";
 	}
 
-
-
-	
 
 }

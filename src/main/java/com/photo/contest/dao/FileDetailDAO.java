@@ -177,7 +177,7 @@ public class FileDetailDAO {
 	
 	 public List<CategoryCountMap> getCategoryWiseFileCount(File fileDetail) {
 		 log.debug("finding Category Wise FileCount of a User");
-		String sql = "select  category_id, count(category_id) file_id from salontest.file where user_id="+fileDetail.getUsers().getUserId() +" group by category_id";	
+		String sql = "select  category_id, count(category_id) file_id from vibgyorci_salon.file where user_id="+fileDetail.getUsers().getUserId() +" group by category_id";	
 	
 		try {
 			Session session = sessionFactory.getCurrentSession();
@@ -206,7 +206,7 @@ public class FileDetailDAO {
 	 
 	 public List<CategoryCountMap> getCategoryWiseFileCountUsingUserID(Integer userID) {
 		 log.debug("finding Category Wise FileCount of a User");
-		String sql = "select  category_id, count(category_id) file_id from salontest.file where user_id="+userID +" group by category_id";	
+		String sql = "select  category_id, count(category_id) file_id from vibgyorci_salon.file where user_id="+userID +" group by category_id";	
 	
 		try {
 			Session session = sessionFactory.getCurrentSession();

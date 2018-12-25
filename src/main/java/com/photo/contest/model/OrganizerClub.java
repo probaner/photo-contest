@@ -11,7 +11,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name="organizer_club"
-    ,catalog="salontest"
+    ,catalog="vibgyorci_salon"
     , uniqueConstraints = @UniqueConstraint(columnNames="organizer_club_id")
 )
 public class OrganizerClub implements java.io.Serializable{

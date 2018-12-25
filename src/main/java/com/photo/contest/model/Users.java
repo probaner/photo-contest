@@ -29,7 +29,7 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name="users"
-    ,catalog="salontest"
+    ,catalog="vibgyorci_salon"
 )
 public class Users  implements java.io.Serializable {
 

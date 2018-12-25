@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="file"
-    ,catalog="salontest"
+    ,catalog="vibgyorci_salon"
     , uniqueConstraints = @UniqueConstraint(columnNames={"category_id", "user_id", "category_index"}) 
 )
 public class File  implements java.io.Serializable {

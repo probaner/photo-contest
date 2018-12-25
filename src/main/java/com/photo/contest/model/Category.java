@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="category"
-    ,catalog="salontest"
+    ,catalog="vibgyorci_salon"
 )
 public class Category  implements java.io.Serializable {
 

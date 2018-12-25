@@ -297,7 +297,7 @@ p {
       </div>
       
       <div class="notify errorbox">
-       <span class="floatRight"><a href="<c:url value="getloginFormAfterRegister" />"><h1>Click hear to login</h1></a></span>
+       <span class="floatRight"><a href="<c:url value="getloginFormAfterRegister" />"><h1>Click here to login</h1></a></span>
         <span class="alerticon"><span class="glyphicon glyphicon-thumbs-up  brown"></span></span>
         <p>You user name is your email address. Password as you provide .</p>
       </div>     

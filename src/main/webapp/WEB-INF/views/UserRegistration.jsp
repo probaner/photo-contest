@@ -84,10 +84,10 @@ color: red !important;
       <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><a href="getrulesandregulations"> RULES & REGULATIONS </a></li>
-        <li><a href="getfipdefination"> COMPETITION DIVITION & DEFINITION </a></li>                       
+        <li><a href="getfipdefination"> COMPETITION DIVISION & DEFINITION </a></li>                       
       </ul>
     </li>
-	<li><a href="getloginForm">Perticipate/Login</a></li>
+	<li><a href="getloginForm">Participate/Login</a></li>
 	<li><a href="getUserTable">Entry Status</a></li>
 	<li><a href="getDownload">Result</a></li>   
     <li><a href="getContuctUs">Contuct Us</a></li>
@@ -119,7 +119,7 @@ color: red !important;
                               }
                          </style>
                          <div style="margin-bottom: 25px" class="alert-danger" >${error} 
-                         <a href="getForgetPasswordForm" class="alert-link"><strong>  Click hear to get password</strong></a>
+                         <a href="getForgetPasswordForm" class="alert-link"><strong>  Click here to get password</strong></a>
                          <span></span>                                              
                          </div>
                          <script type="text/javascript">

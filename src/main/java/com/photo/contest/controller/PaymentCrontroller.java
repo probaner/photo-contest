@@ -75,6 +75,8 @@ public class PaymentCrontroller {
 		                  }
 		                else {
 		                	   model.addAttribute("payableamount", "\nPAYABLE AMOUNT: "+user.getPayStatus().getTotalAmount()+" "+user.getPayStatus().getCourencyType());
+		                	   model.addAttribute("amount", user.getPayStatus().getTotalAmount());
+			                	model.addAttribute("courency", user.getPayStatus().getCourencyType().toUpperCase());
 		                     }
 		                
 		     //System.out.println("paymentData="+paymentData);           
@@ -83,7 +85,7 @@ public class PaymentCrontroller {
     } 
 	
 	
-	@RequestMapping(value = "/json/savepaymentdata"/*, method = RequestMethod.POST*/)
+	@RequestMapping(value = "/json/savepaymentdata")
 	public @ResponseBody ResponseDTO getPaymentDetails(@RequestBody PayPalPaymentResponseDTO payPalPaymentResponseDTO,ModelMap model) 
 			throws IOException, BusinessException {
 		System.out.println(payPalPaymentResponseDTO.toString());

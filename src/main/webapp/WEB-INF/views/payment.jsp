@@ -81,7 +81,7 @@ div.ex10 {
   <div class = "ex10"><div id="paypal-button-container"></div><!-- </div> -->
   
 	<div id="confirm">
-	    <div> Ship to Chandan:</div>
+	    <div> Ship to <span id="recipient"></span> :</div>
 	    <!-- <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
 	    <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div> -->
 	
@@ -102,11 +102,11 @@ $().ready(function() {
      $('#thanks').hide();
      paypal.Button.render({
 
-         env: 'sandbox', // sandbox | production
+         env: 'production', // sandbox | production
 
          client: {
-             sandbox:   'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-             production: '<insert production client id>'
+             sandbox:   'AUecgSNVeYAdV4m-wuyIdskGZ3lth58uebI2RWfd7mZa9My3XzCBqDgFrrVukATZj8jpX5Mz5n1GJ127',
+             production: 'AQfTguKhN-Jex6kglepPCZDKOrkobeFt8770exbeb0TsjdYAYf7_fgK9zl9ToelnVc-xsfjjKrdzHbQO'
          },
 
          payment: function(data, actions) {
@@ -171,21 +171,16 @@ $().ready(function() {
 					 	var headers = {};
 					 	headers[csrfHeader] = csrfToken; 
 					     
-					 	 var obj={};
 					 	 var payPalPaymentResponseDTO = {};
-					 	 obj.payPalPaymentResponseDTO = payPalPaymentResponseDTO;
-					 	 var parent_payment =  data.id;					 	
-					 	 payPalPaymentResponseDTO["parent_payment"]=parent_payment;
-					 	 obj["payPalPaymentResponseDTO"]=payPalPaymentResponseDTO;
-					     console.log(obj); 
+					 	 payPalPaymentResponseDTO["parentPayment"]=data.id;
+					     console.log(payPalPaymentResponseDTO); 
 					     
 					     $.ajax({
 					    	     type: "POST",
 		             		     headers:headers,
 						         url: "json/savepaymentdata",
 						         contentType: 'application/json',
-						         Accept: 'application/json',
-						    	 data: JSON.stringify(obj), 
+						    	 data: JSON.stringify(payPalPaymentResponseDTO), 
 							     success: function(data) 
 							    {
 							    	console.log("DATA",data.id);

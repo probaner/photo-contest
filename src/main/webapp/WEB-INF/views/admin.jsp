@@ -522,7 +522,7 @@ $(document).ready(function($)
     				                 return d.promise(); 
     				             },
     				             updateItem: function(data) { 
-    				             	//console.log("updateItem",data);
+    				             	console.log("updateItem",data);
     				             	var myData = {};
     				             	myData['editTableDataDTO'] = data;
     				             	$.ajax({

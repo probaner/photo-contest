@@ -26,7 +26,7 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="judge"
-    ,catalog="salontest")
+    ,catalog="vibgyorci_salon")
 public class Judge implements java.io.Serializable{
 	
 	
