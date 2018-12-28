@@ -1,6 +1,8 @@
 package com.photo.contest.service;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import com.photo.contest.dao.FileDetailDAO;
 import com.photo.contest.dao.JudgeDAO;
 import com.photo.contest.dao.OrganizerClubDAO;
 import com.photo.contest.dao.PayStatusDAO;
+import com.photo.contest.dao.PaymentResponseDAO;
 import com.photo.contest.dao.UsersDAO;
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.dto.ClubDTO;
@@ -36,7 +39,9 @@ import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.dto.JudgeTableDTO;
 import com.photo.contest.dto.LogingResponseDTO;
+import com.photo.contest.dto.PayPalPaymentResponseDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
+import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.exception.ApplicationException;
@@ -51,6 +56,7 @@ import com.photo.contest.model.File;
 import com.photo.contest.model.Judge;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.PayStatus;
+import com.photo.contest.model.PaymentResponse;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
 
@@ -82,6 +88,8 @@ public class DbServices {
 	private OrganizerClubDAO organizerClubDAO;
 	@Autowired
 	private JudgeDAO judgeDAO;
+	@Autowired
+	PaymentResponseDAO paymentResponseDAO;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -122,9 +130,11 @@ public class DbServices {
 	public void setJudgeDAO(JudgeDAO judgeDAO) {
 		this.judgeDAO = judgeDAO;
 	}
-	
-	
-	
+		
+	public void setPaymentResponseDAO(PaymentResponseDAO paymentResponseDAO) {
+		this.paymentResponseDAO = paymentResponseDAO;
+	}
+
 	public  String getDBName() {
 		dbname= configProperty.getDbname();
 		return dbname;
@@ -999,8 +1009,57 @@ public class DbServices {
 	
 	
 	
-	
-	
+	@Transactional
+	public String savePaymentResponse(PayPalPaymentResponseDTO payPalPaymentResponseDTO, Users user) throws ParseException {
+		
+		ResponseDTO responseDTO = new ResponseDTO();
+		String responce = "";
+		if(payPalPaymentResponseDTO !=null) {
+		PaymentResponse paymentResponse = new PaymentResponse();
+		
+        if(payPalPaymentResponseDTO.getParentPaymentId() != null && payPalPaymentResponseDTO.getPaymentAmount()!=null && 
+           payPalPaymentResponseDTO.getPaymentCurrency()!=null && payPalPaymentResponseDTO.getTransactionsRelatedresourcesSaleCreatetime()!=null &&	
+           payPalPaymentResponseDTO.getTransactionsRelatedresourcesSaleUpdatetime()!=null && payPalPaymentResponseDTO.getTransactionsRelatedresourcesSaleState()!=null &&
+           payPalPaymentResponseDTO.getPayerPayerinfoEmail()!=null && payPalPaymentResponseDTO.getPayerPayerinfoName()!=null &&
+           payPalPaymentResponseDTO.getTransactionsResponse()!=null && payPalPaymentResponseDTO.getUserid()!=null) {// check all the fields are available	    
+		       paymentResponse.setId(payPalPaymentResponseDTO.getParentPaymentId());		  
+		       paymentResponse.setTranssectionAmount(payPalPaymentResponseDTO.getPaymentAmount());
+		       paymentResponse.setTranssectionCourency(payPalPaymentResponseDTO.getPaymentCurrency());
+		       paymentResponse.setCreatedTime(payPalPaymentResponseDTO.getTransactionsRelatedresourcesSaleCreatetime());
+		       paymentResponse.setUpdateTime(payPalPaymentResponseDTO.getTransactionsRelatedresourcesSaleUpdatetime());
+		       paymentResponse.setState(payPalPaymentResponseDTO.getTransactionsRelatedresourcesSaleState());
+		       paymentResponse.setPayerEmail(payPalPaymentResponseDTO.getPayerPayerinfoEmail());
+		       paymentResponse.setPayerName(payPalPaymentResponseDTO.getPayerPayerinfoName());
+		       paymentResponse.setPaymentResponse(payPalPaymentResponseDTO.getTransactionsResponse());
+		       paymentResponse.setUserId(payPalPaymentResponseDTO.getUserid());
+		       
+		       String id = paymentResponseDAO.persist(paymentResponse);
+		       
+		       if (id.equals(payPalPaymentResponseDTO.getParentPaymentId())) {
+					PayStatus payStatus = user.getPayStatus();
+					payStatus.setPayingStatus("Paid");
+					user.setPayStatus(payStatus);
+					usersDAO.attachDirty(user);
+					responce ="Payment process sucessful";
+				   }
+				else {
+					  responce ="Find Problems in server response,"+"\n"
+					   		     +"Kindly mail your payment recipt at: "+"\n"
+							     +"microcircuit.asia@gmail.com";
+					  
+				     }
+           }else {
+        	        responce ="Find problems in payment response,"+"\n"
+			   		     +"Kindly mail your payment recipt at: "+"\n"
+					     +"microcircuit.asia@gmail.com";
+                 }
+        	
+		}else {
+			    responce ="Payment process fail";
+		      }
+		
+		return responce;
+	}
 	
 	
 }

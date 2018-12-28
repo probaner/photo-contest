@@ -97,7 +97,7 @@ div.redplaceholder :-ms-input-placeholder {
 				<ul class="dropdown-menu">
 					<li><a href="getrulesandregulations"> RULES & REGULATIONS </a></li>
 					<li><a href="getfipdefination"> COMPETITION DIVITION & DEFINITION </a></li>
-					<li><a href="getjudges"> JUDGES </a></li>
+					<!-- <li><a href="getjudges"> JUDGES </a></li> -->
 				</ul></li>
 			<li><a href="getloginForm">Perticipate/Login</a></li>
 			<li><a href="getUserTable">Entry Status</a></li>

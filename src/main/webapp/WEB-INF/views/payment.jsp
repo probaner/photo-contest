@@ -7,6 +7,8 @@
 <html>
 <head>
 <sec:csrfMetaTags/>
+
+
 <title>${titel}</title>
 <link rel="icon" href="${titelImage}" />
 
@@ -25,9 +27,41 @@
 <style>
 
 <style>
-* {
-    box-sizing: border-box;
+
+div.ex1 {
+    padding: 50px 100px 0px 100px;
 }
+
+div.ex2 {
+    padding: 0px 100px 10px 100px;
+}
+
+div.ex3 {
+    padding: 50px 0px 0px 0px;
+}
+
+.header img {
+  float: left;
+  width: 400px;
+  height: 80px;
+  background: #555;
+}
+.headerr img {
+  float: right;
+  width: 280px;
+  height: 78px;
+  background: #555;
+}
+.headerm img {
+  float: left;
+  width: 460px;
+  height: 80px;
+  
+}
+
+ {
+    box-sizing: border-box;
+ }
 
 /* Create two equal columns that floats next to each other */
 .column {
@@ -59,11 +93,22 @@
 div.ex10 {
     padding: 120px 0px 200px 130px;
 }
+
 </style>
 
 </head>
 <body>
 
+<div class="container">
+  <div class="page-header">
+  <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
+  <div class="headerm">  <img src="<c:url value="${headerMiddle}" />" alt="logo" />   </div>
+  <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" />   </div>    
+  </div>      
+</div> 
+
+<p></p>      
+<p></p> 
 
 <div class="row"  id="mydiv">
   <div class="column" style="background-color:#aaa;">

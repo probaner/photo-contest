@@ -147,7 +147,7 @@ PDF Catalog on-line and awards mailed  : <b> By May 30, 2019</b>&nbsp&nbsp&nbsp&
   <p align="center">                  
                     [7] SUBRATA ADHIKARY &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     [8] SUDIPTA DAS &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    [9] SUBRATA ADHIKARY &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    [9] TAMANNA BERA &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     </p>
 </div></div>
 <div class="container">

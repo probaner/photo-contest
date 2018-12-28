@@ -331,7 +331,7 @@ p.b {
 
 
 
-<!-- Start of row Photojournalism -->
+<!-- Start of row phototravel -->
 	<div class="ex2">
 		<div class="page-header">
 			<h4></h4>
@@ -339,7 +339,7 @@ p.b {
 	</div>
 	<div class="ex2">
 		<div class="page-header">
-			<h4>Photojournalism</h4>
+			<h4>Photo Travel</h4>
 		</div>
 	</div>
 
@@ -348,11 +348,11 @@ p.b {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelphotojournalism1" class="form-control" placeholder="Enter Title" value="" required/>	  
+						<input id="titelphototravel1" class="form-control" placeholder="Enter Title" value="" required/>	  
 				   </div>
 			  </div>
 			  <div class="ex3">
-			   <div  id="upload_image_photojournalism1"></div>
+			   <div  id="upload_image_phototravel1"></div>
 			   </div>
 		 </div>
 
@@ -360,11 +360,11 @@ p.b {
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelphotojournalism2" class="form-control" placeholder="Enter Title" value="" required/>
+					   <input id="titelphototravel2" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 			 <div class="ex3">	
-			 <div  id="upload_image_photojournalism2"></div>
+			 <div  id="upload_image_phototravel2"></div>
 			 </div>
 		</div>
 	</div>	
@@ -379,22 +379,22 @@ p.b {
 	    <div class="col-sm-6">
 			  <div class="ex2">
 				   <div class="col-sm-12">
-						<input id="titelphotojournalism3" class="form-control" placeholder="Enter Title" value="" required/>
+						<input id="titelphototravel3" class="form-control" placeholder="Enter Title" value="" required/>
 				   </div>
 			  </div>
 			  <div class="ex3">
-			   <div  id="upload_image_photojournalism3"></div>
+			   <div  id="upload_image_phototravel3"></div>
 			   </div>
 		 </div>
 
 		<div class="col-sm-6">
 		     <div class="ex2">
 				  <div class="col-sm-12">
-					   <input id="titelphotojournalism4" class="form-control" placeholder="Enter Title" value="" required/>
+					   <input id="titelphototravel4" class="form-control" placeholder="Enter Title" value="" required/>
 				  </div>
 			 </div> 
 			 <div class="ex3">	
-			 <div  id="upload_image_photojournalism4"></div>
+			 <div  id="upload_image_phototravel4"></div>
 			 </div>
 		</div>
 	</div>		
@@ -436,10 +436,10 @@ $(document).ready(function()
 		{"catagoryName":"nature","positionName":"nature3"},
 		{"catagoryName":"nature","positionName":"nature4"},
 		
-		{"catagoryName":"photojournalism","positionName":"photojournalism1"}, 
-		{"catagoryName":"photojournalism","positionName":"photojournalism2"},
-		{"catagoryName":"photojournalism","positionName":"photojournalism3"},
-		{"catagoryName":"photojournalism","positionName":"photojournalism4"}] 
+		{"catagoryName":"phototravel","positionName":"phototravel1"}, 
+		{"catagoryName":"phototravel","positionName":"phototravel2"},
+		{"catagoryName":"phototravel","positionName":"phototravel3"},
+		{"catagoryName":"phototravel","positionName":"phototravel4"}] 
 	
 		
 	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
@@ -1703,8 +1703,8 @@ $("#upload_image_monochrome4").uploadFile({
 		});
 	//////////////////////////////nature ends//////////////////////////////
 	
-	//////////////////////////////photojournalism start//////////////////////////////
-	$("#upload_image_photojournalism1").uploadFile({
+	//////////////////////////////phototravel start//////////////////////////////
+	$("#upload_image_phototravel1").uploadFile({
 	url:"json/saveimage",
 	dragDrop: true,
 	multiple:false,
@@ -1728,12 +1728,12 @@ $("#upload_image_monochrome4").uploadFile({
 	})(),
 	dynamicFormData: function()
 	{
-		var title = $('#titelphotojournalism1').val();
+		var title = $('#titelphototravel1').val();
 		return {"titel":title};
 	},
 	onSubmit:function(files)
 	{
-		var title = $('#titelphotojournalism1').val();
+		var title = $('#titelphototravel1').val();
 		if(title.length==0){
 			return false;
 		}
@@ -1742,8 +1742,8 @@ $("#upload_image_monochrome4").uploadFile({
 	onSuccess:function(files,data,xhr,pd)
 	{
 		//console.log(data);
-		$("#upload_image_photojournalism1").hide();
-		$('#titelphotojournalism1').prop('disabled', true);
+		$("#upload_image_phototravel1").hide();
+		$('#titelphototravel1').prop('disabled', true);
 		fileUploadConfigs[12]['fileId'] = data.data.fileId;
 		
 	},
@@ -1765,11 +1765,11 @@ $("#upload_image_monochrome4").uploadFile({
 			    {
 			    	if(data.data.fileId){ //File is available
 			    		fileUploadConfigs[12]['fileId'] = data.data.fileId;
-				    	$("#titelphotojournalism1").val(data.data.titel);
+				    	$("#titelphototravel1").val(data.data.titel);
 				    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
 				    	pd.filename.html("");
-				    	$("#upload_image_photojournalism1").hide();
-						$('#titelphotojournalism1').prop('disabled', true);
+				    	$("#upload_image_phototravel1").hide();
+						$('#titelphototravel1').prop('disabled', true);
 						if(!data.data.editable){
 							pd.del.hide();						
 						   }
@@ -1778,9 +1778,9 @@ $("#upload_image_monochrome4").uploadFile({
 						    }
 			    	}else{
 			    		if(!data.data.editable){
-			    		   $('#titelphotojournalism1').prop('disabled', true);	
+			    		   $('#titelphototravel1').prop('disabled', true);	
 			    		   //$('#upload_image_color1').addClass("disabledbutton");
-			    		   $('#upload_image_photojournalism1 *').prop('disabled',true);
+			    		   $('#upload_image_phototravel1 *').prop('disabled',true);
 			    		  }
 			    	    }	
 			    	
@@ -1796,9 +1796,9 @@ $("#upload_image_monochrome4").uploadFile({
 		    		return fileUploadConfigs[12];
 		    	})(),
 	        	success: function(result){
-		        		$("#upload_image_photojournalism1").show();
-		        		$('#titelphotojournalism1').prop('disabled', false); 
-		        		$("#titelphotojournalism1").val('');
+		        		$("#upload_image_phototravel1").show();
+		        		$('#titelphototravel1').prop('disabled', false); 
+		        		$("#titelphototravel1").val('');
 	                   pd.statusbar.hide(); //You choice. */
 	        }});
 
@@ -1806,7 +1806,7 @@ $("#upload_image_monochrome4").uploadFile({
 	});
 	
 	
-	$("#upload_image_photojournalism2").uploadFile({
+	$("#upload_image_phototravel2").uploadFile({
 		url:"json/saveimage",
 		dragDrop: true,
 		multiple:false,
@@ -1830,12 +1830,12 @@ $("#upload_image_monochrome4").uploadFile({
 		})(),
 		dynamicFormData: function()
 		{
-			var title = $('#titelphotojournalism2').val();
+			var title = $('#titelphototravel2').val();
 			return {"titel":title};
 		},
 		onSubmit:function(files)
 		{
-			var title = $('#titelphotojournalism2').val();
+			var title = $('#titelphototravel2').val();
 			if(title.length==0){
 				return false;
 			}
@@ -1844,8 +1844,8 @@ $("#upload_image_monochrome4").uploadFile({
 		onSuccess:function(files,data,xhr,pd)
 		{
 			//console.log(data);
-			$("#upload_image_photojournalism2").hide();
-			$('#titelphotojournalism2').prop('disabled', true);
+			$("#upload_image_phototravel2").hide();
+			$('#titelphototravel2').prop('disabled', true);
 			fileUploadConfigs[13]['fileId'] = data.data.fileId;
 			
 		},
@@ -1867,11 +1867,11 @@ $("#upload_image_monochrome4").uploadFile({
 				    {
 				    	if(data.data.fileId){ //File is available
 				    		fileUploadConfigs[13]['fileId'] = data.data.fileId;
-					    	$("#titelphotojournalism2").val(data.data.titel);
+					    	$("#titelphototravel2").val(data.data.titel);
 					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
 					    	pd.filename.html("");
-					    	$("#upload_image_photojournalism2").hide();
-							$('#titelphotojournalism2').prop('disabled', true);
+					    	$("#upload_image_phototravel2").hide();
+							$('#titelphototravel2').prop('disabled', true);
 							if(!data.data.editable){
 								pd.del.hide();						
 							   }
@@ -1880,9 +1880,9 @@ $("#upload_image_monochrome4").uploadFile({
 							    }
 				    	}else{
 				    		if(!data.data.editable){
-				    		   $('#titelphotojournalism2').prop('disabled', true);	
+				    		   $('#titelphototravel2').prop('disabled', true);	
 				    		   //$('#upload_image_color1').addClass("disabledbutton");
-				    		   $('#upload_image_photojournalism2 *').prop('disabled',true);
+				    		   $('#upload_image_phototravel2 *').prop('disabled',true);
 				    		  }
 				    	    }
 				    	
@@ -1898,9 +1898,9 @@ $("#upload_image_monochrome4").uploadFile({
 			    		return fileUploadConfigs[13];
 			    	})(),
 		        	success: function(result){
-			        		$("#upload_image_photojournalism2").show();
-			        		$('#titelphotojournalism2').prop('disabled', false); 
-			        		$("#titelphotojournalism2").val('');
+			        		$("#upload_image_phototravel2").show();
+			        		$('#titelphototravel2').prop('disabled', false); 
+			        		$("#titelphototravel2").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
@@ -1908,7 +1908,7 @@ $("#upload_image_monochrome4").uploadFile({
 		});
 	
 	
-	$("#upload_image_photojournalism3").uploadFile({
+	$("#upload_image_phototravel3").uploadFile({
 		url:"json/saveimage",
 		dragDrop: true,
 		multiple:false,
@@ -1932,12 +1932,12 @@ $("#upload_image_monochrome4").uploadFile({
 		})(),
 		dynamicFormData: function()
 		{
-			var title = $('#titelphotojournalism3').val();
+			var title = $('#titelphototravel3').val();
 			return {"titel":title};
 		},
 		onSubmit:function(files)
 		{
-			var title = $('#titelphotojournalism3').val();
+			var title = $('#titelphototravel3').val();
 			if(title.length==0){
 				return false;
 			}
@@ -1946,8 +1946,8 @@ $("#upload_image_monochrome4").uploadFile({
 		onSuccess:function(files,data,xhr,pd)
 		{
 			//console.log(data);
-			$("#upload_image_photojournalism3").hide();
-			$('#titelphotojournalism3').prop('disabled', true);
+			$("#upload_image_phototravel3").hide();
+			$('#titelphototravel3').prop('disabled', true);
 			fileUploadConfigs[14]['fileId'] = data.data.fileId;
 			
 		},
@@ -1969,11 +1969,11 @@ $("#upload_image_monochrome4").uploadFile({
 				    {
 				    	if(data.data.fileId){ //File is available
 				    		fileUploadConfigs[14]['fileId'] = data.data.fileId;
-					    	$("#titelphotojournalism3").val(data.data.titel);
+					    	$("#titelphototravel3").val(data.data.titel);
 					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
 					    	pd.filename.html("");
-					    	$("#upload_image_photojournalism3").hide();
-							$('#titelphotojournalism3').prop('disabled', true);
+					    	$("#upload_image_phototravel3").hide();
+							$('#titelphototravel3').prop('disabled', true);
 							if(!data.data.editable){
 								pd.del.hide();						
 							   }
@@ -1982,9 +1982,9 @@ $("#upload_image_monochrome4").uploadFile({
 							    }
 				    	}else{
 				    		if(!data.data.editable){
-				    		   $('#titelphotojournalism3').prop('disabled', true);	
+				    		   $('#titelphototravel3').prop('disabled', true);	
 				    		   //$('#upload_image_color1').addClass("disabledbutton");
-				    		   $('#upload_image_photojournalism3 *').prop('disabled',true);
+				    		   $('#upload_image_phototravel3 *').prop('disabled',true);
 				    		  }
 				    	    }  	
 			        }
@@ -1999,16 +1999,16 @@ $("#upload_image_monochrome4").uploadFile({
 			    		return fileUploadConfigs[14];
 			    	})(),
 		        	success: function(result){
-			        		$("#upload_image_photojournalism3").show();
-			        		$('#titelphotojournalism3').prop('disabled', false); 
-			        		$("#titelphotojournalism3").val('');
+			        		$("#upload_image_phototravel3").show();
+			        		$('#titelphototravel3').prop('disabled', false); 
+			        		$("#titelphototravel3").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
 			}
 		});
 	
-	$("#upload_image_photojournalism4").uploadFile({
+	$("#upload_image_phototravel4").uploadFile({
 		url:"json/saveimage",
 		dragDrop: true,
 		multiple:false,
@@ -2032,12 +2032,12 @@ $("#upload_image_monochrome4").uploadFile({
 		})(),
 		dynamicFormData: function()
 		{
-			var title = $('#titelphotojournalism4').val();
+			var title = $('#titelphototravel4').val();
 			return {"titel":title};
 		},
 		onSubmit:function(files)
 		{
-			var title = $('#titelphotojournalism4').val();
+			var title = $('#titelphototravel4').val();
 			if(title.length==0){
 				return false;
 			}
@@ -2046,8 +2046,8 @@ $("#upload_image_monochrome4").uploadFile({
 		onSuccess:function(files,data,xhr,pd)
 		{
 			//console.log(data);
-			$("#upload_image_photojournalism4").hide();
-			$('#titelphotojournalism4').prop('disabled', true);
+			$("#upload_image_phototravel4").hide();
+			$('#titelphototravel4').prop('disabled', true);
 			fileUploadConfigs[15]['fileId'] = data.data.fileId;
 			
 		},
@@ -2070,11 +2070,11 @@ $("#upload_image_monochrome4").uploadFile({
 				    	
 				    	if(data.data.fileId){ //File is available
 				    		fileUploadConfigs[15]['fileId'] = data.data.fileId;
-					    	$("#titelphotojournalism4").val(data.data.titel);
+					    	$("#titelphototravel4").val(data.data.titel);
 					    	var pd = obj.createProgress("","data:image/jpg;base64,"+ data.data.encodedString,"");// name,src,size
 					    	pd.filename.html("");
-					    	$("#upload_image_photojournalism4").hide();
-							$('#titelphotojournalism4').prop('disabled', true);
+					    	$("#upload_image_phototravel4").hide();
+							$('#titelphototravel4').prop('disabled', true);
 							//console.log("prosenjit :",data.data.editable);
 							if(!data.data.editable){
 								pd.del.hide();						
@@ -2085,9 +2085,9 @@ $("#upload_image_monochrome4").uploadFile({
 				    	}else{
 				    		if(!data.data.editable){
 				    			console.log("prosenjit :",data.data.editable);
-				    		   $('#titelphotojournalism4').prop('disabled', true);	
+				    		   $('#titelphototravel4').prop('disabled', true);	
 				    		   //$('#upload_image_color1').addClass("disabledbutton");
-				    		   $('#upload_image_photojournalism4 *').prop('disabled',true);
+				    		   $('#upload_image_phototravel4 *').prop('disabled',true);
 				    		  }
 				    	    }  	
 				    	
@@ -2104,9 +2104,9 @@ $("#upload_image_monochrome4").uploadFile({
 			    	})(),
 		        	success: function(result){
 		        		
-			        		$("#upload_image_photojournalism4").show();
-			        		$('#titelphotojournalism4').prop('disabled', false); 
-			        		$("#titelphotojournalism4").val('');
+			        		$("#upload_image_phototravel4").show();
+			        		$('#titelphototravel4').prop('disabled', false); 
+			        		$("#titelphototravel4").val('');
 		                   pd.statusbar.hide(); //You choice. */
 		        }});
 
@@ -2117,7 +2117,7 @@ $("#upload_image_monochrome4").uploadFile({
 		  
 		});
 	
-	//////////////////////////////photojournalism ends//////////////////////////////
+	//////////////////////////////phototravel ends//////////////////////////////
 	
 	
 });

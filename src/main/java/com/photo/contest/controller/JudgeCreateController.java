@@ -51,7 +51,8 @@ public class JudgeCreateController {
 		    	    Users judge = dbServices.getJudge(judgeCreationDTO.getEmail());
 		    	    if(judge == null) {// if judge not exist
 		    	    	                String token = UUID.randomUUID().toString();
-		    	    	                String judgeRegisterUrl = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort() +"/photo-contest/getregisterjudge?token=" + token;
+		    	    	                //String judgeRegisterUrl = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort() +"/photo-contest/getregisterjudge?token=" + token;
+		    	    	                String judgeRegisterUrl = request.getScheme() + "://" + request.getServerName() +"/getregisterjudge?token=" + token;
 		    	    	                System.out.println("judgeRegisterUrl="+judgeRegisterUrl);
 		                                String responce = dbServices.createJudge(judgeCreationDTO, userDTO, token,judgeRegisterUrl);
 		                                if(responce.equals("ok"))

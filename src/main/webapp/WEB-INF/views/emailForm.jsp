@@ -130,11 +130,12 @@ div.ex3 {
   <hr class="featurette-divider hidden-lg">
   <div class="col-lg-5 col-md-push-1">
     <address>
-    <h3>Office Location</h3>
-    <p class="lead"><a href="https://www.google.com/maps/preview?ie=UTF-8&q=The+Pentagon&fb=1&gl=us&hq=1400+Defense+Pentagon+Washington,+DC+20301-1400&cid=12647181945379443503&ei=qmYfU4H8LoL2oATa0IHIBg&ved=0CKwBEPwSMAo&safe=on">The Pentagon<br>
-      Washington, DC 20301</a><br>
-      Phone: XXX-XXX-XXXX<br>
-      Fax: XXX-XXX-YYYY</p>
+    <h3>Contact Person</h3>
+    <p class="lead">Salon Chairman<br>
+       Bela Mukherjee<br>
+       11 JUGOL KISHOR DAS LANE<br> 
+       KOLKATA 700006, INDIA<br>
+       Phone: +91 9804199918<br></p>
     </address>
   </div>
 </div>

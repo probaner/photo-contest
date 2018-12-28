@@ -21,6 +21,8 @@ import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.exception.BusinessException;
+import com.photo.contest.exception.ErrorCode;
+import com.photo.contest.exception.ImageFormateException;
 import com.photo.contest.service.DbServices;
 import com.photo.contest.utility.CommonUtil;
 
@@ -54,8 +56,8 @@ public class FileUploadController {
 					responseDTO.setData(fileDTO);
 					
 				} else {
-					    responseDTO.setSuccess(false);
-					    responseDTO.setMessage("title should not be same on same catagory");				
+					    ErrorCode errorCode = new ErrorCode("title should not be same on same catagory","Image Titel problem.",500);
+					    throw new ImageFormateException(errorCode);
 				       }
 			
 
@@ -63,9 +65,9 @@ public class FileUploadController {
 				responseDTO.setSuccess(false);
 				responseDTO.setMessage("Kindly enter a valid title");
 				
-			} else if (fileDTO.getTitel().trim().length() > 70) {				
-				       responseDTO.setSuccess(false);
-				       responseDTO.setMessage("enter title within 50 chareactere");
+			} else if (fileDTO.getTitel().trim().length() > 50) {
+				      ErrorCode errorCode = new ErrorCode("enter title within 50 chareactere","Image Titel Length problem.",500);
+				      throw new ImageFormateException(errorCode);				      
 			          }
 		}
 		return responseDTO;

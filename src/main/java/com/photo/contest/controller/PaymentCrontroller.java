@@ -1,6 +1,7 @@
 package com.photo.contest.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,11 +9,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.PayPalPaymentResponseDTO;
 import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
@@ -29,6 +30,9 @@ public class PaymentCrontroller {
 	private DbServices dbServices;
 	@Autowired
 	CommonUtil commonUtil;
+	@Autowired
+	ConfigProperty configProperty;
+	
 	@RequestMapping(value = "/json/getpaystatu")  
     public @ResponseBody boolean getrules(ModelMap model) throws IOException {
 		
@@ -79,27 +83,36 @@ public class PaymentCrontroller {
 		                
 		     //System.out.println("paymentData="+paymentData);           
 		     model.addAttribute("paymentData",paymentData);
+		     
+		     model.addAttribute("titel",configProperty.getIndexName());
+	  		 model.addAttribute("titelImage",configProperty.getIndexImage());
+	  		 model.addAttribute("headerLeft",configProperty.getHeaderLeft());
+			 model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
+			 model.addAttribute("headerRight",configProperty.getHeaderRight());
+		     
+		     
         return new ModelAndView("payment"); 
     } 
 	
 	
 	@RequestMapping(value = "/json/savepaymentdata"/*, method = RequestMethod.POST*/)
 	public @ResponseBody ResponseDTO getPaymentDetails(@RequestBody PayPalPaymentResponseDTO payPalPaymentResponseDTO,ModelMap model) 
-			throws IOException, BusinessException {
-		
-		UserDTO userDTO = (UserDTO) model.get("userForm");
-		Users user = dbServices.getUser(userDTO.getEmail());
-		payPalPaymentResponseDTO.setUserid(user.getUserId());
-		System.out.println(payPalPaymentResponseDTO.toString());
-		
-		
-		
-		 
+			throws IOException, BusinessException, ParseException {
 		ResponseDTO responseDTO = new ResponseDTO();
-		responseDTO.setMessage("DONE");
 		
-				return responseDTO;
-		
+	  if(payPalPaymentResponseDTO!=null && payPalPaymentResponseDTO.getTransactionsRelatedresourcesSaleState().toUpperCase().equals("COMPLETED")) {
+		 UserDTO userDTO = (UserDTO) model.get("userForm");
+		 Users user = dbServices.getUser(userDTO.getEmail()); 
+		 payPalPaymentResponseDTO.setUserid(user.getUserId());
+		 System.out.println(payPalPaymentResponseDTO.toString());
+		 String responce = dbServices.savePaymentResponse(payPalPaymentResponseDTO, user);		
+		 responseDTO.setMessage(responce);
+	    }else {
+	           responseDTO.setMessage("PAYMENT PROCESS FAIL");
+	           
+	          }   
+	  
+	  return responseDTO;		
 	}
 	
 }

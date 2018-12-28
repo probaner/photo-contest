@@ -59,7 +59,8 @@ public class ForgetPasswordController {
 		     model.addAttribute("massage","We didn't find an account for that e-mail address: "+getPassword.getEmail());
 		} else { 			     			   
 			     user.setForgetPasswAuthToken(UUID.randomUUID().toString());
-			     String appUrl = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort() +"/photo-contest/getresetpassword?token=" + user.getForgetPasswAuthToken();
+			     //String appUrl = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort() +"/photo-contest/getresetpassword?token=" + user.getForgetPasswAuthToken();
+			     String appUrl = request.getScheme() + "://" + request.getServerName() +"/getresetpassword?token=" + user.getForgetPasswAuthToken();
 			     System.out.println("appUrl="+appUrl);
 			     dbServices.updateForgetPasswAuthToken(user,appUrl);
 			     model.addAttribute("massage","A password reset link has been sent to: "+getPassword.getEmail());		     
