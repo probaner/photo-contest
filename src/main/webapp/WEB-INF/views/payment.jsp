@@ -126,9 +126,9 @@ div.ex10 {
   <div class = "ex10"><div id="paypal-button-container"></div><!-- </div> -->
   
 	<div id="confirm">
-	    <div> Ship to Chandan:</div>
-	    <!-- <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
-	    <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div> -->
+	    <div> Ship to:</div>
+	    <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
+	    <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div>
 	
 	     <button id="confirmButton">Complete Payment</button>
 	</div>

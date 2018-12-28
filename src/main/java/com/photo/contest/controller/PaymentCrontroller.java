@@ -79,6 +79,8 @@ public class PaymentCrontroller {
 		                  }
 		                else {
 		                	   model.addAttribute("payableamount", "\nPAYABLE AMOUNT: "+user.getPayStatus().getTotalAmount()+" "+user.getPayStatus().getCourencyType());
+		                	   model.addAttribute("amount", user.getPayStatus().getTotalAmount());
+			                   model.addAttribute("courency", user.getPayStatus().getCourencyType().toUpperCase());
 		                     }
 		                
 		     //System.out.println("paymentData="+paymentData);           

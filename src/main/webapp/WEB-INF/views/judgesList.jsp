@@ -70,15 +70,15 @@ div.ex4 {
       <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Rules & Regulations <span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><a href="getrulesandregulations"> RULES & REGULATIONS </a></li>
-        <li><a href="getfipdefination"> COMPETITION DIVITION & DEFINITION </a></li>  
+        <li><a href="getfipdefination"> COMPETITION DIVISION & DEFINITION </a></li>  
         <li><a href="getjudges"> JUDGES </a></li>
                                 
       </ul>
     </li>
-	<li><a href="getloginForm">Perticipate/Login</a></li>
+	<li><a href="getloginForm">Participate/Login</a></li>
 	<li><a href="getUserTable">Entry Status</a></li>
 	<li><a href="getDownload">Result</a></li>   
-    <li><a href="getContuctUs">Contuct Us</a></li>
+    <li><a href="getContuctUs">Contact Us</a></li>
   </ul>
 </div>
   
