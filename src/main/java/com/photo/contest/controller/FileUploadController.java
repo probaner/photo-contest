@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,25 +113,20 @@ public class FileUploadController {
 		return responseDTO;
 	}
 
-	/*
-	 * @RequestMapping(value = "/json/deleteimage", headers =
-	 * {"Accept=text/xml, application/json"}, produces = "application/json")
-	 * public @ResponseBody FileDTO deleteResourcesJson(@RequestParam String action,
-	 * HttpServletRequest servletRequest, HttpServletResponse
-	 * response, @ModelAttribute("product") FileDTO fileDTO, Model
-	 * model,@ModelAttribute("userForm") UserDTO userDTO) throws IOException{
-	 * FileDTO totalFileData = null; if (action.equals("delete")) {
-	 * //System.out.println("fileDTO="+fileDTO.toString()); totalFileData =
-	 * dbServices.deleteFileData(fileDTO, userDTO);//delete file
-	 * 
-	 * 
-	 * dbServices.updatePayStatusOfAUser(userDTO);
-	 * //System.out.println("totalFileData="+totalFileData); return totalFileData;
-	 * }else return new FileDTO();
-	 * 
-	 * 
-	 * }
-	 */
+	
+	@RequestMapping(value = "/json/getconfirmuploadmail")  
+    public @ResponseBody ResponseDTO sendConfirmationEmail(ModelMap model, @ModelAttribute("userForm") UserDTO userDTO) throws IOException {
+		
+		String responce = dbServices.getImageTitelList(userDTO);
+		ResponseDTO responseDTO = new ResponseDTO();
+	  System.out.println(responce);
+	  responseDTO.setMessage(responce);
+	  return responseDTO;
+		
+	}
+	
+	
+	
 }
 
 // http://stackoverflow.com/questions/20193138/very-simple-spring-mvc-button-click

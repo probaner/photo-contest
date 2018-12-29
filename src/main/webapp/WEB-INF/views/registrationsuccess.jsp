@@ -57,6 +57,10 @@ div.ex5 {
 	padding: 0px 100px 10px 100px;
 }
 
+div.ex6 {
+	padding: 0px 100px 10px 100px;
+}
+
 .header img {
   float: left;
   width: 400px;
@@ -102,10 +106,12 @@ p.b {
 		<div class="well well-sm">
 			<h4>
 				<c:out value="${sucessMagssage}" />
-				<%-- <c:out value="${_csrf.parameterName}" /> <c:out value="${_csrf.token}" /> --%>
+				
 			</h4>						
-			<div
-				style="float: right; font-size: 100%; position: relative; top: -12px">
+			<div style="float: right; font-size: 100%; position: relative; top: -12px">
+			   <a href="#" id ="confirm_upload_mail">Confirm Upload Mail </a>
+			    &nbsp;
+                &nbsp;
 				<a href="#" id ="payment_id"> Payment </a>
 				&nbsp;
                 &nbsp;	              
@@ -450,6 +456,25 @@ $(document).ready(function()
 	
 	
 	 
+	 $("#confirm_upload_mail" ).click(function(e) {
+		 e.preventDefault();		 
+		 $.ajax({
+		   	  url: "json/getconfirmuploadmail",
+		   	  type: "GET",
+		   	  dataType: "json",
+		   	  contentType: 'application/json',	  
+		   	  success: function(uploadmail) {
+		   		                                
+		   		                               console.log("uploadmail=", uploadmail);
+		   		                                alert(uploadmail.message);   
+		   		                            
+		   	                           }
+		       });
+		 
+	 });
+	 
+	 
+	 
 	 $("#payment_id" ).click(function(e) {
 		 e.preventDefault();		 
 		 $.ajax({
@@ -458,8 +483,8 @@ $(document).ready(function()
 		   	  dataType: "json",
 		   	  success: function(ispay) {
 		   		                         if(ispay){
-		   		                                    console.log("ispay="+ispay);
-		   		                             	    <%--  //$(location).attr("href", "getpay");
+		   		                        	        <%--console.log("ispay="+ispay); 
+		   		                             	     //$(location).attr("href", "getpay");
 		   		                             	    window.location.href("<%=request.getContextPath()%>/getpay"); --%>
 		   		                             	    window.location.href = "<%=request.getContextPath()%>/getpay";
 		   		                             	     

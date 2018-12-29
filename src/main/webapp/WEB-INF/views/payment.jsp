@@ -104,11 +104,11 @@ div.ex10 {
   <div class="header">  <img src="<c:url value="${headerLeft}" />" alt="logo" /> </div>
   <div class="headerm">  <img src="<c:url value="${headerMiddle}" />" alt="logo" />   </div>
   <div class="headerr">  <img src="<c:url value="${headerRight}" />" alt="logo" />   </div>    
-  </div>      
+</div>    
 </div> 
 
-<p></p>      
-<p></p> 
+
+<div class="ex2"><hr></div>
 
 <div class="row"  id="mydiv">
   <div class="column" style="background-color:#aaa;">
@@ -138,7 +138,18 @@ div.ex10 {
 	</div>
     </div>
     
+    
+    <!-- <input type="button" value="Go Back From Whence You Came!" onclick="history.back(-1)" /> -->
+    
+    <div class="form-actions">
+	<input type="button" class="btn btn-block btn-primary btn-default" value="Go Back From Whence You Came!" 
+	onclick="history.back(-1)" />
+    </div>
+    
 </div>
+
+
+
 
 <script>
 
@@ -275,5 +286,9 @@ $().ready(function() {
 
 
 </script>
+
+
+
+
 </body>
 </html>

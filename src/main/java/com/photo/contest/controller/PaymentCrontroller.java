@@ -97,7 +97,7 @@ public class PaymentCrontroller {
     } 
 	
 	
-	@RequestMapping(value = "/json/savepaymentdata"/*, method = RequestMethod.POST*/)
+	@RequestMapping(value = "/json/savepaymentdata")
 	public @ResponseBody ResponseDTO getPaymentDetails(@RequestBody PayPalPaymentResponseDTO payPalPaymentResponseDTO,ModelMap model) 
 			throws IOException, BusinessException, ParseException {
 		ResponseDTO responseDTO = new ResponseDTO();

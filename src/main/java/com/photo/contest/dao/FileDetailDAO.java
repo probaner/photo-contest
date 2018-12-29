@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.photo.contest.dto.CategoryCountMap;
+import com.photo.contest.dto.UserFileTitelListDTO;
+import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.model.File;
 import com.photo.contest.model.Users;
 
@@ -130,6 +132,42 @@ public class FileDetailDAO {
 	          }
 			 
 		 }
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
+		 
+		 log.debug("File instance");		 
+		  try {	 
+			    //Session session = sessionFactory.getCurrentSession();
+			    List<UserFileTitelListDTO> results = sessionFactory.getCurrentSession().createSQLQuery(sql)
+						  .addScalar("titel", StandardBasicTypes.STRING)
+						  .addScalar("category_index", StandardBasicTypes.STRING)
+						  .setResultTransformer( Transformers.aliasToBean(UserFileTitelListDTO.class))
+						  .list();
+			                     
+			             
+			   		   
+			   //System.out.println("value="+listOfTitel); 
+			   
+			   return results;
+		      } catch (RuntimeException re) {
+		         log.error("File_Name failed", re);
+		         throw re;
+	          }
+			 
+		 }
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	 
 	 

@@ -133,9 +133,9 @@ div.ex3 {
     <h3>Contact Person</h3>
     <p class="lead">Salon Chairman<br>
        Bela Mukherjee<br>
-       11 JUGOL KISHOR DAS LANE<br> 
-       KOLKATA 700006, INDIA<br>
-       Phone: +91 9804199918<br></p>
+       11 JUGOL KISHOR DAS LANE,<br> 
+       KOLKATA 700006, INDIA.<br>
+       Phone: +91 9903957173<br></p>
     </address>
   </div>
 </div>

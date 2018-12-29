@@ -43,6 +43,7 @@ import com.photo.contest.dto.PayPalPaymentResponseDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
+import com.photo.contest.dto.UserFileTitelListDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.exception.ApplicationException;
 import com.photo.contest.exception.BusinessException;
@@ -1059,6 +1060,39 @@ public class DbServices {
 		      }
 		
 		return responce;
+	}
+	
+	
+	
+	@Transactional
+	public String getImageTitelList(UserDTO userDTO) {
+		
+		Users user = usersDAO.findById(userDTO.getUserid());
+		String response="";
+		
+		String sql = "SELECT titel, category_index FROM "+getDBName()+".file where user_id='"+user.getUserId()+"'";			
+		List<UserFileTitelListDTO> findTitelListAndCategoryIndex = fileDetailDAO.findTitelListAndCategoryIndex(sql);
+		if(findTitelListAndCategoryIndex.size()>0) {
+			try {
+				commonService.sendEntryConfirmMail(user, findTitelListAndCategoryIndex,results);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			response = "Mail send to your register mail id";			
+		  }
+		else {
+			   response = "File is not uploaded yet";
+		     }
+		
+		
+		for(UserFileTitelListDTO f : findTitelListAndCategoryIndex)
+		System.out.println(f.toString());
+			
+			
+		return response;
+		
 	}
 	
 	

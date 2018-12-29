@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 
@@ -20,6 +21,7 @@ import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
+import com.photo.contest.dto.UserFileTitelListDTO;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
 
@@ -308,7 +310,52 @@ public class CommonServices {
 	}
 	
 	
-	
+	public void sendEntryConfirmMail(Users user, List<UserFileTitelListDTO> findTitelListAndCategoryIndex,Map<String, Integer> results) throws MessagingException{
+		
+		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
+		mailRecipientDTO.setSender(configProperty.getMailsender());
+		mailRecipientDTO.setRecipient(user.getEmail());
+		mailRecipientDTO.setSubject("Enrty Confirmation - "+configProperty.getSalonName());
+		
+		Set<String> categorys = results.keySet();
+		String data="";
+		
+		for(String category : categorys) {					
+			for(UserFileTitelListDTO s: findTitelListAndCategoryIndex) {
+				if(category.equals(s.getCategory_index().substring(0, s.getCategory_index().length()-1))) {
+					data = data+category+"      "+s.getTitel()+"\n"+" ";
+				  }
+				
+			 }
+			
+		   }
+		
+				
+		String body =" Dear "+user.getFirstName()+","
+		              +"\n Thankyou for participating in "+configProperty.getSalonName()+". "
+				      + "You have successfully submitted "+findTitelListAndCategoryIndex.size()+" image(s)." 
+				      + "\n Your Entrant Number is: "+user.getUserId()
+				      + "\n Your Registered Email is: "+user.getEmail()
+				      + "\n    SECTION     IMAGE TITLE"
+				      + "\n "+data
+				      +"\n\n\n\n"
+				      +" For any queries visit https://www.microcircuit.asia"
+		              +"\n\n Regards"
+		              + "\n Beal Mukherjee"
+		              +"\n\n\n\n"
+		              +"N.B.:This is an automatically generated email. Please do not reply to this.";
+		
+		 System.out.println(body);
+		mailRecipientDTO.setMessage(body);
+		
+		try {
+			  commonUtil.doSendEmail(mailRecipientDTO, null);
+			} catch (MailSendException | ConnectException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}         
+		
+	}
 	
 	
 
