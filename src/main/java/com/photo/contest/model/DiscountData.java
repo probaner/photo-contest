@@ -20,8 +20,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="discount_data"
-    ,catalog="salontest"
-    , uniqueConstraints = @UniqueConstraint(columnNames="user_id") 
+, uniqueConstraints = @UniqueConstraint(columnNames="user_id") 
 )
 public class DiscountData  implements java.io.Serializable {
 

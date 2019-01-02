@@ -7,9 +7,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="payment_response"
-    ,catalog="salontest"
-)
+@Table(name="payment_response")
 public class PaymentResponse implements java.io.Serializable{
 	
 	private String id;

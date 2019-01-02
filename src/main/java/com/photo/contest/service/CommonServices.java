@@ -310,7 +310,7 @@ public class CommonServices {
 	}
 	
 	
-	public void sendEntryConfirmMail(Users user, List<UserFileTitelListDTO> findTitelListAndCategoryIndex,Map<String, Integer> results) throws MessagingException{
+	public void sendEntryConfirmMail(Users user, List<UserFileTitelListDTO> findTitelListAndCategoryIndex,Map<String, Integer> results, String payingStatus) throws MessagingException{
 		
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 		mailRecipientDTO.setSender(configProperty.getMailsender());
@@ -336,7 +336,7 @@ public class CommonServices {
 				      + "You have successfully submitted "+findTitelListAndCategoryIndex.size()+" image(s)." 
 				      + "\n Your Entrant Number is: "+user.getUserId()
 				      + "\n Your Registered Email is: "+user.getEmail()
-				      + "\n    SECTION     IMAGE TITLE"
+				      + "\n SECTION      IMAGE TITLE"
 				      + "\n "+data
 				      +"\n\n\n\n"
 				      +" For any queries visit https://www.microcircuit.asia"

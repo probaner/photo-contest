@@ -29,7 +29,7 @@ import com.zaxxer.hikari.HikariDataSource;
 /*@ComponentScans(value = { @ComponentScan("com.photo.contest.model")})*/
 public class HibernateConfig {
 	
- private static ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
+ public static ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
 	
 		
 	@Bean

@@ -120,8 +120,8 @@ public class ConfigProperty {
 	@Value("${mail.password}")
 	private String mailpassword;
 	
-	@Value("${db.name}")
-	private String dbname;
+	/*@Value("${db.name}")
+	private String dbname;*/
 	
 	
 	
@@ -144,7 +144,7 @@ public class ConfigProperty {
 			String netiveCountry, String netiveCurrencyName, String foreignCurrencyName, String closeDate,
 			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
 			String judgingEnddate, String judgloginurl, String salonName, String salonPatronage, String resultDest,
-			String resultDate, String mailsender, String mailpassword, String dbname) {
+			String resultDate, String mailsender, String mailpassword) {
 		super();
 		this.indexName = indexName;
 		this.indexImage = indexImage;
@@ -198,7 +198,7 @@ public class ConfigProperty {
 		this.resultDate = resultDate;
 		this.mailsender = mailsender;
 		this.mailpassword = mailpassword;
-		this.dbname = dbname;
+		
 	}
 
 
@@ -722,14 +722,7 @@ public class ConfigProperty {
 	}
 
 
-	public String getDbname() {
-		return dbname;
-	}
 
-
-	public void setDbname(String dbname) {
-		this.dbname = dbname;
-	}
 
 
 				

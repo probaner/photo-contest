@@ -5,8 +5,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="judge_category_mapping"
-    ,catalog="salontest")
+@Table(name="judge_category_mapping")
 public class JudgeCategoryMapping implements java.io.Serializable{
 	
 /*	private int judgeCategoryMappingID;

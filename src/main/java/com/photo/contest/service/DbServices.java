@@ -2,7 +2,6 @@ package com.photo.contest.service;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.config.HibernateConfig;
 import com.photo.contest.dao.CategoryDAO;
 import com.photo.contest.dao.DiscountDataDAO;
 import com.photo.contest.dao.FileDetailDAO;
@@ -137,7 +137,7 @@ public class DbServices {
 	}
 
 	public  String getDBName() {
-		dbname= configProperty.getDbname();
+		dbname= HibernateConfig.resourceBundle.getString("db.name");
 		return dbname;
 	}
 	
@@ -784,7 +784,7 @@ public class DbServices {
 	public List<ClubDTO> getClubData() {
 		
 
-		String sql = "SELECT club, count(user_id) members_count FROM "+configProperty.getDbname()+".users where role!='admin' and club != '' group by club";
+		String sql = "SELECT club, count(user_id) members_count FROM "+getDBName()+".users where role!='admin' and club != '' group by club";
 		List<ClubDTO> clubList = usersDAO.fetchSql(sql);
 		return clubList;
 	}
@@ -1074,8 +1074,8 @@ public class DbServices {
 		List<UserFileTitelListDTO> findTitelListAndCategoryIndex = fileDetailDAO.findTitelListAndCategoryIndex(sql);
 		if(findTitelListAndCategoryIndex.size()>0) {
 			try {
-				commonService.sendEntryConfirmMail(user, findTitelListAndCategoryIndex,results);
-			} catch (MessagingException e) {
+				  commonService.sendEntryConfirmMail(user, findTitelListAndCategoryIndex,results, user.getPayStatus().getPayingStatus());
+			    } catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -1088,9 +1088,7 @@ public class DbServices {
 		
 		
 		for(UserFileTitelListDTO f : findTitelListAndCategoryIndex)
-		System.out.println(f.toString());
-			
-			
+		System.out.println(f.toString());			
 		return response;
 		
 	}
