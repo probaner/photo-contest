@@ -341,7 +341,7 @@ public class CommonServices {
 				      +"\n\n\n\n"
 				      +" For any queries visit https://www.microcircuit.asia"
 		              +"\n\n Regards"
-		              + "\n Beal Mukherjee"
+		              + "\n Bela Mukherjee"
 		              +"\n\n\n\n"
 		              +"N.B.:This is an automatically generated email. Please do not reply to this.";
 		
