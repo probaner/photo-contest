@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -24,6 +25,7 @@ import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
+import com.photo.contest.utility.HtmlData;
 
 
 
@@ -34,6 +36,8 @@ public class CommonServices {
 	private CommonUtil commonUtil;
 	@Autowired
 	private ConfigProperty configProperty;
+	@Autowired
+	HtmlData htmlData;
 
 	public void setCommonUtil(CommonUtil commonUtil) {
 		this.commonUtil = commonUtil;
@@ -52,11 +56,16 @@ public class CommonServices {
 
 		String message=null;
 		
+		/*Optional<String> body = htmlData.getHeader(users.getLastName()+" "+users.getFirstName() , users.getEmail(), password);
+		if(body.isPresent()) {*/
+		
 		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
 
 		
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
+		
+			//mailRecipientDTO.setMessage(body.get());
 		mailRecipientDTO.setMessage("Registration Sucessful \nRegistration Id:" + users.getUserId() + "\nUser Id: "
 				+ users.getEmail() + "\n Password: " + password + " \n");
 		mailRecipientDTO.setSubject("Registration Success");
@@ -69,7 +78,7 @@ public class CommonServices {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		//}
 		return message;
 	}
 	
@@ -80,6 +89,8 @@ public class CommonServices {
 
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
+		
+		
 		mailRecipientDTO.setMessage("Registration Sucessful \n" +"User Id: "
 				+ users.getEmail() + "\n Password: " + password + 
 				" \nJudgeing Page will open from: "+configProperty.getJudgingStartdate()+ " to: "+configProperty.getJudgingEnddate()+

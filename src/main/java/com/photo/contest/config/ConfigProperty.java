@@ -8,6 +8,9 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:config.properties")
 public class ConfigProperty {
 	
+	
+	@Value("${site.name}")
+	private String sitename;
 	@Value("${index.name}")
 	private String indexName;
 	@Value("${index.image}")
@@ -22,9 +25,7 @@ public class ConfigProperty {
 	private String judgepageImage;
 	@Value("${homepage.image}")
 	private String homepageImage;
-	
-	
-	
+		
 	@Value("${base.path}")
 	private String basePath;
 	@Value("${file.maxsize}")
@@ -118,10 +119,11 @@ public class ConfigProperty {
 	@Value("${mail.sender}")
 	private String mailsender;	
 	@Value("${mail.password}")
-	private String mailpassword;
-	
-	/*@Value("${db.name}")
-	private String dbname;*/
+	private String mailpassword;	
+	@Value("${registrarionsuccess.comment}")
+	private String registrarionsuccesscomment;
+	@Value("${registrarionsuccess.image}")
+	private String registrarionsuccessimage;
 	
 	
 	
@@ -130,8 +132,7 @@ public class ConfigProperty {
 		// TODO Auto-generated constructor stub
 	}
 
-
-	public ConfigProperty(String indexName, String indexImage, String headerLeft, String headerMiddle,
+	public ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
 			String headerRight, String judgepageImage, String homepageImage, String basePath, Long maxSize,
 			String chargeingTypeCategoryWiseNetive, String chargeingTypeCategoryWiseForeign,
 			String chargeingTypeIndivisualPhotoWiseNetive, String chargeingTypeIndivisualPhotoWiseForeign,
@@ -144,8 +145,10 @@ public class ConfigProperty {
 			String netiveCountry, String netiveCurrencyName, String foreignCurrencyName, String closeDate,
 			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
 			String judgingEnddate, String judgloginurl, String salonName, String salonPatronage, String resultDest,
-			String resultDate, String mailsender, String mailpassword) {
+			String resultDate, String mailsender, String mailpassword, String registrarionsuccesscomment,
+			String registrarionsuccessimage) {
 		super();
+		this.sitename = sitename;
 		this.indexName = indexName;
 		this.indexImage = indexImage;
 		this.headerLeft = headerLeft;
@@ -198,8 +201,12 @@ public class ConfigProperty {
 		this.resultDate = resultDate;
 		this.mailsender = mailsender;
 		this.mailpassword = mailpassword;
-		
+		this.registrarionsuccesscomment = registrarionsuccesscomment;
+		this.registrarionsuccessimage = registrarionsuccessimage;
 	}
+
+
+
 
 
 	public String getIndexName() {
@@ -721,9 +728,28 @@ public class ConfigProperty {
 		this.mailpassword = mailpassword;
 	}
 
+	public String getSitename() {
+		return sitename;
+	}
 
+	public void setSitename(String sitename) {
+		this.sitename = sitename;
+	}
 
+	public String getRegistrarionsuccesscomment() {
+		return registrarionsuccesscomment;
+	}
 
+	public void setRegistrarionsuccesscomment(String registrarionsuccesscomment) {
+		this.registrarionsuccesscomment = registrarionsuccesscomment;
+	}
 
+	public String getRegistrarionsuccessimage() {
+		return registrarionsuccessimage;
+	}
+
+	public void setRegistrarionsuccessimage(String registrarionsuccessimage) {
+		this.registrarionsuccessimage = registrarionsuccessimage;
+	}
 				
 }
