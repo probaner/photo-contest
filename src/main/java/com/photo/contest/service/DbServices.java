@@ -404,6 +404,7 @@ public class DbServices {
 
 		File fileDetail = new File();	
 		String[] arry = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
+		
 		int totalNimberofEntry = 0;
 		Users user = usersDAO.findById(userDTO.getUserid());
 
@@ -429,7 +430,8 @@ public class DbServices {
 			if(fileid>0) {				           
 				           PayStatus  payStatus = user.getPayStatus();				          
 				          // payStatus.setUsers(user);
-				           List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCount(fileDetail);
+				           String sql = "select  category_id, count(category_id) file_id from "+getDBName()+".file where user_id="+fileDetail.getUsers().getUserId() +" group by category_id";
+				           List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCount( sql);
 				           if (fileDetailList.size() > 0) {
 								for (CategoryCountMap c : fileDetailList) {
 									 totalNimberofEntry = totalNimberofEntry + c.getFile_id();
@@ -476,8 +478,8 @@ public class DbServices {
 		    	                    
 		    	      
 		    	         //int section = commonUtil.getNumbrtofSection(fileset.size());
-		    	   
-		    	         List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCountUsingUserID(user.getUserId());
+		    	 String sql = "select  category_id, count(category_id) file_id from "+getDBName()+".file where user_id="+user.getUserId() +" group by category_id";	
+		    	         List<CategoryCountMap> fileDetailList = fileDetailDAO.getCategoryWiseFileCountUsingUserID(sql);
 		    	         if(fileDetailList.size()>0) {
 						 payStatus.setAttemptSection(fileDetailList.size());
 				         payStatus.setTotalEntry(fileset.size());
