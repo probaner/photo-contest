@@ -213,9 +213,9 @@ public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 	 }
 	 
 	
-	 public List<CategoryCountMap> getCategoryWiseFileCount(File fileDetail) {
+	 public List<CategoryCountMap> getCategoryWiseFileCount( String sql) {
 		 log.debug("finding Category Wise FileCount of a User");
-		String sql = "select  category_id, count(category_id) file_id from salontest.file where user_id="+fileDetail.getUsers().getUserId() +" group by category_id";	
+		//String sql = "select  category_id, count(category_id) file_id from salontest.file where user_id="+fileDetail.getUsers().getUserId() +" group by category_id";	
 	
 		try {
 			Session session = sessionFactory.getCurrentSession();
@@ -242,9 +242,9 @@ public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 	 }
 	 
 	 
-	 public List<CategoryCountMap> getCategoryWiseFileCountUsingUserID(Integer userID) {
+	 public List<CategoryCountMap> getCategoryWiseFileCountUsingUserID(/*Integer userID, */String sql) {
 		 log.debug("finding Category Wise FileCount of a User");
-		String sql = "select  category_id, count(category_id) file_id from salontest.file where user_id="+userID +" group by category_id";	
+		//String sql = "select  category_id, count(category_id) file_id from salontest.file where user_id="+userID +" group by category_id";	
 	
 		try {
 			Session session = sessionFactory.getCurrentSession();
