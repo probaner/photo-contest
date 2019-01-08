@@ -65,7 +65,7 @@ public class SendEmailController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		   model.put("massage","mail send succesful");
+		   model.put("massage","mail sent successfully");
 		//}
 	       return "emailForm";
 	    }		
