@@ -22,8 +22,7 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name="judge"
-    ,catalog="salontest")
+@Table(name="judge")
 public class Judge implements java.io.Serializable{
 	
 	

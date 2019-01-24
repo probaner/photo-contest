@@ -125,6 +125,11 @@ public class ConfigProperty {
 	@Value("${registrarionsuccess.image}")
 	private String registrarionsuccessimage;
 	
+	@Value("${minnumber.judgeforeachclub}")
+	private String minnumberjudgeforeachclub;
+	@Value("${numberof.organizreclub}")
+	private String numberoforganizreclub;
+	
 	
 	
 	public ConfigProperty() {
@@ -132,7 +137,8 @@ public class ConfigProperty {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
+
+public ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
 			String headerRight, String judgepageImage, String homepageImage, String basePath, Long maxSize,
 			String chargeingTypeCategoryWiseNetive, String chargeingTypeCategoryWiseForeign,
 			String chargeingTypeIndivisualPhotoWiseNetive, String chargeingTypeIndivisualPhotoWiseForeign,
@@ -146,7 +152,7 @@ public class ConfigProperty {
 			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
 			String judgingEnddate, String judgloginurl, String salonName, String salonPatronage, String resultDest,
 			String resultDate, String mailsender, String mailpassword, String registrarionsuccesscomment,
-			String registrarionsuccessimage) {
+			String registrarionsuccessimage, String minnumberjudgeforeachclub, String numberoforganizreclub) {
 		super();
 		this.sitename = sitename;
 		this.indexName = indexName;
@@ -203,7 +209,10 @@ public class ConfigProperty {
 		this.mailpassword = mailpassword;
 		this.registrarionsuccesscomment = registrarionsuccesscomment;
 		this.registrarionsuccessimage = registrarionsuccessimage;
+		this.minnumberjudgeforeachclub = minnumberjudgeforeachclub;
+		this.numberoforganizreclub = numberoforganizreclub;
 	}
+
 
 
 
@@ -751,5 +760,27 @@ public class ConfigProperty {
 	public void setRegistrarionsuccessimage(String registrarionsuccessimage) {
 		this.registrarionsuccessimage = registrarionsuccessimage;
 	}
+
+
+	public String getMinnumberjudgeforeachclub() {
+		return minnumberjudgeforeachclub;
+	}
+
+
+	public void setMinnumberjudgeforeachclub(String minnumberjudgeforeachclub) {
+		this.minnumberjudgeforeachclub = minnumberjudgeforeachclub;
+	}
+
+
+	public String getNumberoforganizreclub() {
+		return numberoforganizreclub;
+	}
+
+
+	public void setNumberoforganizreclub(String numberoforganizreclub) {
+		this.numberoforganizreclub = numberoforganizreclub;
+	}
+	
+	
 				
 }

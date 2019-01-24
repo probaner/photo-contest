@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +25,13 @@ import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
+import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
+import com.photo.contest.utility.FileCheckUtility;
 import com.photo.contest.utility.HtmlData;
-
-
+import com.photo.contest.utility.ImageResizeUtility;
+import com.photo.contest.utility.SavelFileFromBlobUtility;
 
 @Service
 public class CommonServices {
@@ -38,11 +42,17 @@ public class CommonServices {
 	private ConfigProperty configProperty;
 	@Autowired
 	HtmlData htmlData;
-
+	@Autowired
+	SavelFileFromBlobUtility savelFileFromBlobUtility;
+	@Autowired
+	ImageResizeUtility imageResizeUtility;
+	@Autowired
+	FileCheckUtility fileCheckUtility;
+	
 	public void setCommonUtil(CommonUtil commonUtil) {
 		this.commonUtil = commonUtil;
 	}
-
+	
 	public boolean userIsNative(UserDTO userDTO) {
 		List<String> netiveCountryList = Arrays.asList(configProperty.getNetiveCountry().split(","));
 		if (netiveCountryList.contains(userDTO.getCountry().toUpperCase()))
@@ -56,12 +66,7 @@ public class CommonServices {
 
 		String message=null;
 		
-		/*Optional<String> body = htmlData.getHeader(users.getLastName()+" "+users.getFirstName() , users.getEmail(), password);
-		if(body.isPresent()) {*/
-		
-		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
-
-		
+		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();		
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
 		
@@ -89,7 +94,6 @@ public class CommonServices {
 
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(users.getEmail());
-		
 		
 		mailRecipientDTO.setMessage("Registration Sucessful \n" +"User Id: "
 				+ users.getEmail() + "\n Password: " + password + 
@@ -159,6 +163,25 @@ public class CommonServices {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void sendJudgeRegistrationNotDone(String adminMail) throws MessagingException{
+		
+		MailRecipientDTO mailRecipientDTO = new MailRecipientDTO();
+		
+		mailRecipientDTO.setSender(configProperty.getMailsender());
+		mailRecipientDTO.setRecipient(adminMail);
+		mailRecipientDTO.setMessage("\n Hi Admin, \n Kindly Compleate Judge Registration Activity \n"+
+				                    " Minimum Number of Judge in Each Club: "+configProperty.getMinnumberjudgeforeachclub());
+		mailRecipientDTO.setSubject("Create Judge Profile");
+		try {
+		commonUtil.doSendEmail(mailRecipientDTO, null);
+		} catch (MailSendException | ConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 	}
 
 	public void sendCreateCouponCodeMailforaUser(Users users, String couponCode, String bcc) throws MessagingException{
@@ -369,5 +392,94 @@ public class CommonServices {
 	}
 	
 	
+	
+	
+	public void processImage(List<List<com.photo.contest.model.File>> fileProcessDataList, List<String> catagoryNameList) throws IOException {
+		
+		int counter=0;
+		 for(List<com.photo.contest.model.File> fileProcessData: fileProcessDataList) {
+			  String path = configProperty.getBasePath()+"/"+catagoryNameList.get(counter);
+			if(creatrDir(path)) {				
+		      for(com.photo.contest.model.File file: fileProcessData) {
+			      savelFileFromBlobUtility.save(path+"/"+file.getFileId()+".jpg",file.getFile());
+			      imageResizeUtility.imazeResize(path+"/"+file.getFileId()+".jpg",
+			    		                         path+"/"+file.getFileId()+".jpg", 200);			      
+		         }   
+	          }
+			counter++;
+		   }
+	     }
+	
+	public boolean creatrDir(String path) {
+		
+		if(fileCheckUtility.isExist(path))
+			return true;
+	    else 
+			 return fileCheckUtility.createDir(path);		
+	}
+	
+	
+	public TreeSet<Integer> getSavedFileId(String path) {
+		
+		TreeSet<Integer> imageIdList = null;
+		File[] filesArray = null;
+		if(fileCheckUtility.isExist(path)) {
+			filesArray = fileCheckUtility.getFileArrayOfaDirectory(path, ".jpg");
+			//System.out.println("filesArray size="+filesArray.length);
+		   }
+		if(filesArray!= null && filesArray.length > 0) {
+		   imageIdList = new TreeSet<Integer>();
+		   for(File file : filesArray) {
+			   if(file!=null && file.length()>0) {
+			      String id =file.getName().substring(0,file.getName().indexOf("."));
+			      if(id!=null && id.trim().length()>0) {
+				                                         //System.out.println("id:"+id);
+				                                         imageIdList.add(Integer.valueOf(id));
+			                                            }
+			                                      }                         
+			                              }			
+		   }		
+		return imageIdList;		
+	}
+	
+	public void judgeCreationStatus(List<Users> judgeList, List<Users> adminList, List<OrganizerClub> organizerClubList) {
+		
+		int minNumberJudgeForEachClub=	Integer.parseInt(configProperty.getMinnumberjudgeforeachclub());
+		int numberOfOrganizreClub=	Integer.parseInt(configProperty.getNumberoforganizreclub());
+		
+		
+		if(organizerClubList != null && organizerClubList.size() >0) {
+			
+			if (judgeList.size() > 0 && judgeList!=null) {
+				
+				for(OrganizerClub organizerClub: organizerClubList) {
+					
+					if(commonUtil.getFrequencyinList(judgeList,organizerClub) >= minNumberJudgeForEachClub){
+						
+					  }
+					else {
+						   
+					     }
+					
+				   }
+				
+			   }
+			else {
+				  if(adminList!= null && adminList.size() > 0) {
+				     for(Users user: adminList) {
+					     try {
+							   sendJudgeRegistrationNotDone(user.getEmail());
+						     } catch (MessagingException e) {
+							    // TODO Auto-generated catch block
+							    e.printStackTrace();
+						      }
+				         }
+				     }
+			     }
+			
+		  }
+		
+		
+	}
 
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.mail.MessagingException;
 
@@ -54,6 +55,7 @@ import com.photo.contest.exception.UserNotFoundException;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.DiscountData;
 import com.photo.contest.model.File;
+import com.photo.contest.model.ImageRating;
 import com.photo.contest.model.Judge;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.PayStatus;
@@ -66,6 +68,9 @@ import com.photo.contest.utility.CommonUtil;
 public class DbServices {
 	
 	public static Map<String, Integer> results = new HashMap<String, Integer>();
+	public static Map<String, TreeSet<Integer>> imageIdMap = new HashMap<>();
+	public static TreeSet<Integer> judgeIdList = new TreeSet<Integer>();
+	
 	public static String dbname =null;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -93,6 +98,7 @@ public class DbServices {
 	PaymentResponseDAO paymentResponseDAO;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	
 	public void setUsersDAO(UsersDAO usersDAO) {
 		this.usersDAO = usersDAO;
@@ -140,6 +146,8 @@ public class DbServices {
 		dbname= HibernateConfig.resourceBundle.getString("db.name");
 		return dbname;
 	}
+	
+	
 	
 	 
 
@@ -1094,6 +1102,88 @@ public class DbServices {
 		return response;
 		
 	}
+	
+	@Transactional
+	public void selectAllImageCategoryWise() throws IOException {
+	  	Category category = null;
+	  	List<List<File>> fileProcessDataList = new ArrayList<>();
+	  	List<String> catagoryNameList = new ArrayList<String>();
+	  	
+		if (results.size()>0){			
+			for (Map.Entry<String,Integer> entry : results.entrySet()){							
+				category = new Category();
+				category.setCategoryId(entry.getValue());
+				category.setCategoryName(entry.getKey());
+				catagoryNameList.add(entry.getKey());
+				List<File> fileProcessData = fileDetailDAO.getFileProcessData(category);
+				if(fileProcessData!=null && fileProcessData.size() >0)
+				   fileProcessDataList.add(fileProcessData);		
+			      }
+		   }
+		
+		if(fileProcessDataList!=null && fileProcessDataList.size()>0)
+		   commonService.processImage(fileProcessDataList, catagoryNameList);
+	}
+	
+	
+	public void processJudgingFile() throws IOException {		
+		selectAllImageCategoryWise();
+		for (Map.Entry<String,Integer> entry : results.entrySet()){	
+             TreeSet<Integer>  name = commonService.getSavedFileId(configProperty.getBasePath()+"/" + entry.getKey()); 
+             if(name!=null && name.size()>0)
+                imageIdMap.put(entry.getKey(), name);
+		    }
+	  }
+	
+	
+	@Transactional
+	public void processJudgingData() throws IOException {
+		
+	List<ImageRating> ImageRatingList = new ArrayList<>();
+	ImageRating imageRating = null;//.imageRating.new ImageRating();	
+	int minNumberJudgeForEachClub=	Integer.parseInt(configProperty.getMinnumberjudgeforeachclub());
+	int numberOfOrganizreClub=	Integer.parseInt(configProperty.getNumberoforganizreclub());
+	
+	List<Users> judgeList =  usersDAO.findUserByRole("judge");
+	List<Users> adminList =  usersDAO.findUserByRole("admin");
+	List<OrganizerClub> organizerClubList = organizerClubDAO.getOrganizerClubList("OrganizerClub");
+	
+	for(Users user: judgeList) 	
+		judgeIdList.add(user.getUserId());	
+	
+	if(judgeIdList.size()>=minNumberJudgeForEachClub*numberOfOrganizreClub){		
+		processJudgingFile();
+		System.out.println("imageIdMap="+imageIdMap);
+		for(Integer judgeId : judgeIdList) {
+			for(Map.Entry<String,TreeSet<Integer>> entry : imageIdMap.entrySet()) {
+				TreeSet<Integer> idSet =entry.getValue();
+				if(idSet.size() > 0) {
+				   for(Integer id : idSet) {
+				        imageRating = new ImageRating();
+				        imageRating.setFileId(id);
+				        imageRating.setJudgeId(judgeId);
+				        ImageRatingList.add(imageRating);
+				   }
+			   }}
+			
+		   }		
+	   }
+	else {
+		   
+	     }
+		
+	}
+	
+	/*@Transactional
+	public List<Users> getAdminData() throws IOException {
+				
+		List<Users> adminList =  usersDAO.findUserByRole("admin");
+		if(adminList!=null && adminList!=null)
+		   return adminList;
+		else 
+			 return new ArrayList<Users>();
+		
+	}*/
 	
 	
 }

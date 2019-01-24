@@ -49,7 +49,7 @@ public class WelcomeController {
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
 		model.put("homePageImage",configProperty.getHomepageImage());
-		
+		dbServices.processJudgingData();
 	        return new ModelAndView("home"); 
 	    }  
 			
@@ -61,8 +61,7 @@ public class WelcomeController {
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
 		model.put("homePageImage",configProperty.getHomepageImage());
-		
-	        return new ModelAndView("home"); 
+	    return new ModelAndView("home"); 
 	    } 
 	
 	@GetMapping("/getrulesandregulations")  

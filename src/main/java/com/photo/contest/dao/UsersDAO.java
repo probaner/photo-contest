@@ -286,17 +286,6 @@ public class UsersDAO {
 	}
 	
 	
-	/*public List findByExample(Users instance) {
-		log.debug("finding User instance by example");
-		try {
-			 //Session session = sessionFactory.getCurrentSession();
-			 List results = sessionFactory.getCurrentSession().createCriteria("com.photo.contest.model.Users").add(Example.create(instance)).list();
-			 log.debug("find by example successful, result size: " + results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
-	}*/
+	
 
 }

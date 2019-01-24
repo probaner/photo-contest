@@ -11,15 +11,19 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.photo.contest.dto.CategoryCountMap;
+import com.photo.contest.dto.FileProcessDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
 import com.photo.contest.dto.UserStatusDisplayDTO;
+import com.photo.contest.model.Category;
 import com.photo.contest.model.File;
+import com.photo.contest.model.Judge;
 import com.photo.contest.model.Users;
 
 @Repository
@@ -266,7 +270,28 @@ public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 			log.error("finding Category Wise FileCount of a User", re);
 			throw re;
 		}
-		
-		 
+				 
 	 }
+	 
+	 
+	 public List<File> getFileProcessData(Category category){
+		 
+		 log.debug("finding User instance by example");
+			try {
+				   Session session = sessionFactory.getCurrentSession();
+				   Criteria criteria = session.createCriteria(File.class);
+				                     criteria.add(Restrictions.eq("category",category));
+				                    
+				                     
+			       List<File> result = criteria.list();
+			      
+			   return result;
+				
+			} catch (RuntimeException re) {
+				log.error("find by example failed", re);
+				throw re;
+			}
+	 }
+	 
+	 
 }

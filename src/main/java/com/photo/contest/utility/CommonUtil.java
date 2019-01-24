@@ -12,7 +12,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -28,6 +30,7 @@ import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.exception.ErrorCode;
 import com.photo.contest.exception.ImageFormateException;
+import com.photo.contest.model.Users;
 
 
 
@@ -106,10 +109,11 @@ public class CommonUtil {
 		 SimpleMailMessage email = new SimpleMailMessage();
 		 email.setFrom(mailRecipientDTO.getSender());
 		 email.setTo(mailRecipientDTO.getRecipient());
+		 email.setBcc(configProperty.getMailsender());
 		 email.setSubject(mailRecipientDTO.getSubject());
 		 email.setText(mailRecipientDTO.getMessage());
-		 if(bcc!=null)
-		    email.setBcc(bcc);
+		 //if(bcc!=null)
+		   // email.setBcc(bcc);
 		 mailSender.send(email);
 		 return "success";
 		 		 
@@ -291,6 +295,13 @@ public String getPreviouDayDate(String date,int  diff)  {
 	return null;	
 }
 
-
+public int getFrequencyinList(List<?> objectList, Object object) {
+	
+	if(objectList.size() >0 && objectList!=null)
+		return Collections.frequency(objectList, object);
+	
+	return 0;
+	
+}
 	
   }
