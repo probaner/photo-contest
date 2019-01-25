@@ -44,9 +44,12 @@ public class JudgeCreateController {
 		  
 		 if (action.equals("registerJudge")) {
 			 
-			 if(judgeCreationDTO.getCategory()==null) {
+		  if(judgeCreationDTO.getCategory()==null) {
 			    model.addAttribute("judgeCreationError","Category for the Judge Should be Selected");
 		       }
+		 /* else if(judgeCreationDTO.getOrganizerclubName().trim().length()>0) {
+				model.addAttribute("judgeCreationError","Club Should be Selected for the Judge");
+			   }*/
 		     else {
 		    	    Users judge = dbServices.getJudge(judgeCreationDTO.getEmail());
 		    	    if(judge == null) {// if judge not exist

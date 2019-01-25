@@ -25,6 +25,7 @@ import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
+import com.photo.contest.model.Category;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
@@ -204,8 +205,17 @@ public class CommonServices {
 		mailRecipientDTO.setRecipient(configProperty.getMailsender());
 		//System.out.println(mailRecipientDTO.toString());
 		try {
-		commonUtil.doSendEmail(mailRecipientDTO, null);
-		} catch (MailSendException | ConnectException e) {
+			System.out.println("mailRecipientDTO="+mailRecipientDTO.toString());
+			MailRecipientDTO mailRecipientDTO1 = new MailRecipientDTO();
+			mailRecipientDTO1.setRecipient(mailRecipientDTO.getSender());
+			mailRecipientDTO1.setSender(mailRecipientDTO.getRecipient());
+			mailRecipientDTO1.setSubject(mailRecipientDTO.getSubject());
+			mailRecipientDTO1.setMessage(mailRecipientDTO.getMessage());
+		commonUtil.doSendEmail(mailRecipientDTO1, null);
+		} catch (MailSendException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ConnectException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -442,29 +452,30 @@ public class CommonServices {
 		return imageIdList;		
 	}
 	
-	public void judgeCreationStatus(List<Users> judgeList, List<Users> adminList, List<OrganizerClub> organizerClubList) {
+	public String judgeCreationStatus(List<Users> judgeList, List<Users> adminList, List<OrganizerClub> organizerClubList) {
 		
+	
 		int minNumberJudgeForEachClub=	Integer.parseInt(configProperty.getMinnumberjudgeforeachclub());
-		int numberOfOrganizreClub=	Integer.parseInt(configProperty.getNumberoforganizreclub());
-		
-		
+		//int numberOfOrganizreClub=	Integer.parseInt(configProperty.getNumberoforganizreclub());
+		String returnString="";
 		if(organizerClubList != null && organizerClubList.size() >0) {
 			
 			if (judgeList.size() > 0 && judgeList!=null) {
-				
+								
 				for(OrganizerClub organizerClub: organizerClubList) {
-					
-					if(commonUtil.getFrequencyinList(judgeList,organizerClub) >= minNumberJudgeForEachClub){
-						
+					 int count = commonUtil.getFrequencyinList(judgeList,organizerClub);
+					if(count >= minNumberJudgeForEachClub){
+					   
 					  }
 					else {
-						   
-					     }
-					
+						   returnString=returnString+ "Need to Create "+(minNumberJudgeForEachClub-count)+" more judge for club : "+organizerClub.getOrganizerclubname().toUpperCase()+"\n";					       
+					     }					
 				   }
 				
 			   }
 			else {
+				  returnString= "Judges list is empty, kindly create judge for all the club" 
+						         +"\nFollow the above instruction before try again";
 				  if(adminList!= null && adminList.size() > 0) {
 				     for(Users user: adminList) {
 					     try {
@@ -475,11 +486,54 @@ public class CommonServices {
 						      }
 				         }
 				     }
+				  
 			     }
 			
 		  }
+		if(returnString.length()>0)
+		   returnString =returnString+"\nFollow the above instruction before try again";	
+		return returnString;
+	}
+	
+	
+	public String judgeRegistrationStatus(List<Users> judgeList, List<Users> adminList, List<OrganizerClub> organizerClubList) {
+		String returnString="";
+		if (judgeList.size() > 0 && judgeList!=null) {
+			for(Users judge: judgeList) {
+				if(judge.getJudgeRegistrationToken()!=null)
+				   returnString	=returnString+ "Judge Nane: "+judge.getFirstName()+" "+judge.getLastName()+"\n"+
+				                  "Email: "+judge.getEmail()+"\n"+
+						          "Club Name: "+judge.getJudgeOrganizerClub().getOrganizerclubname()+"\n"+
+						          "Registration Not Yeat Done \n\n";				                   
+			   }
+			
+			
+		   }
+		else {
+			  returnString ="Judges list is empty, kindly create judge for all the club";					       
+		     }
 		
+		if(returnString.length()>0)
+			returnString =returnString+"\nFollow the above instruction before try again";	
+		return returnString;
 		
+	}
+	
+	public Map<Integer, List<String>> findCategoryForJudge(List<Users> judgeList){
+		Map<Integer, List<String>> map = new HashMap<>();
+		for(Users user: judgeList) {
+			Set<Category> categorySet=user.getJudgeCategoryMapping();
+			if(categorySet.size()>0) {
+				List<String> l = new ArrayList<>();
+			    for(Category category: categorySet) {
+			    	l.add(category.getCategoryName());
+			       }
+			    map.put(user.getUserId(), l);
+			   }
+			  
+		   }
+		System.out.println(map);
+		return map;
 	}
 
 }

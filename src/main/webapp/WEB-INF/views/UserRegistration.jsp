@@ -327,7 +327,7 @@ color: red !important;
 				},
 				email: "Please enter a valid email address",
 				country : {
-					required: "Select your Counter" 
+					        required: "Please select your Counter" 
 				          }
 				
 				

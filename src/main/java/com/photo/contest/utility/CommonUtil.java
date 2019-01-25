@@ -30,6 +30,7 @@ import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.exception.ErrorCode;
 import com.photo.contest.exception.ImageFormateException;
+import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.Users;
 
 
@@ -295,11 +296,16 @@ public String getPreviouDayDate(String date,int  diff)  {
 	return null;	
 }
 
-public int getFrequencyinList(List<?> objectList, Object object) {
-	
-	if(objectList.size() >0 && objectList!=null)
-		return Collections.frequency(objectList, object);
-	
+public int getFrequencyinList(List<Users> judgeList, OrganizerClub organizerClub) {
+	int counter=0;
+	if(judgeList.size() >0 && judgeList!=null) {
+		for(Users u : judgeList) {
+			if(u.getJudgeOrganizerClub().equals(organizerClub)) {
+				counter++;				
+			  }
+		}
+		return counter;
+	}
 	return 0;
 	
 }

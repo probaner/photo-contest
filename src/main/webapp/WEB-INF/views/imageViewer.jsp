@@ -11,7 +11,7 @@
 			<li class="active"><a href="#1" data-toggle="tab">Colour</a></li>
 			<li>               <a href="#2" data-toggle="tab">Monochrome</a></li>
 			<li>			   <a href="#3" data-toggle="tab">Nature</a></li>
-			<li>			   <a href="#4" data-toggle="tab">Photo Journalism</a></li>
+			<li>			   <a href="#4" data-toggle="tab">Photo Travel</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -183,8 +183,8 @@ $(document).ready(function()
 			     		  myCarousel1Loader.hide();
 		     		}	  
 			     		  
-		     		if(result.data['photojournalism']){    
-		     		 result.data['photojournalism'].forEach(function(element, i) {
+		     		if(result.data['phototravel']){    
+		     		 result.data['phototravel'].forEach(function(element, i) {
 			     			$('<div class="item"><img src="data:image/jpg;base64,'+element.encodedString+'"><div class="container"><div class="carousel-caption"><div class="form-group">   <label for="'+element.positionName+'">Title:</label>   <input type="text" class="form-control" id="'+element.positionName+'" value="'+element.titel+'">   <p><a class="btn btn-primary btn-sm" onClick="#">save</a> </div></div></div></div>').appendTo('#myCarousel4 > .container> .carousel-inner');
 			     		    $('<li data-target="#myCarousel4" data-slide-to="'+i+'"></li>').appendTo('#myCarousel4 > .carousel-indicators');
 			     		});

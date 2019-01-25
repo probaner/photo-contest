@@ -33,13 +33,13 @@ public class SelectData {
 	}
 	
 	
-	public List<String> organizerClubList(List<OrganizerClub> organizerClubDTOList) {
+	public Map<String,String> organizerClubList(List<OrganizerClub> organizerClubDTOList) {
 
-		List<String> clubData = new ArrayList<String>();
-		clubData.add(0, "select club name");
+		Map<String,String> clubData = new HashMap<>();
+		clubData.put("", "select club name");
 		if (organizerClubDTOList.size() > 0) {
 			for (OrganizerClub organizerClub : organizerClubDTOList) {
-				 clubData.add(organizerClub.getOrganizerclubname());
+				 clubData.put(organizerClub.getOrganizerclubname(), organizerClub.getOrganizerclubname());
 			    }
 		   }
 		 return clubData;

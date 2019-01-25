@@ -1137,21 +1137,45 @@ public class DbServices {
 	
 	
 	@Transactional
-	public void processJudgingData() throws IOException {
+	public String processJudgingData() throws IOException {
 		
-	List<ImageRating> ImageRatingList = new ArrayList<>();
+	List<ImageRating> imageRatingList = new ArrayList<>();
 	ImageRating imageRating = null;//.imageRating.new ImageRating();	
-	int minNumberJudgeForEachClub=	Integer.parseInt(configProperty.getMinnumberjudgeforeachclub());
-	int numberOfOrganizreClub=	Integer.parseInt(configProperty.getNumberoforganizreclub());
-	
+	 
+	String responce=""; 
 	List<Users> judgeList =  usersDAO.findUserByRole("judge");
 	List<Users> adminList =  usersDAO.findUserByRole("admin");
 	List<OrganizerClub> organizerClubList = organizerClubDAO.getOrganizerClubList("OrganizerClub");
 	
-	for(Users user: judgeList) 	
-		judgeIdList.add(user.getUserId());	
+		
+	//check min-number of judges are ctrated for all club
+	responce=commonService.judgeCreationStatus(judgeList,adminList,organizerClubList);	
+	if(responce.length()==0) {
+		//check all judes registration done for all club
+		responce=commonService.judgeRegistrationStatus(judgeList,adminList,organizerClubList);
+		//if(responce.length()==0) {
+		    processJudgingFile();
+			Map<Integer, List<String>> map=commonService.findCategoryForJudge(judgeList);
+			if(map.size()>0) {
+			  for(Map.Entry<Integer, List<String>> entry : map.entrySet()) {
+				  List<String> judgeCatecoryList = entry.getValue();
+				  for(String categoryName: judgeCatecoryList) {
+					  TreeSet<Integer> categoryIdList = imageIdMap.get(categoryName);
+					  for(Integer imageid:categoryIdList) {
+						  imageRating = new ImageRating();
+						  imageRating.setFileId(imageid);
+						  imageRating.setJudgeId(entry.getKey());
+						  imageRatingList.add(imageRating);
+					      }
+				     }
+					
+				 }
+			   }
+		 // }	
+		  
+	  }
 	
-	if(judgeIdList.size()>=minNumberJudgeForEachClub*numberOfOrganizreClub){		
+	/*if(judgeIdList.size()>=minNumberJudgeForEachClub*numberOfOrganizreClub){		
 		processJudgingFile();
 		System.out.println("imageIdMap="+imageIdMap);
 		for(Integer judgeId : judgeIdList) {
@@ -1170,20 +1194,13 @@ public class DbServices {
 	   }
 	else {
 		   
-	     }
-		
+	     }*/
+	System.out.println(imageRatingList);
+	System.out.println(responce);
+	  return responce;
+	
 	}
 	
-	/*@Transactional
-	public List<Users> getAdminData() throws IOException {
-				
-		List<Users> adminList =  usersDAO.findUserByRole("admin");
-		if(adminList!=null && adminList!=null)
-		   return adminList;
-		else 
-			 return new ArrayList<Users>();
-		
-	}*/
 	
 	
 }

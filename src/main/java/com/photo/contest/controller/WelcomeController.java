@@ -49,7 +49,7 @@ public class WelcomeController {
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
 		model.put("homePageImage",configProperty.getHomepageImage());
-		dbServices.processJudgingData();
+		//dbServices.processJudgingData();
 	        return new ModelAndView("home"); 
 	    }  
 			

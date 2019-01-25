@@ -133,7 +133,7 @@ public class UserLoginController {
 						List<String> clubDataList = selectData.clubData(clubDTOData);
 						
 						List<OrganizerClub> organizerClubDTOList = dbServices.getOrganizerClubList();
-						List<String> organizerclubList = selectData.organizerClubList(organizerClubDTOList);
+						Map<String,String> organizerclubList = selectData.organizerClubList(organizerClubDTOList);
 						
 						Map<String, Integer> categoryMap = dbServices.results;
 						List<String> categoryList = selectData.getCategoryList(categoryMap);

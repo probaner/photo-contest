@@ -295,7 +295,7 @@ div.ex11 {
 				<div id="collapse3" class="panel-collapse collapse">
 
 					<div class="row">
-						<form:form action="createJudge" method="post"
+						<form:form action="createJudge" method="post" id="judgeCreateForm"
 							modelAttribute="judgeCreationDTO">
 
 							<div class="col-sm-9">
@@ -316,8 +316,10 @@ div.ex11 {
 										placeholder="Enter Email" required="autofocus" />
 									<p></p>
 									<p></p>
-									<form:select class="form-control" path="organizerclubName"
+									<form:select class="form-control" path="organizerclubName" id="organizerclubName"
 										items="${organizerclubList}" />
+									<p></p>
+									<p></p>
 								</div>
 								<div class="container">
 									<div
@@ -329,11 +331,10 @@ div.ex11 {
 											<!-- List group -->
 											<ul class="list-group">
 												<li class="list-group-item">
-												<c:forEach items="${categoryList}" var="categoryListValue">   
-                                
-                                           ${categoryListValue}
-                       <div class="material-switch pull-right">
-															<input id=${categoryListValue } name=category
+												<c:forEach items="${categoryList}" var="categoryListValue">                   
+                                                          ${categoryListValue}
+                                                          <div class="material-switch pull-right">
+														  <input id=${categoryListValue } name=category
 																type="checkbox" value="${categoryListValue}" /> <label
 																for=${categoryListValue } class="label-success"></label>
 														</div>
@@ -692,6 +693,70 @@ $(document).ready(function($)
     $('#myModalFullscreen').on('hidden.bs.modal', function () {
         // do something…
     })
+    
+    
+    $.validator.addMethod(
+		        "regex",
+		        function(value, element, regexp) {
+		            var re = new RegExp(regexp);
+		            return this.optional(element) || re.test(value);
+		        },
+		        "Please check your input."
+		);
+		
+		 
+		$("#judgeCreateForm").validate({
+			rules: {					
+					firstname: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+						         minlength: 1,
+						         maxlength: 50,
+						         lettersonly: false 
+					           },
+					lastname: { required: {
+				        depends:function(){
+				            $(this).val($.trim($(this).val()));
+				            return true;
+				        }
+				    },
+				                minlength: 1,
+				                maxlength: 50,
+				                lettersonly: false
+				                
+			                  },
+			                  email: {
+							             required: true,
+							             email: true
+						           },
+				organizerclubName: { 
+							           required: true
+							        }
+					        
+					},
+					messages: {
+						firstname: {required: "Please enter your firstname",
+							        minlength: "Your firstname must be at least 1 characters long",
+					                maxlength: "Your firstname not more then 50 characters",
+							        lettersonly: "Only letter are allowed"
+						           }, 
+						lastname: {required: "Please enter your lastname",
+					               minlength: "Your lastname must be at least 1 characters long",
+			                       maxlength: "Your lastname not more then 50 characters",
+					               lettersonly: "Only letter are allow"
+				                  },
+				                  
+				               email: "Please enter a valid email address",
+			  organizerclubName : "Select a club for judge" 
+								  
+								
+								
+							}
+							
+						});
 	
 });
 </script>
