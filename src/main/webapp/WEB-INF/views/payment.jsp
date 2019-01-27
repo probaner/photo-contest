@@ -158,11 +158,10 @@ $().ready(function() {
      $('#thanks').hide();
      paypal.Button.render({
 
-         env: 'sandbox', // sandbox | production
-
+    	 env: 'production', // sandbox | production
          client: {
-             sandbox:   'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-             production: '<insert production client id>'
+             //sandbox:   'AUecgSNVeYAdV4m-wuyIdskGZ3lth58uebI2RWfd7mZa9My3XzCBqDgFrrVukATZj8jpX5Mz5n1GJ127',
+             production: 'AQfTguKhN-Jex6kglepPCZDKOrkobeFt8770exbeb0TsjdYAYf7_fgK9zl9ToelnVc-xsfjjKrdzHbQO'
          },
 
          payment: function(data, actions) {

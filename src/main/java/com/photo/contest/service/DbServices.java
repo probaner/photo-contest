@@ -26,6 +26,7 @@ import com.photo.contest.config.HibernateConfig;
 import com.photo.contest.dao.CategoryDAO;
 import com.photo.contest.dao.DiscountDataDAO;
 import com.photo.contest.dao.FileDetailDAO;
+import com.photo.contest.dao.ImageRatingDAO;
 import com.photo.contest.dao.JudgeDAO;
 import com.photo.contest.dao.OrganizerClubDAO;
 import com.photo.contest.dao.PayStatusDAO;
@@ -96,6 +97,8 @@ public class DbServices {
 	private JudgeDAO judgeDAO;
 	@Autowired
 	PaymentResponseDAO paymentResponseDAO;
+	@Autowired
+	ImageRatingDAO imageRatingDAO;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -1097,8 +1100,8 @@ public class DbServices {
 		     }
 		
 		
-		for(UserFileTitelListDTO f : findTitelListAndCategoryIndex)
-		System.out.println(f.toString());			
+		//for(UserFileTitelListDTO f : findTitelListAndCategoryIndex)
+		//System.out.println(f.toString());			
 		return response;
 		
 	}
@@ -1116,11 +1119,14 @@ public class DbServices {
 				category.setCategoryName(entry.getKey());
 				catagoryNameList.add(entry.getKey());
 				List<File> fileProcessData = fileDetailDAO.getFileProcessData(category);
+				System.out.println("fileProcessData="+fileProcessData.size());
 				if(fileProcessData!=null && fileProcessData.size() >0)
 				   fileProcessDataList.add(fileProcessData);		
 			      }
-		   }
-		
+			//System.out.println("fileProcessDataList="+fileProcessDataList.size());
+		   }else{
+		          System.out.println("File Not Found");
+		        }
 		if(fileProcessDataList!=null && fileProcessDataList.size()>0)
 		   commonService.processImage(fileProcessDataList, catagoryNameList);
 	}
@@ -1133,6 +1139,8 @@ public class DbServices {
              if(name!=null && name.size()>0)
                 imageIdMap.put(entry.getKey(), name);
 		    }
+		
+		//System.out.println("imageIdMap="+imageIdMap);
 	  }
 	
 	
@@ -1161,17 +1169,20 @@ public class DbServices {
 				  List<String> judgeCatecoryList = entry.getValue();
 				  for(String categoryName: judgeCatecoryList) {
 					  TreeSet<Integer> categoryIdList = imageIdMap.get(categoryName);
+					  if(categoryIdList!=null){
 					  for(Integer imageid:categoryIdList) {
 						  imageRating = new ImageRating();
 						  imageRating.setFileId(imageid);
 						  imageRating.setJudgeId(entry.getKey());
-						  imageRatingList.add(imageRating);
+						  imageRatingDAO.attachDirty(imageRating);
+						  //imageRatingList.add(imageRating);
 					      }
+					  }
 				     }
 					
 				 }
 			   }
-		 // }	
+		  //}	
 		  
 	  }
 	
@@ -1195,8 +1206,8 @@ public class DbServices {
 	else {
 		   
 	     }*/
-	System.out.println(imageRatingList);
-	System.out.println(responce);
+	//System.out.println(imageRatingList);
+	//System.out.println(responce);
 	  return responce;
 	
 	}
