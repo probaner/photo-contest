@@ -409,13 +409,13 @@ public class CommonServices {
 		int counter=0;
 		 for(List<com.photo.contest.model.File> fileProcessData: fileProcessDataList) {
 			  String path = configProperty.getBasePath()+"/"+catagoryNameList.get(counter);
-			if(creatrDir(path)) {				
+			if(creatrDir(path)) {
 		      for(com.photo.contest.model.File file: fileProcessData) {
 			      savelFileFromBlobUtility.save(path+"/"+file.getFileId()+".jpg",file.getFile());
 			      imageResizeUtility.imazeResize(path+"/"+file.getFileId()+".jpg",
 			    		                         path+"/"+file.getFileId()+".jpg", 200);			      
 		         }   
-	          }
+	          }else{System.out.println("dir not able to create");}
 			counter++;
 		   }
 	     }
@@ -532,7 +532,7 @@ public class CommonServices {
 			   }
 			  
 		   }
-		System.out.println(map);
+		//System.out.println(map);
 		return map;
 	}
 
