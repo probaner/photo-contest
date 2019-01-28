@@ -593,7 +593,7 @@ public class DbServices {
 	@Transactional
 	public Map<String,List<?>> getPaystatusCountryWise() {
 
-		String sql = "select dset1.country, \n" + 
+		/*String sql = "select dset1.country, \n" + 
 				"CASE WHEN dset1.paying_status='Paid' THEN dset1.user_cnt ELSE 0 END 'paid', \n" + 
 				"CASE WHEN dset1.paying_status='Being Check' THEN dset1.user_cnt ELSE 0 END 'unpaid' \n" + 
 				"from \n" + 
@@ -601,6 +601,17 @@ public class DbServices {
 				"select usr.country, pst.paying_status, count(pst.user_id) user_cnt from \n" + 
 				getDBName()+".pay_status pst inner join "+getDBName()+".users usr \n" + 
 				"on pst.user_id=usr.user_id group by usr.country, pst.paying_status\n" + 
+				") dset1 ";*/
+		
+		
+		String sql = "select dset1.country, \n" + 
+				"CASE WHEN dset1.paying_status='Paid' and dset1.role='participate' THEN dset1.user_cnt ELSE 0 END 'paid', \n" + 
+				"CASE WHEN dset1.paying_status='Being Check' and dset1.role='participate' THEN dset1.user_cnt ELSE 0 END 'unpaid' \n" + 
+				"from \n" + 
+				"(\n" + 
+				"select usr.country, usr.role, pst.paying_status, count(pst.user_id) user_cnt from \n" + 
+				getDBName()+".pay_status pst inner join "+getDBName()+".users usr \n" + 
+				"on pst.user_id=usr.user_id group by usr.country, usr.role, pst.paying_status\n" + 
 				") dset1 ";
 
 		//List<PaystatusGraphDTO> paystatusGraphDTOList = payStatusDAO.fetchSql(sql);
