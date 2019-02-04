@@ -127,6 +127,8 @@ PDF Catalog on-line and awards mailed  : <b> By May 30, 2019</b>&nbsp&nbsp&nbsp&
   <p align="center">1 Chairman's Award  </p>
   <p align="center">3 Judge's Choice Awards  </p>
   <p align="center">2 Honourable  Mention Ribbons </p>
+  <p align="center">more then 72 E-CM </p>
+   
   
   <p align="center">Our target range of acceptance is to have 30-35% of the images accepted. </p>
   <p align="center"> We intend to award additional Circuit Silver and Circuit Bronze Medals in each section of each salon based upon quantity and quality of entries</p>
