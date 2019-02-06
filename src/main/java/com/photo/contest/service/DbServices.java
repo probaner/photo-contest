@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.itextpdf.text.DocumentException;
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.config.HibernateConfig;
 import com.photo.contest.dao.CategoryDAO;
@@ -41,6 +42,7 @@ import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.dto.JudgeTableDTO;
 import com.photo.contest.dto.LogingResponseDTO;
+import com.photo.contest.dto.OrganizerClubDTO;
 import com.photo.contest.dto.PayPalPaymentResponseDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.ResponseDTO;
@@ -63,6 +65,7 @@ import com.photo.contest.model.PayStatus;
 import com.photo.contest.model.PaymentResponse;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
+import com.photo.contest.utility.ResultPDFUtility;
 
 
 @Service
@@ -101,7 +104,8 @@ public class DbServices {
 	ImageRatingDAO imageRatingDAO;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+	@Autowired
+	ResultPDFUtility resultPDFUtility;
 	
 	public void setUsersDAO(UsersDAO usersDAO) {
 		this.usersDAO = usersDAO;
@@ -900,7 +904,7 @@ public class DbServices {
 	
 	
 	@Transactional
-	public void updateJudgeTableData(JudgeTableDTO judgeTableDTO) {
+	public void updateJudgeTableData(JudgeTableDTO judgeTableDTO, UserDTO userDTO) {
 		
 		Users judge = usersDAO.findById(judgeTableDTO.getJudgeId());
 	
@@ -909,8 +913,7 @@ public class DbServices {
 		judge.setCreatedOn(commonUtil.sqlDateTime());
 		Map<String, String> categoryMap = judgeTableDTO.getCategory();
 		Set<Category> categorySet = new HashSet<>();
-		for(Map.Entry<String,String> entry : categoryMap.entrySet()) {			
-			
+		for(Map.Entry<String,String> entry : categoryMap.entrySet()) {						
 			   if(entry.getValue().toUpperCase().equals("Y")) {
 			   Category category = new Category();
 			   category.setCategoryName(entry.getKey());
@@ -920,8 +923,14 @@ public class DbServices {
 			  }
 			
 		   }
-		judge.setJudgeCategoryMapping(categorySet);
 		
+		judge.setJudgeCategoryMapping(categorySet);
+		judge.setCreatedBy(String.valueOf(userDTO.getUserid()));
+		judge.setLastLoggin(commonUtil.sqlDateTime());
+		if(judgeTableDTO.getOrganizerclubName()!=null) {
+			OrganizerClub organizerClub = organizerClubDAO.findByOrganizerClubName(judgeTableDTO.getOrganizerclubName());
+		    judge.setJudgeOrganizerClub(organizerClub);
+		}
 		System.out.println("judge="+judge.toString());
 		usersDAO.attachDirty(judge);
 		
@@ -1223,6 +1232,36 @@ public class DbServices {
 	
 	}
 	
+	/*@Transactional
+	public void createReport() {
+		
+		List<OrganizerClub> organizerClubList=organizerClubDAO.getOrganizerClubList("OrganizerClub");
+		
+	try {
+		   
+		  resultPDFUtility.mainC("100007345876", "chandan chakraborty", results, organizerClubList);
+	    } catch (IOException | DocumentException e) {
+		                                              e.printStackTrace();
+	                                                }
+		
+	                          }*/
+	
+	@Transactional
+	public List<OrganizerClubDTO> getOrganizerClubDTOList() {
+		List<OrganizerClubDTO> organizerClubDTOList = new ArrayList<>();
+		List<OrganizerClub> organizerClubList=organizerClubDAO.getOrganizerClubList("OrganizerClub");
+		if(organizerClubList.size()>0) {
+			for(OrganizerClub organizerClub: organizerClubList) {
+				OrganizerClubDTO organizerClubDTO = new OrganizerClubDTO();
+				organizerClubDTO.setOrganizerClubId(organizerClub.getOrganizerclubid());
+				organizerClubDTO.setOrganizerClubName(organizerClub.getOrganizerclubname());
+				organizerClubDTOList.add(organizerClubDTO);
+			   }
+		}
+		
+		return organizerClubDTOList;
+		
+	}
 	
 	
 }

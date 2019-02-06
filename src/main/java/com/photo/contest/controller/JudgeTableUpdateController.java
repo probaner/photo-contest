@@ -39,16 +39,13 @@ public class JudgeTableUpdateController {
 			
 		   if(judgeTableDTO.getCategory().size() >0) {
 			   List<Object> valueList = judgeTableDTO.getCategory().values().stream().collect(Collectors.toList());			   			   
-			   if(valueList.contains("Y")) {
-				  
-				  dbServices.updateJudgeTableData(judgeTableDTO);
+			   if(valueList.contains("Y")) {				  
+				  dbServices.updateJudgeTableData(judgeTableDTO, userDTO);
 				  responseDTO.setMessage("Successfully Edited");
 			     }
 			   else
 				   responseDTO.setMessage("Category for the Judge Should be Selected");			   
-		     }
-		   
-				
+		     }				
 		
         }else
 	          responseDTO.setError(new Error("Found some Problems, Contact to Admin Team"));

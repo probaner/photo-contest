@@ -625,14 +625,15 @@ $(document).ready(function($)
        			return judge
        		});
        		
-       		
+       		var organizerclublist = data.organigerClubList;	
        	   
        	var jsonObj = data.data[0].category;
        	var fieldsGenerated = [];
        	 fieldsGenerated.push( { name: "judgeId", type: "number", width: 10 , align: "center" , editing: false});
        	 fieldsGenerated.push(  { name: "judgeFirstname", type: "text", width: 20 , align: "center", editing: false});
        	 fieldsGenerated.push(  { name: "judgeLastname", type: "text", width: 20 , align: "center", editing: false});
-       	 fieldsGenerated.push( { name: "organizerclubName", type: "text", width: 25 , align: "center", editing: false});
+       	 /* fieldsGenerated.push( { name: "organizerclubName", type: "text", width: 25 , align: "center", editing: false}); */
+       	 fieldsGenerated.push( { name: "organizerclubName", type: "select", items: organizerclublist, valueField: "organizerClubName", textField: "organizerClubName",width: 20 ,align: "center"});
        	
        	for (var key in jsonObj) {
        		fieldsGenerated.push( { name: key, type: "checkbox",  width: 5 , sorting: false });
