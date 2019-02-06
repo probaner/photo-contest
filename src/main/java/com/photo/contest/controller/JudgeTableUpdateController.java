@@ -31,10 +31,10 @@ public class JudgeTableUpdateController {
 	@RequestMapping(value = "/admin/json/updatejudgetable")
 	public @ResponseBody ResponseDTO updateedittableJson(@RequestBody JudgeTableDTO judgeTableDTO,ModelMap model) throws  BusinessException {
 		
-		System.out.println("judgeTableDTO="+judgeTableDTO.toString());
+		//System.out.println("judgeTableDTO="+judgeTableDTO.toString());
 		ResponseDTO responseDTO = new ResponseDTO();
 		UserDTO userDTO = (UserDTO) model.get("userForm");
-		System.out.println("userDTO="+userDTO.toString());
+		//System.out.println("userDTO="+userDTO.toString());
 		if(judgeTableDTO!=null) {
 			
 		   if(judgeTableDTO.getCategory().size() >0) {
