@@ -11,6 +11,7 @@ public class EditTableDataDTO {
      private String lastName;
      private String state;
      private String payingStatus;
+     private String email;
      
      
 	public EditTableDataDTO() {
@@ -20,7 +21,7 @@ public class EditTableDataDTO {
 
 
 	public EditTableDataDTO(int userId, String address, String city, String club, String country, String firstName,
-			String lastName, String state, String payingStatus) {
+			String lastName, String state, String payingStatus, String email) {
 		super();
 		this.userId = userId;
 		this.address = address;
@@ -31,6 +32,7 @@ public class EditTableDataDTO {
 		this.lastName = lastName;
 		this.state = state;
 		this.payingStatus = payingStatus;
+		this.email = email;
 	}
 
 
@@ -121,6 +123,17 @@ public class EditTableDataDTO {
 
 	public void setPayingStatus(String payingStatus) {
 		this.payingStatus = payingStatus;
+	}
+
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 
