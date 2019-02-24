@@ -138,18 +138,27 @@ PDF Catalog on-line and awards mailed  : <b> By May 30, 2019</b>&nbsp&nbsp&nbsp&
 <div class="container">
   <div class="page-header">
   <h4 align="center"><b>JUDGES</b></h4>      
-  <p align="center">[1] BEAUTY BISWAS &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
-                    [2] HARRY ORAN &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
-                    [3] JHINKU MISHRA &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+  <p align="center"><p><b>[1] SHI Qi </b>[EFIAP, HON.FUPHK, FUPHK, FICS, FSAP, ES.USPA, HON.FICS, HON.FPI, 
+                                HOS.UPHK, AAPA, AHKYMTPA, Hon. PESGSPC
+                                Vice President of UPHK] </p> 
+                   <p> <b>[2] WONG YIU WAH WILSON </b>[AFIAP, LRPS, HON.FUPHK, AUPHK, Hon UPHK, AICS, LUSPA, ANCPA, AAPA, H.O.S.UPHK
+                                             Vice President of UPHK] </p> 
+                    <b>[3] TSE KWOK KEI DANIEL </b>[MPSA2, PSA Galaxy (PIDC. PIDM, ND, PTD, PJD), Who’s Who Top Five (PJD 2016),
+                                             EFIAP/b, GPU CR3, GMUPHK, FUPHK, HON.FUPHK, HOS. UPHK, HS.UPHK, MSAP(INDIA), 
+                                             HON.FICS(USA), HON.EUSPA(USA), HON.EFMPA(USA), HON.FSAP(INDIA), HON.FPI(INDIA), 
+                                             HON.PESGSPC(CYPRUS), Hon.E IUSF(USA), AHKYMTPA, AGPC, ANCPA(USA), AHKAPA, AUAPA, 
+                                             APSEA, ACHKFPA, ACFPA(CHINA), AICS(USA), ASWAN(USA), AUSPA(USA), 
+                                             Chairman Greater China Region Affairs, ICS USA
+                                             President of UPHK] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
                     </p>
-  <p align="center">[4] NABANITA PRADHAN &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
-                    [5] NIRMALYA BHATTACHARYA &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    [6] SASWATI CHAKRABORTY &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+  <p align="center"><b>[4] NABANITA PRADHAN </b>[photojournalist] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+                    <b>[5] NIRMALYA BHATTACHARYA </b>[EFIAP] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <b>[6] SASWATI CHAKRABORTY </b>[EFIAP, BPSA] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
                     </p>
   <p align="center">                  
-                    [7] SUBRATA ADHIKARY &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    [8] SUDIPTA DAS &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    [9] TAMANNA BERA &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <b>[7] SUBRATA ADHIKARY </b>[EFIAP] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <b>[8] SUDIPTA DAS </b>[photojournalist] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <b>[9] TAMANNA BERA </b>[photojournalist] &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     </p>
 </div></div>
 <div class="container">
@@ -161,9 +170,9 @@ PDF Catalog on-line and awards mailed  : <b> By May 30, 2019</b>&nbsp&nbsp&nbsp&
     <p style="text-align: justify">The images must be in JPG format. We urge you to submit your images in sRGB to assure that they conform to 
                                    how they will be displayed by our equipment. A maximum of 4 images may be submitted per section. The images do not 
                                    have to be renamed. The entry form will rename them for you. Each image must have a unique title. 
-                                   Images must have titles; words such as “untitled” or “no title' are not acceptable as part or all of an 
+                                   Images must have titles; words such as âuntitledâ or âno title' are not acceptable as part or all of an 
                                    images title, nor are camera capture file names or titles consisting of only numbers. Once an image has 
-                                   been accepted in a PSA recognized exhibition, that same image or a like “in camera” or a “reproduction” duplicate 
+                                   been accepted in a PSA recognized exhibition, that same image or a like âin cameraâ or a âreproductionâ duplicate 
                                    may not be re-entered in any section of the same Division Star Ratings Class in that exhibition regardless of media, 
                                    format or title, nor may it be re-titled for entry in any other PSA recognized exhibition.</p>
      <p style="text-align: justify; font-weight: bold; color: #FF0000;">Image File Dimensions and Size</p> 
@@ -171,7 +180,7 @@ PDF Catalog on-line and awards mailed  : <b> By May 30, 2019</b>&nbsp&nbsp&nbsp&
      <p style="text-align: justify; font-weight: bold; color: #FF0000;">We will judge all images at 100% of the image size submitted. We will not alter, 
                                    including resizing in either direction, any image either before or during judging; either by us or by our equipment. 
                                    Any image exceeding these maximums will be rejected. </p>
-     <p style="text-align: justify;  color: #FF0000;">An entrant images will not be presented to the judges consecutively. An entrant’s four images will be 
+     <p style="text-align: justify;  color: #FF0000;">An entrant images will not be presented to the judges consecutively. An entrantâs four images will be 
      distributed throughout four rounds of judging for each section. Distribution of images shall be in the same round order as submitted by the entrant.</p>                              
                                   
    </br></br>
@@ -192,11 +201,11 @@ PDF Catalog on-line and awards mailed  : <b> By May 30, 2019</b>&nbsp&nbsp&nbsp&
    <p align="center"><b>General Rules </b></p>
    <p style="text-align: justify">The exhibition is open to anyone; however, an entry may be rejected when the sponsoring organization or its agent, in its reasonable discretion, believes the entry does not conform to the exhibition rules and conditions.
    
-              An entrant’s images will not be presented to the judges consecutively. 
+              An entrantâs images will not be presented to the judges consecutively. 
 </br></br>An entrant four images will be distributed throughout four rounds of judging in that section. Distribution of images shall be in the same round order as submitted by the entrant.
 
 </br><br>Entries must originate as photographs (image-captures of objects via light sensitivity) made by the entrant on photographic emulsion or acquired digitally. By virtue of submitting an entry, the entrant certifies the work as his own (aliases are not permitted). 
-The entrant permits the sponsors to reproduce all or part of the entered material free of charge for publication and/or display in media related to the exhibition. This may include low resolution posting on a website. <b>Note: </b>Entrants who indicate that their images may not be reproduced or used “will not be eligible for awards” or inclusion in audio-visuals of the exhibition “and could be subject to disqualification” by the exhibition sponsors.
+The entrant permits the sponsors to reproduce all or part of the entered material free of charge for publication and/or display in media related to the exhibition. This may include low resolution posting on a website. <b>Note: </b>Entrants who indicate that their images may not be reproduced or used âwill not be eligible for awardsâ or inclusion in audio-visuals of the exhibition âand could be subject to disqualificationâ by the exhibition sponsors.
 
 </br></br>The exhibition assumes no liability of any misuse of copyright. Images may be altered, either electronically or otherwise, by the maker. Artwork or computer graphics created by the entrant may be incorporated provided the photographic content predominates, subject to Nature, Photo Travel and Photojournalism divisional restrictions. All final work
 
@@ -204,7 +213,7 @@ must be on photographic film, or on electronic file, or on photographic or elect
 
 </br></br>No title or identification of the maker shall be visible anywhere on the face of an image, print mat or mount entered in a PSA Recognized exhibition.
 
-</br></br>Each image must have a unique title. Once an image has been accepted in a PSA Recognized exhibition, that same image, or a like “in camera” or a “reproduction” duplicate of that image:
+</br></br>Each image must have a unique title. Once an image has been accepted in a PSA Recognized exhibition, that same image, or a like âin cameraâ or a âreproductionâ duplicate of that image:
 
 </br><b>i.</b> May not be entered or re-entered in any section of the same Division Star Ratings class in that exhibition regardless of media, format, or title.
 
@@ -214,7 +223,7 @@ must be on photographic film, or on electronic file, or on photographic or elect
 
 </br><b>iv.</b> PSA members working on Galaxy and Diamond Star Ratings shall be allowed to continue using different titles of monochrome versions and color versions of the same capture that have already been accepted until the required number of acceptances for those titles have been completed.
 
-<br>Words such as “Untitled” and “No Title” are not acceptable as part or all of an image’s title, nor are camera capture filenames. An image may be entered in only one section where acceptances of that image in multiple sections would be eligible for the same star path. </p>
+<br>Words such as âUntitledâ and âNo Titleâ are not acceptable as part or all of an imageâs title, nor are camera capture filenames. An image may be entered in only one section where acceptances of that image in multiple sections would be eligible for the same star path. </p>
    
    
    
@@ -228,7 +237,7 @@ must be on photographic film, or on electronic file, or on photographic or elect
                                    
  <!--  <p style="text-align: justify; font-weight: bold;"> 1. The exhibition is open to anyone; however, an entry may be rejected when the sponsoring organization or its agent, 
     in its reasonable discretion, believes the entry does not conform to the exhibition rules and conditions.</p>
-   <p style="text-align: justify"><br /> 2. An entrant images will not be presented to the judges consecutively. An entrant’s four images will be distributed throughout four rounds of judging in that section. Distribution of 
+   <p style="text-align: justify"><br /> 2. An entrant images will not be presented to the judges consecutively. An entrantâs four images will be distributed throughout four rounds of judging in that section. Distribution of 
    images shall be in the same round order as submitted by the entrant.</p>
    <p style="text-align: justify; font-weight: bold;"></p> -->
    
@@ -257,7 +266,7 @@ Exhibition Date	:	<b>20th January 2018</b><br/><br/><br/></p>
   <div class="page-header">
   <h4 align="center">ENTRY FREE</h4>      
   <p align="center"><b>Entry Fee for Foreign Entrants $ 45 USD (UNIQUE) for all sections. Entry fees have to be sent online through the</b></p>
-  <p align="center">If you want Special Printed Catalogue then you have to pay $25 [USD] or â¬25 [Euro] extra per entrant</p>
+  <p align="center">If you want Special Printed Catalogue then you have to pay $25 [USD] or Ã¢ÂÂ¬25 [Euro] extra per entrant</p>
   <p align="center"><b>Entry Fee for Indian Entrants Rs. 1500/- (UNIQUE) for all sections</b></p>
   <p align="center">If you want Special Printed Catalogue then you have to pay Rs. 800.00 INR extra per entrant</p>
 </div></div>   -->
@@ -271,7 +280,7 @@ Exhibition Date	:	<b>20th January 2018</b><br/><br/><br/></p>
 <p style="text-align: justify; font-weight: bold; color: #FF0000;"><br />3. All parts of the image have to be photographed by the author who is holding the copyright of all works submitted</p>
 <p style="text-align: justify"><br />4. Monochrome images submitted in Category A Free Subject, Colour (PID Color Division) WILL NOT be accepted, and no admission fee will be reimbursed.</p>
 <p style="font-weight: bold; text-align: justify"><br />5. One image can be submitted in one and only category. Should it be submitted in both Category A Free Subject, Colour and Category B Free Subject, Monochrome, it will be judged in Category A Free Subject, Colour and subsequently excluded from Category B Free Subject, Monochrome.</p>
-<p style="text-align: justify"><br />6. Image titles must not exceed 30 characters and shall not use âNOTITLEâ, âUNTITLEDâ or special characters in naming. Results will be published in website www.vibgyorcircuit.org and may be despatched via email to contestants.</p>
+<p style="text-align: justify"><br />6. Image titles must not exceed 30 characters and shall not use Ã¢ÂÂNOTITLEÃ¢ÂÂ, Ã¢ÂÂUNTITLEDÃ¢ÂÂ or special characters in naming. Results will be published in website www.vibgyorcircuit.org and may be despatched via email to contestants.</p>
 <p style="font-weight: bold; text-align: justify"><br />7. Each participant registration (filling in of registration form), image upload, entering of image title (no file renaming requested) and fee payment shall be performed directly on the website: www.vibgyorcircuit.org </p>
 <p style="text-align: justify"><br />8. Only Western characters are allowed for both participant registration and image titles. The original file name shall be written in Western characters too when uploading the file. At the end of registration payment will be required. Participants may choose to pay either by 
 credit card (Visa, MasterCard, PayPal, Moneybookers) or PayPal & Moneybookers account. Images from participants who are not up to date with the registration fee payment will not be accepted.</p>
@@ -290,9 +299,9 @@ projections, making of the PDF catalogue, exhibition of the awarded photographs,
 of measures appropriated to guarantee safety and confidentiality according to the relevant laws and regulations. Data might be published on-line (as provided for by the FIAP, PSA & FIP contest regulations) on the websites of the organizing clubs and on the Circuit Facebook page and on the means mentioned in point 10 of these Rules and Conditions.</p>
 <p style="text-align: justify; font-weight: bold;"><br />17.	A projector will be used in judging still electronic images having the following minimum specifications : Resolution: XGA (or higher) 1024 X 768 pixels or higher with the native projector resolution matching or exceeding the maximum pixels specified for image submission Brightness: 1000 lumens (minimum) Contrast Ratio: 400:1 (minimum) and hence Images should be 1024 pixels X 768 pixels are acceptable.
 File size is preferred within 1 MB. Image files shall be saved in the sRGB or RGB colour space and in jpg format, (no file renaming requested).</p>
-<p style="text-align: justify"><br />18. An entrantâs four images will be distributed throughout four rounds of judging for that section.</p>
+<p style="text-align: justify"><br />18. An entrantÃ¢ÂÂs four images will be distributed throughout four rounds of judging for that section.</p>
 <p style="text-align: justify; font-weight: bold;"><br />19.	There are no restrictions as to subject matter except as outlined in the rules and definitions of specific sections, or specified by law in the country where the exhibition is held.</p>
-<p style="text-align: justify"><br />20.	Each image must have a unique title. Once an image has been accepted in a PSA Recognized exhibition, that same image, or a like âin cameraâ or a âreproductionâ duplicate of that image: i. May not be re-entered in any section of the same Division Star Ratings class in that exhibition regardless of media, format, or title. ii. May not be re-titled for entry in any other PSA Recognized exhibition</p>
+<p style="text-align: justify"><br />20.	Each image must have a unique title. Once an image has been accepted in a PSA Recognized exhibition, that same image, or a like Ã¢ÂÂin cameraÃ¢ÂÂ or a Ã¢ÂÂreproductionÃ¢ÂÂ duplicate of that image: i. May not be re-entered in any section of the same Division Star Ratings class in that exhibition regardless of media, format, or title. ii. May not be re-titled for entry in any other PSA Recognized exhibition</p>
 <p style="text-align: justify; font-weight: bold;"><br />21.	All entrants in must provide name and country data exactly the same in each exhibition entered to receive proper credit.</p>
 <p style="text-align: justify"><br />22.	Participating in the Circuit implies the clear and unconditional acceptance of these Rules and Conditions.</p>
 </div></div> -->   
