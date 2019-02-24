@@ -5,14 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.photo.contest.dto.ClubDTO;
+import com.photo.contest.dto.JudgeFileProcessDropDownDTO;
 import com.photo.contest.model.OrganizerClub;
+import com.photo.contest.service.DbServices;
 
 @Component
 public class SelectData {
 	
+	@Autowired
+	DbServices dbServices;
 	
 	public List<String> genderData(){
 		
@@ -51,7 +56,7 @@ public class SelectData {
 	   
 	   countryList.put("","Select Country");
 	   countryList.put("Afghanistan","Afghanistan");
-	   countryList.put("Åland Islands","Åland Islands");
+	   countryList.put("ï¿½land Islands","ï¿½land Islands");
 	   countryList.put("Albania","Albania");
 	   countryList.put("Algeria","Algeria");
 	   countryList.put("American Samoa","American Samoa");
@@ -104,10 +109,10 @@ public class SelectData {
 	   countryList.put("Congo, the Democratic Republic of the","Congo, the Democratic Republic of the");
 	   countryList.put("Cook Islands","Cook Islands");
 	   countryList.put("Costa Rica","Costa Rica");
-	   countryList.put("Côte d'Ivoire","Côte d'Ivoire");
+	   countryList.put("Cï¿½te d'Ivoire","Cï¿½te d'Ivoire");
 	   countryList.put("Croatia","Croatia");
 	   countryList.put("Cuba","Cuba");
-	   countryList.put("Curaçao","Curaçao");
+	   countryList.put("Curaï¿½ao","Curaï¿½ao");
 	   countryList.put("Cyprus","Cyprus");
 	   countryList.put("Czech Republic","Czech Republic");
 	   countryList.put("Denmark","Denmark");
@@ -230,11 +235,11 @@ public class SelectData {
 	   countryList.put("Portugal","Portugal");
 	   countryList.put("Puerto Rico","Puerto Rico");
 	   countryList.put("Qatar","Qatar");
-	   countryList.put("Réunion","Réunion");
+	   countryList.put("Rï¿½union","Rï¿½union");
 	   countryList.put("Romania","Romania");
 	   countryList.put("Russian Federation","Russian Federation");
 	   countryList.put("Rwanda","Rwanda");
-	   countryList.put("Saint Barthélemy","Saint Barthélemy");
+	   countryList.put("Saint Barthï¿½lemy","Saint Barthï¿½lemy");
 	   countryList.put("Saint Helena, Ascension and Tristan da Cunha","Saint Helena, Ascension and Tristan da Cunha");
 	   countryList.put("Saint Kitts and Nevis","Saint Kitts and Nevis");
 	   countryList.put("Saint Lucia","Saint Lucia");
@@ -316,13 +321,14 @@ public class SelectData {
 	   return clubData;		   
    }
    
-   public Map<String,String> fileProcessType(){	   
-	   Map<String,String>  processData = new HashMap<>();	   
-	   processData.put("0","Select  ");
-	   processData.put("1","All Participate");
-	   processData.put("2","Paid Participate");
-	   
-	return processData;
+   public List<JudgeFileProcessDropDownDTO> judgeFileProcessType(){	   
+	   List<JudgeFileProcessDropDownDTO> list = new ArrayList<>();
+	   JudgeFileProcessDropDownDTO judgeFileProcessDropDownDTO = new JudgeFileProcessDropDownDTO();
+	   judgeFileProcessDropDownDTO.setCount(0);
+	   judgeFileProcessDropDownDTO.setStatement("Select File Type");
+	   list.add(0, judgeFileProcessDropDownDTO);
+	   dbServices.getParticipentCount(list);
+	return list;
 	   
    }
 

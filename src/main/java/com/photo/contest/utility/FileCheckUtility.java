@@ -2,7 +2,9 @@ package com.photo.contest.utility;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -70,6 +72,17 @@ public class FileCheckUtility {
 	                  }
 	    }
 	};
+	
+	public void deleteDirectory(String destination) {
+		try {
+			 if(isExist(destination)) {			
+			                           FileUtils.deleteDirectory(new File(destination));
+			                          }
+		    } catch (IOException e) {
+			                          // TODO Auto-generated catch block
+			                          e.printStackTrace();
+		                            }
+	}
 	
 	
 }

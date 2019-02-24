@@ -2,6 +2,9 @@ package com.photo.contest.utility;
 
 import java.io.File;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class FileSizeCheckUtility {
 	
 	

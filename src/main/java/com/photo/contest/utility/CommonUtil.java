@@ -38,7 +38,6 @@ import com.photo.contest.model.Users;
 @Component
 public class CommonUtil {
 	
-	
 	 @Autowired
 	 private MailSender mailSender;
 	 
@@ -225,14 +224,20 @@ public int getNumbrtofSection(int number) {
 }
 
 
+
+public void  imageSizeValidation(byte fileContent[]) throws BusinessException, IOException{
+	InputStream inputstream = new ByteArrayInputStream(fileContent);
+	System.out.println("image size in kb="+inputstream.available()/1024);		
+}
+
 public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessException, IOException{
 	
 	BufferedImage img = null;
 	InputStream inputstream = new ByteArrayInputStream(fileContent);
 	img = ImageIO.read(inputstream);
-	System.out.println("Image Height : " + img.getHeight());
+	//System.out.println("Image Height : " + img.getHeight());
 	// Image Height
-	System.out.println("Image Width : " + img.getWidth());
+	//System.out.println("Image Width : " + img.getWidth());
 	// Image Width
 	
 	if(img.getWidth() ==img.getHeight()) {
@@ -309,5 +314,8 @@ public int getFrequencyinList(List<Users> judgeList, OrganizerClub organizerClub
 	return 0;
 	
 }
+
+
+
 	
   }
