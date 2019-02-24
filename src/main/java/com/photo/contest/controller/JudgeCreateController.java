@@ -24,7 +24,7 @@ import com.photo.contest.model.Users;
 import com.photo.contest.service.DbServices;
 
 @Controller
-@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList","processDataType"})
+@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList"/*,"processDataType"*/})
 @EnableWebMvc
 public class JudgeCreateController {
 	
@@ -36,7 +36,7 @@ public class JudgeCreateController {
 	@RequestMapping("/createJudge")
 	public String createJudge(@RequestParam String action, ModelMap model, 
 			@ModelAttribute("judgeCreationDTO") JudgeCreationDTO judgeCreationDTO,
-			@ModelAttribute("processDataType") Map<String,String> processDataType,
+			//@ModelAttribute("processDataType") Map<String,String> processDataType,
 			HttpServletResponse response,
 			HttpServletRequest request) throws IOException {
 		
@@ -56,7 +56,7 @@ public class JudgeCreateController {
 		    	    	                String token = UUID.randomUUID().toString();
 		    	    	                //String judgeRegisterUrl = request.getScheme() + "://" + request.getServerName() +":"+request.getServerPort() +"/photo-contest/getregisterjudge?token=" + token;
 		    	    	                String judgeRegisterUrl = request.getScheme() + "://" + request.getServerName() +"/getregisterjudge?token=" + token;
-		    	    	                System.out.println("judgeRegisterUrl="+judgeRegisterUrl);
+		    	    	                //System.out.println("judgeRegisterUrl="+judgeRegisterUrl);
 		                                String responce = dbServices.createJudge(judgeCreationDTO, userDTO, token,judgeRegisterUrl);
 		                                if(responce.equals("ok"))
 		                                    model.addAttribute("judgeCreationError","Successfully Judge Created");
@@ -89,7 +89,7 @@ public class JudgeCreateController {
 	}
 			model.addAttribute("couponCode", new CouponCode());
 			model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
-			model.addAttribute("processDataType", processDataType);
+			//model.addAttribute("processDataType", processDataType);
 			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());
 			

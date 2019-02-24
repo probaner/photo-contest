@@ -30,9 +30,10 @@ public class JudgeTableUpdateController {
 	
 	@RequestMapping(value = "/admin/json/updatejudgetable")
 	public @ResponseBody ResponseDTO updateedittableJson(@RequestBody JudgeTableDTO judgeTableDTO,ModelMap model) throws  BusinessException {
-		
-		//System.out.println("judgeTableDTO="+judgeTableDTO.toString());
 		ResponseDTO responseDTO = new ResponseDTO();
+		//System.out.println("judgeTableDTO="+judgeTableDTO.toString());
+	if (dbServices.getResultDataProcessStatus()) {
+		
 		UserDTO userDTO = (UserDTO) model.get("userForm");
 		//System.out.println("userDTO="+userDTO.toString());
 		if(judgeTableDTO!=null) {
@@ -48,9 +49,10 @@ public class JudgeTableUpdateController {
 		     }				
 		
         }else
-	          responseDTO.setError(new Error("Found some Problems, Contact to Admin Team"));
+	          responseDTO.setMessage("Found some Problems, Contact to Admin Team");
 	
-	
+	}else
+        responseDTO.setMessage("RESULT DATA PROCESSED, EDIING NOT POSSIABLE");
 	
 		return responseDTO;	
 	}	

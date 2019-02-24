@@ -33,7 +33,7 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller 
-@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList","processDataType"})
+@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList"/*,"processDataType"*/})
 public class UserLoginController {
 	
 	@Autowired
@@ -110,16 +110,7 @@ public class UserLoginController {
 						
 
 						model.addAttribute("paymentDetail", new PaymentDTO());
-						model.addAttribute("displayFileDTOMap", logingResponseDTO.getHm());
-						
-						/*if((logingResponseDTO.getUser().getPayStatus().getPayingStatus()).toUpperCase().equals("PAID"))
-						    model.addAttribute("paymentstatus", "false");
-						else if(logingResponseDTO.getUser().getPayStatus().getAttemptSection()==0) 
-							    model.addAttribute("paymentstatus", "false");						       
-						else 
-							 model.addAttribute("paymentstatus", "true");*/
-								
-						
+						model.addAttribute("displayFileDTOMap", logingResponseDTO.getHm());						
 						return "registrationsuccess";
 					} 
 					else if (userDTO.getRole().equals("admin")) {
@@ -142,7 +133,7 @@ public class UserLoginController {
 						model.addAttribute("organizerclubList", organizerclubList);
 						model.addAttribute("categoryList", categoryList);
 						model.addAttribute("categoryList", categoryList);
-						model.addAttribute("processDataType", selectData.fileProcessType());
+						//model.addAttribute("processDataType", selectData.fileProcessType());
 						
 						return "admin";
 

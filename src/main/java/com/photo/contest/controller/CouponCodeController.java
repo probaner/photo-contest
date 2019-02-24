@@ -28,7 +28,7 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller
-@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList","processDataType"})
+@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList"/*,"processDataType"*/})
 @EnableWebMvc
 public class CouponCodeController {
 	
@@ -45,7 +45,7 @@ public class CouponCodeController {
 			@ModelAttribute("couponCode") CouponCode couponCodeBean,			
 			@ModelAttribute("userForm") UserDTO userDTO,
 			@ModelAttribute("clubDataList") List<String> clubDataList,
-			@ModelAttribute("processDataType") Map<String, String> processDataType,
+			//@ModelAttribute("processDataType") Map<String, String> processDataType,
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		
@@ -99,7 +99,7 @@ public class CouponCodeController {
 		 
 			model.addAttribute("couponCode", new CouponCode());
 			model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
-			model.addAttribute("processDataType", processDataType);
+			//model.addAttribute("processDataType", processDataType);
 			model.addAttribute("processFileDTO", new ProcessFileDTO());
 			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());

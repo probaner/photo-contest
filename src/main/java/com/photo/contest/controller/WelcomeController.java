@@ -48,8 +48,7 @@ public class WelcomeController {
 		model.put("headerLeft",configProperty.getHeaderLeft());
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
-		model.put("homePageImage",configProperty.getHomepageImage());
-		//dbServices.processJudgingData();
+		model.put("homePageImage",configProperty.getHomepageImage());		
 	        return new ModelAndView("home"); 
 	    }  
 			
@@ -61,6 +60,7 @@ public class WelcomeController {
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
 		model.put("homePageImage",configProperty.getHomepageImage());
+		//dbServices.getParticipentCount();
 	    return new ModelAndView("home"); 
 	    } 
 	

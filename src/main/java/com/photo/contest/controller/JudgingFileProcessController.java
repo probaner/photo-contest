@@ -2,26 +2,16 @@ package com.photo.contest.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.photo.contest.config.ConfigProperty;
-import com.photo.contest.dto.CouponCode;
-import com.photo.contest.dto.JudgeCreationDTO;
-import com.photo.contest.dto.ProcessFileDTO;
-import com.photo.contest.dto.UserDTO;
-import com.photo.contest.utility.CommonUtil;
+import com.photo.contest.dto.JudgeFileProcessDropDownDTO;
+import com.photo.contest.utility.SelectData;
 
 
 @Controller
@@ -30,12 +20,22 @@ import com.photo.contest.utility.CommonUtil;
 public class JudgingFileProcessController {
 	
 	@Autowired
-	private ConfigProperty configProperty;
-	@Autowired
-	private CommonUtil commonUtil;
+	private SelectData selectData;
 	
 	
-	@RequestMapping("/processFile")
+	@RequestMapping(value = "/admin/json/getjudgeprocessdropdown")
+	
+	public @ResponseBody List<JudgeFileProcessDropDownDTO> getJudgeProcessDropdowJson() throws IOException {
+		
+		 List<JudgeFileProcessDropDownDTO> list =selectData.judgeFileProcessType();
+		 for(JudgeFileProcessDropDownDTO j: list)
+			 System.out.println(j.toString());
+		 
+		 return list;
+	}
+	
+	
+	/*@RequestMapping("/processFile")
 	public String processFile(@RequestParam String action,
 			                  @ModelAttribute("processFileDTO") ProcessFileDTO processFileDTO,
 			                  @ModelAttribute("couponCode") CouponCode couponCodeBean, 
@@ -47,7 +47,7 @@ public class JudgingFileProcessController {
 			                  Model model)throws IOException {
 		
 		if (action.equals("processJudgingFile")) {		
-		     //System.out.println("ProcessFileDTO="+ processFileDTO.toString());
+		     System.out.println("File processing=");
 		     if(processFileDTO.getStatus().equals("0"))
 		    	 model.addAttribute("processDataError", "Select Proper Option !"); 
 		  else {
@@ -58,10 +58,10 @@ public class JudgingFileProcessController {
 			     long diff = commonUtil.findNumberofDaysBetweenTwoDate(judgingStartdate,sysDate);
 			     
 			     if(diff >0 && diff <=2) {
-			    	           String dayMinusOne = commonUtil.getPreviouDayDate(judgingStartdate, 1);
-			    	           String dayMinusTow = commonUtil.getPreviouDayDate(judgingStartdate, 2);
-			    	           model.addAttribute("processDataError", "Process will run from: "+ dayMinusTow + " to "+ dayMinusOne);
-			                 }
+			    	                      String dayMinusOne = commonUtil.getPreviouDayDate(judgingStartdate, 1);
+			    	                      String dayMinusTow = commonUtil.getPreviouDayDate(judgingStartdate, 2);
+			    	                      model.addAttribute("processDataError", "Process will run from: "+ dayMinusTow + " to "+ dayMinusOne);
+			                             }
 			     
 			     else {
 			    	 
@@ -84,5 +84,5 @@ public class JudgingFileProcessController {
 		
 		return "admin";
 		
-	}
+	}*/
 }
