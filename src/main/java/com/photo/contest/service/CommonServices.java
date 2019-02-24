@@ -3,8 +3,10 @@ package com.photo.contest.service;
 import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ import com.photo.contest.model.Category;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
+import com.photo.contest.utility.DateUtility;
 import com.photo.contest.utility.FileCheckUtility;
 import com.photo.contest.utility.HtmlData;
 import com.photo.contest.utility.ImageResizeUtility;
@@ -49,6 +52,8 @@ public class CommonServices {
 	ImageResizeUtility imageResizeUtility;
 	@Autowired
 	FileCheckUtility fileCheckUtility;
+	@Autowired
+	DateUtility dateUtility;
 	
 	public void setCommonUtil(CommonUtil commonUtil) {
 		this.commonUtil = commonUtil;
@@ -404,21 +409,30 @@ public class CommonServices {
 	
 	
 	
-	public void processImage(List<List<com.photo.contest.model.File>> fileProcessDataList, List<String> catagoryNameList) throws IOException {
+	public void processImage(Map<String, List<com.photo.contest.model.File>> fileProcessDataList, List<String> catagoryNameList) throws IOException {
 		
-		int counter=0;
-		 for(List<com.photo.contest.model.File> fileProcessData: fileProcessDataList) {
-			  String path = configProperty.getBasePath()+"/"+catagoryNameList.get(counter);
-			if(creatrDir(path)) {
-		      for(com.photo.contest.model.File file: fileProcessData) {
-			      savelFileFromBlobUtility.save(path+"/"+file.getFileId()+".jpg",file.getFile());
-			      imageResizeUtility.imazeResize(path+"/"+file.getFileId()+".jpg",
-			    		                         path+"/"+file.getFileId()+".jpg", 200);			      
-		         }   
-	          }else{System.out.println("dir not able to create");}
-			counter++;
-		   }
+		for (Map.Entry<String, List<com.photo.contest.model.File>> entry : fileProcessDataList.entrySet()){				
+			 String path = configProperty.getBasePath()+"/"+entry.getKey();
+			 
+			 if(creatrDir(path)) {
+				 for(com.photo.contest.model.File file: entry.getValue()) {
+					 savelFileFromBlobUtility.save(path+"/"+file.getFileId()+".jpg",file.getFile());
+				     imageResizeUtility.imazeResize(path+"/"+file.getFileId()+".jpg",
+				    		                         path+"/"+file.getFileId()+".jpg", 200);
+				    } 
+			   }else{
+	        	    System.out.println("dir not able to create");
+	        	   }
+		    }		
+		
 	     }
+	
+   	
+	public void deleteExistingDirectory(Map<String,Integer> results) {
+		for(Map.Entry<String,Integer> entry : results.entrySet()){
+			fileCheckUtility.deleteDirectory(configProperty.getBasePath()+"/"+entry.getKey());			 
+		   }
+	}
 	
 	public boolean creatrDir(String path) {
 		
@@ -534,6 +548,18 @@ public class CommonServices {
 		   }
 		//System.out.println(map);
 		return map;
+	}
+	
+public boolean judgingFileProcessDateStatus() {
+		
+		Date judgingFileProcessDate=dateUtility.stringTodate(configProperty.getJudgingFileprocessdate());
+		Date sysDate = dateUtility.stringTodate(new SimpleDateFormat("yyyy-MM-dd").format( new Date()));
+		
+		if(judgingFileProcessDate!=null && sysDate!=null)				
+		  return dateUtility.checkEquals(judgingFileProcessDate, sysDate);
+		
+		return false;
+				
 	}
 
 }

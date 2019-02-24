@@ -39,6 +39,7 @@ import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.JudgeCreationDTO;
+import com.photo.contest.dto.JudgeFileProcessDropDownDTO;
 import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.dto.JudgeTableDTO;
 import com.photo.contest.dto.LogingResponseDTO;
@@ -843,9 +844,10 @@ public class DbServices {
 			  editTableDataDTO.setLastName(users.getLastName());
 			  editTableDataDTO.setAddress(users.getAddress());
 			  editTableDataDTO.setCity(users.getCity());
-			  //editTableDataDTO.setCountry(users.getCountry());
+			  editTableDataDTO.setCountry(users.getCountry());
 			  editTableDataDTO.setState(users.getState());
 			  editTableDataDTO.setClub(users.getClub());
+			  editTableDataDTO.setEmail(users.getEmail());
 			  if(users.getPayStatus()!=null)
 			     editTableDataDTO.setPayingStatus(users.getPayStatus().getPayingStatus()); 
 			     editTableDataDTOList.add(editTableDataDTO);
@@ -854,7 +856,7 @@ public class DbServices {
 		}
 		
 		//for(EditTableDataDTO editTableDataDTO:  editTableDataDTOList)
-			System.out.println("editTableDataDTOList="+editTableDataDTOList.toString());
+			//System.out.println("editTableDataDTOList="+editTableDataDTOList.toString());
 		
 		return editTableDataDTOList;		
 	}
@@ -1127,33 +1129,39 @@ public class DbServices {
 	}
 	
 	@Transactional
-	public void selectAllImageCategoryWise() throws IOException {
+	public void selectAllImageCategoryWise(String payingStatus) throws IOException {
 	  	Category category = null;
-	  	List<List<File>> fileProcessDataList = new ArrayList<>();
+	  	Map<String ,List<File>> fileProcessDataList = new HashMap<>();
 	  	List<String> catagoryNameList = new ArrayList<String>();
-	  	
+	  	List<File> fileProcessData = null;
 		if (results.size()>0){			
 			for (Map.Entry<String,Integer> entry : results.entrySet()){							
 				category = new Category();
 				category.setCategoryId(entry.getValue());
 				category.setCategoryName(entry.getKey());
 				catagoryNameList.add(entry.getKey());
-				List<File> fileProcessData = fileDetailDAO.getFileProcessData(category);
-				System.out.println("fileProcessData="+fileProcessData.size());
-				if(fileProcessData!=null && fileProcessData.size() >0)
-				   fileProcessDataList.add(fileProcessData);		
+				if(!payingStatus.equals("Paid")) {
+				   fileProcessData = fileDetailDAO.getFileProcessData(category);
+				   //System.out.println("fileProcessData="+fileProcessData.size());
+				 }else {
+					     fileProcessDataList= getPaidUsersFileListCategoryWise(payingStatus);					     
+				       }
+				   if(fileProcessData!=null && fileProcessData.size() >0)
+				      fileProcessDataList.put(entry.getKey(),fileProcessData);		
 			      }
 			//System.out.println("fileProcessDataList="+fileProcessDataList.size());
 		   }else{
 		          System.out.println("File Not Found");
 		        }
-		if(fileProcessDataList!=null && fileProcessDataList.size()>0)
-		   commonService.processImage(fileProcessDataList, catagoryNameList);
+		if(fileProcessDataList!=null && fileProcessDataList.size()>0) {
+			commonService.deleteExistingDirectory(results);
+		    commonService.processImage(fileProcessDataList, catagoryNameList);
+		}
 	}
 	
 	
-	public void processJudgingFile() throws IOException {		
-		selectAllImageCategoryWise();
+	public void processJudgingFile(String payingStatus) throws IOException {		
+		selectAllImageCategoryWise(payingStatus);
 		for (Map.Entry<String,Integer> entry : results.entrySet()){	
              TreeSet<Integer>  name = commonService.getSavedFileId(configProperty.getBasePath()+"/" + entry.getKey()); 
              if(name!=null && name.size()>0)
@@ -1165,7 +1173,7 @@ public class DbServices {
 	
 	
 	@Transactional
-	public String processJudgingData() throws IOException {
+	public String processJudgingData(String payingStatus) throws IOException {
 		
 	List<ImageRating> imageRatingList = new ArrayList<>();
 	ImageRating imageRating = null;//.imageRating.new ImageRating();	
@@ -1182,7 +1190,13 @@ public class DbServices {
 		//check all judes registration done for all club
 		responce=commonService.judgeRegistrationStatus(judgeList,adminList,organizerClubList);
 		//if(responce.length()==0) {
-		    processJudgingFile();
+		if(imageRatingDAO.getCount()>0) {
+			System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
+			imageRatingDAO.truncate(getDBName()+".image_rating");
+			System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
+			
+		}
+		    processJudgingFile(payingStatus);
 			Map<Integer, List<String>> map=commonService.findCategoryForJudge(judgeList);
 			if(map.size()>0) {
 			  for(Map.Entry<Integer, List<String>> entry : map.entrySet()) {
@@ -1191,60 +1205,24 @@ public class DbServices {
 					  TreeSet<Integer> categoryIdList = imageIdMap.get(categoryName);
 					  if(categoryIdList!=null){
 					  for(Integer imageid:categoryIdList) {
-						  imageRating = new ImageRating();
-						  imageRating.setFileId(imageid);
-						  imageRating.setJudgeId(entry.getKey());
-						  imageRatingDAO.attachDirty(imageRating);
-						  //imageRatingList.add(imageRating);
+						   imageRating = new ImageRating();
+						   imageRating.setFile(fileDetailDAO.findById(imageid));
+						   imageRating.setJudgeId(entry.getKey());
+						   imageRatingDAO.attachDirty(imageRating);						             
 					      }
-					  }
-				     }
-					
-				 }
-			   }
-		  //}	
-		  
+					    }
+				     }					
+				   }
+			     }else {
+			    	     responce ="judge process sucessful";
+			    	     return responce;
+			    	   }
 	  }
 	
-	/*if(judgeIdList.size()>=minNumberJudgeForEachClub*numberOfOrganizreClub){		
-		processJudgingFile();
-		System.out.println("imageIdMap="+imageIdMap);
-		for(Integer judgeId : judgeIdList) {
-			for(Map.Entry<String,TreeSet<Integer>> entry : imageIdMap.entrySet()) {
-				TreeSet<Integer> idSet =entry.getValue();
-				if(idSet.size() > 0) {
-				   for(Integer id : idSet) {
-				        imageRating = new ImageRating();
-				        imageRating.setFileId(id);
-				        imageRating.setJudgeId(judgeId);
-				        ImageRatingList.add(imageRating);
-				   }
-			   }}
-			
-		   }		
-	   }
-	else {
-		   
-	     }*/
-	//System.out.println(imageRatingList);
-	//System.out.println(responce);
 	  return responce;
-	
 	}
 	
-	/*@Transactional
-	public void createReport() {
-		
-		List<OrganizerClub> organizerClubList=organizerClubDAO.getOrganizerClubList("OrganizerClub");
-		
-	try {
-		   
-		  resultPDFUtility.mainC("100007345876", "chandan chakraborty", results, organizerClubList);
-	    } catch (IOException | DocumentException e) {
-		                                              e.printStackTrace();
-	                                                }
-		
-	                          }*/
+	
 	
 	@Transactional
 	public List<OrganizerClubDTO> getOrganizerClubDTOList() {
@@ -1261,6 +1239,56 @@ public class DbServices {
 		
 		return organizerClubDTOList;
 		
+	}
+	
+	@Transactional
+	public boolean getResultDataProcessStatus() {
+		
+		System.out.println("SIZE="+imageRatingDAO.getRowCount());
+		if(imageRatingDAO.getRowCount()==0)
+		   return true;			
+		   return false;		
+	}
+	
+	@Transactional
+	public void getParticipentCount(List<JudgeFileProcessDropDownDTO> list) {
+		JudgeFileProcessDropDownDTO paid = new JudgeFileProcessDropDownDTO();
+		paid.setCount(1);
+		paid.setStatement("paid participant count: "+payStatusDAO.getTotalPaidPerticipentCount("Paid"));
+		list.add(paid);
+		
+		JudgeFileProcessDropDownDTO all = new JudgeFileProcessDropDownDTO();
+		all.setCount(2);
+		all.setStatement("all perticipent count: "+usersDAO.getTotalPerticipentCount("participate"));
+		list.add(all);
+		
+	}
+	
+	
+	@Transactional
+	public Map<String ,List<File>> getPaidUsersFileListCategoryWise(String payingStatus ) {
+		 Map<String ,List<File>> fileProcessDataList = new HashMap<>();		
+		 List<PayStatus> idList = payStatusDAO.paidUserId(payingStatus);
+		 if(idList.size()>0) {
+			for(PayStatus payStatus : idList) {
+				if(payStatus.getUsers().getFiles()!=null) {
+					for(File file: payStatus.getUsers().getFiles()) {
+						if(fileProcessDataList.containsKey(file.getCategory().getCategoryName())) {
+				    	    List<File> f = fileProcessDataList.get(file.getCategory().getCategoryName());
+				    	    f.add(file);
+				    		fileProcessDataList.put(file.getCategory().getCategoryName(), f);   
+				    	    }
+				    	 else {
+				    		    List<File> f = new ArrayList<>();
+				    		    f.add(file);
+				    		    fileProcessDataList.put(file.getCategory().getCategoryName(), f);
+				    	      }		
+					   }
+				  }
+			   }
+		     }
+		
+	     return fileProcessDataList;
 	}
 	
 	
