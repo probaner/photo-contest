@@ -7,6 +7,10 @@ import java.util.Arrays;
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +18,9 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,22 +44,31 @@ public class File  implements java.io.Serializable {
      private String titel;
      private Date uploadTime;
      private String categoryIndex;
+     private Set<ImageRating> imageRatings = new HashSet<ImageRating>();
 
     public File() {
     }
 
-    public File(Category category, Users users, byte[] file, String originalFileName, String titel, Date uploadTime, String categoryIndex) {
-       this.category = category;
-       this.users = users;
-       this.file = file;
-       this.originalFileName = originalFileName;
-       this.titel = titel;
-       this.uploadTime = uploadTime;
-       this.categoryIndex = categoryIndex;
-    }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
-    
+   
+    private File(Integer fileId, Category category, Users users, byte[] file, String originalFileName, String titel,
+			Date uploadTime, String categoryIndex, Set<ImageRating> imageRatings) {
+		super();
+		this.fileId = fileId;
+		this.category = category;
+		this.users = users;
+		this.file = file;
+		this.originalFileName = originalFileName;
+		this.titel = titel;
+		this.uploadTime = uploadTime;
+		this.categoryIndex = categoryIndex;
+		this.imageRatings = imageRatings;
+	}
+
+
+
+	@Id 
+	@GeneratedValue(strategy=IDENTITY)    
     @Column(name="file_id", unique=true, nullable=false)
     public Integer getFileId() {
         return this.fileId;
@@ -126,15 +141,26 @@ public class File  implements java.io.Serializable {
         this.categoryIndex = categoryIndex;
     }
 
-	@Override
-	public String toString() {
-		return "File [fileId=" + fileId + ", category=" + category + ", users=" + users + ", file="
-				+ Arrays.toString(file) + ", originalFileName=" + originalFileName + ", titel=" + titel
-				+ ", uploadTime=" + uploadTime + ", categoryIndex=" + categoryIndex + "]";
+    //@OneToMany(mappedBy="fileId")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="file")
+    public Set<ImageRating> getImageRatings() {
+		return imageRatings;
+	}
+
+	public void setImageRatings(Set<ImageRating> imageRatings) {
+		this.imageRatings = imageRatings;
 	}
 
 
 
+	@Override
+	public String toString() {
+		return "File [fileId=" + fileId + ", category=" + category + ", users=" + users + ", file="
+				+ Arrays.toString(file) + ", originalFileName=" + originalFileName + ", titel=" + titel
+				+ ", uploadTime=" + uploadTime + ", categoryIndex=" + categoryIndex /*+ ", imageRatings=" + imageRatings*/
+				+ "]";
+	}
+    
 
 }
 
