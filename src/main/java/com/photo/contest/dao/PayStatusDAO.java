@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
@@ -125,6 +126,32 @@ public class PayStatusDAO {
 			throw re;
 		   }
 			
+	   }
+	
+	public Long getTotalPaidPerticipentCount(String constraint) {
+	   	 
+    	@SuppressWarnings("deprecation")
+		Criteria crit =  sessionFactory.getCurrentSession().createCriteria(PayStatus.class);
+    	if(constraint!=null)
+    	crit.add( Restrictions.eq("payingStatus", constraint));	
+    	crit.setProjection(Projections.rowCount());
+    	return (Long)crit.uniqueResult();
+     }
+	
+	public List<PayStatus> paidUserId(String payingStatus){
+		log.debug("getting User instance with id: " + payingStatus);
+		try{
+			 //Session session = sessionFactory.getCurrentSession();
+			 List result =sessionFactory.getCurrentSession().createCriteria(PayStatus.class)
+					     .add(Restrictions.eq("payingStatus", payingStatus)).list();
+			
+						
+			return result;      		
+		   } catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		   }
+		
 	}
 	
 }

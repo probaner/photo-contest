@@ -2,7 +2,9 @@ package com.photo.contest.dao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -42,5 +44,23 @@ public class ImageRatingDAO {
 				throw re;
 			}
 		}
+     
+     public Long getRowCount() {
+    	 
+    	@SuppressWarnings("deprecation")
+		Criteria crit =  sessionFactory.getCurrentSession().createCriteria(ImageRating.class);
+    	crit.setProjection(Projections.rowCount());
+    	return (Long)crit.uniqueResult();
+     }
+     
+     public Long getCount(){
+		return null;
+    	 
+     }
+     
+     public void truncate(String ta){
+    	 
+     }
+     
      
 }

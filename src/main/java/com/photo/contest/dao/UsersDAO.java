@@ -287,5 +287,15 @@ public class UsersDAO {
 	
 	
 	
-
+	public Long getTotalPerticipentCount(String constraint) {
+   	 
+    	@SuppressWarnings("deprecation")
+		Criteria crit =  sessionFactory.getCurrentSession().createCriteria(Users.class);
+    	if(constraint!=null)
+    	crit.add( Restrictions.eq("role", constraint));	
+    	crit.setProjection(Projections.rowCount());
+    	return (Long)crit.uniqueResult();
+     }
+	
+	
 }

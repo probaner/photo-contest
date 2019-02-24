@@ -293,5 +293,20 @@ public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 			}
 	 }
 	 
+	 public List<File> getFileList(){ 
+		 log.debug("finding User instance by example");
+			try {
+				   Session session = sessionFactory.getCurrentSession();
+				   Criteria criteria = session.createCriteria(File.class);
+				   List<File> result = criteria.list();
+				      
+				   return result;
+					
+				} catch (RuntimeException re) {
+					log.error("find by example failed", re);
+					throw re;
+				}
+	 }
+	 
 	 
 }
