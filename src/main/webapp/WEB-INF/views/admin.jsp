@@ -398,32 +398,39 @@ div.ex11 {
       
       
  <div class="container">
-		<div class="panel-group">
+		<!-- <div class="panel-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" href="#collapse8">Process Judging File</a>
 					</h4>
 				</div>
-				<%-- <div id="collapse8" class="panel-collapse collapse">
-					<div class="row">
-						<form:form action="processFile" method="post" modelAttribute="processFileDTO" id="processFileForm">
-						      </div>
+				<div id="collapse8" class="panel-collapse collapse">
+					<div class="row"> -->
+					
+					  
+					<%-- 	<form:form action="processFile" method="post" modelAttribute="processFileDTO" id="processFileForm"> --%>
+						   <!--    </div>
 								<div class="ex11">
-								    <div style="color: red">${processDataError}</div>
+								<div id="div_source1">
+                      <select id="ch_user1" >
+                      <option value="select"></option>
+                      </select>
+                      </div> -->
+								   <%--  <div style="color: red">${processDataError}</div>
 									<form:select class="form-control" path="status" id = "status"
 										items="${processDataType}" />
 									<div class="ex6">
 										<label class="btn btn-danger">Submit<input
 											type="submit" id="creatrColubcouponcode"
 											style="display: none;" name="action" value="processJudgingFile" /></label>
-									</div>
+									</div> --%>
 									<div class="ex5"></div>
-						</form:form>					
-					</div>
-				</div> --%>
+						<%-- </form:form> --%>					
+					<!-- </div>
+				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 
 
@@ -462,13 +469,30 @@ $(document).ready(function($)
 	headers[csrfHeader] = csrfToken; 
 	
     var countries = [];
+    var list =[];
     var pay = [
         { Name: "Being Check", Id: 1 },
         { Name: "Paid", Id: 2 },      
     ];
     
     
-
+    $.ajax({
+        type: "GET",
+        url:"admin/json/getjudgeprocessdropdown",
+        dataType: "json",
+        success: function (data) {
+        	list = data;
+        	console.log('Link Clicked='+list);
+            $.each(data.aaData,function(i,obj)
+            {
+             alert(obj.value+":"+obj.text);
+             var div_data="<option value="+obj.value+">"+obj.text+"</option>";
+            alert(div_data);
+            $(div_data).appendTo('#ch_user1'); 
+            });  
+            }
+      });
+   
     
     
     $.ajax({
@@ -511,11 +535,13 @@ $(document).ready(function($)
     			                          return false;
     			                        });
     			                        } , width: 50,  validate: "required", editing: false ,align: "center"},
-    				             { name: "firstName", type: "text", width: 50, validate: "required" ,align: "center"},
-    				             { name: "lastName", type: "text", width: 50, validate: "required" ,align: "center"},
+    				             { name: "firstName", type: "text", width: 40, validate: "required" ,align: "center"},
+    				             { name: "lastName", type: "text", width: 40, validate: "required" ,align: "center"},
+    				             { name: "email", type: "text", width: 100 ,validate: "required", editing: false,align: "center"},
+    				             { name: "country", type: "text", width: 40 ,validate: "required", editing: false,align: "center"},
     				             { name: "address", type: "text", width: 100 , validate: "required",align: "center"},
-    				             { name: "city", type: "text", width: 50 , validate: "required",align: "center"},
-    				             { name: "state", type: "text", width: 50 , validate: "required",align: "center"},
+    				             { name: "city", type: "text", width: 40 , validate: "required",align: "center"},
+    				             { name: "state", type: "text", width: 40 , validate: "required",align: "center"},
     				             { name: "payingStatus", type: "select", items: pay, valueField: "Name", textField: "Name" ,align: "center"},
     				             { type: "control" , deleteButton: false , align: "center", width: 5}
     				         ],

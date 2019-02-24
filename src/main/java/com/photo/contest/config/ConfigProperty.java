@@ -100,6 +100,9 @@ public class ConfigProperty {
 	@Value("${file.minlongestSideResolution}")
 	private String fileMinlongestSideResolution;
 	
+	
+	@Value("${judging.fileprocessdate}")
+	private String judgingFileprocessdate;
 	@Value("${judging.startdate}")
 	private String judgingStartdate;
 	@Value("${judging.enddate}")
@@ -138,7 +141,9 @@ public class ConfigProperty {
 	}
 
 
-public ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
+
+	@SuppressWarnings("unused")
+	private ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
 			String headerRight, String judgepageImage, String homepageImage, String basePath, Long maxSize,
 			String chargeingTypeCategoryWiseNetive, String chargeingTypeCategoryWiseForeign,
 			String chargeingTypeIndivisualPhotoWiseNetive, String chargeingTypeIndivisualPhotoWiseForeign,
@@ -149,10 +154,11 @@ public ConfigProperty(String sitename, String indexName, String indexImage, Stri
 			String categoryFiveNetive, String categorySixNetive, String categorySevenNetive, String categoryEightNetive,
 			String categoryNineNetive, String categoryTenNetive, String overall, String overallNetive,
 			String netiveCountry, String netiveCurrencyName, String foreignCurrencyName, String closeDate,
-			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingStartdate,
-			String judgingEnddate, String judgloginurl, String salonName, String salonPatronage, String resultDest,
-			String resultDate, String mailsender, String mailpassword, String registrarionsuccesscomment,
-			String registrarionsuccessimage, String minnumberjudgeforeachclub, String numberoforganizreclub) {
+			String fileMaxlongestSideResolution, String fileMinlongestSideResolution, String judgingFileprocessdate,
+			String judgingStartdate, String judgingEnddate, String judgloginurl, String salonName,
+			String salonPatronage, String resultDest, String resultDate, String mailsender, String mailpassword,
+			String registrarionsuccesscomment, String registrarionsuccessimage, String minnumberjudgeforeachclub,
+			String numberoforganizreclub) {
 		super();
 		this.sitename = sitename;
 		this.indexName = indexName;
@@ -198,6 +204,7 @@ public ConfigProperty(String sitename, String indexName, String indexImage, Stri
 		this.closeDate = closeDate;
 		this.fileMaxlongestSideResolution = fileMaxlongestSideResolution;
 		this.fileMinlongestSideResolution = fileMinlongestSideResolution;
+		this.judgingFileprocessdate = judgingFileprocessdate;
 		this.judgingStartdate = judgingStartdate;
 		this.judgingEnddate = judgingEnddate;
 		this.judgloginurl = judgloginurl;
@@ -212,6 +219,8 @@ public ConfigProperty(String sitename, String indexName, String indexImage, Stri
 		this.minnumberjudgeforeachclub = minnumberjudgeforeachclub;
 		this.numberoforganizreclub = numberoforganizreclub;
 	}
+
+
 
 
 
@@ -779,6 +788,18 @@ public ConfigProperty(String sitename, String indexName, String indexImage, Stri
 
 	public void setNumberoforganizreclub(String numberoforganizreclub) {
 		this.numberoforganizreclub = numberoforganizreclub;
+	}
+
+
+
+	public String getJudgingFileprocessdate() {
+		return judgingFileprocessdate;
+	}
+
+
+
+	public void setJudgingFileprocessdate(String judgingFileprocessdate) {
+		this.judgingFileprocessdate = judgingFileprocessdate;
 	}
 	
 	
