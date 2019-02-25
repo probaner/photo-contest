@@ -1253,12 +1253,12 @@ public class DbServices {
 	@Transactional
 	public void getParticipentCount(List<JudgeFileProcessDropDownDTO> list) {
 		JudgeFileProcessDropDownDTO paid = new JudgeFileProcessDropDownDTO();
-		paid.setCount(1);
+		paid.setCount("Paid");
 		paid.setStatement("paid participant count: "+payStatusDAO.getTotalPaidPerticipentCount("Paid"));
 		list.add(paid);
 		
 		JudgeFileProcessDropDownDTO all = new JudgeFileProcessDropDownDTO();
-		all.setCount(2);
+		all.setCount("All");
 		all.setStatement("all perticipent count: "+usersDAO.getTotalPerticipentCount("participate"));
 		list.add(all);
 		

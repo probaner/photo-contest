@@ -324,7 +324,7 @@ public class SelectData {
    public List<JudgeFileProcessDropDownDTO> judgeFileProcessType(){	   
 	   List<JudgeFileProcessDropDownDTO> list = new ArrayList<>();
 	   JudgeFileProcessDropDownDTO judgeFileProcessDropDownDTO = new JudgeFileProcessDropDownDTO();
-	   judgeFileProcessDropDownDTO.setCount(0);
+	   judgeFileProcessDropDownDTO.setCount("0");
 	   judgeFileProcessDropDownDTO.setStatement("Select File Type");
 	   list.add(0, judgeFileProcessDropDownDTO);
 	   dbServices.getParticipentCount(list);

@@ -398,18 +398,18 @@ div.ex11 {
       
       
  <div class="container">
-		<!-- <div class="panel-group">
+		 <div class="panel-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" href="#collapse8">Process Judging File</a>
 					</h4>
 				</div>
-				<div id="collapse8" class="panel-collapse collapse">
-					<div class="row"> -->
+				<%-- <div id="collapse8" class="panel-collapse collapse">
+					<div class="row">
 					
 					  
-					<%-- 	<form:form action="processFile" method="post" modelAttribute="processFileDTO" id="processFileForm"> --%>
+						<form:form action="processFile" method="post" modelAttribute="processFileDTO" id="processFileForm">
 						   <!--    </div>
 								<div class="ex11">
 								<div id="div_source1">
@@ -417,20 +417,20 @@ div.ex11 {
                       <option value="select"></option>
                       </select>
                       </div> -->
-								   <%--  <div style="color: red">${processDataError}</div>
+								    <div style="color: red">${processDataError}</div>
 									<form:select class="form-control" path="status" id = "status"
 										items="${processDataType}" />
 									<div class="ex6">
 										<label class="btn btn-danger">Submit<input
 											type="submit" id="creatrColubcouponcode"
 											style="display: none;" name="action" value="processJudgingFile" /></label>
-									</div> --%>
+									</div>
 									<div class="ex5"></div>
-						<%-- </form:form> --%>					
-					<!-- </div>
-				</div>
+						</form:form>					
+					 </div>
+				</div> --%>
 			</div>
-		</div> -->
+		</div> 
 	</div>
 
 

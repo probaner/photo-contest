@@ -3,29 +3,35 @@ package com.photo.contest.dto;
 public class JudgeFileProcessDropDownDTO {
 	
 	private String statement;
-	private Integer count;
+	private String count;
 			
 	public JudgeFileProcessDropDownDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public JudgeFileProcessDropDownDTO(String statement, Integer count) {
+		
+	public JudgeFileProcessDropDownDTO(String statement, String count) {
 		super();
 		this.statement = statement;
 		this.count = count;
 	}
-	
+
+
+
+
 	public String getStatement() {
 		return statement;
 	}
 	public void setStatement(String statement) {
 		this.statement = statement;
 	}
-	public Integer getCount() {
+	
+
+	public String getCount() {
 		return count;
 	}
-	public void setCount(Integer count) {
+
+	public void setCount(String count) {
 		this.count = count;
 	}
 
