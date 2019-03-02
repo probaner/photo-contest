@@ -138,6 +138,7 @@ public class PayStatusDAO {
     	return (Long)crit.uniqueResult();
      }
 	
+	
 	public List<PayStatus> paidUserId(String payingStatus){
 		log.debug("getting User instance with id: " + payingStatus);
 		try{
@@ -150,8 +151,7 @@ public class PayStatusDAO {
 		   } catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		   }
-		
+		   }	
 	}
 	
 }

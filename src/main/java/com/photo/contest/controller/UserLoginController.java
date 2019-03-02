@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.dto.CategoryDTO;
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.JudgeCreationDTO;
@@ -145,6 +146,7 @@ public class UserLoginController {
 						    	   java.util.Collections.sort(judgeCategory); 
 						    	  
 						    	   model.addAttribute("categoryList",judgeCategory);
+						    	   model.addAttribute("categoryDTO", new CategoryDTO());
 						    	   model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 											+ userDTO.getFirstname().toUpperCase());
 						    	   

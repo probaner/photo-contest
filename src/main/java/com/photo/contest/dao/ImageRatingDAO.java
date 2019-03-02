@@ -1,10 +1,14 @@
 package com.photo.contest.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -45,22 +49,40 @@ public class ImageRatingDAO {
 			}
 		}
      
-     public Long getRowCount() {
+     /*public Long getRowCount() {
     	 
     	@SuppressWarnings("deprecation")
 		Criteria crit =  sessionFactory.getCurrentSession().createCriteria(ImageRating.class);
     	crit.setProjection(Projections.rowCount());
     	return (Long)crit.uniqueResult();
+     }*/
+     
+     public void truncate(String tableName) { 
+    	 log.debug("truncate ImageRating instance");
+			try {
+				  sessionFactory.getCurrentSession().createSQLQuery("truncate table "+tableName).executeUpdate();
+			    } catch (RuntimeException re) {
+		         log.error("persist failed", re);
+		         throw re;
+	             }
      }
      
-     public Long getCount(){
-		return null;
-    	 
+     
+     public Long getCount() {    	 
+    	 Criteria crit = sessionFactory.getCurrentSession().createCriteria(ImageRating.class);
+    	 crit.setProjection(Projections.rowCount());
+    	 return (Long) crit.uniqueResult();     	 
      }
      
-     public void truncate(String ta){
-    	 
-     }
+     
+     public Optional<List<ImageRating>> getRettinStatusofAJudge(int judgeId){
+     	@SuppressWarnings("unchecked")
+ 		List<ImageRating> results = sessionFactory.getCurrentSession().createCriteria("com.photo.contest.model.ImageRating")
+ 					.add(Restrictions.eq("judgeId", judgeId)).list();
+     	 
+     	return Optional.of(results);		
+     	 
+      }
      
      
 }

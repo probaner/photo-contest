@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
+import com.photo.contest.model.PayStatus;
 import com.photo.contest.model.Users;
 
 
@@ -269,7 +270,7 @@ public class UsersDAO {
 	}
 	
 	
-	public List findUserByRole(String role) {
+	/*public List findUserByRole(String role) {
 		log.debug("getting User instance with role: " + role);
 		try{
 			
@@ -278,6 +279,24 @@ public class UsersDAO {
 					.add(Restrictions.eq("role", role)).list();
 			
 			return results;      		
+		   } catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		   }
+			
+	}*/
+	
+	
+	public Optional<List<Users>> findUserByRole(String role) {
+		log.debug("getting User instance with role: " + role);
+		try{
+			
+			
+			@SuppressWarnings("unchecked")
+			List<Users> results = sessionFactory.getCurrentSession().createCriteria("com.photo.contest.model.Users")
+					.add(Restrictions.eq("role", role)).list();
+			
+			return Optional.of(results);      		
 		   } catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
@@ -296,6 +315,21 @@ public class UsersDAO {
     	crit.setProjection(Projections.rowCount());
     	return (Long)crit.uniqueResult();
      }
+	
+	
+	public List findUserByPayingStatus(PayStatus payStatus) {
+		log.debug("getting User instance with role: " );
+		try{			
+			List results = sessionFactory.getCurrentSession().createCriteria("com.photo.contest.model.Users")
+					.add(Restrictions.eq("payStatus", payStatus)).list();
+			
+			return results;      		
+		   } catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		   }
+			
+	}
 	
 	
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,9 +37,8 @@ public class JudgeCreateController {
 	@RequestMapping("/createJudge")
 	public String createJudge(@RequestParam String action, ModelMap model, 
 			@ModelAttribute("judgeCreationDTO") JudgeCreationDTO judgeCreationDTO,
-			//@ModelAttribute("processDataType") Map<String,String> processDataType,
 			HttpServletResponse response,
-			HttpServletRequest request) throws IOException {
+			HttpServletRequest request) throws IOException, MessagingException {
 		
 		  UserDTO userDTO = (UserDTO) model.get("userForm");
 		  
@@ -47,9 +47,7 @@ public class JudgeCreateController {
 		  if(judgeCreationDTO.getCategory()==null) {
 			    model.addAttribute("judgeCreationError","Category for the Judge Should be Selected");
 		       }
-		 /* else if(judgeCreationDTO.getOrganizerclubName().trim().length()>0) {
-				model.addAttribute("judgeCreationError","Club Should be Selected for the Judge");
-			   }*/
+		 
 		     else {
 		    	    Users judge = dbServices.getJudge(judgeCreationDTO.getEmail());
 		    	    if(judge == null) {// if judge not exist

@@ -11,20 +11,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.photo.contest.dto.CategoryCountMap;
-import com.photo.contest.dto.FileProcessDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
-import com.photo.contest.dto.UserStatusDisplayDTO;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.File;
-import com.photo.contest.model.Judge;
-import com.photo.contest.model.Users;
 
 @Repository
 public class FileDetailDAO {
@@ -138,12 +133,7 @@ public class FileDetailDAO {
 		 }
 	 
 	 
-	 
-	 
-	 
-	 
-	 
-	 
+	  
 public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 		 
 		 log.debug("File instance");		 
@@ -166,15 +156,7 @@ public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 	          }
 			 
 		 }
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+	 	 
 	 public File findById(java.lang.Integer id) {
 			log.debug("getting File instance with id: " + id);
 			File instance = new File();
@@ -292,6 +274,7 @@ public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 				throw re;
 			}
 	 }
+	 
 	 
 	 public List<File> getFileList(){ 
 		 log.debug("finding User instance by example");
