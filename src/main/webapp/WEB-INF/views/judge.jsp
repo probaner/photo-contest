@@ -207,18 +207,14 @@ button.btn-default:before {
 <div class="container">
 <div id="mydiv">
 <div class="row">
-<form:form id="imagereatingForm" action="judgeingcategory" method="post" modelAttribute="categoryDTO">
-
-
-
-
 <c:forEach items="${categoryList}" var="categoryListValue">
+<form:form id="imagereatingForm" action="judge/judgeingcategory" method="post" modelAttribute="categoryDTO">
 
-<button type="button" class="btn btn-info ribbon">${categoryListValue}</button>
-
-</c:forEach>
+<form:hidden path="categoryName" value="${categoryListValue}"/>
+<form:button type="submit" class="btn btn-info ribbon">${categoryListValue}</form:button>
 
 </form:form>
+</c:forEach>
 </div>
 </div>
 </div>

@@ -3,6 +3,7 @@ package com.photo.contest.utility;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Base64;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
@@ -82,6 +83,14 @@ public class FileCheckUtility {
 			                          // TODO Auto-generated catch block
 			                          e.printStackTrace();
 		                            }
+	}
+	
+	public String convertBase64String(File file) throws IOException{
+	    byte[] fileContent = FileUtils.readFileToByteArray(file);
+		String encodedString = Base64.getEncoder().encodeToString(fileContent);
+		return encodedString;
+		
+		
 	}
 	
 	

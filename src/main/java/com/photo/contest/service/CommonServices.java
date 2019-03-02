@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.dto.DisplayReatingImageDTO;
 import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
@@ -161,7 +161,7 @@ public class CommonServices {
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(judgeMail);
 		mailRecipientDTO.setMessage("To register your as a judge, click the link below URL:\n" + url);
-		mailRecipientDTO.setSubject("Judge Registration URL - "+configProperty.getIndexImage());
+		mailRecipientDTO.setSubject("Password Reset Request");
 		try {
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 		} catch (MailSendException | ConnectException e) {
@@ -410,7 +410,7 @@ public class CommonServices {
 	
 	
 	public void processImage(Map<String, List<com.photo.contest.model.File>> fileProcessDataList, List<String> catagoryNameList) throws IOException {
-		
+				
 		for (Map.Entry<String, List<com.photo.contest.model.File>> entry : fileProcessDataList.entrySet()){				
 			 String path = configProperty.getBasePath()+"/"+entry.getKey();
 			 
@@ -443,8 +443,10 @@ public class CommonServices {
 	}
 	
 	
+	
+	
 	public TreeSet<Integer> getSavedFileId(String path) {
-		
+				
 		TreeSet<Integer> imageIdList = null;
 		File[] filesArray = null;
 		if(fileCheckUtility.isExist(path)) {
@@ -468,7 +470,7 @@ public class CommonServices {
 	
 	public String judgeCreationStatus(Optional<List<Users>> judgeList, Optional<List<Users>> adminList, List<OrganizerClub> organizerClubList) {
 		
-		
+	
 		int minNumberJudgeForEachClub=	Integer.parseInt(configProperty.getMinnumberjudgeforeachclub());
 		//int numberOfOrganizreClub=	Integer.parseInt(configProperty.getNumberoforganizreclub());
 		String returnString="";
@@ -550,7 +552,7 @@ public class CommonServices {
 		return map;
 	}
 	
-public boolean judgingFileProcessDateStatus() {
+	public boolean judgingFileProcessDateStatus() {
 		
 		Date judgingFileProcessDate=dateUtility.stringTodate(configProperty.getJudgingFileprocessdate());
 		Date sysDate = dateUtility.stringTodate(new SimpleDateFormat("yyyy-MM-dd").format( new Date()));
@@ -561,5 +563,48 @@ public boolean judgingFileProcessDateStatus() {
 		return false;
 				
 	}
+	
+	
+public List<DisplayReatingImageDTO> getImageReatingData(String categoryName) throws IOException{
+	
+	String path = configProperty.getBasePath()+"/"+categoryName;
+		
+	String comment=null;
+	
+	List<DisplayReatingImageDTO>  displayReatingImageDTOList= new ArrayList<>();
+	
+	DisplayReatingImageDTO displayReatingImageDTO = null;
+	
+	if(fileCheckUtility.isDir(path) && fileCheckUtility.isExist(path)) {
+		
+		File[] filesArray = fileCheckUtility.getFileArrayOfaDirectory(path, ".jpg");
+		
+		if(filesArray.length>0) {
+			
+			for(int f = 0; f <filesArray.length ; f ++) {
+				
+				displayReatingImageDTO = new DisplayReatingImageDTO();
+				displayReatingImageDTO.setImageId(Integer.parseInt(filesArray[f].getName().substring(0,filesArray[f].getName().lastIndexOf("."))));
+				displayReatingImageDTO.setImage(fileCheckUtility.convertBase64String(filesArray[f]));
+				
+				displayReatingImageDTOList.add(displayReatingImageDTO);
+			   }
+			
+		  }
+		else {
+			   comment = "Files are not available for "+categoryName +" category, Kindly contact Admin team";
+		     }
+		
+	  }else {
+		      comment = categoryName+" Category File yet not download, Kindly contact Admin team ";
+	        }
+	
+	
+	System.out.println("displayReatingImageDTOListSize="+displayReatingImageDTOList.size());
+	return displayReatingImageDTOList;
+	
+}
+	
+	
 
 }

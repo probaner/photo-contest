@@ -29,7 +29,7 @@ public class ConfigProperty {
 	@Value("${base.path}")
 	private String basePath;
 	@Value("${file.maxsize}")
-	private Long maxSize;
+	private Long fileMaxSize;
 	@Value("${chargeing.type.category_wise.netive}")
 	private String chargeingTypeCategoryWiseNetive;
 	@Value("${chargeing.type.category_wise.foreign}")
@@ -142,9 +142,8 @@ public class ConfigProperty {
 
 
 
-	@SuppressWarnings("unused")
-	private ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
-			String headerRight, String judgepageImage, String homepageImage, String basePath, Long maxSize,
+	public ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
+			String headerRight, String judgepageImage, String homepageImage, String basePath, Long fileMaxSize,
 			String chargeingTypeCategoryWiseNetive, String chargeingTypeCategoryWiseForeign,
 			String chargeingTypeIndivisualPhotoWiseNetive, String chargeingTypeIndivisualPhotoWiseForeign,
 			String chargeingTypeOverallNetive, String chargeingTypeOverallForeign, String categoryOne,
@@ -169,7 +168,7 @@ public class ConfigProperty {
 		this.judgepageImage = judgepageImage;
 		this.homepageImage = homepageImage;
 		this.basePath = basePath;
-		this.maxSize = maxSize;
+		this.fileMaxSize = fileMaxSize;
 		this.chargeingTypeCategoryWiseNetive = chargeingTypeCategoryWiseNetive;
 		this.chargeingTypeCategoryWiseForeign = chargeingTypeCategoryWiseForeign;
 		this.chargeingTypeIndivisualPhotoWiseNetive = chargeingTypeIndivisualPhotoWiseNetive;
@@ -219,11 +218,6 @@ public class ConfigProperty {
 		this.minnumberjudgeforeachclub = minnumberjudgeforeachclub;
 		this.numberoforganizreclub = numberoforganizreclub;
 	}
-
-
-
-
-
 
 
 
@@ -307,14 +301,16 @@ public class ConfigProperty {
 	}
 
 
-	public Long getMaxSize() {
-		return maxSize;
+	public Long getFileMaxSize() {
+		return fileMaxSize;
 	}
 
 
-	public void setMaxSize(Long maxSize) {
-		this.maxSize = maxSize;
+
+	public void setFileMaxSize(Long fileMaxSize) {
+		this.fileMaxSize = fileMaxSize;
 	}
+
 
 
 	public String getChargeingTypeCategoryWiseNetive() {

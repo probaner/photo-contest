@@ -12,9 +12,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -30,6 +32,8 @@ import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.exception.BusinessException;
 import com.photo.contest.exception.ErrorCode;
 import com.photo.contest.exception.ImageFormateException;
+import com.photo.contest.exception.ImageSizeException;
+import com.photo.contest.model.ImageRating;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.Users;
 
@@ -137,7 +141,7 @@ public class CommonUtil {
 		 
 		 Double size = (double) (file.length()/1024);
 		 System.out.println("size="+size);
-		 if(size> configProperty.getMaxSize())
+		 if(size> configProperty.getFileMaxSize())
 		    return false;
 		 else   		
 		      return true;		 
@@ -225,9 +229,16 @@ public int getNumbrtofSection(int number) {
 
 
 
-public void  imageSizeValidation(byte fileContent[]) throws BusinessException, IOException{
+public boolean  imageSizeValidation(byte fileContent[]) throws BusinessException, IOException{
 	InputStream inputstream = new ByteArrayInputStream(fileContent);
-	System.out.println("image size in kb="+inputstream.available()/1024);		
+	int sizekb = inputstream.available()/1024;	
+	if(sizekb <= configProperty.getFileMaxSize()) {
+		 return true;
+	  }
+	else {
+		   ErrorCode errorCode = new ErrorCode("Image size not more "+configProperty.getFileMaxSize(),"Image size problem.",500);
+		   throw new ImageSizeException(errorCode);  
+	     }		
 }
 
 public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessException, IOException{
@@ -315,7 +326,82 @@ public int getFrequencyinList(List<Users> judgeList, OrganizerClub organizerClub
 	
 }
 
-
-
+public Map<Integer, Integer> createImageReatingMap(Optional<List<ImageRating>> imageRatingList){
+	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+	if(imageRatingList.isPresent()){
+		   for(ImageRating imageRating: imageRatingList.get()) {
+			   map.put(imageRating.getFile().getFileId(), imageRating.getRating());
+		      }
+	}
 	
+	//System.out.println(map);
+	return map;
+	
+}
+
+
+/*public ReatingStatusTreeDTO createGruphData(List<String> list){
+	
+	//List<JudgingStatusGraphDTO> judgingStatusGraphDTOList = new ArrayList<>();
+	JudgingStatusGraphDTO judgingStatusGraphDTO = null;
+	ReatingStatusTreeDTO reatingStatusTreeDTO = new ReatingStatusTreeDTO();
+	for(String data : list) {
+		judgingStatusGraphDTO = new JudgingStatusGraphDTO();
+		judgingStatusGraphDTO.setId(list.indexOf(data)+1);
+		judgingStatusGraphDTO.setText_2("");
+		judgingStatusGraphDTO.setColor("#2196F3");
+		if(!data.contains("|")) {
+		   judgingStatusGraphDTO.setFather("");
+		   judgingStatusGraphDTO.setText_1(data);
+		}
+		else {
+			  String parentdata = data.substring(0, data.lastIndexOf("|"));
+			  if(list.contains(parentdata)) {
+				  int i = list.indexOf(parentdata)+1;
+				  judgingStatusGraphDTO.setFather(String.valueOf(i));
+			    }
+			  judgingStatusGraphDTO.setText_1(data.substring(data.lastIndexOf("|")+1, data.length()));
+		     }
+		judgingStatusGraphDTOList.add(judgingStatusGraphDTO);
+	   }
+	
+	for(String data : list) {
+		
+		if(!data.contains("|")) {
+			System.out.println("dataZero"+data);
+			
+			reatingStatusTreeDTO.setName(data);
+			reatingStatusTreeDTO.setParent(null);
+			
+		  }
+		else if(StringUtils.countOccurrencesOf(data, "|")==1) {
+			      System.out.println("dataONE"+data);
+			     if( reatingStatusTreeDTO.getChildren()!=null) {
+			    	 
+			    	 List<ReatingStatusTreeDTO> l = reatingStatusTreeDTO.getChildren();
+			    	 ReatingStatusTreeDTO reatingStatusTreeDTOChild =  new ReatingStatusTreeDTO();
+			    	 reatingStatusTreeDTOChild.setName(data.substring(data.lastIndexOf("|")+1, data.length()));
+			    	 reatingStatusTreeDTOChild.setParent(data.substring(0, data.lastIndexOf("|")));	
+			    	 l.add(reatingStatusTreeDTOChild);
+			    	 reatingStatusTreeDTO.setChildren(l);
+			       }
+			     else {
+			    	     List<ReatingStatusTreeDTO> l =  new ArrayList<>();
+			    	     ReatingStatusTreeDTO reatingStatusTreeDTOChild =  new ReatingStatusTreeDTO();			    	  
+				    	 reatingStatusTreeDTOChild.setName(data.substring(data.lastIndexOf("|")+1, data.length()));
+				    	 reatingStatusTreeDTOChild.setParent(data.substring(0, data.lastIndexOf("|")));	
+				    	 l.add(reatingStatusTreeDTOChild);
+				    	 reatingStatusTreeDTO.setChildren(l);
+		              }
+	           }
+		
+	}//end of for
+	
+	System.out.print(reatingStatusTreeDTO);
+	
+	return reatingStatusTreeDTO;
+}*/
+
+
+
   }
