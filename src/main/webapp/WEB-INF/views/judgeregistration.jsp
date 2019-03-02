@@ -267,7 +267,7 @@ input::-webkit-input-placeholder {
 				    },
 		                                minlength: 6,
 		                                maxlength: 25,
-		                                equalTo: "#password"
+		                                equalTo: "#judgePassword"
 	                                  },
 				
 	           judgePin: {

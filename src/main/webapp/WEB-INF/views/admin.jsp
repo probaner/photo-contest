@@ -397,14 +397,14 @@ div.ex11 {
       </div>
       
       
- <div class="container">
+ <!-- <div class="container">
 		 <div class="panel-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" href="#collapse8">Process Judging File</a>
 					</h4>
-				</div>
+				</div> -->
 				<%-- <div id="collapse8" class="panel-collapse collapse">
 					<div class="row">
 					
@@ -429,9 +429,9 @@ div.ex11 {
 						</form:form>					
 					 </div>
 				</div> --%>
-			</div>
+			<!-- </div>
 		</div> 
-	</div>
+	</div> -->
 
 
 <!-- /.container -->

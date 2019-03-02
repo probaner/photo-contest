@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -862,7 +863,7 @@ public class DbServices {
 	}
 	
 	@Transactional
-	public String createJudge(JudgeCreationDTO judgeRegistrationDTO, UserDTO userDTO, String token, String judgeRegisterUrl) throws IOException {
+	public String createJudge(JudgeCreationDTO judgeRegistrationDTO, UserDTO userDTO, String token, String judgeRegisterUrl) throws IOException, MessagingException {
 		
 		OrganizerClub organizerClub = organizerClubDAO.findByOrganizerClubName(judgeRegistrationDTO.getOrganizerclubName());
 		Users user = usersDAO.findById(userDTO.getUserid());
@@ -895,7 +896,7 @@ public class DbServices {
 		
 		
 		if (id > 0) {
-			          //commonService.sendJudgeRegistrationURLMail(judgeRegisterUrl, judgeRegistrationDTO.getEmail());			            
+			          commonService.sendJudgeRegistrationURLMail(judgeRegisterUrl, judgeRegistrationDTO.getEmail());			            
 			          return "ok";			          
 		            }
 		else {
@@ -1005,10 +1006,11 @@ public class DbServices {
 		
 		List<JudgeTableDTO> judgeTableData = new ArrayList<>();
 		
-		List<Users> judgeList =  usersDAO.findUserByRole("judge");
+		Optional<List<Users>> judgeList = usersDAO.findUserByRole("judge");
 		
-		 if(judgeList.size()>0) {
-		   for(Users u : judgeList) {
+		 //if(judgeList.size()>0) {
+		if(judgeList.isPresent()) {			
+		   for(Users u : judgeList.get()) {
 			   JudgeTableDTO judgeTableDTO = new JudgeTableDTO();
 			   judgeTableDTO.setJudgeId(u.getUserId());
 			   judgeTableDTO.setJudgeEmail(u.getEmail());
@@ -1160,16 +1162,16 @@ public class DbServices {
 	}
 	
 	
-	public void processJudgingFile(String payingStatus) throws IOException {		
-		selectAllImageCategoryWise(payingStatus);
-		for (Map.Entry<String,Integer> entry : results.entrySet()){	
-             TreeSet<Integer>  name = commonService.getSavedFileId(configProperty.getBasePath()+"/" + entry.getKey()); 
-             if(name!=null && name.size()>0)
-                imageIdMap.put(entry.getKey(), name);
-		    }
-		
-		//System.out.println("imageIdMap="+imageIdMap);
-	  }
+	public Map<String, TreeSet<Integer>> processJudgingFile() throws IOException {		
+		  Map<String, TreeSet<Integer>> imageIdMap = new HashMap<>();
+			for (Map.Entry<String,Integer> entry : results.entrySet()){	
+	             TreeSet<Integer>  idList = commonService.getSavedFileId(configProperty.getBasePath()+"/" + entry.getKey()); 
+	             if(idList!=null && idList.size()>0)
+	                imageIdMap.put(entry.getKey(), idList);
+			    }
+			
+			return imageIdMap;
+		  }
 	
 	
 	@Transactional
@@ -1179,8 +1181,8 @@ public class DbServices {
 	ImageRating imageRating = null;//.imageRating.new ImageRating();	
 	 
 	String responce=""; 
-	List<Users> judgeList =  usersDAO.findUserByRole("judge");
-	List<Users> adminList =  usersDAO.findUserByRole("admin");
+	Optional<List<Users>> judgeList =  usersDAO.findUserByRole("judge");
+	Optional<List<Users>> adminList =  usersDAO.findUserByRole("admin");
 	List<OrganizerClub> organizerClubList = organizerClubDAO.getOrganizerClubList("OrganizerClub");
 	
 		
@@ -1191,17 +1193,20 @@ public class DbServices {
 		responce=commonService.judgeRegistrationStatus(judgeList,adminList,organizerClubList);
 		//if(responce.length()==0) {
 		if(imageRatingDAO.getCount()>0) {
-			System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
+			//System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
 			imageRatingDAO.truncate(getDBName()+".image_rating");
-			System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
+			//System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
 			
-		}
-		    processJudgingFile(payingStatus);
+		}   
+		    selectAllImageCategoryWise(payingStatus);
+		    processJudgingFile();
 			Map<Integer, List<String>> map=commonService.findCategoryForJudge(judgeList);
+			Map<String, TreeSet<Integer>> imageIdMap =  processJudgingFile();
 			if(map.size()>0) {
 			  for(Map.Entry<Integer, List<String>> entry : map.entrySet()) {
 				  List<String> judgeCatecoryList = entry.getValue();
 				  for(String categoryName: judgeCatecoryList) {
+					  
 					  TreeSet<Integer> categoryIdList = imageIdMap.get(categoryName);
 					  if(categoryIdList!=null){
 					  for(Integer imageid:categoryIdList) {
@@ -1244,8 +1249,8 @@ public class DbServices {
 	@Transactional
 	public boolean getResultDataProcessStatus() {
 		
-		System.out.println("SIZE="+imageRatingDAO.getRowCount());
-		if(imageRatingDAO.getRowCount()==0)
+		System.out.println("SIZE="+imageRatingDAO.getCount());
+		if(imageRatingDAO.getCount()==0)
 		   return true;			
 		   return false;		
 	}

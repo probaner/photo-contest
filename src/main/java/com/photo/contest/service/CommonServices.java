@@ -161,7 +161,7 @@ public class CommonServices {
 		mailRecipientDTO.setSender(configProperty.getMailsender());
 		mailRecipientDTO.setRecipient(judgeMail);
 		mailRecipientDTO.setMessage("To register your as a judge, click the link below URL:\n" + url);
-		mailRecipientDTO.setSubject("Password Reset Request");
+		mailRecipientDTO.setSubject("Judge Registration URL - "+configProperty.getIndexImage());
 		try {
 		commonUtil.doSendEmail(mailRecipientDTO, null);
 		} catch (MailSendException | ConnectException e) {
@@ -466,18 +466,18 @@ public class CommonServices {
 		return imageIdList;		
 	}
 	
-	public String judgeCreationStatus(List<Users> judgeList, List<Users> adminList, List<OrganizerClub> organizerClubList) {
+	public String judgeCreationStatus(Optional<List<Users>> judgeList, Optional<List<Users>> adminList, List<OrganizerClub> organizerClubList) {
 		
-	
+		
 		int minNumberJudgeForEachClub=	Integer.parseInt(configProperty.getMinnumberjudgeforeachclub());
 		//int numberOfOrganizreClub=	Integer.parseInt(configProperty.getNumberoforganizreclub());
 		String returnString="";
 		if(organizerClubList != null && organizerClubList.size() >0) {
 			
-			if (judgeList.size() > 0 && judgeList!=null) {
+			if (judgeList.isPresent() && judgeList!=null) {
 								
 				for(OrganizerClub organizerClub: organizerClubList) {
-					 int count = commonUtil.getFrequencyinList(judgeList,organizerClub);
+					 int count = commonUtil.getFrequencyinList(judgeList.get(),organizerClub);
 					if(count >= minNumberJudgeForEachClub){
 					   
 					  }
@@ -490,8 +490,8 @@ public class CommonServices {
 			else {
 				  returnString= "Judges list is empty, kindly create judge for all the club" 
 						         +"\nFollow the above instruction before try again";
-				  if(adminList!= null && adminList.size() > 0) {
-				     for(Users user: adminList) {
+				  if(adminList!= null && adminList.isPresent()) {
+				     for(Users user: adminList.get()) {
 					     try {
 							   sendJudgeRegistrationNotDone(user.getEmail());
 						     } catch (MessagingException e) {
@@ -510,10 +510,10 @@ public class CommonServices {
 	}
 	
 	
-	public String judgeRegistrationStatus(List<Users> judgeList, List<Users> adminList, List<OrganizerClub> organizerClubList) {
+	public String judgeRegistrationStatus(Optional<List<Users>> judgeList, Optional<List<Users>> adminList, List<OrganizerClub> organizerClubList) {
 		String returnString="";
-		if (judgeList.size() > 0 && judgeList!=null) {
-			for(Users judge: judgeList) {
+		if (judgeList.isPresent() && judgeList!=null) {
+			for(Users judge: judgeList.get()) {
 				if(judge.getJudgeRegistrationToken()!=null)
 				   returnString	=returnString+ "Judge Nane: "+judge.getFirstName()+" "+judge.getLastName()+"\n"+
 				                  "Email: "+judge.getEmail()+"\n"+
@@ -533,9 +533,9 @@ public class CommonServices {
 		
 	}
 	
-	public Map<Integer, List<String>> findCategoryForJudge(List<Users> judgeList){
+	public Map<Integer, List<String>> findCategoryForJudge(Optional<List<Users>> judgeList){
 		Map<Integer, List<String>> map = new HashMap<>();
-		for(Users user: judgeList) {
+		for(Users user: judgeList.get()) {
 			Set<Category> categorySet=user.getJudgeCategoryMapping();
 			if(categorySet.size()>0) {
 				List<String> l = new ArrayList<>();
