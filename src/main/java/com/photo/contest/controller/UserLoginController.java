@@ -34,7 +34,7 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller 
-@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList"/*,"processDataType"*/})
+@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList","processDataType"})
 public class UserLoginController {
 	
 	@Autowired
@@ -134,7 +134,7 @@ public class UserLoginController {
 						model.addAttribute("organizerclubList", organizerclubList);
 						model.addAttribute("categoryList", categoryList);
 						model.addAttribute("categoryList", categoryList);
-						//model.addAttribute("processDataType", selectData.fileProcessType());
+						model.addAttribute("processDataType", selectData.judgeFileProcessType());
 						
 						return "admin";
 

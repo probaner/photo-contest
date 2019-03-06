@@ -1,17 +1,8 @@
 package com.photo.contest.controller;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import com.photo.contest.dto.JudgeFileProcessDropDownDTO;
-import com.photo.contest.utility.SelectData;
 
 
 @Controller
@@ -19,20 +10,20 @@ import com.photo.contest.utility.SelectData;
 @EnableWebMvc
 public class JudgingFileProcessController {
 	
-	@Autowired
-	private SelectData selectData;
+	//@Autowired
+	//private SelectData selectData;
 	
 	
-	@RequestMapping(value = "/admin/json/getjudgeprocessdropdown")
+	//@RequestMapping(value = "/admin/json/getjudgeprocessdropdown")
 	
-	public @ResponseBody List<JudgeFileProcessDropDownDTO> getJudgeProcessDropdowJson() throws IOException {
+	//public @ResponseBody List<JudgeFileProcessDropDownDTO> getJudgeProcessDropdowJson() throws IOException {
 		
-		 List<JudgeFileProcessDropDownDTO> list =selectData.judgeFileProcessType();
+		/* List<JudgeFileProcessDropDownDTO> list =selectData.judgeFileProcessType();
 		 for(JudgeFileProcessDropDownDTO j: list)
 			 System.out.println(j.toString());
 		 
-		 return list;
-	}
+		 return list;*/
+	//}
 	
 	
 	/*@RequestMapping("/processFile")

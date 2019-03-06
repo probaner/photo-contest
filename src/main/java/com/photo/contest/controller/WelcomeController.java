@@ -60,7 +60,7 @@ public class WelcomeController {
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
 		model.put("homePageImage",configProperty.getHomepageImage());
-		//dbServices.getParticipentCount();
+		dbServices.processJudgingData("All");
 	    return new ModelAndView("home"); 
 	    } 
 	
@@ -134,7 +134,7 @@ public class WelcomeController {
 		  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
 		  model.addAttribute("headerRight",configProperty.getHeaderRight());
 		  
-		  if(!usersEmailList.contains(userDTO.getEmail())){
+		  if(!usersEmailList.contains(userDTO.getEmail().trim())){
 			  
 		   if(commonServices.getExpairStatus())	{  
 			   Users users =dbServices.saveUserData(userDTO);

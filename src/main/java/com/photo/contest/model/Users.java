@@ -148,7 +148,7 @@ public class Users  implements java.io.Serializable {
         this.createdOn = createdOn;
     }
     
-    @Column(name="email", nullable=false, length=200)
+    @Column(name="email", nullable=false, length=200, unique=true)
     public String getEmail() {
         return this.email;
     }

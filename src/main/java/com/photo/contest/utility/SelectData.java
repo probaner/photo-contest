@@ -312,7 +312,7 @@ public class SelectData {
    public List<String> clubData(List<ClubDTO> clubList){	   
 	   List<String> clubData = new ArrayList<String>(); 
 	   
-	   System.out.println("clubList="+clubList);
+	   //System.out.println("clubList="+clubList);
 	   clubData.add(0, "  Select Club  ");
 	   if( clubList!=null) {
 	   for(ClubDTO c : clubList) 
@@ -321,14 +321,16 @@ public class SelectData {
 	   return clubData;		   
    }
    
-   public List<JudgeFileProcessDropDownDTO> judgeFileProcessType(){	   
-	   List<JudgeFileProcessDropDownDTO> list = new ArrayList<>();
+   public Map<String,String> judgeFileProcessType(){
+	   Map<String,String> map =new HashMap<>();
+	   map.put("0", "Select File Type");
+	  /* List<JudgeFileProcessDropDownDTO> list = new ArrayList<>();
 	   JudgeFileProcessDropDownDTO judgeFileProcessDropDownDTO = new JudgeFileProcessDropDownDTO();
-	   judgeFileProcessDropDownDTO.setCount("0");
+	   judge=FileProcessDropDownDTO.setCount("0");
 	   judgeFileProcessDropDownDTO.setStatement("Select File Type");
-	   list.add(0, judgeFileProcessDropDownDTO);
-	   dbServices.getParticipentCount(list);
-	return list;
+	   list.add(0, judgeFileProcessDropDownDTO);*/
+	    map= dbServices.getParticipentCount(map);
+	return map;
 	   
    }
 

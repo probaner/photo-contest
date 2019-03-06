@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.itextpdf.text.DocumentException;
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.config.HibernateConfig;
 import com.photo.contest.dao.CategoryDAO;
@@ -40,7 +39,6 @@ import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
 import com.photo.contest.dto.JudgeCreationDTO;
-import com.photo.contest.dto.JudgeFileProcessDropDownDTO;
 import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.dto.JudgeTableDTO;
 import com.photo.contest.dto.LogingResponseDTO;
@@ -1256,17 +1254,21 @@ public class DbServices {
 	}
 	
 	@Transactional
-	public void getParticipentCount(List<JudgeFileProcessDropDownDTO> list) {
-		JudgeFileProcessDropDownDTO paid = new JudgeFileProcessDropDownDTO();
-		paid.setCount("Paid");
+	public Map<String,String> getParticipentCount(Map<String,String> map) {
+		//JudgeFileProcessDropDownDTO paid = new JudgeFileProcessDropDownDTO();
+		/*paid.setCount("Paid");
 		paid.setStatement("paid participant count: "+payStatusDAO.getTotalPaidPerticipentCount("Paid"));
 		list.add(paid);
 		
 		JudgeFileProcessDropDownDTO all = new JudgeFileProcessDropDownDTO();
 		all.setCount("All");
 		all.setStatement("all perticipent count: "+usersDAO.getTotalPerticipentCount("participate"));
-		list.add(all);
+		list.add(all);*/
 		
+		map.put("Paid", "paid participant count: "+payStatusDAO.getTotalPaidPerticipentCount("Paid"));
+		map.put("All", "all perticipent count: "+usersDAO.getTotalPerticipentCount("participate"));
+		
+		return map;
 	}
 	
 	

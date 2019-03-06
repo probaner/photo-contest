@@ -37,9 +37,7 @@
 <script src="<c:url value="/resources/javaScript/jquery.validate.js" />"></script>
 <script src="<c:url value="/resources/javaScript/additional-methods.min.js" />"></script>
 <script src="<c:url value="/resources/javaScript/jquery.form.js" />"></script>
-<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>  -->
+
  <style>
 
 div.ex1 {
@@ -397,41 +395,31 @@ div.ex11 {
       </div>
       
       
- <!-- <div class="container">
+ <%-- <div class="container">
 		 <div class="panel-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" href="#collapse8">Process Judging File</a>
 					</h4>
-				</div> -->
-				<%-- <div id="collapse8" class="panel-collapse collapse">
-					<div class="row">
-					
-					  
-						<form:form action="processFile" method="post" modelAttribute="processFileDTO" id="processFileForm">
-						   <!--    </div>
-								<div class="ex11">
-								<div id="div_source1">
-                      <select id="ch_user1" >
-                      <option value="select"></option>
-                      </select>
-                      </div> -->
+				</div> 
+				<div id="collapse8" class="panel-collapse collapse">
+					<div class="row">										  
+						<form:form action="processfileforjudging" method="post" modelAttribute="processFileDTO" id="processFileForm">						 
 								    <div style="color: red">${processDataError}</div>
-									<form:select class="form-control" path="status" id = "status"
-										items="${processDataType}" />
+									<form:select class="form-control" path="status" id = "status" items="${processDataType}" />		
 									<div class="ex6">
-										<label class="btn btn-danger">Submit<input
-											type="submit" id="creatrColubcouponcode"
-											style="display: none;" name="action" value="processJudgingFile" /></label>
+									<label class="btn btn-danger">Submit<input type="submit" id="creatrColubcouponcode" 
+									style="display: none;" name="action" value="processJudgingFile" />										
+									</label>
 									</div>
 									<div class="ex5"></div>
 						</form:form>					
 					 </div>
-				</div> --%>
-			<!-- </div>
+				</div>
+			 </div>
 		</div> 
-	</div> -->
+	</div>  --%>
 
 
 <!-- /.container -->
