@@ -24,7 +24,7 @@ import com.photo.contest.model.Users;
 import com.photo.contest.service.DbServices;
 
 @Controller
-@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList"/*,"processDataType"*/})
+@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList","processDataType"})
 @EnableWebMvc
 public class JudgeCreateController {
 	

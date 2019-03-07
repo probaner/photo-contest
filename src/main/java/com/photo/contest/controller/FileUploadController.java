@@ -46,6 +46,7 @@ public class FileUploadController {
 			if (fileDTO.getTitel().trim().length() > 1 && fileDTO.getTitel().trim().length() < 70) {
 				
 				commonUtil.imageDimentionValidation(fileDTO.getImages().getBytes());
+				commonUtil.imageSizeValidation(fileDTO.getImages().getBytes());
 				
 				Integer fileid = dbServices.saveFileData(fileDTO, userDTO);
 								
