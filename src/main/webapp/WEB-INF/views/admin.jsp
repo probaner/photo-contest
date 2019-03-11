@@ -378,24 +378,27 @@ div.ex11 {
 
 
 
-<div class="container">  
-  <div class="panel-group">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#collapse4">Payment Status Graph</a>
-        </h4></div>
-       <div id="collapse4" class="panel-collapse collapse">
-       
-       <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
-       
-       </div>
-      </div>
-      </div>
-      </div>
-      
-      
- <%-- <div class="container">
+	<div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse4">Payment Status
+							Graph</a>
+					</h4>
+				</div>
+				<div id="collapse4" class="panel-collapse collapse">
+
+					<div id="container"
+						style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<%-- <div class="container">
 		 <div class="panel-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -404,18 +407,21 @@ div.ex11 {
 					</h4>
 				</div> 
 				<div id="collapse8" class="panel-collapse collapse">
-					<div class="row">										  
+				<div class="row">	
+														  
 						<form:form action="processfileforjudging" method="post" modelAttribute="processFileDTO" id="processFileForm">						 
-								    <div style="color: red">${processDataError}</div>
+								    <div class="col-sm-9">
+								    <div class="ex7"><div style="color: red">${processDataError}</div></div>
+									<div class="ex7">
 									<form:select class="form-control" path="status" id = "status" items="${processDataType}" />		
-									<div class="ex6">
-									<label class="btn btn-danger">Submit<input type="submit" id="creatrColubcouponcode" 
-									style="display: none;" name="action" value="processJudgingFile" />										
-									</label>
 									</div>
-									<div class="ex5"></div>
+									<div class="ex8"><label class="btn btn-danger">Submit<input type="submit" id="creatrColubcouponcode" 
+									style="display: none;" name="action" value="processJudgingFile" /></div>										
+									</label>									
+									
+									</div>
 						</form:form>					
-					 </div>
+				 </div>
 				</div>
 			 </div>
 		</div> 
