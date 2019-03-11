@@ -11,12 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.CategoryDTO;
 import com.photo.contest.dto.DisplayReatingImageDTO;
+import com.photo.contest.dto.ImageRatingDTOContainer;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.CommonServices;
 
@@ -45,12 +46,27 @@ public class CategoryWiseReatingImageBundelController {
 		  
 		 
 		  
-		  List<DisplayReatingImageDTO> displayReatingImageDTOList = commonService.getImageReatingData (categoryDTO.getCategoryName()); 
-		  
-		   model.addAttribute("displayReatingImageDTOList", displayReatingImageDTOList);
+		  List<DisplayReatingImageDTO> displayReatingImageDTOList = commonService.getImageReatingData (categoryDTO.getCategoryName());
+		  ImageRatingDTOContainer container = new ImageRatingDTOContainer();
+		  container.setImageList(displayReatingImageDTOList);
+		   model.addAttribute("displayReatingImageDTOList", container);
 		  		
 				return "imagereating";
 		
+	}
+	
+	
+	@RequestMapping(value = "/judge/rate", method = RequestMethod.POST)
+	public String saveUsers(@ModelAttribute("displayReatingImageDTOList") ImageRatingDTOContainer imageRatingDTOContainer,Model model) throws Exception{
+	    List<DisplayReatingImageDTO> displayReatingImageDTOList = imageRatingDTOContainer.getImageList();
+	    for(DisplayReatingImageDTO displayReatingImageDTO : displayReatingImageDTOList) {
+	        System.out.println("Image Id- " + displayReatingImageDTO.getImageId() + " Rating-> " +displayReatingImageDTO.getReating());
+	    }
+	    //insert to db
+	    
+	    model.addAttribute("message", "Rating saved successfully");
+	    model.addAttribute("displayReatingImageDTOList", imageRatingDTOContainer);
+	    return "imagereating";
 	}
 
 }
