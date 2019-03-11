@@ -22,6 +22,7 @@ import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.ProcessFileDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.CommonServices;
+import com.photo.contest.service.DbServices;
 import com.photo.contest.utility.SelectData;
 
 
@@ -36,6 +37,8 @@ public class ProcessJudgingFileController {
 	private CommonServices commonServices;
 	@Autowired
 	private SelectData selectData;
+	@Autowired
+	DbServices dbService;
 	
 	
 	@RequestMapping("/processfileforjudging")
@@ -45,12 +48,14 @@ public class ProcessJudgingFileController {
 			@ModelAttribute("userForm") UserDTO userDTO,
 			@ModelAttribute("clubDataList") List<String> clubDataList,
 			@ModelAttribute("processDataType") Map<String, String> processDataType,
+			@ModelAttribute("processFileDTO") ProcessFileDTO processFileDTO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException{
 		
 		if (action.equals("processJudgingFile")) {
 		    if(commonServices.judgingFileProcessDateStatus()){
-			
+		    	String responce =dbService.processJudgingData(processFileDTO.getStatus());
+		    	 model.addAttribute("processDataError",responce);
 		      }
 		    else{
 		    	  model.addAttribute("processDataError", "Data Processing Date: "+configProperty.getJudgingFileprocessdate());

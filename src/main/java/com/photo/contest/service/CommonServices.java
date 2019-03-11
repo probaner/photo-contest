@@ -517,10 +517,10 @@ public class CommonServices {
 		if (judgeList.isPresent() && judgeList!=null) {
 			for(Users judge: judgeList.get()) {
 				if(judge.getJudgeRegistrationToken()!=null)
-				   returnString	=returnString+ "Judge Nane: "+judge.getFirstName()+" "+judge.getLastName()+"\n"+
-				                  "Email: "+judge.getEmail()+"\n"+
-						          "Club Name: "+judge.getJudgeOrganizerClub().getOrganizerclubname()+"\n"+
-						          "Registration Not Yeat Done \n\n";				                   
+				   returnString	=returnString+"Judge Nane: "+judge.getFirstName()+" "+judge.getLastName()+
+				                  "Email: "+judge.getEmail()+
+						          "Club Name: "+judge.getJudgeOrganizerClub().getOrganizerclubname()+
+						          "Registration Not Yeat Done";				                   
 			   }
 			
 			

@@ -236,7 +236,7 @@ public boolean  imageSizeValidation(byte fileContent[]) throws BusinessException
 		 return true;
 	  }
 	else {
-		   ErrorCode errorCode = new ErrorCode("Image size not more "+configProperty.getFileMaxSize(),"Image size problem.",500);
+		   ErrorCode errorCode = new ErrorCode("Image size not more "+configProperty.getFileMaxSize()+" KB","Image Size Problems",500);
 		   throw new ImageSizeException(errorCode);  
 	     }		
 }
@@ -256,7 +256,7 @@ public boolean  imageDimentionValidation(byte fileContent[]) throws BusinessExce
 		if(img.getWidth()>=Integer.parseInt(configProperty.getFileMinlongestSideResolution()) && img.getWidth() <= Integer.parseInt(configProperty.getFileMaxlongestSideResolution())) 
 			return true;
 		else {
-			   ErrorCode errorCode = new ErrorCode("Image width should be between " +configProperty.getFileMinlongestSideResolution() +" and " +configProperty.getFileMaxlongestSideResolution() + ". ","Image dimension problem.",500);
+			   ErrorCode errorCode = new ErrorCode("Image width should be between " +configProperty.getFileMinlongestSideResolution() +" and " +configProperty.getFileMaxlongestSideResolution() + ". ","Image dimension problem",500);
 			   throw new ImageFormateException(errorCode);
 		     }
 		

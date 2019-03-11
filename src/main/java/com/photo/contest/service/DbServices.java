@@ -1189,13 +1189,9 @@ public class DbServices {
 	if(responce.length()==0) {
 		//check all judes registration done for all club
 		responce=commonService.judgeRegistrationStatus(judgeList,adminList,organizerClubList);
-		//if(responce.length()==0) {
-		if(imageRatingDAO.getCount()>0) {
-			//System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
+		if(responce.length()==0) {
+		if(imageRatingDAO.getCount()>0){
 			imageRatingDAO.truncate(getDBName()+".image_rating");
-			//System.out.println("imageRatingDAO.getCount()="+imageRatingDAO.getCount());
-			
-		}   
 		    selectAllImageCategoryWise(payingStatus);
 		    processJudgingFile();
 			Map<Integer, List<String>> map=commonService.findCategoryForJudge(judgeList);
@@ -1203,8 +1199,7 @@ public class DbServices {
 			if(map.size()>0) {
 			  for(Map.Entry<Integer, List<String>> entry : map.entrySet()) {
 				  List<String> judgeCatecoryList = entry.getValue();
-				  for(String categoryName: judgeCatecoryList) {
-					  
+				  for(String categoryName: judgeCatecoryList) {					  
 					  TreeSet<Integer> categoryIdList = imageIdMap.get(categoryName);
 					  if(categoryIdList!=null){
 					  for(Integer imageid:categoryIdList) {
@@ -1216,12 +1211,14 @@ public class DbServices {
 					    }
 				     }					
 				   }
+			
 			     }else {
 			    	     responce ="judge process sucessful";
 			    	     return responce;
 			    	   }
-	  }
-	
+	        }
+		  }	
+	  }	
 	  return responce;
 	}
 	
