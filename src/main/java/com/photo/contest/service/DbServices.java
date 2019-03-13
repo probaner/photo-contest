@@ -1130,6 +1130,7 @@ public class DbServices {
 	
 	@Transactional
 	public void selectAllImageCategoryWise(String payingStatus) throws IOException {
+		System.out.println("I am fulty not calling");
 	  	Category category = null;
 	  	Map<String ,List<File>> fileProcessDataList = new HashMap<>();
 	  	List<String> catagoryNameList = new ArrayList<String>();
@@ -1142,7 +1143,7 @@ public class DbServices {
 				catagoryNameList.add(entry.getKey());
 				if(!payingStatus.equals("Paid")) {
 				   fileProcessData = fileDetailDAO.getFileProcessData(category);
-				   //System.out.println("fileProcessData="+fileProcessData.size());
+				   System.out.println("fileProcessData="+fileProcessData.size());
 				 }else {
 					     fileProcessDataList= getPaidUsersFileListCategoryWise(payingStatus);					     
 				       }
@@ -1154,6 +1155,7 @@ public class DbServices {
 		          System.out.println("File Not Found");
 		        }
 		if(fileProcessDataList!=null && fileProcessDataList.size()>0) {
+			System.out.println("I am fulty not");
 			commonService.deleteExistingDirectory(results);
 		    commonService.processImage(fileProcessDataList, catagoryNameList);
 		}
@@ -1189,8 +1191,8 @@ public class DbServices {
 	if(responce.length()==0) {
 		//check all judes registration done for all club
 		responce=commonService.judgeRegistrationStatus(judgeList,adminList,organizerClubList);
-		if(responce.length()==0) {
-		if(imageRatingDAO.getCount()>0){
+		//if(responce.length()==0) {
+		if(imageRatingDAO.getCount()>0)
 			imageRatingDAO.truncate(getDBName()+".image_rating");
 		    selectAllImageCategoryWise(payingStatus);
 		    processJudgingFile();
@@ -1216,8 +1218,8 @@ public class DbServices {
 			    	     responce ="judge process sucessful";
 			    	     return responce;
 			    	   }
-	        }
-		  }	
+	       // }
+		  //}	
 	  }	
 	  return responce;
 	}

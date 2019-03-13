@@ -418,7 +418,7 @@ public class CommonServices {
 				 for(com.photo.contest.model.File file: entry.getValue()) {
 					 savelFileFromBlobUtility.save(path+"/"+file.getFileId()+".jpg",file.getFile());
 				     imageResizeUtility.imazeResize(path+"/"+file.getFileId()+".jpg",
-				    		                         path+"/"+file.getFileId()+".jpg", 200);
+				    		                         path+"/"+file.getFileId()+".jpg", 900);
 				    } 
 			   }else{
 	        	    System.out.println("dir not able to create");
