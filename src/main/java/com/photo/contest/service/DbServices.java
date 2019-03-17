@@ -46,6 +46,7 @@ import com.photo.contest.dto.LogingResponseDTO;
 import com.photo.contest.dto.OrganizerClubDTO;
 import com.photo.contest.dto.PayPalPaymentResponseDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
+import com.photo.contest.dto.ReatingStatusTableDTO;
 import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
@@ -1333,6 +1334,66 @@ public class DbServices {
 			imageRatingDAO.attachDirty(imageRating2);
 		   }		
 	     }
+	}
+	
+	
+	@Transactional
+	public boolean getImageReatingStatus() throws IOException {
+		if(imageRatingDAO.getCount()==0)
+		   return true;
+		
+		return false;
+		
+	}
+	
+	
+	@Transactional
+	public Optional<List<ReatingStatusTableDTO>> getRoundOneJuddingStatus() throws IOException {
+		int zeroReatedImageCount=0, nonZeroReatedImageCount=0, sectionWiseTotalCount=0;
+		Map<String, TreeSet<Integer>> imageIdMap =  processJudgingFile();
+		ReatingStatusTableDTO reatingStatusTableDTO = null;
+		List<ReatingStatusTableDTO> list = new ArrayList<>();
+		
+		
+		Optional<List<Users>> judgeList =  usersDAO.findUserByRole("judge");
+				
+		 if(judgeList.isPresent()) {			   
+			  for(Users user : judgeList.get()) { 
+				  Optional<List<ImageRating>> ratingList = imageRatingDAO.getRettinStatusofAJudge(user.getUserId());
+				  Map<Integer, Integer> reatingMap = commonUtil.createImageReatingMap(ratingList);
+				  Set<Category> categoryList = user.getJudgeCategoryMapping();
+				  for(Category category:  categoryList) {
+					  if(imageIdMap.containsKey(category.getCategoryName())){							
+							TreeSet<Integer> ilist =	imageIdMap.get(category.getCategoryName());
+							for(Integer imageId : ilist) {
+								sectionWiseTotalCount=sectionWiseTotalCount+1;
+								if(reatingMap.containsKey(imageId) && reatingMap.get(imageId)>0) {
+									nonZeroReatedImageCount=nonZeroReatedImageCount+1;
+								  }
+								else if(reatingMap.containsKey(imageId) && reatingMap.get(imageId)==0) {
+									     zeroReatedImageCount=zeroReatedImageCount+1 ;
+								       }
+							   }
+							reatingStatusTableDTO = new ReatingStatusTableDTO();
+							reatingStatusTableDTO.setClubName(user.getJudgeOrganizerClub().getOrganizerclubname());
+							reatingStatusTableDTO.setJudgeName(user.getFirstName()+" "+user.getLastName());
+							reatingStatusTableDTO.setCategoryName(category.getCategoryName());
+							reatingStatusTableDTO.setTotalImageCount(""+sectionWiseTotalCount);
+							reatingStatusTableDTO.setReatedImageCount(""+nonZeroReatedImageCount);
+							reatingStatusTableDTO.setUnreatedImageCount(""+zeroReatedImageCount);
+							list.add(reatingStatusTableDTO);
+							zeroReatedImageCount=0; 
+							nonZeroReatedImageCount=0;
+							sectionWiseTotalCount=0;
+						  }
+				     }
+				  
+				  
+				  
+			     }
+		 }
+		return Optional.of(list);
+		
 	}
 	
 }

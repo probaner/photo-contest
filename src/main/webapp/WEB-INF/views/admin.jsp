@@ -358,22 +358,22 @@ div.ex11 {
 	</div>
 
 
-<div class="container">
-<div class="panel-group">
+	<div class="container">
+		<div class="panel-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" href="#collapse12">Judge Table</a>
 					</h4>
-                     <div id="collapse12" class="panel-collapse collapse">
+					<div id="collapse12" class="panel-collapse collapse">
 						<div class="row">
 							<div id="jsGrid1"></div>
 						</div>
 					</div>
-	                </div>
 				</div>
 			</div>
 		</div>
+	</div>
 
 
 
@@ -392,6 +392,27 @@ div.ex11 {
 					<div id="container"
 						style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
 
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading" >
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse22">Judging Status</a>
+					</h4>
+					
+					<div id="collapse22" class="panel-collapse collapse">
+						<div class="row">
+
+							<div id="jsGrid22" ></div>
+
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -778,6 +799,52 @@ $(document).ready(function($)
 							}
 							
 						});
+		
+		$.ajax({
+	    	  url: "admin/json/getreatinggraphdata",
+	    	  type: "GET",
+	    	  dataType: "json",
+	    	  success: function(data) 
+	    				    {
+	    		                 console.log(data);
+	    		                 
+	    		                 //alert("Specify the name of the item!"+data.message);
+	    		                 
+	    		                 var fieldsGenerated = [];
+	    		           
+	    		                 fieldsGenerated.push({ name: "clubName" , width: 50,  validate: "required", editing: false ,align: "center"});	    			                       
+	    		                 fieldsGenerated.push({ name: "judgeName", type: "text", width: 50, validate: "required" ,align: "center"});	
+	    		                 fieldsGenerated.push({ name: "categoryName", type: "text", width: 40, validate: "required" ,align: "center"});	
+	    		                 fieldsGenerated.push({ name: "totalImageCount", type: "text", width: 30 , validate: "required",align: "center"});	
+	    		                 fieldsGenerated.push({ name: "reatedImageCount", type: "text", width: 30 , validate: "required",align: "center",itemTemplate: function(value, item) {
+	    		                     return "<div style='color:green'>" + value + "</div>"
+	    		                 }});			                
+	    		                 fieldsGenerated.push({ name: "unreatedImageCount", type: "text", width: 30 , validate: "required",align: "center",itemTemplate: function(value, item) {
+	    		                     return "<div style='color:red'>" + value + "</div>"
+	    		                 }});	
+	    				          	    		                 
+	    		                 $("#jsGrid22").jsGrid({
+	    		    		         width: "100%",
+	    		    		         height: "auto",
+	    		    		         autoload: true,
+	    		    		         paging: true,
+	    		    		         pageLoading: true,
+	    		    		         pageSize: 5,
+	    		    		         pageIndex: 2,
+	    		    		         pageButtonCount: 5,
+	    		    		         heading: true,
+	    		    		         filtering: false,
+	    		    		         inserting: false,
+	    		    		         editing: false,
+	    		    		         sorting: true,
+	    		    		         fields:fieldsGenerated,
+	    		    		         data: data.data
+	    		                 });
+	    		                
+	    		            
+	    		                      
+	    				    }	         
+	    	});
 	
 });
 </script>
