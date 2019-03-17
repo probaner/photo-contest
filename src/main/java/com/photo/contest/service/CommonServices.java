@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -54,6 +55,8 @@ public class CommonServices {
 	FileCheckUtility fileCheckUtility;
 	@Autowired
 	DateUtility dateUtility;
+	@Autowired
+	DbServices dbServices;
 	
 	public void setCommonUtil(CommonUtil commonUtil) {
 		this.commonUtil = commonUtil;
@@ -83,7 +86,7 @@ public class CommonServices {
 		
 		try {
 			 message=  commonUtil.doSendEmail(mailRecipientDTO, null);
-			  System.out.println("message="+message);
+			  //System.out.println("message="+message);
 			  
 		} catch (MailSendException | ConnectException e) {
 			// TODO Auto-generated catch block
@@ -409,19 +412,20 @@ public class CommonServices {
 	
 	
 	
-	public void processImage(Map<String, List<com.photo.contest.model.File>> fileProcessDataList, List<String> catagoryNameList) throws IOException {
+	public void processImage(Map<String, List<Integer>> fileProcessDataList, List<String> catagoryNameList) throws IOException {
 				
-		for (Map.Entry<String, List<com.photo.contest.model.File>> entry : fileProcessDataList.entrySet()){				
+		for (Entry<String, List<Integer>> entry : fileProcessDataList.entrySet()){				
 			 String path = configProperty.getBasePath()+"/"+entry.getKey();
 			 
 			 if(creatrDir(path)) {
-				 for(com.photo.contest.model.File file: entry.getValue()) {
+				 for(Integer fileId: entry.getValue()) {
+					 com.photo.contest.model.File file= dbServices.getFile(fileId);
 					 savelFileFromBlobUtility.save(path+"/"+file.getFileId()+".jpg",file.getFile());
 				     imageResizeUtility.imazeResize(path+"/"+file.getFileId()+".jpg",
 				    		                         path+"/"+file.getFileId()+".jpg", 900);
 				    } 
 			   }else{
-	        	    System.out.println("dir not able to create");
+	        	     System.out.println("dir not able to create");
 	        	   }
 		    }		
 		

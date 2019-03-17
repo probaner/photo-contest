@@ -824,8 +824,16 @@ public class DbServices {
 		fileDetail.setFileId(imageId);
 		List<File> fileDetailList = fileDetailDAO.findByExample(fileDetail);
 		return fileDetailList.get(0);
-
 	}
+	
+	@Transactional
+	public File getFile(Integer imageId) {
+		
+		
+		return fileDetailDAO.findById(imageId);
+		
+	}
+	
 	
 	@Transactional
 	public List<EditTableDataDTO> getEditTableData() {
@@ -1132,33 +1140,43 @@ public class DbServices {
 	public void selectAllImageCategoryWise(String payingStatus) throws IOException {
 		System.out.println("I am fulty not calling");
 	  	Category category = null;
-	  	Map<String ,List<File>> fileProcessDataList = new HashMap<>();
+	  	//Map<String ,List<File>> fileProcessDataList = new HashMap<>();
+	  	Map<String ,List<Integer>> fileProcessDataList = new HashMap<>();
 	  	List<String> catagoryNameList = new ArrayList<String>();
+	  	List<Integer> categoryIdList = new ArrayList<>();
 	  	List<File> fileProcessData = null;
 		if (results.size()>0){			
-			for (Map.Entry<String,Integer> entry : results.entrySet()){							
+			//for (Map.Entry<String,Integer> entry : results.entrySet()){							
 				category = new Category();
-				category.setCategoryId(entry.getValue());
+				category.setCategoryId(4);
+				category.setCategoryName("phototravel");
+				/*category.setCategoryId(entry.getValue());
 				category.setCategoryName(entry.getKey());
-				catagoryNameList.add(entry.getKey());
+				catagoryNameList.add(entry.getKey());*/
 				if(!payingStatus.equals("Paid")) {
-				   fileProcessData = fileDetailDAO.getFileProcessData(category);
-				   System.out.println("fileProcessData="+fileProcessData.size());
+				   categoryIdList=fileDetailDAO.findListOfFileIdOfCategory(category, null);
+				    //fileProcessData = fileDetailDAO.getFileProcessData(category);
+				   //System.out.println("fileProcessData="+categoryIdList.size());
+				   
 				 }else {
-					     fileProcessDataList= getPaidUsersFileListCategoryWise(payingStatus);					     
+					      categoryIdList=fileDetailDAO.findListOfFileIdOfCategory(category, "Paid");					     
 				       }
-				   if(fileProcessData!=null && fileProcessData.size() >0)
-				      fileProcessDataList.put(entry.getKey(),fileProcessData);		
-			      }
+				
+				
+				
+				
+				   if(categoryIdList!=null && categoryIdList.size() >0)
+				      fileProcessDataList.put("phototravel",categoryIdList);		
+			      //}
 			//System.out.println("fileProcessDataList="+fileProcessDataList.size());
 		   }else{
 		          System.out.println("File Not Found");
 		        }
-		if(fileProcessDataList!=null && fileProcessDataList.size()>0) {
-			System.out.println("I am fulty not");
+		
+			System.out.println("I am going to save image");
 			commonService.deleteExistingDirectory(results);
 		    commonService.processImage(fileProcessDataList, catagoryNameList);
-		}
+		
 	}
 	
 	
@@ -1192,9 +1210,9 @@ public class DbServices {
 		//check all judes registration done for all club
 		responce=commonService.judgeRegistrationStatus(judgeList,adminList,organizerClubList);
 		//if(responce.length()==0) {
-		if(imageRatingDAO.getCount()>0)
-			imageRatingDAO.truncate(getDBName()+".image_rating");
-		    selectAllImageCategoryWise(payingStatus);
+		/*if(imageRatingDAO.getCount()>0)
+			imageRatingDAO.truncate(getDBName()+".image_rating");*/
+		    //selectAllImageCategoryWise(payingStatus);
 		    processJudgingFile();
 			Map<Integer, List<String>> map=commonService.findCategoryForJudge(judgeList);
 			Map<String, TreeSet<Integer>> imageIdMap =  processJudgingFile();

@@ -133,6 +133,31 @@ public class FileDetailDAO {
 		 }
 	 
 	 
+	 
+public List<Integer> findListOfFileIdOfCategory(Category category, String payingStatus){
+		 
+		 log.debug("File instance");		 
+		  try {	 
+			    Session session = sessionFactory.getCurrentSession();
+			    Criteria criteria = session.createCriteria(File.class);
+			                     //criteria.add(Restrictions.eq("users",fileDetail.getUsers()));
+			                     criteria.add(Restrictions.eq("category", category));
+			                     criteria.setProjection(Property.forName("fileId"));
+			                     
+			   List<Integer> listOfId =  criteria.list();            
+			   		   
+			   //System.out.println("value="+listOfId); 
+			   
+			   return listOfId;
+		      } catch (RuntimeException re) {
+		         log.error("File_Name failed", re);
+		         throw re;
+	          }
+			 
+		 }
+	 
+	 
+	 
 	  
 public List<UserFileTitelListDTO> findTitelListAndCategoryIndex(String sql){
 		 
