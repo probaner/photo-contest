@@ -23,7 +23,7 @@ import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
 
 @Controller
-@SessionAttributes({"userForm"})
+@SessionAttributes({"userForm","displayReatingImageDTOList","categoryJudge"})
 public class CategoryWiseReatingImageBundelController {
 	
 	@Autowired
@@ -78,11 +78,11 @@ public class CategoryWiseReatingImageBundelController {
  	    model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());
  	    
- 	      model.addAttribute("titel",configProperty.getIndexName());
-		  model.addAttribute("titelImage",configProperty.getIndexImage());
-		  model.addAttribute("headerLeft",configProperty.getHeaderLeft());
-		  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
-		  model.addAttribute("headerRight",configProperty.getHeaderRight());
+ 	      model.addAttribute("titel","/"+configProperty.getIndexName());
+		  model.addAttribute("titelImage","/"+configProperty.getIndexImage());
+		  model.addAttribute("headerLeft","/"+configProperty.getHeaderLeft());
+		  model.addAttribute("headerMiddle","/"+configProperty.getHeaderMiddle());
+		  model.addAttribute("headerRight","/"+configProperty.getHeaderRight());
 		  
 	    model.addAttribute("message", "Rating saved successfully");
 	    model.addAttribute("displayReatingImageDTOList", imageRatingDTOContainer);
