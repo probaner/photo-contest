@@ -6,6 +6,7 @@ import java.net.ConnectException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import com.photo.contest.utility.DateUtility;
 import com.photo.contest.utility.FileCheckUtility;
 import com.photo.contest.utility.HtmlData;
 import com.photo.contest.utility.ImageResizeUtility;
+import com.photo.contest.utility.ObjectComaratorUtility;
 import com.photo.contest.utility.SavelFileFromBlobUtility;
 
 @Service
@@ -58,6 +60,8 @@ public class CommonServices {
 	DateUtility dateUtility;
 	@Autowired
 	DbServices dbServices;
+	@Autowired
+	ObjectComaratorUtility objectComaratorUtility;
 	
 	public void setCommonUtil(CommonUtil commonUtil) {
 		this.commonUtil = commonUtil;
@@ -594,7 +598,7 @@ public List<DisplayReatingImageDTO> getImageReatingData(String categoryName,User
 				displayReatingImageDTO.setImage(fileCheckUtility.convertBase64String(filesArray[f]));
 				Optional<ImageRating> imageRating = dbServices.getImageReating(userDTO.getUserid(), imageId);
 				if(imageRating.isPresent()){
-					System.out.println("reating="+imageRating.get().getRating());
+					//System.out.println("reating="+imageRating.get().getRating());
 				   displayReatingImageDTO.setReating(imageRating.get().getRating());
 				}
 				displayReatingImageDTOList.add(displayReatingImageDTO);
@@ -611,9 +615,15 @@ public List<DisplayReatingImageDTO> getImageReatingData(String categoryName,User
 	  }else {
 		      comment = categoryName+" Category File yet not download, Kindly contact Admin team ";
 	        }
+	  
 	
 	
-	System.out.println("displayReatingImageDTOListSize="+displayReatingImageDTOList.size());
+  if(displayReatingImageDTOList.size()>1)
+	Collections.sort(displayReatingImageDTOList, objectComaratorUtility);
+    for(DisplayReatingImageDTO s: displayReatingImageDTOList){
+    	System.out.println(s.getImageId()+" ->   "+s.getReating());
+       }
+	System.out.println();
 	return displayReatingImageDTOList;
 	
 }
