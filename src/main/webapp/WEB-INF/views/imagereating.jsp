@@ -27,12 +27,24 @@ h2{
   width:90%;
   margin:0px auto;
 }
-.slick-slide{
+/* .slick-slide{
   margin:10px;
-}
+} */
 .slick-slide img{
-  width:100%;
+  width:99%;
   border: 2px solid #fff;
+}
+
+.opaque {
+background: rgba(0, 0, 0, 0.2);
+}
+
+.slick-slide  {
+  opacity: 0;
+}
+.slick-center  {
+ opacity: 1;
+ border-style: dotted;
 }
 </style>
 
@@ -77,7 +89,9 @@ h2{
 	    	  dots: true,
 	      	  slidesToShow: 1,
 	      	  adaptiveHeight: true,
+	      	  variableWidth: true,
 	      	  centerMode: true,
+	      	  centerPadding : '0px',
 	      	  draggable:false,
 	      	  focusOnSelect: true,
 	      	  infinite:false,
@@ -86,6 +100,24 @@ h2{
     	    return '<a>'+(i+1)+'</a>';
     	            }
     	});
+    });
+    
+    $('.images-for-judge')
+    .on('init', function(event, slick){
+        // let's do this after we init the banner slider
+        console.log('slider was initialized');
+        //$('.slick-active').prev().addClass('opaque');
+        //$('.slick-active').next().addClass('opaque');
+    })
+    .on('beforeChange', function(event, slick, currentSlide, nextSlide){
+        // then let's do this before changing slides
+        console.log('before change');
+    })
+    .on('afterChange', function(event, slick, currentSlide, nextSlide){
+        // finally let's do this after changing slides
+        console.log('after change');
+        //$('.slick-active').prev().addClass('opaque');
+        //$('.slick-active').next().addClass('opaque');
     });
     
     
@@ -100,8 +132,27 @@ h2{
     });
     
     
+  /*   function setSlideVisibility() {
+    	
+    	console.log("called");
+    	  //Find the visible slides i.e. where aria-hidden="false"
+    	  var visibleSlides = $('.slick-slide[aria-hidden="true"]');
+    	  //Make sure all of the visible slides have an opacity of 1
+    	  $(visibleSlides).each(function() {
+    		  console.log("got");
+    	    $(this).css('opacity', 1);
+    	  });
+    	  //Set the opacity of the first and last partial slides.
+    	  $(visibleSlides).first().prev().css('opacity', 0);
+    	  $(visibleSlides).last().next().css('opacity', 0);
+    	}
+
+    	$(setSlideVisibility()); */
+
+    	
     
     
+/*     
     $('.images-for-judge').on('beforeChange', function(event, slick, currentSlide, nextSlide){
     	// console.log($('.slick-slide slick-current slick-active slick-center > #imageList[0].imageId').val());
     	var cur = $(".slider").slick("slickCurrentSlide");
@@ -112,7 +163,7 @@ h2{
     	  console.log(slick);
     	  console.log(currentSlide);
     	  console.log(nextSlide);
-    	});
+    	}); */
   </script>
 </body>
 </html>
