@@ -57,10 +57,32 @@ background: rgba(0, 0, 0, 0.2);
 .slick-next {
   right: 0;
 }
+#loading {
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   position: fixed;
+   display: block;
+   opacity: 0.7;
+   background-color: #fff;
+   z-index: 99;
+   text-align: center;
+}
+
+#loading-image {
+  position: absolute;
+  top: 100px;
+  left: 240px;
+  z-index: 100;
+}
 </style>
 
 </head>
 <body>
+<div id="loading">
+  <img id="loading-image" src="<c:url value="/resources/slick/ajax-loader.gif" />" alt="Loading..." />
+</div>
 <div class="wrapper">
 <h2>Category - ${categoryJudge}<h2>
 <form:form method="POST" action="rate" modelAttribute="displayReatingImageDTOList">
@@ -69,7 +91,7 @@ background: rgba(0, 0, 0, 0.2);
          <div>
          <img src="data:image/jpg;base64,${displayReatingImageDTO.image}">
          Rating
-        <%--  <form:hidden path="imageList[${tagStatus.index}].image" value="${displayReatingImageDTO.image}" /> --%>
+         <%-- <form:hidden path="imageList[${tagStatus.index}].image" value="${displayReatingImageDTO.image}" /> --%>
          <form:hidden path="imageList[${tagStatus.index}].imageId" />
          <%-- <form:input STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;"  
          path="imageList[${tagStatus.index}].reating"/> --%>
@@ -97,6 +119,7 @@ background: rgba(0, 0, 0, 0.2);
 
 <script type="text/javascript">
     $(document).ready(function(){
+      $('#loading').hide();
       $('.images-for-judge').slick({
 	    	  dots: false,
 	      	  slidesToShow: 1,
