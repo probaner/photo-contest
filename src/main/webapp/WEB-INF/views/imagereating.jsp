@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Judge Page</title>
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/slick/slick-theme.css" />"/>
@@ -46,18 +46,30 @@ background: rgba(0, 0, 0, 0.2);
  opacity: 1;
  border-style: dotted;
 }
+
+/* Slider arrows */
+.slick-arrow {
+  z-index: 9;
+}
+.slick-prev {
+  left: 0;
+}
+.slick-next {
+  right: 0;
+}
 </style>
 
 </head>
 <body>
 <div class="wrapper">
-<h2>Category<h2>
+<h2>Category - ${categoryJudge}<h2>
 <form:form method="POST" action="rate" modelAttribute="displayReatingImageDTOList">
 <div class="images-for-judge">
      <c:forEach items="${displayReatingImageDTOList.imageList}" var="displayReatingImageDTO"  varStatus="tagStatus"> 
          <div>
          <img src="data:image/jpg;base64,${displayReatingImageDTO.image}">
          Rating
+        <%--  <form:hidden path="imageList[${tagStatus.index}].image" value="${displayReatingImageDTO.image}" /> --%>
          <form:hidden path="imageList[${tagStatus.index}].imageId" />
          <%-- <form:input STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;"  
          path="imageList[${tagStatus.index}].reating"/> --%>
@@ -86,7 +98,7 @@ background: rgba(0, 0, 0, 0.2);
 <script type="text/javascript">
     $(document).ready(function(){
       $('.images-for-judge').slick({
-	    	  dots: true,
+	    	  dots: false,
 	      	  slidesToShow: 1,
 	      	  adaptiveHeight: true,
 	      	  variableWidth: true,

@@ -53,6 +53,8 @@ public class CategoryWiseReatingImageBundelController {
 		  ImageRatingDTOContainer container = new ImageRatingDTOContainer();
 		  container.setImageList(displayReatingImageDTOList);
 		   model.addAttribute("displayReatingImageDTOList", container);
+		   model.addAttribute("categoryJudge", categoryDTO.getCategoryName());
+		   
 		  		
 				return "imagereating";
 		
