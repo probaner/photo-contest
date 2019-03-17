@@ -995,11 +995,10 @@ public class DbServices {
 	}
 	
 	@Transactional
-	public List<String> getCategoryListofaJudge(int id) {
-		
+	public List<String> getCategoryListofaJudge(int id) {		
 		Users judge = usersDAO.findById(id);
 		Set<Category> categorySet = judge.getJudgeCategoryMapping();
-		List<String> categoryList = new ArrayList();
+		List<String> categoryList = new ArrayList<>();
 		if (categorySet.size() > 0 ) {
 		    for(Category c : categorySet) {
 		    	categoryList.add(c.getCategoryName());
