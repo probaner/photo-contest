@@ -1391,8 +1391,17 @@ public class DbServices {
 				  
 			     }
 		 }
-		return Optional.of(list);
-		
+		return Optional.of(list);		
+	}
+	
+	@Transactional
+	public Optional<ImageRating> getImageReating(Integer judgeId, Integer imageId){
+		ImageRating imageRating = new ImageRating();
+		File file = fileDetailDAO.findById(imageId);
+		imageRating.setFile(file);
+		imageRating.setJudgeId(judgeId);
+		Optional<ImageRating> imageRating1 = imageRatingDAO.getImageRating(imageRating);
+		return imageRating1;
 	}
 	
 }

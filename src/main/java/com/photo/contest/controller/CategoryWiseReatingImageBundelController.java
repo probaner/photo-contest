@@ -49,7 +49,7 @@ public class CategoryWiseReatingImageBundelController {
 		  
 		 
 		  
-		  List<DisplayReatingImageDTO> displayReatingImageDTOList = commonService.getImageReatingData (categoryDTO.getCategoryName());
+		  List<DisplayReatingImageDTO> displayReatingImageDTOList = commonService.getImageReatingData (categoryDTO.getCategoryName(),userDTO);
 		  ImageRatingDTOContainer container = new ImageRatingDTOContainer();
 		  container.setImageList(displayReatingImageDTOList);
 		   model.addAttribute("displayReatingImageDTOList", container);

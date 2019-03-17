@@ -29,6 +29,7 @@ import com.photo.contest.dto.PaystatusGraphDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
 import com.photo.contest.model.Category;
+import com.photo.contest.model.ImageRating;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
@@ -569,7 +570,7 @@ public class CommonServices {
 	}
 	
 	
-public List<DisplayReatingImageDTO> getImageReatingData(String categoryName) throws IOException{
+public List<DisplayReatingImageDTO> getImageReatingData(String categoryName,UserDTO userDTO) throws IOException{
 	
 	String path = configProperty.getBasePath()+"/"+categoryName;
 		
@@ -588,10 +589,18 @@ public List<DisplayReatingImageDTO> getImageReatingData(String categoryName) thr
 			for(int f = 0; f <filesArray.length ; f ++) {
 				
 				displayReatingImageDTO = new DisplayReatingImageDTO();
-				displayReatingImageDTO.setImageId(Integer.parseInt(filesArray[f].getName().substring(0,filesArray[f].getName().lastIndexOf("."))));
+				Integer imageId=Integer.parseInt(filesArray[f].getName().substring(0,filesArray[f].getName().lastIndexOf(".")));
+				displayReatingImageDTO.setImageId(imageId);
 				displayReatingImageDTO.setImage(fileCheckUtility.convertBase64String(filesArray[f]));
-				
+				Optional<ImageRating> imageRating = dbServices.getImageReating(userDTO.getUserid(), imageId);
+				if(imageRating.isPresent()){
+					System.out.println("reating="+imageRating.get().getRating());
+				   displayReatingImageDTO.setReating(imageRating.get().getRating());
+				}
 				displayReatingImageDTOList.add(displayReatingImageDTO);
+				
+				
+				
 			   }
 			
 		  }
