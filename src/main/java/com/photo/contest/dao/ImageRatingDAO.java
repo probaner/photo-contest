@@ -85,4 +85,24 @@ public class ImageRatingDAO {
       }
      
      
+     public Optional<ImageRating> getImageRating(ImageRating imageRating) {
+  		log.debug("getting User instance with ImageRating obj : " );
+  		try{
+  			@SuppressWarnings("deprecation")
+ 			Criteria cr =sessionFactory.getCurrentSession().createCriteria(ImageRating.class)
+  					     .add(Restrictions.eq("file", imageRating.getFile()))
+  					     .add(Restrictions.eq("judgeId", imageRating.getJudgeId()));
+  			
+  			@SuppressWarnings("unchecked")
+ 			ImageRating instace=  (ImageRating) cr.uniqueResult();
+  						
+  			return Optional.of(instace);      		
+  		   } catch (RuntimeException re) {
+  			log.error("get failed", re);
+  			throw re;
+  		   }
+  			
+  	}
+     
+     
 }

@@ -20,6 +20,7 @@ import com.photo.contest.dto.DisplayReatingImageDTO;
 import com.photo.contest.dto.ImageRatingDTOContainer;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.CommonServices;
+import com.photo.contest.service.DbServices;
 
 @Controller
 @SessionAttributes({"userForm"})
@@ -29,6 +30,8 @@ public class CategoryWiseReatingImageBundelController {
 	private ConfigProperty configProperty;
 	@Autowired
 	private CommonServices commonService;
+	@Autowired
+	DbServices dbServices;
 	
 	@RequestMapping("/judge/judgeingcategory")
 	public String getImageBundel(
@@ -57,16 +60,31 @@ public class CategoryWiseReatingImageBundelController {
 	
 	
 	@RequestMapping(value = "/judge/rate", method = RequestMethod.POST)
-	public String saveUsers(@ModelAttribute("displayReatingImageDTOList") ImageRatingDTOContainer imageRatingDTOContainer,Model model) throws Exception{
+	public String saveUsers(@ModelAttribute("displayReatingImageDTOList") ImageRatingDTOContainer imageRatingDTOContainer,
+			                @ModelAttribute("userForm") UserDTO userDTO,			               
+			                Model model) throws Exception{
 	    List<DisplayReatingImageDTO> displayReatingImageDTOList = imageRatingDTOContainer.getImageList();
 	    for(DisplayReatingImageDTO displayReatingImageDTO : displayReatingImageDTOList) {
 	        System.out.println("Image Id- " + displayReatingImageDTO.getImageId() + " Rating-> " +displayReatingImageDTO.getReating());
 	    }
-	    //insert to db
-	    
+	    //insert to db	  
+	    dbServices.updateImageReating(displayReatingImageDTOList, userDTO);
+	    List<String>  judgeCategory = dbServices.getCategoryListofaJudge(userDTO.getUserid()); 
+ 	    java.util.Collections.sort(judgeCategory); 
+	    model.addAttribute("categoryList",judgeCategory);
+ 	    model.addAttribute("categoryDTO", new CategoryDTO());
+ 	    model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
+					+ userDTO.getFirstname().toUpperCase());
+ 	    
+ 	      model.addAttribute("titel",configProperty.getIndexName());
+		  model.addAttribute("titelImage",configProperty.getIndexImage());
+		  model.addAttribute("headerLeft",configProperty.getHeaderLeft());
+		  model.addAttribute("headerMiddle",configProperty.getHeaderMiddle());
+		  model.addAttribute("headerRight",configProperty.getHeaderRight());
+		  
 	    model.addAttribute("message", "Rating saved successfully");
 	    model.addAttribute("displayReatingImageDTOList", imageRatingDTOContainer);
-	    return "imagereating";
+	    return "judge";
 	}
 
 }

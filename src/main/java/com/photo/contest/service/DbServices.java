@@ -35,6 +35,7 @@ import com.photo.contest.dao.PaymentResponseDAO;
 import com.photo.contest.dao.UsersDAO;
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.dto.ClubDTO;
+import com.photo.contest.dto.DisplayReatingImageDTO;
 import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
 import com.photo.contest.dto.GetPassword;
@@ -1315,6 +1316,24 @@ public class DbServices {
 	     return fileProcessDataList;
 	}
 	
+	
+	@Transactional
+	public void updateImageReating(List<DisplayReatingImageDTO> displayReatingImageDTOList,UserDTO userDTO) throws IOException {
+		ImageRating imageRating = new ImageRating();
+		
+		imageRating.setJudgeId(userDTO.getUserid());
+		for(DisplayReatingImageDTO displayReatingImageDTO : displayReatingImageDTOList){
+		File file = fileDetailDAO.findById(displayReatingImageDTO.getImageId());
+		imageRating.setFile(file);
+		Optional<ImageRating> imageRating1 = imageRatingDAO.getImageRating(imageRating);
+		
+		if(imageRating1.isPresent()) {
+			ImageRating imageRating2 = imageRating1.get();
+			imageRating2.setRating(displayReatingImageDTO.getReating());
+			imageRatingDAO.attachDirty(imageRating2);
+		   }		
+	     }
+	}
 	
 }
 
