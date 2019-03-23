@@ -97,7 +97,7 @@ public class FileCheckUtility {
 	
 	
 	public void fileMove(String sourceDir, String destinationDir, String fileName) throws IOException{
-		if(isExist(sourceDir) && isFile(sourceDir+"/"+fileName)){
+		if(isExist(sourceDir) ){
 			if(!isExist(destinationDir)){
 				createDir(destinationDir);
 			  }
@@ -108,14 +108,21 @@ public class FileCheckUtility {
 	}
 	
 	
-	public void fileCopy(String sourceDir, String destinationDir, String fileName) throws IOException{
-		if(isExist(sourceDir) && isFile(sourceDir+"/"+fileName)){
-			if(!isExist(destinationDir)){
-				createDir(destinationDir);
-			  }
-			Files.copy 
-			        (Paths.get(sourceDir+"/"+fileName),  
-			        Paths.get(destinationDir+"/"+fileName));
+	public void fileCopy(String sourceDir, String destinationDir, String fileName){
+			
+		if(isExist(sourceDir) ){
+			if(!isExist(destinationDir)){				
+			   createMultilavelDir(destinationDir);
+				System.out.println("new dir created"+destinationDir);
+			} 
+			try {
+				Files.copy
+				        (new File(sourceDir+"/"+fileName).toPath(),  
+				        new File(destinationDir+"/"+fileName).toPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		  }	
 	}
 	
@@ -123,9 +130,29 @@ public class FileCheckUtility {
 		if(isExist(path) ){
 		 return new File(path).listFiles().length;
 		}
-		return 0;
+		return 0;		
+	}
+	
+	public void createMultilavelDir(String path){
+		
+		StringBuilder sb = new StringBuilder();
+		String[] arr=path.split("/");
+		for(int i=0; i<arr.length; i++){
+			if(i==0)
+			   sb=sb.append(arr[i]);
+			else{
+				 sb=sb.append("/"+arr[i]);
+				 if(!isExist(sb.toString()))
+					 createDir(sb.toString());
+			    }
+			
+			System.out.println(sb);
+		
+		}
 		
 	}
+	
+	
 	
 	
 }

@@ -12,6 +12,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.photo.contest.model.Awards;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.DiscountData;
 import com.photo.contest.model.File;
@@ -41,7 +42,7 @@ public class HibernateConfig {
 		factoryBean.setDataSource(dataSource());
 		factoryBean.setHibernateProperties(hibernateProperties());
 		factoryBean.setAnnotatedClasses(Users.class,PayStatus.class,Category.class,DiscountData.class,File.class,OrganizerClub.class, 
-				                        Judge.class,PaymentResponse.class,ImageRating.class,SummaryData.class);
+				                        Judge.class,PaymentResponse.class,ImageRating.class,SummaryData.class,Awards.class);
 		/*factoryBean.setAnnotatedClasses(PayStatus.class);
 		factoryBean.setAnnotatedClasses(Category.class);
 		factoryBean.setAnnotatedClasses(DiscountData.class);

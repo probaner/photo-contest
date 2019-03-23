@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.config.HibernateConfig;
+import com.photo.contest.dao.AwardDAO;
 import com.photo.contest.dao.CategoryDAO;
 import com.photo.contest.dao.DiscountDataDAO;
 import com.photo.contest.dao.FileDetailDAO;
@@ -61,6 +62,7 @@ import com.photo.contest.exception.ErrorCode;
 import com.photo.contest.exception.ImageNotFoundException;
 import com.photo.contest.exception.PayStatusNotFoundException;
 import com.photo.contest.exception.UserNotFoundException;
+import com.photo.contest.model.Awards;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.DiscountData;
 import com.photo.contest.model.File;
@@ -121,6 +123,8 @@ public class DbServices {
 	MapUtility mapUtility;
 	@Autowired
 	FileCheckUtility fileCheckUtility;
+	@Autowired
+	AwardDAO awardDAO;
 	
 	
 	public void setUsersDAO(UsersDAO usersDAO) {
@@ -1534,8 +1538,8 @@ public class DbServices {
 			if(aceptenceStatusMap.keySet().equals(results.keySet()) && awaedStatusMap.keySet().equals(results.keySet())){
 			   if(commonUtil.checkAcceptenceMapStatus(aceptenceStatusMap, maxAceptenceCuntMap()) && commonUtil.checkAwardMapStatus(awaedStatusMap)){
 				   
-				   
-				   ResponseDTO responseDTO = getReatingStatusOfAClub(acceptenceClubDTO.getClubName());
+				   String clubName=acceptenceClubDTO.getClubName();
+				   ResponseDTO responseDTO = getReatingStatusOfAClub(clubName);
 					@SuppressWarnings("unchecked")
 					Map<String, Map <Integer, Integer>> cmap = (Map<String, Map<Integer, Integer>>) responseDTO.getData();
 					OrganizerClub organizerClub= organizerClubDAO.findByOrganizerClubName(acceptenceClubDTO.getClubName());
@@ -1565,11 +1569,10 @@ public class DbServices {
 						     catch(DataIntegrityViolationException d) {
 						    	     System.out.println(d);
 						          }
-						     if(dataflag){
-						    	 fileCheckUtility.fileMove(configProperty.getBasePath()+"/"+section, configProperty.getBasePath()+"/"+acceptenceClubDTO.getClubName()+"/"+section, id+".jpg");
-						       }
-						     
-						    }
+						     if(dataflag)						    	
+						    	    fileCheckUtility.fileCopy(configProperty.getBasePath()+"/"+section, configProperty.getBasePath()+"/"+clubName+"/"+section, id+".jpg");
+						       						     
+						     }
 						 dataflag=false;
 						 
 							
@@ -1630,14 +1633,22 @@ public class DbServices {
 		
 		SummaryData summaryData = new SummaryData();
 		summaryData.setImageId(imageId);
-		summaryData.setOrginizerClubId(orginizerClubId);
-		
-		return summaryDataDAO.getSummaryData(summaryData);
-		
-		
+		summaryData.setOrginizerClubId(orginizerClubId);		
+		return summaryDataDAO.getSummaryData(summaryData);		
 	}
 	
-	
+	@Transactional
+	public List<?> getAwards(){
+		List<String> awardList = new ArrayList<>();
+		List<Awards> al=awardDAO.getAllAwards("Awards");
+		
+		for(Awards awards: al)
+			awardList.add(awards.getName());
+		
+		
+		return awardList;
+		
+	}
 	
 }
 
