@@ -79,8 +79,8 @@ public class SummaryDataDAO {
 		   		try{
 		   			@SuppressWarnings("deprecation")
 		  			Criteria cr =sessionFactory.getCurrentSession().createCriteria(SummaryData.class)
-		   					     .add(Restrictions.eq("file", summaryData.getImageId()))
-		   					     .add(Restrictions.eq("judgeId", summaryData.getOrginizerClubId()));
+		   					     .add(Restrictions.eq("imageId", summaryData.getImageId()))
+		   					     .add(Restrictions.eq("orginizerClubId", summaryData.getOrginizerClubId()));
 		   			
 		   			@SuppressWarnings("unchecked")
 		   			SummaryData instace=  (SummaryData) cr.uniqueResult();

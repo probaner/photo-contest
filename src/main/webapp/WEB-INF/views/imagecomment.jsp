@@ -85,13 +85,13 @@ background: rgba(0, 0, 0, 0.2);
 </div>
 <div class="wrapper">
 <h2>Category - ${categoryJudge}<h2>
-<form:form method="POST" action="rate" modelAttribute="displayReatingImageDTOList">
+<form:form method="POST" action="rate" modelAttribute="displayAwardImageDTOList">
 <div class="images-for-judge">
-     <c:forEach items="${displayReatingImageDTOList.imageList}" var="displayReatingImageDTO"  varStatus="tagStatus"> 
+     <c:forEach items="${displayAwardImageDTOList.imageList}" var="displayAwardImageDTOList"  varStatus="tagStatus"> 
          <div>
          <img src="data:image/jpg;base64,${displayReatingImageDTO.image}">
          Comment
-         <%-- <form:hidden path="imageList[${tagStatus.index}].image" value="${displayReatingImageDTO.image}" /> --%>
+         <%-- <form:hidden path="imageList[${tagStatus.index}].image" value="${displayAwardImageDTOList.image}" /> --%>
          <form:hidden path="imageList[${tagStatus.index}].imageId" />
        
          <%-- <form:select path="imageList[${tagStatus.index}].reating" STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;">
@@ -104,7 +104,7 @@ background: rgba(0, 0, 0, 0.2);
          </form:select> --%>
          
           <form:input maxlength="50" size="50" STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;"  
-         path="imageList[${tagStatus.index}].reating"/>
+         path="imageList[${tagStatus.index}].comment"/>
          </div>
      </c:forEach>
 </div>

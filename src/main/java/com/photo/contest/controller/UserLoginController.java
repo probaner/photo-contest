@@ -152,7 +152,7 @@ public class UserLoginController {
 											+ userDTO.getFirstname().toUpperCase());
 						    
 						    	 if(dbServices.checkJudingRoundStatus(user))
-						    		return "judgetwo"; 
+						    		return "judgeawards"; 
 						     else  
 						           return "judge";
 						    	   
