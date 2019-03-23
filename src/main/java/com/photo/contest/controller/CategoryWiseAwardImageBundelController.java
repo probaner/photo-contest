@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.CategoryDTO;
-import com.photo.contest.dto.DisplayReatingImageAwardDTO;
+import com.photo.contest.dto.DisplayAwardImageDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
 
 @Controller
-@SessionAttributes({"userForm","displayReatingImageDTOList","categoryJudge"})
-public class CategoryWiseReatingImageBundelControllerRoundTwo {
+@SessionAttributes({"userForm","displayAwardImageDTOList","categoryJudge"})
+public class CategoryWiseAwardImageBundelController {
 	
 	
 	@Autowired
@@ -33,7 +33,7 @@ public class CategoryWiseReatingImageBundelControllerRoundTwo {
 	DbServices dbServices;
 	
 	
-	@RequestMapping("/judge/judgeingcategorytwo")
+	@RequestMapping("/judge/judgeingcategoryawards")
 	public String getImageBundel(
 			Model model,
 			@ModelAttribute("userForm") UserDTO userDTO,
@@ -48,16 +48,15 @@ public class CategoryWiseReatingImageBundelControllerRoundTwo {
 		  model.addAttribute("headerRight",configProperty.getHeaderRight());
 		  
 		  
-		  List<DisplayReatingImageAwardDTO> displayReatingImageDTORoundTwoList = commonService.getImageReatingDataRoundTwo (categoryDTO.getCategoryName(),userDTO);
+		  List<DisplayAwardImageDTO> displayAwardImageDTOList = commonService.getImageAwardData (categoryDTO.getCategoryName(),userDTO);
+		  //System.out.println(displayAwardImageDTOList.size());
 		  ImageAwardContainerDTO container = new ImageAwardContainerDTO();
-		  container.setImageList(displayReatingImageDTORoundTwoList);
-		  model.addAttribute("displayReatingImageDTOList", container);
+		  container.setImageList(displayAwardImageDTOList);
+		  model.addAttribute("displayAwardImageDTOList", container);
 		  model.addAttribute("categoryJudge", categoryDTO.getCategoryName());
 		   
-		  		
-				
-		
-		return "imagereatingtwo";
+		  				
+		return "imagecomment";
 		
 	}
 

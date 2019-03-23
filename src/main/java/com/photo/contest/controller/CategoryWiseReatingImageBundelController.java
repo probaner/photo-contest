@@ -56,7 +56,7 @@ public class CategoryWiseReatingImageBundelController {
 		   model.addAttribute("categoryJudge", categoryDTO.getCategoryName());
 		   
 		  		
-				return "imagereating";
+				return "imagereating2";
 		
 	}
 	

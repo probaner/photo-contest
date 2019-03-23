@@ -1,17 +1,17 @@
 package com.photo.contest.dto;
 
-public class DisplayReatingImageAwardDTO {
+public class DisplayAwardImageDTO {
 	
 	private int imageId;
 	private String image;
 	private String comment;
 		
-	public DisplayReatingImageAwardDTO() {
+	public DisplayAwardImageDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public DisplayReatingImageAwardDTO(int imageId, String image, String comment) {
+	public DisplayAwardImageDTO(int imageId, String image, String comment) {
 		super();
 		this.imageId = imageId;
 		this.image = image;

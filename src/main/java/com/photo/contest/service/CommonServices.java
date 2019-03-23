@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.photo.contest.config.ConfigProperty;
-import com.photo.contest.dto.DisplayReatingImageAwardDTO;
+import com.photo.contest.dto.DisplayAwardImageDTO;
 import com.photo.contest.dto.DisplayReatingImageDTO;
 import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
@@ -576,31 +576,36 @@ public class CommonServices {
 		return false;
 				
 	}
-public List<DisplayReatingImageAwardDTO> getImageReatingDataRoundTwo(String categoryName,UserDTO userDTO) throws IOException{
+public List<DisplayAwardImageDTO> getImageAwardData(String categoryName,UserDTO userDTO) throws IOException{
 	   Users user=dbServices.getUser(userDTO.getUserid());
-	
-	String path = configProperty.getBasePath()+"/"+user.getJudgeOrganizerClub().getOrganizerclubname()+"/"+categoryName;
+	String clubName=user.getJudgeOrganizerClub().getOrganizerclubname();
+	String path = configProperty.getBasePath()+"/"+clubName+"/"+categoryName;
+	System.out.println("path="+path);
 	String comment=null;
 	
-	List<DisplayReatingImageAwardDTO>  displayReatingImageDTORoundTwoList= new ArrayList<>();
-	DisplayReatingImageAwardDTO displayReatingImageAwardDTO =null;
+	List<DisplayAwardImageDTO>  displayReatingImageDTORoundTwoList= new ArrayList<>();
+	DisplayAwardImageDTO displayReatingImageAwardDTO =null;
 	
 	if(fileCheckUtility.isDir(path) && fileCheckUtility.isExist(path)) {
 		
 		File[] filesArray = fileCheckUtility.getFileArrayOfaDirectory(path, ".jpg");
+		System.out.println("filesArraySize="+filesArray.length);
 		
         if(filesArray.length>0) {
 			
 			for(int f = 0; f <filesArray.length ; f ++) {
-				displayReatingImageAwardDTO = new DisplayReatingImageAwardDTO();
+				displayReatingImageAwardDTO = new DisplayAwardImageDTO();
 				Integer imageId=Integer.parseInt(filesArray[f].getName().substring(0,filesArray[f].getName().lastIndexOf(".")));
+				System.out.println("imageId:"+imageId);
 				displayReatingImageAwardDTO.setImageId(imageId);
 				displayReatingImageAwardDTO.setImage(fileCheckUtility.convertBase64String(filesArray[f]));
 				SummaryData summaryData=dbServices.getSummaryData(imageId, user.getJudgeOrganizerClub().getOrganizerclubid());
 				if(summaryData!=null){
 					//System.out.println("reating="+imageRating.get().getRating());
 					displayReatingImageAwardDTO.setComment(summaryData.getAward());
-				}				
+				}	
+				
+				
 				displayReatingImageDTORoundTwoList.add(displayReatingImageAwardDTO);				
 			   }
 				

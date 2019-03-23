@@ -1623,8 +1623,8 @@ public class DbServices {
 	
 	@Transactional
 	public Users getUser(Integer id){
-		
-		return usersDAO.findByUserId(id);
+		System.out.println("judgeid="+id);
+		return usersDAO.findById(id);
 		
 	}
 	
