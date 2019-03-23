@@ -418,6 +418,74 @@ div.ex11 {
 		</div>
 	</div>
 
+ 
+ <div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse33">Select Accepted
+							Data</a>
+					</h4>
+					<div id="collapse33" class="panel-collapse collapse">
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="col-sm-7"><div style="color: red">${acceptedDataError}</div></div>								
+								<form:form id="acceptDataForm" action="getAcceptDataListofaClub"
+									method="post" modelAttribute="acceptenceClubDTO">
+									
+									<div class="ex7">
+										<form:select class="form-control" id="clubName"
+											path="clubName" items="${organizerclubList}" />
+									</div>
+									
+									<div class="container">
+									<div
+										class="col-xs-15 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-3">
+										<div class="panel panel-default">
+											<!-- Default panel contents -->
+											<div class="panel-heading">${organizerClubName}</div>
+
+											<!-- List group -->
+											<ul class="list-group">
+												<li class="list-group-item">
+												<c:forEach items="${acceptedDataList}" var="acceptedDataListValue">                   
+                                                          ${acceptedDataListValue}
+                                                          
+                                                         <%--  <div class="material-switch pull-right">
+														  <input id=${acceptedDataListValue} name=data
+																type="checkbox" value="${acceptedDataListValue}" />
+																 <label	for=${acceptedDataListValue } class="label-success"></label>
+														</div> --%>	
+																											
+														<input type="checkbox"  id=${acceptedDataListValue} name=data value="${acceptedDataListValue}" />
+														<input type="checkbox"  id=${acceptedDataListValue} name=awardList value="${acceptedDataListValue}" />							
+														<p></p>
+														&nbsp;
+														&nbsp;
+													</c:forEach></li>													
+											</ul>
+										</div>
+									</div>
+								</div>
+									
+									
+										<div class="ex8">
+											<label class="btn btn-danger">Submit<input
+												type="submit" id="acceptDatabutton"
+												style="display: none;" name="action"
+												value="getAceptData" /></label>
+										</div>									
+								</form:form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 
 	<%-- <div class="container">
 		 <div class="panel-group">
@@ -446,8 +514,8 @@ div.ex11 {
 				</div>
 			 </div>
 		</div> 
-	</div> --%>
-
+	</div>
+ --%>
 
 <!-- /.container -->
 <div class="modal fade modal-fullscreen" id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

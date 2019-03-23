@@ -24,14 +24,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.dto.DisplayReatingImageAwardDTO;
 import com.photo.contest.dto.DisplayReatingImageDTO;
 import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
+import com.photo.contest.dto.ReatingStatusTableDTO;
+import com.photo.contest.dto.ResponseDTO;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.dto.UserFileTitelListDTO;
 import com.photo.contest.model.Category;
 import com.photo.contest.model.ImageRating;
 import com.photo.contest.model.OrganizerClub;
+import com.photo.contest.model.SummaryData;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
 import com.photo.contest.utility.DateUtility;
@@ -572,7 +576,43 @@ public class CommonServices {
 		return false;
 				
 	}
+public List<DisplayReatingImageAwardDTO> getImageReatingDataRoundTwo(String categoryName,UserDTO userDTO) throws IOException{
+	   Users user=dbServices.getUser(userDTO.getUserid());
 	
+	String path = configProperty.getBasePath()+"/"+user.getJudgeOrganizerClub().getOrganizerclubname()+"/"+categoryName;
+	String comment=null;
+	
+	List<DisplayReatingImageAwardDTO>  displayReatingImageDTORoundTwoList= new ArrayList<>();
+	DisplayReatingImageAwardDTO displayReatingImageAwardDTO =null;
+	
+	if(fileCheckUtility.isDir(path) && fileCheckUtility.isExist(path)) {
+		
+		File[] filesArray = fileCheckUtility.getFileArrayOfaDirectory(path, ".jpg");
+		
+        if(filesArray.length>0) {
+			
+			for(int f = 0; f <filesArray.length ; f ++) {
+				displayReatingImageAwardDTO = new DisplayReatingImageAwardDTO();
+				Integer imageId=Integer.parseInt(filesArray[f].getName().substring(0,filesArray[f].getName().lastIndexOf(".")));
+				displayReatingImageAwardDTO.setImageId(imageId);
+				displayReatingImageAwardDTO.setImage(fileCheckUtility.convertBase64String(filesArray[f]));
+				SummaryData summaryData=dbServices.getSummaryData(imageId, user.getJudgeOrganizerClub().getOrganizerclubid());
+				if(summaryData!=null){
+					//System.out.println("reating="+imageRating.get().getRating());
+					displayReatingImageAwardDTO.setComment(summaryData.getAward());
+				}				
+				displayReatingImageDTORoundTwoList.add(displayReatingImageAwardDTO);				
+			   }
+				
+		
+	  }else {
+	           comment = categoryName+" Category File yet not download, Kindly contact Admin team ";
+            }
+	}
+	
+	return displayReatingImageDTORoundTwoList;
+	
+}
 	
 public List<DisplayReatingImageDTO> getImageReatingData(String categoryName,UserDTO userDTO) throws IOException{
 	
@@ -596,10 +636,11 @@ public List<DisplayReatingImageDTO> getImageReatingData(String categoryName,User
 				Integer imageId=Integer.parseInt(filesArray[f].getName().substring(0,filesArray[f].getName().lastIndexOf(".")));
 				displayReatingImageDTO.setImageId(imageId);
 				displayReatingImageDTO.setImage(fileCheckUtility.convertBase64String(filesArray[f]));
-				Optional<ImageRating> imageRating = dbServices.getImageReating(userDTO.getUserid(), imageId);
-				if(imageRating.isPresent()){
+				//Optional<ImageRating> imageRating = dbServices.getImageReating(userDTO.getUserid(), imageId);
+				ImageRating imageRating = dbServices.getImageReating(userDTO.getUserid(), imageId);
+				if(imageRating!=null){
 					//System.out.println("reating="+imageRating.get().getRating());
-				   displayReatingImageDTO.setReating(imageRating.get().getRating());
+				   displayReatingImageDTO.setReating(imageRating.getRating());
 				}
 				displayReatingImageDTOList.add(displayReatingImageDTO);
 				
@@ -621,13 +662,47 @@ public List<DisplayReatingImageDTO> getImageReatingData(String categoryName,User
   if(displayReatingImageDTOList.size()>1)
 	Collections.sort(displayReatingImageDTOList, objectComaratorUtility);
     for(DisplayReatingImageDTO s: displayReatingImageDTOList){
-    	System.out.println(s.getImageId()+" ->   "+s.getReating());
+    	//System.out.println(s.getImageId()+" ->   "+s.getReating());
        }
-	System.out.println();
+	//System.out.println();
 	return displayReatingImageDTOList;
 	
 }
+
+
+public ResponseDTO populateAcceptedDataTable(String clubNane) throws IOException {
+	 String message = "!";
+	ResponseDTO responseDTO=dbServices.getReatingStatusOfAClub(clubNane);
+	if(responseDTO.getMessage()==null) {
+		List<String> list=commonUtil.createReatingMap((Map<String, Map<Integer, Integer>>)responseDTO.getData());
+		responseDTO.setData(list);
+		 
+		Map<String, Integer> sectionWiseCountMap =  dbServices.maxAceptenceCuntMap();
+		for (Entry<String, Integer> entry : sectionWiseCountMap.entrySet()) 
+			 message =message+"  "+entry.getKey().toUpperCase()+": Max Accept: "+commonUtil.calculatePersentValue(entry.getValue(),Integer.parseInt(configProperty.getAcceptPercent()));
+		
+		     message = message + " ! Minimum Image for award: "+configProperty.getAwardNumber()+"!";
+		  responseDTO.setMessage(message);
+		
+	  }
 	
+	return responseDTO;
+}
+
 	
+public boolean acceptedStatusEnableOfClub(String clubName) throws IOException {
+	Optional<List<ReatingStatusTableDTO>> reatingStatusTableDTOList = dbServices.getRoundOneJuddingStatus();
+	
+	if (reatingStatusTableDTOList.isPresent()) {
+		for(ReatingStatusTableDTO reatingStatusTableDTO: reatingStatusTableDTOList.get()) {
+			if(reatingStatusTableDTO.getClubName().equals(clubName) && Integer.parseInt(reatingStatusTableDTO.getUnreatedImageCount())>0) {
+				return false;
+			  }
+		   }
+	   }
+	
+	return true;	
+}
+
 
 }

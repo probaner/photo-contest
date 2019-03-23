@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.dto.AcceptenceClubDTO;
 import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.ProcessFileDTO;
@@ -96,7 +97,7 @@ public class CouponCodeController {
 		  
 	           }
 		 
-		 
+		    model.addAttribute("acceptenceClubDTO",new AcceptenceClubDTO());
 			model.addAttribute("couponCode", new CouponCode());
 			model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
 			model.addAttribute("processDataType", processDataType);

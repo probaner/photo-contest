@@ -16,7 +16,9 @@ import java.util.TreeSet;
 import javax.mail.MessagingException;
 
 import org.apache.commons.codec.binary.Base64;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,9 @@ import com.photo.contest.dao.JudgeDAO;
 import com.photo.contest.dao.OrganizerClubDAO;
 import com.photo.contest.dao.PayStatusDAO;
 import com.photo.contest.dao.PaymentResponseDAO;
+import com.photo.contest.dao.SummaryDataDAO;
 import com.photo.contest.dao.UsersDAO;
+import com.photo.contest.dto.AcceptenceClubDTO;
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.DisplayReatingImageDTO;
@@ -65,8 +69,11 @@ import com.photo.contest.model.Judge;
 import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.PayStatus;
 import com.photo.contest.model.PaymentResponse;
+import com.photo.contest.model.SummaryData;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
+import com.photo.contest.utility.FileCheckUtility;
+import com.photo.contest.utility.MapUtility;
 import com.photo.contest.utility.ResultPDFUtility;
 
 
@@ -108,6 +115,13 @@ public class DbServices {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	ResultPDFUtility resultPDFUtility;
+	@Autowired
+	private SummaryDataDAO summaryDataDAO;
+	@Autowired
+	MapUtility mapUtility;
+	@Autowired
+	FileCheckUtility fileCheckUtility;
+	
 	
 	public void setUsersDAO(UsersDAO usersDAO) {
 		this.usersDAO = usersDAO;
@@ -1211,8 +1225,8 @@ public class DbServices {
 		//check all judes registration done for all club
 		responce=commonService.judgeRegistrationStatus(judgeList,adminList,organizerClubList);
 		//if(responce.length()==0) {
-		/*if(imageRatingDAO.getCount()>0)
-			imageRatingDAO.truncate(getDBName()+".image_rating");*/
+		if(imageRatingDAO.getCount()>0)
+			imageRatingDAO.truncate(getDBName()+".image_rating");
 		    //selectAllImageCategoryWise(payingStatus);
 		    processJudgingFile();
 			Map<Integer, List<String>> map=commonService.findCategoryForJudge(judgeList);
@@ -1325,10 +1339,10 @@ public class DbServices {
 		for(DisplayReatingImageDTO displayReatingImageDTO : displayReatingImageDTOList){
 		File file = fileDetailDAO.findById(displayReatingImageDTO.getImageId());
 		imageRating.setFile(file);
-		Optional<ImageRating> imageRating1 = imageRatingDAO.getImageRating(imageRating);
-		
-		if(imageRating1.isPresent()) {
-			ImageRating imageRating2 = imageRating1.get();
+		//Optional<ImageRating> imageRating1 = imageRatingDAO.getImageRating(imageRating);
+		ImageRating imageRating2 = imageRatingDAO.getImageRating(imageRating);
+		if(imageRating2!=null) {
+			//ImageRating imageRating2 = imageRating1.get();
 			imageRating2.setRating(displayReatingImageDTO.getReating());
 			imageRatingDAO.attachDirty(imageRating2);
 		   }		
@@ -1359,7 +1373,9 @@ public class DbServices {
 		 if(judgeList.isPresent()) {			   
 			  for(Users user : judgeList.get()) { 
 				  Optional<List<ImageRating>> ratingList = imageRatingDAO.getRettinStatusofAJudge(user.getUserId());
+				  //System.out.println("ratingList"+ratingList.get().size());
 				  Map<Integer, Integer> reatingMap = commonUtil.createImageReatingMap(ratingList);
+				  //System.out.println("reatingMap="+reatingMap);
 				  Set<Category> categoryList = user.getJudgeCategoryMapping();
 				  for(Category category:  categoryList) {
 					  if(imageIdMap.containsKey(category.getCategoryName())){							
@@ -1368,9 +1384,11 @@ public class DbServices {
 								sectionWiseTotalCount=sectionWiseTotalCount+1;
 								if(reatingMap.containsKey(imageId) && reatingMap.get(imageId)>0) {
 									nonZeroReatedImageCount=nonZeroReatedImageCount+1;
+									//System.out.println("nonZeroReatedImageCount="+nonZeroReatedImageCount);
 								  }
 								else if(reatingMap.containsKey(imageId) && reatingMap.get(imageId)==0) {
 									     zeroReatedImageCount=zeroReatedImageCount+1 ;
+									     //System.out.println("zeroReatedImageCount"+zeroReatedImageCount);
 								       }
 							   }
 							reatingStatusTableDTO = new ReatingStatusTableDTO();
@@ -1391,18 +1409,235 @@ public class DbServices {
 				  
 			     }
 		 }
-		return Optional.of(list);		
+		return Optional.of(list);
+		
 	}
 	
 	@Transactional
-	public Optional<ImageRating> getImageReating(Integer judgeId, Integer imageId){
+	public ImageRating getImageReating(Integer judgeId, Integer imageId){
 		ImageRating imageRating = new ImageRating();
 		File file = fileDetailDAO.findById(imageId);
 		imageRating.setFile(file);
 		imageRating.setJudgeId(judgeId);
-		Optional<ImageRating> imageRating1 = imageRatingDAO.getImageRating(imageRating);
+		ImageRating imageRating1 = imageRatingDAO.getImageRating(imageRating);
 		return imageRating1;
 	}
+	
+	
+	
+	
+	@Transactional
+	public ResponseDTO getReatingStatusOfAClub(String clubName) throws IOException {
+		ResponseDTO responseDTO = new ResponseDTO();
+		String response = null;
+		Map <Integer, Integer> map =null;
+		Map<String, Map <Integer, Integer>> cmap = new HashMap<>();
+		int zeroCount=0;
+		if(imageRatingDAO.getCount() > 0){	
+			Map<String, TreeSet<Integer>> fileIdMap = processJudgingFile();	
+			//find judge of that club
+			Optional<List<Users>> judgeList =  usersDAO.findUserByRole("judge");
+			List<Users> listofJudgeOfAClub= new ArrayList<>();
+			if(judgeList.isPresent()) {
+			   for(Users judge : judgeList.get()) {
+				   if(judge.getJudgeOrganizerClub().getOrganizerclubname().equals(clubName)) {
+					  listofJudgeOfAClub.add(judge);
+					  //System.out.println(clubName+": "+judge.getFirstName()+" "+judge.getLastName());
+				     }
+			      }
+			    }
+			
+			if(listofJudgeOfAClub.size()>0) {
+			   for (Entry<String, Integer> entry : results.entrySet()) {					
+				    Category currentCategory = new Category();
+				    currentCategory.setCategoryId(entry.getValue());
+				    currentCategory.setCategoryName(entry.getKey());
+				    map =new HashMap<>();
+				    for(Users judge : listofJudgeOfAClub) {
+				    	Set<Category> judgeCategorySet = judge.getJudgeCategoryMapping();//get category of a judge
+						  for(Category category : judgeCategorySet) {
+							  if(category.getCategoryName().equals(currentCategory.getCategoryName())) {
+								 TreeSet<Integer> setOfId = fileIdMap.get(category.getCategoryName());
+								 if(setOfId!=null) {
+									for(Integer id : setOfId) {
+										ImageRating imageRating = new ImageRating();
+										File file =fileDetailDAO.findById(id);
+										if(file!=null) { 
+										   if(file.getImageRatings()!=null){	
+										   imageRating.setFile(file);
+										   imageRating.setJudgeId(judge.getUserId());
+										   ImageRating imageRatingP = imageRatingDAO.getImageRating(imageRating);
+										   if(imageRatingP!=null) {
+												     //ImageRating imageRatingP = imageRating1.get();
+												     if(map.containsKey(imageRatingP.getFile().getFileId())) {
+												    	 if(imageRatingP.getRating()==0) 
+															  zeroCount++; 
+												    	 int point = map.get(imageRatingP.getFile().getFileId());
+												    	 map.put(imageRatingP.getFile().getFileId(),(point+imageRatingP.getRating()));
+												       }
+												     else {
+												    	   if(imageRatingP.getRating()==0) 
+															  zeroCount++; 
+												    	    map.put(imageRatingP.getFile().getFileId(), imageRatingP.getRating());
+												          }
+										     }
+									    	}
+										  }
+									   }
+									 
+								   }
+								 else {
+									    //System.out.println("File not available of Category: "+category.getCategoryName());
+								      }
+							    }
+						     } 
+				       }
+				    cmap.put(entry.getKey(), map);
+			      }
+			}
+			
+		 }else {
+		        response ="Data will populate after "+configProperty.getJudgingStartdate();
+		        responseDTO.setMessage(response);
+	           }
+		if(zeroCount>0) {
+		   //System.out.println(zeroCount+" Images are not reated");
+		   responseDTO.setMessage(zeroCount+" Images are not reated");
+		  }
+		else{
+		     //System.out.println("CCCmap"+cmap);
+		     responseDTO.setData(cmap);
+		    }
+		return responseDTO;
+		
+	}
+	
+	/*@Transactional
+	public long getZerCountInImageReatingTable(){	
+		return imageRatingDAO.getZeroRatingCount();		
+	}*/
+	
+	
+	
+	
+	
+	@Transactional
+	public String saveAcceptedData(AcceptenceClubDTO acceptenceClubDTO) throws IOException {		
+		String response=null;
+		SummaryData summaryData =null;
+		boolean dataflag=false;
+		if(acceptenceClubDTO.getData()!=null && acceptenceClubDTO.getAwardList()!=null) {
+			
+			Map<String, Integer> aceptenceStatusMap= commonUtil.dataStatuaMap(acceptenceClubDTO.getData());
+			Map<String, Integer> awaedStatusMap= commonUtil.dataStatuaMap(acceptenceClubDTO.getAwardList());
+			
+			if(aceptenceStatusMap.keySet().equals(results.keySet()) && awaedStatusMap.keySet().equals(results.keySet())){
+			   if(commonUtil.checkAcceptenceMapStatus(aceptenceStatusMap, maxAceptenceCuntMap()) && commonUtil.checkAwardMapStatus(awaedStatusMap)){
+				   
+				   
+				   ResponseDTO responseDTO = getReatingStatusOfAClub(acceptenceClubDTO.getClubName());
+					@SuppressWarnings("unchecked")
+					Map<String, Map <Integer, Integer>> cmap = (Map<String, Map<Integer, Integer>>) responseDTO.getData();
+					OrganizerClub organizerClub= organizerClubDAO.findByOrganizerClubName(acceptenceClubDTO.getClubName());
+					 for(String data : acceptenceClubDTO.getData()) {
+						 if(acceptenceClubDTO.getAwardList().contains(data))
+							dataflag =true;						 
+						 String section = data.substring(data.indexOf(":")+1, data.indexOf(" "));
+						 data= data.substring(data.indexOf(" "), data.length()).trim();	
+						 String mark = data.substring(data.indexOf(":")+1, data.indexOf(" "));					 
+						 //System.out.println("section="+section+" data= "+data+" mark="+mark);
+						 Map <Integer, Integer> map = cmap.get(section);
+						 List<Integer> idList = mapUtility.getKey(map, Integer.parseInt(mark));
+						 //System.out.println("idList="+idList);
+						 for(Integer id: idList) {
+							 summaryData = new SummaryData();
+						     summaryData.setImageId(id);
+						     summaryData.setCategoryId(results.get(section));
+						     summaryData.setOrginizerClubId(organizerClub.getOrganizerclubid());
+						     summaryData.setScore(Integer.parseInt(mark));
+						     //System.out.println("summaryData="+summaryData);
+						     try {
+						           summaryDataDAO.attachDirty(summaryData);
+						         }
+						     catch(ConstraintViolationException c){
+						    	   System.out.println(c);
+						          }
+						     catch(DataIntegrityViolationException d) {
+						    	     System.out.println(d);
+						          }
+						     if(dataflag){
+						    	 fileCheckUtility.fileMove(configProperty.getBasePath()+"/"+section, configProperty.getBasePath()+"/"+acceptenceClubDTO.getClubName()+"/"+section, id+".jpg");
+						       }
+						     
+						    }
+						 dataflag=false;
+						 
+							
+					    }			
+				      response = "Accepted data save sucessful for club "+acceptenceClubDTO.getClubName().toUpperCase(); 
+				   
+			     }
+			   else{
+				     response="Before Select Data Read Instraction, Try Again "; 
+			       }
+				
+			}else{  
+				   response= "Select data from all section, for acceptence and award list, TRY AGIN";
+			     }
+		    }
+		else {
+			   response= "Data problems, contact admin team";
+		     }
+		
+		return response;
+		
+	}
+	
+	
+	public Map<String, Integer> maxAceptenceCuntMap(){
+		Map<String, Integer> sectionCountMap = new HashMap<>(); 
+		for (Entry<String, Integer> entry : results.entrySet()) {
+			
+			 Integer value= fileCheckUtility.fileCount(configProperty.getBasePath()+"/"+entry.getKey());
+			 sectionCountMap.put(entry.getKey(), value);
+			
+		    }
+		
+		return sectionCountMap;
+	}
+	
+	@Transactional
+	public boolean  checkJudingRoundStatus(Users user){
+				
+	    List<Integer> listOfDistinctOrganizerCliubIdinSummaryData =	 summaryDataDAO.getDistinctId("orginizerClubId");
+		
+		if(listOfDistinctOrganizerCliubIdinSummaryData.contains(user.getJudgeOrganizerClub().getOrganizerclubid())){
+			return true;
+		  }
+		return false;
+		
+	}
+	
+	@Transactional
+	public Users getUser(Integer id){
+		
+		return usersDAO.findByUserId(id);
+		
+	}
+	
+	@Transactional
+	public SummaryData getSummaryData(Integer imageId, Integer orginizerClubId){
+		
+		SummaryData summaryData = new SummaryData();
+		summaryData.setImageId(imageId);
+		summaryData.setOrginizerClubId(orginizerClubId);
+		
+		return summaryDataDAO.getSummaryData(summaryData);
+		
+		
+	}
+	
+	
 	
 }
 

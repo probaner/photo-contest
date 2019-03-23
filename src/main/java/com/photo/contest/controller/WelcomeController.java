@@ -60,7 +60,6 @@ public class WelcomeController {
 		model.put("headerMiddle",configProperty.getHeaderMiddle());
 		model.put("headerRight",configProperty.getHeaderRight());
 		model.put("homePageImage",configProperty.getHomepageImage());
-		dbServices.processJudgingData("All");
 	    return new ModelAndView("home"); 
 	    } 
 	

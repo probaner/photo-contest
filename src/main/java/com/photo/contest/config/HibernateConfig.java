@@ -21,6 +21,7 @@ import com.photo.contest.model.OrganizerClub;
 import com.photo.contest.model.PayStatus;
 import com.photo.contest.model.Users;
 import com.photo.contest.model.PaymentResponse;
+import com.photo.contest.model.SummaryData;
 import com.zaxxer.hikari.HikariDataSource;
 
 
@@ -39,7 +40,8 @@ public class HibernateConfig {
 		//factoryBean.setConfigLocation(context.getResource("classpath:hibernate.cfg.xml"));
 		factoryBean.setDataSource(dataSource());
 		factoryBean.setHibernateProperties(hibernateProperties());
-		factoryBean.setAnnotatedClasses(Users.class,PayStatus.class,Category.class,DiscountData.class,File.class,OrganizerClub.class, Judge.class,PaymentResponse.class,ImageRating.class);
+		factoryBean.setAnnotatedClasses(Users.class,PayStatus.class,Category.class,DiscountData.class,File.class,OrganizerClub.class, 
+				                        Judge.class,PaymentResponse.class,ImageRating.class,SummaryData.class);
 		/*factoryBean.setAnnotatedClasses(PayStatus.class);
 		factoryBean.setAnnotatedClasses(Category.class);
 		factoryBean.setAnnotatedClasses(DiscountData.class);

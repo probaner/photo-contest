@@ -133,13 +133,18 @@ public class ConfigProperty {
 	@Value("${numberof.organizreclub}")
 	private String numberoforganizreclub;
 	
+	@Value("${accept.percent}")
+	private String acceptPercent;
+	@Value("${award.number}")
+	private String awardNumber;
+	
+	
 	
 	
 	public ConfigProperty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 
 
 	public ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
@@ -157,7 +162,7 @@ public class ConfigProperty {
 			String judgingStartdate, String judgingEnddate, String judgloginurl, String salonName,
 			String salonPatronage, String resultDest, String resultDate, String mailsender, String mailpassword,
 			String registrarionsuccesscomment, String registrarionsuccessimage, String minnumberjudgeforeachclub,
-			String numberoforganizreclub) {
+			String numberoforganizreclub, String acceptPercent, String awardNumber) {
 		super();
 		this.sitename = sitename;
 		this.indexName = indexName;
@@ -217,7 +222,12 @@ public class ConfigProperty {
 		this.registrarionsuccessimage = registrarionsuccessimage;
 		this.minnumberjudgeforeachclub = minnumberjudgeforeachclub;
 		this.numberoforganizreclub = numberoforganizreclub;
+		this.acceptPercent = acceptPercent;
+		this.awardNumber = awardNumber;
 	}
+
+
+
 
 
 
@@ -796,6 +806,26 @@ public class ConfigProperty {
 
 	public void setJudgingFileprocessdate(String judgingFileprocessdate) {
 		this.judgingFileprocessdate = judgingFileprocessdate;
+	}
+
+
+	public String getAcceptPercent() {
+		return acceptPercent;
+	}
+
+
+	public void setAcceptPercent(String acceptPercent) {
+		this.acceptPercent = acceptPercent;
+	}
+
+
+	public String getAwardNumber() {
+		return awardNumber;
+	}
+
+
+	public void setAwardNumber(String awardNumber) {
+		this.awardNumber = awardNumber;
 	}
 	
 	

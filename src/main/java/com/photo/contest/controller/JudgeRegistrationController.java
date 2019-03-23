@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.dto.AcceptenceClubDTO;
 import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.model.Users;
 import com.photo.contest.service.DbServices;

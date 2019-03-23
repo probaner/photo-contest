@@ -11,11 +11,13 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -334,73 +336,80 @@ public Map<Integer, Integer> createImageReatingMap(Optional<List<ImageRating>> i
 		      }
 	}
 	
-	//System.out.println(map);
 	return map;
 	
 }
 
 
-/*public ReatingStatusTreeDTO createGruphData(List<String> list){
-	
-	//List<JudgingStatusGraphDTO> judgingStatusGraphDTOList = new ArrayList<>();
-	JudgingStatusGraphDTO judgingStatusGraphDTO = null;
-	ReatingStatusTreeDTO reatingStatusTreeDTO = new ReatingStatusTreeDTO();
-	for(String data : list) {
-		judgingStatusGraphDTO = new JudgingStatusGraphDTO();
-		judgingStatusGraphDTO.setId(list.indexOf(data)+1);
-		judgingStatusGraphDTO.setText_2("");
-		judgingStatusGraphDTO.setColor("#2196F3");
-		if(!data.contains("|")) {
-		   judgingStatusGraphDTO.setFather("");
-		   judgingStatusGraphDTO.setText_1(data);
-		}
-		else {
-			  String parentdata = data.substring(0, data.lastIndexOf("|"));
-			  if(list.contains(parentdata)) {
-				  int i = list.indexOf(parentdata)+1;
-				  judgingStatusGraphDTO.setFather(String.valueOf(i));
-			    }
-			  judgingStatusGraphDTO.setText_1(data.substring(data.lastIndexOf("|")+1, data.length()));
+public List<String> createReatingMap(Map<String, Map <Integer, Integer>> cmap){
+	List<String> data = new ArrayList<>();
+	Map<String, Map <Integer, Integer>> ccmap = new HashMap<>();
+	if(cmap.size() > 0) {		
+		 for (Entry<String, Map <Integer, Integer>> entry : cmap.entrySet()) {
+			   String category = entry.getKey();
+			   Map<Integer, Integer> rmap =  entry.getValue();
+			   Map<Integer, Integer> map =  new HashMap<>();
+			   for (Entry<Integer, Integer> entry1 : rmap.entrySet()) {
+				    if(map.containsKey(entry1.getValue())) {
+				    	Integer value = map.get(entry1.getValue());
+				    	 map.put(entry1.getValue(), value+1);
+				      }
+				    else {
+				    	   map.put(entry1.getValue(), 1);
+				         }
+			       }
+			   ccmap.put(entry.getKey(), map);
 		     }
-		judgingStatusGraphDTOList.add(judgingStatusGraphDTO);
+		 for (Entry<String, Map <Integer, Integer>> entry2 : ccmap.entrySet()) {
+			  Map <Integer, Integer> value = entry2.getValue();
+			  for(Entry<Integer, Integer> entry3 : value.entrySet()) {
+				  data.add("Category:"+entry2.getKey()+" Mark:"+entry3.getKey()+" Image Count:"+entry3.getValue());
+			     }
+		     }		 
+	 }
+	//System.out.println("data="+data);
+	return data;	
+}
+
+
+
+public Map<String, Integer> dataStatuaMap(List<String> data){	
+
+	Map<String, Integer> countMap = new HashMap<>();
+	for(String cdata :data){
+		String section = cdata.substring(cdata.indexOf(":")+1, cdata.indexOf(" "));
+		Integer number =Integer.parseInt(cdata.substring( cdata.lastIndexOf(":")+1, cdata.length()).trim());
+		//System.out.println("section:"+section+" number: "+number);
+		if(countMap.containsKey(section)){
+			countMap.put(section, countMap.get(section)+number);
+		  }
+		else{
+			 countMap.put(section, number);
+		    }
+		
 	   }
 	
-	for(String data : list) {
-		
-		if(!data.contains("|")) {
-			System.out.println("dataZero"+data);
-			
-			reatingStatusTreeDTO.setName(data);
-			reatingStatusTreeDTO.setParent(null);
-			
-		  }
-		else if(StringUtils.countOccurrencesOf(data, "|")==1) {
-			      System.out.println("dataONE"+data);
-			     if( reatingStatusTreeDTO.getChildren()!=null) {
-			    	 
-			    	 List<ReatingStatusTreeDTO> l = reatingStatusTreeDTO.getChildren();
-			    	 ReatingStatusTreeDTO reatingStatusTreeDTOChild =  new ReatingStatusTreeDTO();
-			    	 reatingStatusTreeDTOChild.setName(data.substring(data.lastIndexOf("|")+1, data.length()));
-			    	 reatingStatusTreeDTOChild.setParent(data.substring(0, data.lastIndexOf("|")));	
-			    	 l.add(reatingStatusTreeDTOChild);
-			    	 reatingStatusTreeDTO.setChildren(l);
-			       }
-			     else {
-			    	     List<ReatingStatusTreeDTO> l =  new ArrayList<>();
-			    	     ReatingStatusTreeDTO reatingStatusTreeDTOChild =  new ReatingStatusTreeDTO();			    	  
-				    	 reatingStatusTreeDTOChild.setName(data.substring(data.lastIndexOf("|")+1, data.length()));
-				    	 reatingStatusTreeDTOChild.setParent(data.substring(0, data.lastIndexOf("|")));	
-				    	 l.add(reatingStatusTreeDTOChild);
-				    	 reatingStatusTreeDTO.setChildren(l);
-		              }
-	           }
-		
-	}//end of for
+	return countMap;
 	
-	System.out.print(reatingStatusTreeDTO);
-	
-	return reatingStatusTreeDTO;
-}*/
+}
+
+public boolean checkAcceptenceMapStatus(Map<String, Integer> aceptenceStatusMap, Map<String, Integer> dataMap ){
+	 for (Entry<String, Integer> entry : aceptenceStatusMap.entrySet()) {
+		 	
+		 if(entry.getValue()>calculatePersentValue(dataMap.get(entry.getKey()), Integer.parseInt(configProperty.getAcceptPercent())))
+			 return false;	
+	       }
+	return true;		
+}
+
+public boolean checkAwardMapStatus(Map<String, Integer> awaedStatusMap){
+	 for (Entry<String, Integer> entry : awaedStatusMap.entrySet()) {
+		 	
+		 if(entry.getValue()< Integer.parseInt(configProperty.getAwardNumber()))
+			 return false;	
+	       }
+	return true;		
+}
 
 
 

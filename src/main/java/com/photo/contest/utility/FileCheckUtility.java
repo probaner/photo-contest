@@ -3,6 +3,8 @@ package com.photo.contest.utility;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 import org.apache.commons.io.FileUtils;
@@ -90,6 +92,38 @@ public class FileCheckUtility {
 		String encodedString = Base64.getEncoder().encodeToString(fileContent);
 		return encodedString;
 		
+		
+	}
+	
+	
+	public void fileMove(String sourceDir, String destinationDir, String fileName) throws IOException{
+		if(isExist(sourceDir) && isFile(sourceDir+"/"+fileName)){
+			if(!isExist(destinationDir)){
+				createDir(destinationDir);
+			  }
+			Files.move 
+			        (Paths.get(sourceDir+"/"+fileName),  
+			        Paths.get(destinationDir+"/"+fileName));
+		  }	
+	}
+	
+	
+	public void fileCopy(String sourceDir, String destinationDir, String fileName) throws IOException{
+		if(isExist(sourceDir) && isFile(sourceDir+"/"+fileName)){
+			if(!isExist(destinationDir)){
+				createDir(destinationDir);
+			  }
+			Files.copy 
+			        (Paths.get(sourceDir+"/"+fileName),  
+			        Paths.get(destinationDir+"/"+fileName));
+		  }	
+	}
+	
+	public Integer fileCount(String path){
+		if(isExist(path) ){
+		 return new File(path).listFiles().length;
+		}
+		return 0;
 		
 	}
 	

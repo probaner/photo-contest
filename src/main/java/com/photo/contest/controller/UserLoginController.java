@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.dto.AcceptenceClubDTO;
 import com.photo.contest.dto.CategoryDTO;
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.CouponCode;
@@ -130,6 +131,7 @@ public class UserLoginController {
 						Map<String, Integer> categoryMap = dbServices.results;
 						List<String> categoryList = selectData.getCategoryList(categoryMap);
 						
+						model.addAttribute("acceptenceClubDTO",new AcceptenceClubDTO());
 						model.addAttribute("clubDataList", clubDataList);
 						model.addAttribute("organizerclubList", organizerclubList);
 						model.addAttribute("categoryList", categoryList);
@@ -138,19 +140,22 @@ public class UserLoginController {
 						
 						return "admin";
 
-					} else if (userDTO.getRole().equals("judge")){
-						       
+					} else if (userDTO.getRole().equals("judge")){												       
 						      if(commonServices.getJudgeOpeningDate()) {
 						    	  
-						    	   List<String>  judgeCategory = dbServices.getCategoryListofaJudge(userDTO.getUserid()); 
+						    	  List<String>  judgeCategory = dbServices.getCategoryListofaJudge(userDTO.getUserid()); 
 						    	   java.util.Collections.sort(judgeCategory); 
 						    	  
 						    	   model.addAttribute("categoryList",judgeCategory);
 						    	   model.addAttribute("categoryDTO", new CategoryDTO());
 						    	   model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 											+ userDTO.getFirstname().toUpperCase());
+						    
+						    	 if(dbServices.checkJudingRoundStatus(user))
+						    		return "judgetwo"; 
+						     else  
+						           return "judge";
 						    	   
-						    	   return "judge";
 						        }
 						         else {
 						        	        model.addAttribute("judgePageError", "This Page is available from "+configProperty.getJudgingStartdate()+ " to "+configProperty.getJudgingEnddate() + " only."  );

@@ -23,7 +23,7 @@ public class ReatingStatusController {
 	
 	@RequestMapping(value = "/admin/json/getreatinggraphdata")
 	public @ResponseBody ResponseDTO paystatusGraphJson() throws IOException {
-		
+		//System.out.println("I am in controller");
 	ResponseDTO responseDTO = new ResponseDTO();
 	if(dbServices.getImageReatingStatus()) {
 		
@@ -33,6 +33,7 @@ public class ReatingStatusController {
 	else {
 		   Optional<List<ReatingStatusTableDTO>> list = dbServices.getRoundOneJuddingStatus();	
 		   responseDTO.setData(list.get());
+		   //System.out.println("data="+list.get());
 		   return responseDTO;
 				   
 	     }
