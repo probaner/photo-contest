@@ -50,6 +50,7 @@ public class CategoryWiseReatingImageBundelController {
 		 
 		  
 		  List<DisplayReatingImageDTO> displayReatingImageDTOList = commonService.getImageReatingData (categoryDTO.getCategoryName());
+		  System.out.println(displayReatingImageDTOList.get(0).getImageId() +"---> Rating -" +displayReatingImageDTOList.get(0).getReating());
 		  ImageRatingDTOContainer container = new ImageRatingDTOContainer();
 		  container.setImageList(displayReatingImageDTOList);
 		   model.addAttribute("displayReatingImageDTOList", container);
@@ -70,7 +71,7 @@ public class CategoryWiseReatingImageBundelController {
 	        System.out.println("Image Id- " + displayReatingImageDTO.getImageId() + " Rating-> " +displayReatingImageDTO.getReating());
 	    }
 	    //insert to db	  
-	    dbServices.updateImageReating(displayReatingImageDTOList, userDTO);
+	    //dbServices.updateImageReating(displayReatingImageDTOList, userDTO);
 	    List<String>  judgeCategory = dbServices.getCategoryListofaJudge(userDTO.getUserid()); 
  	    java.util.Collections.sort(judgeCategory); 
 	    model.addAttribute("categoryList",judgeCategory);
@@ -86,7 +87,7 @@ public class CategoryWiseReatingImageBundelController {
 		  
 	    model.addAttribute("message", "Rating saved successfully");
 	    model.addAttribute("displayReatingImageDTOList", imageRatingDTOContainer);
-	    return "judge";
+	    return "imagereatingreview";
 	}
 
 }
