@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/slick/slick-theme.css" />"/>
 <style type="text/css">
 html, body{
-  background-color: #e74c3c
+  background-color: #a09b9b
 }
 .wrapper{
   width:100%;
@@ -44,7 +44,7 @@ background: rgba(0, 0, 0, 0.2);
 }
 .slick-center  {
  opacity: 1;
- border-style: dotted;
+/*  border-style: dotted; */ /*removed this*/
 }
 
 /* Slider arrows */
