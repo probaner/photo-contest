@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Judge Page</title>
-<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/slick/slick-theme.css" />"/>
 <style type="text/css">
@@ -32,7 +32,7 @@ h2{
 } */
 .slick-slide img{
   width:99%;
-  border: 2px solid #fff;
+  border: 2px solid #fff; 
 }
 
 .opaque {
@@ -44,7 +44,7 @@ background: rgba(0, 0, 0, 0.2);
 }
 .slick-center  {
  opacity: 1;
-/*  border-style: dotted; */ /*removed this*/
+/*  border-style: dotted; */
 }
 
 /* Slider arrows */
@@ -95,14 +95,20 @@ background: rgba(0, 0, 0, 0.2);
          <form:hidden path="imageList[${tagStatus.index}].imageId" />
          <%-- <form:input STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;"  
          path="imageList[${tagStatus.index}].reating"/> --%>
-         <form:select path="imageList[${tagStatus.index}].reating" STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;">
+         <form:radiobutton path="imageList[${tagStatus.index}].reating" value="0" checked='checked' />0 
+         <form:radiobutton path="imageList[${tagStatus.index}].reating" value="1"/>1 
+         <form:radiobutton path="imageList[${tagStatus.index}].reating" value="2"/>2 
+         <form:radiobutton path="imageList[${tagStatus.index}].reating" value="3"/>3 
+         <form:radiobutton path="imageList[${tagStatus.index}].reating" value="4"/>4 
+         <form:radiobutton path="imageList[${tagStatus.index}].reating" value="5"/>5 
+         <%-- <form:select path="imageList[${tagStatus.index}].reating" STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;">
             <form:option value="0" label="Select" />
             <form:option value="1" label="1" />
             <form:option value="2" label="2" />
             <form:option value="3" label="3" />
             <form:option value="4" label="4" />
             <form:option value="5" label="5" />
-         </form:select>
+         </form:select> --%>
          </div>
      </c:forEach>
 </div>
@@ -164,6 +170,11 @@ background: rgba(0, 0, 0, 0.2);
         //currentSlide is undefined on init -- set it to 0 in this case (currentSlide is 0 based)
         var i = (currentSlide ? currentSlide : 0) + 1;
         $status.text(i + '/' + slick.slideCount);
+    });
+    
+    
+    $('input[type="radio"]').click(function(){
+    	$('.images-for-judge').slick('slickNext');
     });
     
     

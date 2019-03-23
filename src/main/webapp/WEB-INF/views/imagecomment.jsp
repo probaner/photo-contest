@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Judge Page</title>
+<title>Comment Page</title>
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/slick/slick-theme.css" />"/>
@@ -90,19 +90,21 @@ background: rgba(0, 0, 0, 0.2);
      <c:forEach items="${displayReatingImageDTOList.imageList}" var="displayReatingImageDTO"  varStatus="tagStatus"> 
          <div>
          <img src="data:image/jpg;base64,${displayReatingImageDTO.image}">
-         Rating
+         Comment
          <%-- <form:hidden path="imageList[${tagStatus.index}].image" value="${displayReatingImageDTO.image}" /> --%>
          <form:hidden path="imageList[${tagStatus.index}].imageId" />
-         <%-- <form:input STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;"  
-         path="imageList[${tagStatus.index}].reating"/> --%>
-         <form:select path="imageList[${tagStatus.index}].reating" STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;">
+       
+         <%-- <form:select path="imageList[${tagStatus.index}].reating" STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;">
             <form:option value="0" label="Select" />
             <form:option value="1" label="1" />
             <form:option value="2" label="2" />
             <form:option value="3" label="3" />
             <form:option value="4" label="4" />
             <form:option value="5" label="5" />
-         </form:select>
+         </form:select> --%>
+         
+          <form:input maxlength="50" size="50" STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; background-color: #72A4D2;"  
+         path="imageList[${tagStatus.index}].reating"/>
          </div>
      </c:forEach>
 </div>
