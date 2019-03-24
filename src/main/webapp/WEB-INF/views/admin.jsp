@@ -514,8 +514,8 @@ div.ex11 {
 				</div>
 			 </div>
 		</div> 
-	</div>
- --%>
+	</div> --%>
+
 
 <!-- /.container -->
 <div class="modal fade modal-fullscreen" id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

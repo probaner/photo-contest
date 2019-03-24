@@ -85,11 +85,11 @@ background: rgba(0, 0, 0, 0.2);
 </div>
 <div class="wrapper">
 <h2>Category - ${categoryJudge}<h2>
-<form:form method="POST" action="rate" modelAttribute="displayAwardImageDTOList">
+<form:form method="POST" action="awards" modelAttribute="displayAwardImageDTOList">
 <div class="images-for-judge">
-     <c:forEach items="${displayAwardImageDTOList.imageList}" var="displayAwardImageDTOList"  varStatus="tagStatus"> 
+     <c:forEach items="${displayAwardImageDTOList.imageList}" var="displayAwardImageDTO"  varStatus="tagStatus"> 
          <div>
-         <img src="data:image/jpg;base64,${displayReatingImageDTO.image}">
+         <img src="data:image/jpg;base64,${displayAwardImageDTO.image}">
          Comment
          <%-- <form:hidden path="imageList[${tagStatus.index}].image" value="${displayAwardImageDTOList.image}" /> --%>
          <form:hidden path="imageList[${tagStatus.index}].imageId" />

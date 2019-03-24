@@ -580,7 +580,7 @@ public List<DisplayAwardImageDTO> getImageAwardData(String categoryName,UserDTO 
 	   Users user=dbServices.getUser(userDTO.getUserid());
 	String clubName=user.getJudgeOrganizerClub().getOrganizerclubname();
 	String path = configProperty.getBasePath()+"/"+clubName+"/"+categoryName;
-	System.out.println("path="+path);
+	//System.out.println("path="+path);
 	String comment=null;
 	
 	List<DisplayAwardImageDTO>  displayReatingImageDTORoundTwoList= new ArrayList<>();
@@ -589,14 +589,14 @@ public List<DisplayAwardImageDTO> getImageAwardData(String categoryName,UserDTO 
 	if(fileCheckUtility.isDir(path) && fileCheckUtility.isExist(path)) {
 		
 		File[] filesArray = fileCheckUtility.getFileArrayOfaDirectory(path, ".jpg");
-		System.out.println("filesArraySize="+filesArray.length);
+		//System.out.println("filesArraySize="+filesArray.length);
 		
         if(filesArray.length>0) {
 			
 			for(int f = 0; f <filesArray.length ; f ++) {
 				displayReatingImageAwardDTO = new DisplayAwardImageDTO();
 				Integer imageId=Integer.parseInt(filesArray[f].getName().substring(0,filesArray[f].getName().lastIndexOf(".")));
-				System.out.println("imageId:"+imageId);
+				//System.out.println("imageId:"+imageId);
 				displayReatingImageAwardDTO.setImageId(imageId);
 				displayReatingImageAwardDTO.setImage(fileCheckUtility.convertBase64String(filesArray[f]));
 				SummaryData summaryData=dbServices.getSummaryData(imageId, user.getJudgeOrganizerClub().getOrganizerclubid());

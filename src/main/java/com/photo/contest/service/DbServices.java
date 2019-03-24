@@ -40,6 +40,7 @@ import com.photo.contest.dao.UsersDAO;
 import com.photo.contest.dto.AcceptenceClubDTO;
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.dto.ClubDTO;
+import com.photo.contest.dto.DisplayAwardImageDTO;
 import com.photo.contest.dto.DisplayReatingImageDTO;
 import com.photo.contest.dto.EditTableDataDTO;
 import com.photo.contest.dto.FileDTO;
@@ -1465,7 +1466,9 @@ public class DbServices {
 								 if(setOfId!=null) {
 									for(Integer id : setOfId) {
 										ImageRating imageRating = new ImageRating();
-										File file =fileDetailDAO.findById(id);
+										//File file =fileDetailDAO.findById(id);
+										File file = new File();
+										file.setFileId(id);
 										if(file!=null) { 
 										   if(file.getImageRatings()!=null){	
 										   imageRating.setFile(file);
@@ -1649,6 +1652,29 @@ public class DbServices {
 		return awardList;
 		
 	}
+	
+	@Transactional
+	public void updateImageAward(List<DisplayAwardImageDTO> displayAwardImageDTOList,UserDTO userDTO) throws IOException {
+		SummaryData summaryData = null;
+		 
+		Users user = usersDAO.findById(userDTO.getUserid());
+		
+		for(DisplayAwardImageDTO displayAwardImageDTO : displayAwardImageDTOList){
+			summaryData = new SummaryData();
+			summaryData.setImageId(displayAwardImageDTO.getImageId());
+			summaryData.setOrginizerClubId(user.getJudgeOrganizerClub().getOrganizerclubid());
+			 
+			SummaryData  summaryData1 = summaryDataDAO.getSummaryData(summaryData);
+			summaryData1.setAward(displayAwardImageDTO.getComment());
+			summaryDataDAO.attachDirty(summaryData1);
+			//System.out.println("summaryData1="+summaryData1);
+			
+		   }
+		
+		
+	}
+	
+	
 	
 }
 

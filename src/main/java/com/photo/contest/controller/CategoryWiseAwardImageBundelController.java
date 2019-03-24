@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.CategoryDTO;
 import com.photo.contest.dto.DisplayAwardImageDTO;
+import com.photo.contest.dto.ImageRatingDTOContainer;
 import com.photo.contest.dto.UserDTO;
 import com.photo.contest.service.CommonServices;
 import com.photo.contest.service.DbServices;
@@ -57,6 +59,36 @@ public class CategoryWiseAwardImageBundelController {
 		   
 		  				
 		return "imagecomment";
+		
+	}
+	
+	
+	@RequestMapping(value = "/judge/awards", method = RequestMethod.POST)
+	public String saveUsers(@ModelAttribute("displayAwardImageDTOList") ImageAwardContainerDTO imageAwardContainerDTO,
+			                @ModelAttribute("userForm") UserDTO userDTO,			               
+			                Model model) throws Exception{
+		
+		
+		dbServices.updateImageAward(imageAwardContainerDTO.getImageList(), userDTO);
+		
+		List<String>  judgeCategory = dbServices.getCategoryListofaJudge(userDTO.getUserid()); 
+ 	    java.util.Collections.sort(judgeCategory); 
+	    model.addAttribute("categoryList",judgeCategory);
+ 	    model.addAttribute("categoryDTO", new CategoryDTO());
+ 	    model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
+					+ userDTO.getFirstname().toUpperCase());
+				
+		  model.addAttribute("titel","/"+configProperty.getIndexName());
+		  model.addAttribute("titelImage","/"+configProperty.getIndexImage());
+		  model.addAttribute("headerLeft","/"+configProperty.getHeaderLeft());
+		  model.addAttribute("headerMiddle","/"+configProperty.getHeaderMiddle());
+		  model.addAttribute("headerRight","/"+configProperty.getHeaderRight());
+		  
+	      model.addAttribute("message", "Rating saved successfully");
+	      model.addAttribute("displayAwardImageDTOList", imageAwardContainerDTO);
+		
+		
+								return "judgeawards";
 		
 	}
 
