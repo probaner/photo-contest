@@ -138,6 +138,9 @@ public class ConfigProperty {
 	@Value("${award.number}")
 	private String awardNumber;
 	
+	@Value("${last.paymentdate}")
+	private String lastPaymentDate;
+	
 	
 	
 	
@@ -145,6 +148,7 @@ public class ConfigProperty {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 
 
 	public ConfigProperty(String sitename, String indexName, String indexImage, String headerLeft, String headerMiddle,
@@ -162,7 +166,7 @@ public class ConfigProperty {
 			String judgingStartdate, String judgingEnddate, String judgloginurl, String salonName,
 			String salonPatronage, String resultDest, String resultDate, String mailsender, String mailpassword,
 			String registrarionsuccesscomment, String registrarionsuccessimage, String minnumberjudgeforeachclub,
-			String numberoforganizreclub, String acceptPercent, String awardNumber) {
+			String numberoforganizreclub, String acceptPercent, String awardNumber, String lastPaymentDate) {
 		super();
 		this.sitename = sitename;
 		this.indexName = indexName;
@@ -224,7 +228,14 @@ public class ConfigProperty {
 		this.numberoforganizreclub = numberoforganizreclub;
 		this.acceptPercent = acceptPercent;
 		this.awardNumber = awardNumber;
+		this.lastPaymentDate = lastPaymentDate;
 	}
+
+
+
+
+
+
 
 
 
@@ -827,7 +838,19 @@ public class ConfigProperty {
 	public void setAwardNumber(String awardNumber) {
 		this.awardNumber = awardNumber;
 	}
-	
-	
-				
+
+
+
+	public String getLastPaymentDate() {
+		return lastPaymentDate;
+	}
+
+
+
+	public void setLastPaymentDate(String lastPaymentDate) {
+		this.lastPaymentDate = lastPaymentDate;
+	}
+
+
+
 }

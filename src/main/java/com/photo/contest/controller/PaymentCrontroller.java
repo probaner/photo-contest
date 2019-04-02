@@ -36,17 +36,8 @@ public class PaymentCrontroller {
 	@RequestMapping(value = "/json/getpaystatu")  
     public @ResponseBody boolean getrules(ModelMap model) throws IOException {
 		
-		 boolean responce;
-		 UserDTO userDTO = (UserDTO) model.get("userForm");	 
-		 Users user = dbServices.getUser(userDTO.getEmail());
-		 System.out.println("COUNT="+user.getPayStatus().getAttemptSection());
-		 if (user.getPayStatus().getPayingStatus().toUpperCase().equals("PAID"))		 
-			 responce = false;
-		 else if(user.getPayStatus().getAttemptSection()==0) 
-			 responce = false;			
-		 else
-			 responce = true;
-		 
+		 boolean responce= dbServices.getPaymentURLResponce((UserDTO) model.get("userForm"));
+		
 		 return responce;
 		 
        } 

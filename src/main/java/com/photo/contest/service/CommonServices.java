@@ -67,6 +67,7 @@ public class CommonServices {
 	@Autowired
 	ObjectComaratorUtility objectComaratorUtility;
 	
+	
 	public void setCommonUtil(CommonUtil commonUtil) {
 		this.commonUtil = commonUtil;
 	}
@@ -565,17 +566,11 @@ public class CommonServices {
 		return map;
 	}
 	
-	public boolean judgingFileProcessDateStatus() {
-		
-		Date judgingFileProcessDate=dateUtility.stringTodate(configProperty.getJudgingFileprocessdate());
-		Date sysDate = dateUtility.stringTodate(new SimpleDateFormat("yyyy-MM-dd").format( new Date()));
-		
-		if(judgingFileProcessDate!=null && sysDate!=null)				
-		  return dateUtility.checkEquals(judgingFileProcessDate, sysDate);
-		
-		return false;
-				
-	}
+	public boolean judgingFileProcessDateStatus() {				
+		  return dateUtility.checkEquals(dateUtility.getDate(), configProperty.getJudgingFileprocessdate());				
+		}
+	
+	
 public List<DisplayAwardImageDTO> getImageAwardData(String categoryName,UserDTO userDTO) throws IOException{
 	   Users user=dbServices.getUser(userDTO.getUserid());
 	String clubName=user.getJudgeOrganizerClub().getOrganizerclubname();

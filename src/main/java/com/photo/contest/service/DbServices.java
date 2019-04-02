@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.mail.MessagingException;
@@ -24,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.itextpdf.text.DocumentException;
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.config.HibernateConfig;
 import com.photo.contest.dao.AwardDAO;
@@ -75,8 +77,10 @@ import com.photo.contest.model.PaymentResponse;
 import com.photo.contest.model.SummaryData;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
+import com.photo.contest.utility.DateUtility;
 import com.photo.contest.utility.FileCheckUtility;
 import com.photo.contest.utility.MapUtility;
+import com.photo.contest.utility.PdfUtility;
 import com.photo.contest.utility.ResultPDFUtility;
 
 
@@ -126,7 +130,10 @@ public class DbServices {
 	FileCheckUtility fileCheckUtility;
 	@Autowired
 	AwardDAO awardDAO;
-	
+	@Autowired
+	DateUtility dateUtility;
+	@Autowired
+	private PdfUtility pdfUtility;
 	
 	public void setUsersDAO(UsersDAO usersDAO) {
 		this.usersDAO = usersDAO;
@@ -1525,7 +1532,23 @@ public class DbServices {
 	}*/
 	
 	
-	
+	@Transactional
+	public boolean getPaymentURLResponce(UserDTO userDTO) {
+		 boolean responce = false;
+		if(dateUtility.checkBefore(dateUtility.getDate(), configProperty.getLastPaymentDate())) {//if payment date not exapire		
+		    //System.out.println("true");
+		    Users user = usersDAO.findByEmail(userDTO.getEmail());
+		    if (user.getPayStatus().getPayingStatus().toUpperCase().equals("PAID"))		 
+				 responce = false;
+		    else if(user.getPayStatus().getAttemptSection()==0) 
+				 responce = false;			
+			 else
+				 responce = true;
+		   }
+		
+		
+		return responce;
+	}
 	
 	
 	@Transactional
@@ -1673,6 +1696,133 @@ public class DbServices {
 		
 		
 	}
+	
+	@Transactional
+	public boolean getResultURLActiveStatus(UserDTO userDTO) {
+		
+		System.out.println(userDTO.getEmail());
+		
+		 Users user = usersDAO.findByEmail(userDTO.getEmail());
+        if(dateUtility.checkEquals(dateUtility.getDate(),configProperty.getResultDate()) && user.getPayStatus().getPayingStatus().toUpperCase().equals("PAID"))
+           return true;
+        else if(dateUtility.checkAfter(dateUtility.getDate(),configProperty.getResultDate()) && user.getPayStatus().getPayingStatus().toUpperCase().equals("PAID"))
+     		   return true;
+        
+        return false;
+     	        
+      }
+	
+	/*public boolean getResultURLActiveStatus() {
+        if(dateUtility.checkEquals(dateUtility.getDate(),configProperty.getResultDate()))
+           return true;
+        else if(dateUtility.checkAfter(dateUtility.getDate(),configProperty.getResultDate()))
+     		   return true;
+        
+        return false;
+     	        
+      }*/
+
+
+
+@Transactional
+public java.io.File getResult(UserDTO userDTO) {
+//File file = null;
+if(fileCheckUtility.isExist(configProperty.getResultDest()+"/"+userDTO.getUserid()+".pdf")) {
+return new java.io.File (configProperty.getResultDest()+"/"+userDTO.getUserid()+".pdf");
+}
+else {
+
+	TreeMap<String , TreeMap<String, TreeMap<String , String>>> resultMap = new TreeMap<>();
+//<club<section, <imageTitel, score>>>
+	TreeMap<String, String> userDataMap = new TreeMap<>();
+Optional<List<Users>> judgeList =  usersDAO.findUserByRole("judge");
+List<Integer> judgeIdList = null;
+SummaryData summaryData = null;
+//if(userDTO!=null) {
+//Users user = usersDAO.findByEmail(userDTO.getEmail());
+List<OrganizerClubDTO> organizerClubDTOList = getOrganizerClubDTOList();
+Users user = usersDAO.findByEmail(userDTO.getEmail());
+if(user!=null && user.getPayStatus().getPayingStatus().toUpperCase().equals("PAID")) {// check USERS status is PAID 
+	userDataMap.put("saloneName", configProperty.getSalonName());
+	//System.out.println("I am hear"+configProperty.getResultDest()+"/"+user.getUserId()+".pdf");
+	userDataMap.put("fileName", configProperty.getResultDest()+"/"+user.getUserId()+".pdf");
+	userDataMap.put("patronage", configProperty.getSalonPatronage());
+	userDataMap.put("resultDate", configProperty.getResultDate());
+	userDataMap.put("name", user.getFirstName().toUpperCase()+" "+user.getLastName().toUpperCase());
+	userDataMap.put("userId", ""+user.getUserId());
+	
+ Set<File> files = user.getFiles();// 
+ for(OrganizerClubDTO organizerClubDTO : organizerClubDTOList) {	// create for each club
+ 	 judgeIdList = new ArrayList<>();
+ 	 //System.out.println("club name: "+organizerClubDTO.getOrganizerClubName());
+ 	 for(Users users : judgeList.get()) {
+ 		 if(users.getJudgeOrganizerClub().getOrganizerclubname().equals(organizerClubDTO.getOrganizerClubName())) {
+ 			judgeIdList.add(users.getUserId());
+ 		   }		
+ 	    }
+ 	  //System.out.println("judgeIdList:"+judgeIdList);
+ 	TreeMap<String, TreeMap<String, String>> categoryMap  = new TreeMap<>();
+ 	  for (Entry<String, Integer> entry : results.entrySet()) {	//eache category 
+ 		  //System.out.println("Section: "+entry.getKey());
+ 		  SummaryData summaryData2 = summaryDataDAO.getLowestScoreOfASectionOfAClub(entry.getValue(),
+ 				                     organizerClubDTO.getOrganizerClubId());//get list number of acception
+ 		 TreeMap<String, String> titelScoreMap  = new TreeMap<>(); 
+		  
+	          for( File file : files ){
+	        	                       
+	        	                       if(entry.getValue().equals(file.getCategory().getCategoryId())) {
+	        	                          //System.out.println(file.getFileId()+ "  "+file.getCategory().getCategoryId());
+	        	                          
+		                         		  summaryData = new SummaryData();
+		                         		  summaryData.setImageId(file.getFileId());
+		                         		  summaryData.setOrginizerClubId(organizerClubDTO.getOrganizerClubId());
+		                         		  summaryData.setCategoryId(entry.getValue());
+		                         		   
+		                         		   SummaryData summaryDataInstance = summaryDataDAO.getInstance(summaryData);
+		                         		   if(summaryDataInstance!=null) {//if accepted
+		                         		       //System.out.println("Accept: "+file.getTitel()+"   "+ summaryDataInstance.getScore());
+		                         		       if(summaryDataInstance.getAward()!=null && summaryDataInstance.getAward().trim().length()>0){
+		                         		    	     System.out.println("summaryDataInstance.getAward()"+summaryDataInstance.getAward());
+		                         		          titelScoreMap.put(file.getTitel(), "Accept|"+summaryDataInstance.getScore()+"( "+summaryDataInstance.getAward().toUpperCase()+" )");
+		                         		      
+		                         		       }else
+		                         		    	   titelScoreMap.put(file.getTitel(), "Accept|"+summaryDataInstance.getScore());
+		                         		       }
+		                         		      else {// if not accepted
+		                         			        Set<ImageRating> imageRatingSet = file.getImageRatings();
+		                         			        int score = 0;
+		                         			        for(ImageRating imageRating: imageRatingSet) {
+		                         			        	if(judgeIdList.contains(imageRating.getJudgeId())) {
+		                         			        		score = score+imageRating.getRating();
+		                         			        	  }
+		                         			            }
+		                         			           //System.out.println(file.getTitel()+ " "+score);
+		                         			           titelScoreMap.put(file.getTitel(), "Not Accept|"+score);			                		                         			         
+		                         		           }
+	        	                         }
+		                         		
+	                                 }
+ 		         if(summaryData2!=null)
+	                    categoryMap.put(entry.getKey()+"( Min Accepted Score :"+summaryData2.getScore()+", Max 15 )", titelScoreMap);  
+ 		         else
+ 		        	 categoryMap.put(entry.getKey(), titelScoreMap);
+               }
+ 	        resultMap.put(organizerClubDTO.getOrganizerClubName(), categoryMap);
+           }
+       }
+	
+//System.out.println(userDataMap);
+//System.out.println(resultMap);
+try {
+	   pdfUtility.createpdf(userDataMap, resultMap);
+  } catch (DocumentException e) {
+	                                 // TODO Auto-generated catch block
+	                                 e.printStackTrace();
+                            }
+return new java.io.File(configProperty.getResultDest()+"/"+user.getUserId()+".pdf");
+}
+
+}
 	
 	
 	

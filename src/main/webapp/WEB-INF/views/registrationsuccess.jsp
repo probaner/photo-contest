@@ -108,13 +108,16 @@ p.b {
 				<c:out value="${sucessMagssage}" />
 				
 			</h4>						
-			<div style="float: right; font-size: 100%; position: relative; top: -12px">
-			   <a href="#" id ="confirm_upload_mail">Confirm Upload Mail </a>
+			<div style="float: right; font-size: 100%; position: relative; top: -12px">			   
+			   <a href="#" data-toggle="tooltip" data-placement="top" title="Click after upload compleate" id ="confirm_upload_mail">Confirm Upload Mail </a>
 			    &nbsp;
                 &nbsp;
-				<a href="#" id ="payment_id"> Payment </a>
+				<a href="#" data-toggle="tooltip" data-placement="top" title="Click after upload compleate" id ="payment_id"> Payment </a>
 				&nbsp;
-                &nbsp;	              
+                &nbsp;	
+              <a href="#" data-toggle="tooltip" data-placement="top" title="Click on result date" id ="download_result">Download Result</a>  
+                &nbsp;
+                &nbsp;            
 				<a href="<%=request.getContextPath()%>/logout"> Log Out </a>
 			</div>
 		</div>
@@ -454,7 +457,7 @@ $(document).ready(function()
 	var headers = {};
 	headers[csrfHeader] = csrfToken; 
 	
-	
+	$('[data-toggle="tooltip"]').tooltip(); 
 	 
 	 $("#confirm_upload_mail" ).click(function(e) {
 		 e.preventDefault();		 
@@ -490,6 +493,23 @@ $(document).ready(function()
 		   		                             	     
 		   		                                  }
 		   	                           }
+		       });
+		 
+	 });
+	 
+	 
+	 $("#download_result" ).click(function(e) {
+		 e.preventDefault();		 
+		 $.ajax({
+		   	  url: "json/downloadresult",
+		   	  type: "GET",
+		   	  dataType: "json",
+		   	  contentType: 'application/json',	  
+		   	  success: function(isresult) {		
+		   		                            if(isresult) {
+		   		                                           window.location.href = "<%=request.getContextPath()%>/downloadresult";
+		   		                                         }
+		   	                              }
 		       });
 		 
 	 });

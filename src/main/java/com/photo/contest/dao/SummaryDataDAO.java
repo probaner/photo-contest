@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -91,6 +92,36 @@ public class SummaryDataDAO {
 		   			throw re;
 		   		   }		   			
 		   	}
+		 
+		 public SummaryData getLowestScoreOfASectionOfAClub(Integer categoryId, int clubId){
+			 @SuppressWarnings("deprecation")
+			Criteria cr =sessionFactory.getCurrentSession().createCriteria(SummaryData.class)
+					 .add(Restrictions.eq("orginizerClubId", clubId))
+					 .add(Restrictions.eq("categoryId", categoryId))
+			         .addOrder(Order.asc("score"))
+			         .setMaxResults(1);			 
+			return (SummaryData) cr.uniqueResult();
+			 
+		 }
+		 
+		 public SummaryData getInstance(SummaryData summaryData){
+			 try{
+		   			@SuppressWarnings("deprecation")
+		  			Criteria cr =sessionFactory.getCurrentSession().createCriteria(SummaryData.class)
+		   					     .add(Restrictions.eq("imageId", summaryData.getImageId()))
+		   					     .add(Restrictions.eq("orginizerClubId", summaryData.getOrginizerClubId()))
+		   					     .add(Restrictions.eq("categoryId", summaryData.getCategoryId()));
+		   			
+		   			@SuppressWarnings("unchecked")
+		   			SummaryData instace=  (SummaryData) cr.uniqueResult();
+		   				//System.out.println("instace="+instace);		
+		   			return instace;      		
+		   		   } catch (RuntimeException re) {
+		   			log.error("get failed", re);
+		   			throw re;
+		   		   }		   	
+			 
+		 }
 	 
 
 }
