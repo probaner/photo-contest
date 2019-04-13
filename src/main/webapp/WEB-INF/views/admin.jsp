@@ -485,7 +485,40 @@ div.ex11 {
 		</div>
 	</div>
 
-
+<div class="container">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse44">Send Bulk Mail
+							</a>
+					</h4>
+					<div id="collapse44" class="panel-collapse collapse">
+					<div class="row">
+							<div class="col-sm-9">
+							<div class="col-sm-7"><div style="color: red">${bulkMailError}</div></div>
+							<form:form id="bulkMailForm" action="sendBulkMail"
+									method="post" modelAttribute="bulkMailDTO">							
+									<div class="ex7">
+										<form:select class="form-control" id="clubName" path="mailerType" items="${mailerType}" />		
+									 <p></p>
+									 <p></p>		
+										<form:input type="text" style="display: inline; text-align: center;" class="form-control" id="mailSubject" path="mailSubject" placeholder="Enter subject" required="autofocus" />
+									<p></p>
+									<p></p>	
+									<form:textarea name="message" id="InputMessage" path="mailBody" class="form-control" rows="6" required="autofocus" />								
+									</div>									
+									<div class="ex8">
+											<label class="btn btn-danger">Submit<input type="submit" id="mailerDatabutton" style="display: none;" name="action" value="getMailerData" /></label>		
+									</div>	
+							</form:form>		
+					      </div>
+				      </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<%-- <div class="container">
 		 <div class="panel-group">

@@ -1,6 +1,7 @@
 package com.photo.contest.service;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,7 @@ import com.photo.contest.dao.PaymentResponseDAO;
 import com.photo.contest.dao.SummaryDataDAO;
 import com.photo.contest.dao.UsersDAO;
 import com.photo.contest.dto.AcceptenceClubDTO;
+import com.photo.contest.dto.BulkMailDTO;
 import com.photo.contest.dto.CategoryCountMap;
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.DisplayAwardImageDTO;
@@ -51,6 +54,7 @@ import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.JudgeRegisterDTO;
 import com.photo.contest.dto.JudgeTableDTO;
 import com.photo.contest.dto.LogingResponseDTO;
+import com.photo.contest.dto.MailRecipientDTO;
 import com.photo.contest.dto.OrganizerClubDTO;
 import com.photo.contest.dto.PayPalPaymentResponseDTO;
 import com.photo.contest.dto.PaystatusGraphDTO;
@@ -1824,6 +1828,60 @@ return new java.io.File(configProperty.getResultDest()+"/"+user.getUserId()+".pd
 
 }
 	
+
+
+@Transactional
+public void sendBulkMail(BulkMailDTO bulkMailDTO) {
+	
+	if(bulkMailDTO.getMailerType()!=null) {
+		
+		List<String> emailList =null;
+		MailRecipientDTO mailRecipientDTO = null ;
+		if(bulkMailDTO.getMailerType().equals("ALL")) {
+			emailList = usersDAO.findMailIdList(null, "participate");
+			System.out.println("emailList: "+emailList);
+		  }
+		else if(bulkMailDTO.getMailerType().equals("PAID")) {
+			    String sql = "select usr.email from "+getDBName()+".users usr inner join "+getDBName()+".pay_status pst on usr.user_id=pst.user_id \n" + 
+			    		     "where usr.role = \"participate\" and pst.paying_status=\"Paid\"";
+			    //System.out.println(sql);
+			    emailList = usersDAO.findMailIdListbySQL(sql);
+			    //System.out.println("emailList: "+emailList);
+		       }
+		else if(bulkMailDTO.getMailerType().equals("BEING CHECK")) {
+			    String sql = "select usr.email from "+getDBName()+".users usr inner join "+getDBName()+".pay_status pst on usr.user_id=pst.user_id \n" + 
+	    		             "where usr.role = \"participate\" and pst.paying_status=\"Being Check\"";
+			    
+			    //System.out.println(sql);
+			     
+		         emailList = usersDAO.findMailIdListbySQL(sql);
+		         //System.out.println("emailList: "+emailList);
+	           }
+		else if(bulkMailDTO.getMailerType().equals("JUDGE")) {
+			     emailList = usersDAO.findMailIdList(null, "judge");
+			     //System.out.println("emailList: "+emailList);
+               }
+		
+		if(emailList!=null) {
+			
+			for(String email : emailList) {
+				 mailRecipientDTO = new MailRecipientDTO();
+				 mailRecipientDTO.setRecipient(email);
+				 mailRecipientDTO.setSubject(bulkMailDTO.getMailSubject());
+				 mailRecipientDTO.setMessage(bulkMailDTO.getMailBody());
+				 mailRecipientDTO.setSender(configProperty.getMailsender());
+				 try {
+					   commonUtil.doSendEmail(mailRecipientDTO, null);
+				     } catch (MailSendException | ConnectException | MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			   }
+		  }
+		
+	  }
+	
+}
 	
 	
 }

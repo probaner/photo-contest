@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.AcceptenceClubDTO;
+import com.photo.contest.dto.BulkMailDTO;
 import com.photo.contest.dto.CategoryDTO;
 import com.photo.contest.dto.ClubDTO;
 import com.photo.contest.dto.CouponCode;
@@ -35,7 +36,7 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller 
-@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList","processDataType"})
+@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList","processDataType","mailerType"})
 public class UserLoginController {
 	
 	@Autowired
@@ -120,6 +121,7 @@ public class UserLoginController {
 						model.addAttribute("couponCode", new CouponCode());
 						model.addAttribute("processFileDTO", new ProcessFileDTO());
 						model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
+						model.addAttribute("bulkMailDTO",new BulkMailDTO());
 						model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 								+ userDTO.getFirstname().toUpperCase());
 						List<ClubDTO> clubDTOData = dbServices.getClubData();
@@ -137,6 +139,7 @@ public class UserLoginController {
 						model.addAttribute("categoryList", categoryList);
 						model.addAttribute("categoryList", categoryList);
 						model.addAttribute("processDataType", selectData.judgeFileProcessType());
+						model.addAttribute("mailerType", selectData.getMailerType());
 						
 						return "admin";
 

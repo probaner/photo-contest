@@ -331,5 +331,27 @@ public class UsersDAO {
 			
 	}
 	
+	public List findMailIdList(PayStatus payStatus, String role){
+		 
+		 Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Users.class);
+		 if(payStatus==null) {
+			                   criteria.add(Restrictions.eq("role", role))
+		                       .setProjection(Projections.property("email"));
+		                     }
+		
+			         	
+		 return criteria.list();
+	 }
+	 
+	 
+	 public List<String> findMailIdListbySQL(String sql){
+		 
+		 @SuppressWarnings("unchecked")
+		List<String> results =  sessionFactory.getCurrentSession().createSQLQuery(sql)
+				                .addScalar("email", StandardBasicTypes.STRING)
+				                .list();
+		 return results;
+	 }
+	
 	
 }

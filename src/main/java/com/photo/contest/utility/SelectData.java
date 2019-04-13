@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -333,5 +334,20 @@ public class SelectData {
 	return map;
 	   
    }
+   
+   public TreeMap<String,String> getMailerType(){
+	   
+	   TreeMap<String, String> mailerMap = new TreeMap<>();
+	   
+	   mailerMap.put("", "Select Mailer Type");
+	   mailerMap.put("ALL", "All Participants");
+	   mailerMap.put("PAID", "Paid Participants");
+	   mailerMap.put("BEING CHECK", "Unpaid Participants");
+	   mailerMap.put("JUDGE", "All Judges");
+	   
+	   return mailerMap;
+	   
+   }
+   
 
 }

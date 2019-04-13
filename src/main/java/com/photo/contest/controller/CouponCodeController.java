@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.photo.contest.config.ConfigProperty;
 import com.photo.contest.dto.AcceptenceClubDTO;
+import com.photo.contest.dto.BulkMailDTO;
 import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.ProcessFileDTO;
@@ -29,7 +30,7 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller
-@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList","processDataType"})
+@SessionAttributes({"userForm","clubDataList","organizerclubList","categoryList","processDataType","mailerType"})
 @EnableWebMvc
 public class CouponCodeController {
 	
@@ -46,6 +47,8 @@ public class CouponCodeController {
 			@ModelAttribute("couponCode") CouponCode couponCodeBean,			
 			@ModelAttribute("userForm") UserDTO userDTO,
 			@ModelAttribute("clubDataList") List<String> clubDataList,
+			@ModelAttribute("acceptenceClubDTO") AcceptenceClubDTO acceptenceClubDTO,
+			@ModelAttribute("bulkMailDTO") BulkMailDTO bulkMailDTO,
 			@ModelAttribute("processDataType") Map<String, String> processDataType,
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -102,6 +105,7 @@ public class CouponCodeController {
 			model.addAttribute("judgeCreationDTO",new JudgeCreationDTO());
 			model.addAttribute("processDataType", processDataType);
 			model.addAttribute("processFileDTO", new ProcessFileDTO());
+			model.addAttribute("bulkMailDTO",new BulkMailDTO());
 			model.addAttribute("sucessMagssage", "WELCOME " + userDTO.getLastname().toUpperCase() + " "
 					+ userDTO.getFirstname().toUpperCase());
 			
