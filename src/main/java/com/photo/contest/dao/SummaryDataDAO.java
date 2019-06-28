@@ -122,6 +122,19 @@ public class SummaryDataDAO {
 		   		   }		   	
 			 
 		 }
+		 
+		 public List<SummaryData> getClubWiseAwardedData(int orginizerClubId, int  categoryId){			 
+			 Criteria cr =  sessionFactory.getCurrentSession().createCriteria(SummaryData.class)
+					       .add(Restrictions.eq("orginizerClubId", orginizerClubId))
+					       .add(Restrictions.ne("award", ""))
+			               .add(Restrictions.eq("categoryId", categoryId));
+			 
+			 //List<SummaryData> list = cr.list();		 
+			 return cr.list();
+					       
+		 }
+		 
+		 
 	 
 
 }

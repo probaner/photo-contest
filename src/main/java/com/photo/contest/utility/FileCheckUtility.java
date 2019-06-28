@@ -108,6 +108,7 @@ public class FileCheckUtility {
 	}
 	
 	
+		
 	public void fileCopy(String sourceDir, String destinationDir, String fileName){
 			
 		if(isExist(sourceDir) ){
@@ -146,13 +147,17 @@ public class FileCheckUtility {
 					 createDir(sb.toString());
 			    }
 			
-			System.out.println(sb);
+			//System.out.println(sb);
 		
 		}
 		
 	}
 	
-	
+	public void fileRename(String path, String name, String newName){
+		File file = new File(path+"/"+name);
+		file.renameTo(new File(path+"/"+newName));
+		
+	}
 	
 	
 }

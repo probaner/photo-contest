@@ -86,7 +86,7 @@ public class File  implements java.io.Serializable {
     public void setCategory(Category category) {
         this.category = category;
     }
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id", nullable=false)
     public Users getUsers() {
         return this.users;

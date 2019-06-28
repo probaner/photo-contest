@@ -13,7 +13,8 @@ import javax.persistence.Table;
 public class Awards implements java.io.Serializable{
 	
 	private int id ;
-	private String name;
+	private String awardName;
+	private int awardCount ;
 	
 	
 	
@@ -22,15 +23,13 @@ public class Awards implements java.io.Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-
-
-	public Awards(int id, String name) {
+	public Awards(int id, String awardName, int awardCount) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.awardName = awardName;
+		this.awardCount = awardCount;
 	}
-
-
+	
 	@Id 
 	@GeneratedValue(strategy=IDENTITY)    
     @Column(name="id", unique=true, nullable=false)
@@ -44,23 +43,24 @@ public class Awards implements java.io.Serializable{
 	}
 
 
- @Column(name="name", nullable=false, unique=true,length=40)
-	public String getName() {
-		return name;
+    @Column(name="award_name", nullable=false, unique=true,length=100)
+    public String getAwardName() {
+		return awardName;
 	}
 
 
-
-	public void setName(String name) {
-		this.name = name;
+    public void setAwardName(String awardName) {
+		this.awardName = awardName;
 	}
 
+    @Column(name="award_count", nullable=false, unique=false)
+    public int getAwardCount() {
+	    return awardCount;
+    }
 
-
-	@Override
-	public String toString() {
-		return "Awards [id=" + id + ", name=" + name + "]";
-	}
+    public void setAwardCount(int awardCount) {
+	     this.awardCount = awardCount;
+    }
 	
 	
 

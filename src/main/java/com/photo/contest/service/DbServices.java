@@ -595,6 +595,13 @@ public class DbServices {
 		results = categoryDAO.getCategoryMap();		
 	}
 	
+	
+	@Transactional
+	public Map<String, Integer> getCategoryMaps() {
+			
+		return categoryDAO.getCategoryMap();
+	}
+	
 
 	@Transactional
 	public List<File> getUpLoadedFileDetailOfAUser(UserDTO userDTO) {
@@ -1673,7 +1680,7 @@ public class DbServices {
 		List<Awards> al=awardDAO.getAllAwards("Awards");
 		
 		for(Awards awards: al)
-			awardList.add(awards.getName());
+			awardList.add(awards.getAwardName());
 		
 		
 		return awardList;
@@ -1882,7 +1889,31 @@ public void sendBulkMail(BulkMailDTO bulkMailDTO) {
 	  }
 	
 }
+
+
+
+@Transactional
+public List<SummaryData> getAwardedImageData(int organizerclubId, int categoryId){
 	
+	return summaryDataDAO.getClubWiseAwardedData(organizerclubId, categoryId);		
+}
+
+@Transactional
+public OrganizerClub getOrganizerClub(String clubName){
+	
+	return organizerClubDAO.findByOrganizerClubName( clubName );
+	
+}
+
+@Transactional
+public com.photo.contest.model.File getImageDetails(Integer fileId){
+	//String sql = "SELECT user_id, titel FROM salontest.file where file_id ="+fileId;
+	
+	com.photo.contest.model.File file =fileDetailDAO.findById(fileId);
+	
+	return file;
+}
+
 	
 }
 

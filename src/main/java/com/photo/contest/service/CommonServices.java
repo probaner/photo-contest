@@ -3,11 +3,9 @@ package com.photo.contest.service;
 import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.photo.contest.config.ConfigProperty;
+import com.photo.contest.dto.AwardedDataDTO;
 import com.photo.contest.dto.DisplayAwardImageDTO;
 import com.photo.contest.dto.DisplayReatingImageDTO;
 import com.photo.contest.dto.MailRecipientDTO;
@@ -39,6 +38,7 @@ import com.photo.contest.model.SummaryData;
 import com.photo.contest.model.Users;
 import com.photo.contest.utility.CommonUtil;
 import com.photo.contest.utility.DateUtility;
+import com.photo.contest.utility.DirectoryZipUtility;
 import com.photo.contest.utility.FileCheckUtility;
 import com.photo.contest.utility.HtmlData;
 import com.photo.contest.utility.ImageResizeUtility;
@@ -66,6 +66,8 @@ public class CommonServices {
 	DbServices dbServices;
 	@Autowired
 	ObjectComaratorUtility objectComaratorUtility;
+	@Autowired
+	DirectoryZipUtility directoryZipUtility;
 	
 	
 	public void setCommonUtil(CommonUtil commonUtil) {
@@ -704,5 +706,56 @@ public boolean acceptedStatusEnableOfClub(String clubName) throws IOException {
 	return true;	
 }
 
+
+public AwardedDataDTO awardedData(String clubName) throws IOException{
+	
+	AwardedDataDTO awardedDataDTO =new AwardedDataDTO();
+	
+	if(dateUtility.checkAfter(dateUtility.getDate(), configProperty.getResultDate())){
+	
+	String path = configProperty.getBasePath()+"/awardedimage/"+clubName;
+	
+	if(!fileCheckUtility.isExist(path+".zip")){
+	   Map<String, Integer> categoryMap =  dbServices.getCategoryMaps(); 
+	   OrganizerClub organizerClub =dbServices.getOrganizerClub(clubName);
+	   
+	   for (Entry<String, Integer> entry : categoryMap.entrySet()){
+		   
+		    List<SummaryData> list =dbServices.getAwardedImageData(organizerClub.getOrganizerclubid(),entry.getValue());		
+		    String path1 =path+"/"+entry.getKey();
+		    if(!fileCheckUtility.isExist(path1)){
+		       fileCheckUtility.createMultilavelDir(path1); 			
+		       List<String> awardList = (List<String>) dbServices.getAwards();
+			   for(String name : awardList){
+				   fileCheckUtility.createDir(path1+"/"+name);
+				   for(SummaryData summaryData : list){
+					   if(summaryData.getAward().equalsIgnoreCase(name)){						 
+						  com.photo.contest.model.File file = dbServices.getImageDetails(summaryData.getImageId());
+						  String fileName=(file.getTitel()+" "+file.getUsers().getCountry()+" "+file.getUsers().getFirstName()+" "+file.getUsers().getLastName()).toUpperCase();
+				          fileCheckUtility.fileCopy(configProperty.getBasePath()+"/"+clubName+"/"+entry.getKey(), path1+"/"+name,""+summaryData.getImageId()+".jpg");
+				          fileCheckUtility.fileRename(path1+"/"+name, summaryData.getImageId()+".jpg", fileName+".jpg");
+					     }
+				      }
+			   }		
+		
+	       }
+
+	}	
+	 
+	directoryZipUtility.zipDirectory(new File(path), path+".zip");
+	awardedDataDTO.setStatus(true);
+	awardedDataDTO.setFile(new File(path+".zip"));
+	}else{
+		  awardedDataDTO.setStatus(true);
+		  awardedDataDTO.setFile(new File(path+".zip"));
+	     }
+	}else{
+		  awardedDataDTO.setStatus(false);
+		  //awardedDataDTO.setFile(new File(path+".zip"));
+	     }
+		
+	return awardedDataDTO;	
+	  	
+}
 
 }

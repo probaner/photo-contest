@@ -24,6 +24,7 @@ import com.photo.contest.dto.CouponCode;
 import com.photo.contest.dto.JudgeCreationDTO;
 import com.photo.contest.dto.Login;
 import com.photo.contest.dto.LogingResponseDTO;
+import com.photo.contest.dto.OrganizerClubDTO;
 import com.photo.contest.dto.PaymentDTO;
 import com.photo.contest.dto.ProcessFileDTO;
 import com.photo.contest.dto.UserDTO;
@@ -36,7 +37,7 @@ import com.photo.contest.utility.SelectData;
 
 
 @Controller 
-@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList","processDataType","mailerType"})
+@SessionAttributes({"userForm","displayFileDTOMap","clubDataList","organizerclubList","categoryList","processDataType","mailerType","organizerClubDTO"})
 public class UserLoginController {
 	
 	@Autowired
@@ -137,9 +138,11 @@ public class UserLoginController {
 						model.addAttribute("clubDataList", clubDataList);
 						model.addAttribute("organizerclubList", organizerclubList);
 						model.addAttribute("categoryList", categoryList);
-						model.addAttribute("categoryList", categoryList);
+						//model.addAttribute("categoryList", categoryList);
 						model.addAttribute("processDataType", selectData.judgeFileProcessType());
 						model.addAttribute("mailerType", selectData.getMailerType());
+						model.addAttribute("organizerClubDTO", new OrganizerClubDTO());
+						model.addAttribute("downloadStatus", "Inactive");
 						
 						return "admin";
 

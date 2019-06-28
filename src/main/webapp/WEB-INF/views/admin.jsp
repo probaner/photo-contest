@@ -519,36 +519,47 @@ div.ex11 {
 			</div>
 		</div>
 	</div>
-
-	<%-- <div class="container">
-		 <div class="panel-group">
+	
+	
+	
+	<div class="container">
+		<div class="panel-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" href="#collapse8">Process Judging File</a>
+						<a data-toggle="collapse" href="#collapse45">Download Awarded File
+							</a>
 					</h4>
-				</div> 
-				<div id="collapse8" class="panel-collapse collapse">
-				<div class="row">	
-														  
-						<form:form action="processfileforjudging" method="post" modelAttribute="processFileDTO" id="processFileForm">						 
-								    <div class="col-sm-9">
-								    <div class="ex7"><div style="color: red">${processDataError}</div></div>
-									<div class="ex7">
-									<form:select class="form-control" path="status" id = "status" items="${processDataType}" />		
+					<div id="collapse45" class="panel-collapse collapse">
+					<div class="row">
+							<div class="col-sm-9">
+								<div class="ex8"><div class="col-sm-7"><div style="color: red">${downloadAwardedFileError}</div></div></div>								
+								<form:form id="downloadAwardedFile" action="downloadAwardedFile"
+									method="post" modelAttribute="organizerClubDTO">
+					
+					          <div class="ex7">
+										<form:select class="form-control" id="clubName"
+											path="organizerClubName" items="${organizerclubList}" />
 									</div>
-									<div class="ex8"><label class="btn btn-danger">Submit<input type="submit" id="creatrColubcouponcode" 
-									style="display: none;" name="action" value="processJudgingFile" /></div>										
-									</label>									
-									
+																											
+									<div class="ex8">
+											<label class="btn btn-danger">Submit<input type="submit" id="downloadAwardedFileButton" style="display: none;" name="action" value="getdownloadAwardedFile" /></label>		
+									</div>	
+	
+	                  </form:form>	
+	                     <div class="ex8">
+									<a href="#" data-toggle="tooltip" data-placement="top" title=${downloadStatus} id ="download_awarded_file">Download File</a>  
 									</div>
-						</form:form>					
-				 </div>
+	                  	
+					      </div>
+				      </div>
+					</div>
 				</div>
-			 </div>
-		</div> 
-	</div> --%>
+			</div>
+		</div>
+	</div>
 
+	
 
 <!-- /.container -->
 <div class="modal fade modal-fullscreen" id="myModalFullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -590,6 +601,24 @@ $(document).ready(function($)
         { Name: "Being Check", Id: 1 },
         { Name: "Paid", Id: 2 },      
     ];
+    
+    
+    
+    $("#download_awarded_file" ).click(function(e) {
+		 e.preventDefault();		 
+		 $.ajax({
+		   	  url: "admin/json/downloadAwardedFile",
+		   	  type: "GET",
+		   	  dataType: "json",
+		   	  contentType: 'application/json',	  
+		   	  success: function(isactive) {		
+		   		                            if(isactive) {
+		   		                                           window.location.href = "<%=request.getContextPath()%>/downloadAwardedFile";
+		   		                                         }
+		   	                              }
+		       });
+		 
+	 });
     
     
     $.ajax({
